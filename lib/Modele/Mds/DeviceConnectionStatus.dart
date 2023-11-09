@@ -1,5 +1,6 @@
 /*
 enum DeviceConnectionStatus { NOT_CONNECTED, CONNECTING, CONNECTED }
+enum DeviceConnectionStatus { NOT_CONNECTED, CONNECTING, CONNECTED }
 
 extension DeviceConnectionStatusExtenstion on DeviceConnectionStatus {
   String get statusName {
