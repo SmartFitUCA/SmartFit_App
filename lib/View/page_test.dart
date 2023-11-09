@@ -67,7 +67,8 @@ class _TestPage extends State<TestPage> {
       print("t");
     } else {
       List<dynamic> result = await x.readFitFile(y!);
-      //print(x.getHeartRateWithTime(ActivityOfUser(result)));
+      print(result);
+      print(x.getHeartRateWithTime(ActivityOfUser(result)));
       //print(x.getDistanceWithTime(ActivityOfUser(result)));
       //print(x.getDistance(ActivityOfUser(result)));
       print(x.getAltitudeWithTime(ActivityOfUser(result)));

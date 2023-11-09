@@ -2,9 +2,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/round_text_field.dart';
-import 'package:smartfit_app_mobile/view/home/home_view.dart';
 //import 'package:smartfit_app_mobile/view/login/complete_profile_view.dart';
-import 'package:smartfit_app_mobile/view/login/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/view/main_tab/main_tab_view.dart';
 
@@ -101,11 +99,10 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
-                      child:  Text(
-                          "En continuant, vous acceptez notre Politique de\nconfidentialité et nos Conditions d'utilisation.",
-                          style: TextStyle(color: TColor.gray, fontSize: 10),
-                        ),
-                     
+                      child: Text(
+                        "En continuant, vous acceptez notre Politique de\nconfidentialité et nos Conditions d'utilisation.",
+                        style: TextStyle(color: TColor.gray, fontSize: 10),
+                      ),
                     )
                   ],
                 ),
@@ -162,11 +159,9 @@ class _SignUpViewState extends State<SignUpView> {
                         ),
                       ),
                     ),
-
-                     SizedBox(
+                    SizedBox(
                       width: media.width * 0.04,
                     ),
-
                     GestureDetector(
                       onTap: () {},
                       child: Container(
@@ -195,10 +190,10 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
                 TextButton(
                   onPressed: () {
-                     Navigator.push(
-                      context,
+                    Navigator.push(
+                        context,
                         MaterialPageRoute(
-                           builder: (context) => const MainTabView()));
+                            builder: (context) => const MainTabView()));
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

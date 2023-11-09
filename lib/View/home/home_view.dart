@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:smartfit_app_mobile/view/home/activity_tracker.dart';
-import 'package:smartfit_app_mobile/view/home/blank_view.dart';
 import 'package:smartfit_app_mobile/view/home/notification_view.dart';
 import '../../common/colo_extension.dart';
 //import 'activity_tracker_view.dart';
@@ -81,7 +80,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         dotData: FlDotData(show: false),
         gradient: LinearGradient(
-          colors: TColor.secondaryG ,
+          colors: TColor.secondaryG,
         ),
       ),
     ];
@@ -303,7 +302,8 @@ class _HomeViewState extends State<HomeView> {
                                 child: Text(
                                   "78 BPM",
                                   style: TextStyle(
-                                      color: TColor.primaryColor1.withOpacity(0.7),
+                                      color:
+                                          TColor.primaryColor1.withOpacity(0.7),
                                       fontWeight: FontWeight.w700,
                                       fontSize: 18),
                                 ),
@@ -878,7 +878,6 @@ class _HomeViewState extends State<HomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                
                 SizedBox(
                   height: media.width * 0.1,
                 ),
@@ -891,7 +890,6 @@ class _HomeViewState extends State<HomeView> {
   }
 
   
-
 
   List<PieChartSectionData> showingSections() {
     return List.generate(
@@ -1041,28 +1039,28 @@ class _HomeViewState extends State<HomeView> {
     Widget text;
     switch (value.toInt()) {
       case 1:
-        text =  Text('Dim', style: style);
+        text = Text('Dim', style: style);
         break;
       case 2:
-        text =  Text('Lun', style: style);
+        text = Text('Lun', style: style);
         break;
       case 3:
-        text =  Text('Mar', style: style);
+        text = Text('Mar', style: style);
         break;
       case 4:
-        text =  Text('Mer', style: style);
+        text = Text('Mer', style: style);
         break;
       case 5:
-        text =  Text('Jeu', style: style);
+        text = Text('Jeu', style: style);
         break;
       case 6:
-        text =  Text('Ven', style: style);
+        text = Text('Ven', style: style);
         break;
       case 7:
-        text =  Text('Sam', style: style);
+        text = Text('Sam', style: style);
         break;
       default:
-        text =  Text('', style: style);
+        text = Text('', style: style);
         break;
     }
 
