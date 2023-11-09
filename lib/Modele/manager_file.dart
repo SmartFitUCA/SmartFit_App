@@ -77,13 +77,15 @@ class ManagerFile {
             firtTimeStamp = ligne[4];
           }
           //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[10]]);
-          result.add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[10]));
-        } else if (ligne.length >= 16 && ligne[16] == "heart_rate") {
+          result.add(
+              FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[10].toDouble()));
+        } else if (ligne.length >= 16 && ligne[15] == "heart_rate") {
           if (firtTimeStamp == 0) {
             firtTimeStamp = ligne[4];
           }
           //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[17]]);
-          result.add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[17]));
+          result.add(
+              FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[16].toDouble()));
         }
       }
     }
