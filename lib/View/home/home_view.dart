@@ -1,4 +1,7 @@
  import 'package:dotted_dashed_line/dotted_dashed_line.dart';
+import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/Modele/manager_file.dart';
+import 'package:smartfit_app_mobile/Modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +22,10 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
+
+
 class _HomeViewState extends State<HomeView> {
+  List<FlSpot> allSpots =  [FlSpot(0, 30),FlSpot(2, 20)];
   List lastWorkoutArr = [
     {
       "name": "Full Body Workout",
@@ -43,9 +49,7 @@ class _HomeViewState extends State<HomeView> {
       "progress": 0.7
     },
   ];
-  List<int> showingTooltipOnSpots = [21];
-
-  List<FlSpot>  allSpots = [FlSpot(0, 20)];
+  List<int> showingTooltipOnSpots = [0];
 
   List waterArr = [
     {"title": "6am - 8am", "subtitle": "600ml"},
@@ -57,7 +61,10 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    ManagerFile m = ManagerFile();
     var media = MediaQuery.of(context).size;
+    print(m.getHeartRateWithTime(Provider.of<User>(context).listActivity[0]));
+    allSpots =  m.getHeartRateWithTime(Provider.of<User>(context).listActivity[0]);
 
     final lineBarsData = [
       LineChartBarData(
@@ -883,11 +890,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  void updateChartData(List<FlSpot> newData) {
-    setState(() {
-      allSpots = newData;
-    });
-  }
+  
 
 
   List<PieChartSectionData> showingSections() {

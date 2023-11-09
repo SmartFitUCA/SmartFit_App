@@ -19,4 +19,8 @@ class User extends ChangeNotifier {
     _passwordHash = passwordHash;
     _listActivity = List.empty(growable: true);
   }
+
+  void addActivity(ActivityOfUser activity) {
+    listActivity.add(activity);
+  }
 }

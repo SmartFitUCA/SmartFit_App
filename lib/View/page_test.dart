@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/Modele/activity.dart';
 import 'package:smartfit_app_mobile/Modele/manager_file.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/View/home/home_view.dart';
 
 // ----------- File --------------- //
 
@@ -70,6 +71,10 @@ class _TestPage extends State<TestPage> {
       //print(x.getDistanceWithTime(ActivityOfUser(result)));
       //print(x.getDistance(ActivityOfUser(result)));
       print(x.getAltitudeWithTime(ActivityOfUser(result)));
+      Provider.of<User>(context).addActivity(ActivityOfUser(result));
+      print("lalala");
+
+      print(result);
     }
   }
 
