@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
@@ -77,6 +78,24 @@ class ManagerFile {
           firtTimeStamp = ligne[4];
         }
         result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[10]]);
+      }
+    }
+    return result;
+  }
+
+  List<List<int>> getDistanceWithTime(ActivityOfUser activityOfUser) {
+    List<List<int>> result = List.empty(growable: true);
+    int firtTimeStamp = 0;
+
+    for (List<dynamic> ligne in activityOfUser.contentActivity) {
+      if (ligne.length >= 8 && ligne[0] == "Data" && ligne[6] == "distance") {
+        if (firtTimeStamp == 0) {
+          firtTimeStamp = ligne[4];
+        }
+        result.add([
+          (ligne[4] - firtTimeStamp) ~/ 100,
+          int.parse(ligne[7].toString())
+        ]);
       }
     }
     return result;

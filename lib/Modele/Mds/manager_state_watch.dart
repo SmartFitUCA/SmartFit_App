@@ -1,5 +1,6 @@
-import 'dart:collection';
 
+/*
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mdsflutter/Mds.dart';
@@ -97,4 +98,4 @@ class ManagerStateWatch extends ChangeNotifier {
   void _onDeviceConnectError(String? address) {
     disconnectOnModele(address);
   }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 enum DeviceConnectionStatus { NOT_CONNECTED, CONNECTING, CONNECTED }
 
 extension DeviceConnectionStatusExtenstion on DeviceConnectionStatus {
@@ -11,4 +12,4 @@ extension DeviceConnectionStatusExtenstion on DeviceConnectionStatus {
         return "MDS connected";
     }
   }
-}
+}*/

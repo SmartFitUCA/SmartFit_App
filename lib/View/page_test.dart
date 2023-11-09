@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
@@ -68,7 +66,8 @@ class _TestPage extends State<TestPage> {
       print("t");
     } else {
       List<dynamic> result = await x.readFitFile(y!);
-      print(x.getHeartRateWithTime(ActivityOfUser(result)));
+      //print(x.getHeartRateWithTime(ActivityOfUser(result)));
+      print(x.getDistanceWithTime(ActivityOfUser(result)));
     }
   }
 
