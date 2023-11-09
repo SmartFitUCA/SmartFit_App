@@ -1,4 +1,4 @@
-import 'package:smartfit_app_mobile/Modele/Mds/DeviceConnectionStatus.dart';
+/*import 'package:smartfit_app_mobile/Modele/Mds/DeviceConnectionStatus.dart';
 
 class Device {
   String? _address;
@@ -51,3 +51,4 @@ class Device {
       o is Device && o._address == _address && o._name == _name;
   int get hashCode => _address.hashCode * _name.hashCode;
 }
+*/
