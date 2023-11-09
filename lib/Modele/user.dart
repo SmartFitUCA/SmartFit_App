@@ -6,12 +6,12 @@ class User extends ChangeNotifier {
   late String _username;
   late String _email;
   late String _passwordHash;
-  late List<Activity> _listActivity;
+  late List<ActivityOfUser> _listActivity;
 
   String get username => _username;
   String get email => _email;
   String get passwordHash => _passwordHash;
-  List<Activity> get listActivity => _listActivity;
+  List<ActivityOfUser> get listActivity => _listActivity;
 
   User(String username, String email, String passwordHash) {
     _username = username;

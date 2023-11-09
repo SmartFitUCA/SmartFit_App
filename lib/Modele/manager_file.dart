@@ -5,24 +5,24 @@ import 'package:fit_tool/fit_tool.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
+import 'package:smartfit_app_mobile/Modele/activity.dart';
 
 class ManagerFile {
   final IDataStrategy _dataStrategy = RequestApi();
-  List<dynamic>? _contentFile;
+  //List<dynamic>? _contentFile;
 
-  List<dynamic>? get contentFile => _contentFile;
+  //List<dynamic>? get contentFile => _contentFile;
   // ----- //
 
   // ----- Read csv File ------- //
-  Future<bool> readCSVFile(String path) async {
-    if (File(path).exists() == false) return false;
+  Future<List<dynamic>> readCSVFile(String path) async {
+    if (File(path).exists() == false) return List.empty();
     final input = File(path).openRead();
     final fields = await input
         .transform(utf8.decoder)
         .transform(const CsvToListConverter())
         .toList();
-    _contentFile = fields;
-    return true;
+    return fields;
   }
 
   // ------ Import File and save it in BDD
@@ -32,16 +32,15 @@ class ManagerFile {
     return true;
   }
 
-  // ----- Read a file FIT and put the result in _contentFile --- //
-  Future<bool> readFitFile(String path) async {
-    if (File(path).existsSync() == false) return false;
+  // ----- Read a file FIT  --- //
+  Future<List<dynamic>> readFitFile(String path) async {
+    if (File(path).existsSync() == false) return List.empty();
 
     final file = File(path);
     final bytes = await file.readAsBytes();
     final fitFile = FitFile.fromBytes(bytes);
 
-    _contentFile = fitFile.toRows();
-    return true;
+    return fitFile.toRows();
   }
 
   // ------------- Get The path of application --- //
@@ -51,12 +50,12 @@ class ManagerFile {
   }
 
   // --- A modifier si utilisé --- //
-  Future<bool> writeFileWithContentFile(String nameFileWithExtension) async {
+  Future<bool> writeFile(String nameFileWithExtension, File file) async {
     final outFile = File("${await _localPath}\\Files\\$nameFileWithExtension");
     if (outFile.existsSync() == false) {
       outFile.createSync(recursive: true);
     }
-    await outFile.writeAsString(_contentFile.toString());
+    await outFile.writeAsString(await file.readAsString());
     return true;
   }
 
@@ -66,13 +65,11 @@ class ManagerFile {
 
   // ---------------- Fonction to get data --------- //
 
-  List<List<int>> getHeartRateWithTime() {
+  List<List<int>> getHeartRateWithTime(ActivityOfUser activity) {
     List<List<int>> result = List.empty(growable: true);
     int firtTimeStamp = 0;
 
-    if (_contentFile == null) return result;
-
-    for (List<dynamic> ligne in contentFile!) {
+    for (List<dynamic> ligne in activity.contentActivity) {
       if (ligne.length >= 10 &&
           ligne[0] == "Data" &&
           ligne[9] == "heart_rate") {

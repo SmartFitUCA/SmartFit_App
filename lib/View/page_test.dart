@@ -1,9 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
 import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/Modele/activity.dart';
 import 'package:smartfit_app_mobile/Modele/manager_file.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
 
@@ -64,8 +67,8 @@ class _TestPage extends State<TestPage> {
     if (t.path == null) {
       print("t");
     } else {
-      bool o = await x.readFitFile(y!);
-      print(x.getHeartRateWithTime());
+      List<dynamic> result = await x.readFitFile(y!);
+      print(x.getHeartRateWithTime(ActivityOfUser(result)));
     }
   }
 
