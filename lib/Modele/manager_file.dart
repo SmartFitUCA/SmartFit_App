@@ -71,13 +71,18 @@ class ManagerFile {
     int firtTimeStamp = 0;
 
     for (List<dynamic> ligne in activity.contentActivity) {
-      if (ligne.length >= 10 &&
-          ligne[0] == "Data" &&
-          ligne[9] == "heart_rate") {
-        if (firtTimeStamp == 0) {
-          firtTimeStamp = ligne[4];
+      if (ligne[0] == "Data") {
+        if (ligne.length >= 10 && ligne[9] == "heart_rate") {
+          if (firtTimeStamp == 0) {
+            firtTimeStamp = ligne[4];
+          }
+          result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[10]]);
+        } else if (ligne.length >= 16 && ligne[16] == "heart_rate") {
+          if (firtTimeStamp == 0) {
+            firtTimeStamp = ligne[4];
+          }
+          result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[17]]);
         }
-        result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[10]]);
       }
     }
     return result;
@@ -92,10 +97,21 @@ class ManagerFile {
         if (firtTimeStamp == 0) {
           firtTimeStamp = ligne[4];
         }
-        result.add([
-          (ligne[4] - firtTimeStamp) ~/ 100,
-          int.parse(ligne[7].toString())
-        ]);
+        result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[7].toInt()]);
+      }
+    }
+    return result;
+  }
+
+  int getDistance(ActivityOfUser activity) {
+    int result = 0;
+    for (int i = activity.contentActivity.length - 1; i >= 0; i--) {
+      if (activity.contentActivity[i].length >= 8 &&
+          activity.contentActivity[i][0] == "Data" &&
+          activity.contentActivity[i][6] == "distance") {
+        if (activity.contentActivity[i][7] > result) {
+          result = activity.contentActivity[i][7].toInt();
+        }
       }
     }
     return result;
