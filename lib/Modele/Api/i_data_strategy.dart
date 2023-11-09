@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:smartfit_app_mobile/Modele/user.dart';
-
 abstract class IDataStrategy {
   // Create user
-  Future<bool> postUser(User user);
+  Future<bool> postUser(String email, String hash, String username);
 
   // Delete user
   Future<void> deleteUser(String token);
