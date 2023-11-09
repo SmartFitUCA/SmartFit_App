@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
@@ -66,8 +67,8 @@ class ManagerFile {
 
   // ---------------- Fonction to get data --------- //
 
-  List<List<int>> getHeartRateWithTime(ActivityOfUser activity) {
-    List<List<int>> result = List.empty(growable: true);
+  List<FlSpot> getHeartRateWithTime(ActivityOfUser activity) {
+    List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
 
     for (List<dynamic> ligne in activity.contentActivity) {
@@ -76,20 +77,22 @@ class ManagerFile {
           if (firtTimeStamp == 0) {
             firtTimeStamp = ligne[4];
           }
-          result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[10]]);
+          //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[10]]);
+          result.add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[10]));
         } else if (ligne.length >= 16 && ligne[16] == "heart_rate") {
           if (firtTimeStamp == 0) {
             firtTimeStamp = ligne[4];
           }
-          result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[17]]);
+          //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[17]]);
+          result.add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[17]));
         }
       }
     }
     return result;
   }
 
-  List<List<int>> getDistanceWithTime(ActivityOfUser activityOfUser) {
-    List<List<int>> result = List.empty(growable: true);
+  List<FlSpot> getDistanceWithTime(ActivityOfUser activityOfUser) {
+    List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
 
     for (List<dynamic> ligne in activityOfUser.contentActivity) {
@@ -97,14 +100,15 @@ class ManagerFile {
         if (firtTimeStamp == 0) {
           firtTimeStamp = ligne[4];
         }
-        result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[7].toInt()]);
+        //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[7].toInt()]);
+        result.add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[7]));
       }
     }
     return result;
   }
 
-  List<List<int>> getAltitudeWithTime(ActivityOfUser activityOfUser) {
-    List<List<int>> result = List.empty(growable: true);
+  List<FlSpot> getAltitudeWithTime(ActivityOfUser activityOfUser) {
+    List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
 
     for (List<dynamic> ligne in activityOfUser.contentActivity) {
@@ -112,7 +116,8 @@ class ManagerFile {
         if (firtTimeStamp == 0) {
           firtTimeStamp = ligne[4];
         }
-        result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[13].toInt()]);
+        //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[13].toInt()]);
+        result.add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[13]));
       }
     }
     return result;
@@ -131,4 +136,22 @@ class ManagerFile {
     }
     return result;
   }
+
+  /* En Cours 
+  List<FlSpot> getSpeedWithTime(ActivityOfUser activityOfUser) {
+    List<FlSpot> result = List.empty(growable: true);
+    int firtTimeStamp = 0;
+
+    for (List<dynamic> ligne in activityOfUser.contentActivity) {
+      if (ligne[0] == "Data" && ligne[1] == 1) {
+        if (firtTimeStamp == 0) {
+          firtTimeStamp = ligne[4];
+        }
+        result
+            .add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[19].toInt()));
+        //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[19].toInt()]);
+      }
+    }
+    return result;
+  }*/
 }
