@@ -103,6 +103,21 @@ class ManagerFile {
     return result;
   }
 
+  List<List<int>> getAltitudeWithTime(ActivityOfUser activityOfUser) {
+    List<List<int>> result = List.empty(growable: true);
+    int firtTimeStamp = 0;
+
+    for (List<dynamic> ligne in activityOfUser.contentActivity) {
+      if (ligne.length >= 14 && ligne[0] == "Data" && ligne[12] == "altitude") {
+        if (firtTimeStamp == 0) {
+          firtTimeStamp = ligne[4];
+        }
+        result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[13].toInt()]);
+      }
+    }
+    return result;
+  }
+
   int getDistance(ActivityOfUser activity) {
     int result = 0;
     for (int i = activity.contentActivity.length - 1; i >= 0; i--) {
