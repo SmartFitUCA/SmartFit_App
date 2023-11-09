@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
@@ -102,7 +103,8 @@ class ManagerFile {
           firtTimeStamp = ligne[4];
         }
         //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[7].toInt()]);
-        result.add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[7]));
+        result
+            .add(FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[7].toDouble()));
       }
     }
     return result;
@@ -118,27 +120,27 @@ class ManagerFile {
           firtTimeStamp = ligne[4];
         }
         //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[13].toInt()]);
-        result.add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[13]));
+        result.add(
+            FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[13].toDouble()));
       }
     }
     return result;
   }
 
-  int getDistance(ActivityOfUser activity) {
-    int result = 0;
+  double getDistance(ActivityOfUser activity) {
+    double result = 0.0;
     for (int i = activity.contentActivity.length - 1; i >= 0; i--) {
       if (activity.contentActivity[i].length >= 8 &&
           activity.contentActivity[i][0] == "Data" &&
           activity.contentActivity[i][6] == "distance") {
         if (activity.contentActivity[i][7] > result) {
-          result = activity.contentActivity[i][7].toInt();
+          result = activity.contentActivity[i][7].toDouble();
         }
       }
     }
     return result;
   }
 
-  /* En Cours 
   List<FlSpot> getSpeedWithTime(ActivityOfUser activityOfUser) {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -148,11 +150,17 @@ class ManagerFile {
         if (firtTimeStamp == 0) {
           firtTimeStamp = ligne[4];
         }
-        result
-            .add(FlSpot((ligne[4] - firtTimeStamp) ~/ 100, ligne[19].toInt()));
-        //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[19].toInt()]);
+        result.add(
+            FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[19].toDouble()));
+      }
+      if (ligne[0] == "Data" && ligne[1] == 2) {
+        if (firtTimeStamp == 0) {
+          firtTimeStamp = ligne[4];
+        }
+        result.add(
+            FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[25].toDouble()));
       }
     }
     return result;
-  }*/
+  }
 }
