@@ -24,9 +24,30 @@ class HomeView extends StatefulWidget {
 
 
 class _HomeViewState extends State<HomeView> {
-  List<FlSpot> allSpots =  [FlSpot(0, 30)];
-  TextEditingController bpmController = TextEditingController();
+  List<FlSpot> bpmSecondes =  [FlSpot(0, 30)];
+  List<FlSpot> bpmSecondes2 =  [];
+  List<FlSpot> vitesseSecondes =  [FlSpot(0, 30)];
+  List<FlSpot> altitudeSecondes =  [FlSpot(0, 30)];
 
+  TextEditingController bpmController = TextEditingController();
+  
+  void normaliserDeuxiemeElement(List<FlSpot> liste) {
+    // Trouver le plus grand élément dans la liste
+    double maxElement = 0.0;
+    for (var spot in liste) {
+      if (spot.y > maxElement) {
+        maxElement = spot.y;
+      }
+    }
+
+    // Calculer le facteur de normalisation
+    double normalisationFactor = maxElement != 0.0 ? 100 / maxElement : 1.0;
+
+    // Mettre à jour tous les éléments de la liste
+    for (int i = 0; i < liste.length; i++) {
+      liste[i] = FlSpot(liste[i].x, liste[i].y * normalisationFactor);
+    }
+  }
   List lastWorkoutArr = [
     {
       "name": "Full Body Workout",
@@ -74,7 +95,14 @@ class _HomeViewState extends State<HomeView> {
 
     if (Provider.of<User>(context, listen: true).listActivity.isNotEmpty) {
       print("rempli");
-      allSpots = m.getHeartRateWithTime(Provider.of<User>(context).listActivity[0]);
+      bpmSecondes = m.getHeartRateWithTime(Provider.of<User>(context).listActivity[0]);
+      vitesseSecondes = m.getSpeedWithTime(Provider.of<User>(context).listActivity[0]);
+      altitudeSecondes = m.getAltitudeWithTime(Provider.of<User>(context).listActivity[0]);
+      normaliserDeuxiemeElement(vitesseSecondes);
+      normaliserDeuxiemeElement(altitudeSecondes);
+      bpmSecondes2 = List.from(bpmSecondes) ;
+      normaliserDeuxiemeElement(bpmSecondes2);
+
     } else {
       print("vide");
     }
@@ -83,7 +111,7 @@ class _HomeViewState extends State<HomeView> {
 
     final lineBarsData = [
       LineChartBarData(
-        spots: allSpots,
+        spots: bpmSecondes,
         isCurved: false,
         barWidth: 2,
         belowBarData: BarAreaData(
@@ -732,41 +760,12 @@ class _HomeViewState extends State<HomeView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "graph 5",
+                      "Rythme cardique et vitesse",
                       style: TextStyle(
                           color: TColor.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w700),
                     ),
-                    Container(
-                        height: 30,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: TColor.primaryG),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            items: ["Semaine", "Mois"]
-                                .map((name) => DropdownMenuItem(
-                                      value: name,
-                                      child: Text(
-                                        name,
-                                        style: TextStyle(
-                                            color: TColor.gray, fontSize: 14),
-                                      ),
-                                    ))
-                                .toList(),
-                            onChanged: (value) {},
-                            icon: Icon(Icons.expand_more, color: TColor.white),
-                            hint: Text(
-                              "Semaine",
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: TColor.white, fontSize: 12),
-                            ),
-                          ),
-                        )),
                   ],
                 ),
                 SizedBox(
@@ -841,7 +840,7 @@ class _HomeViewState extends State<HomeView> {
                             getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                               return lineBarsSpot.map((lineBarSpot) {
                                 return LineTooltipItem(
-                                  "il y a ${lineBarSpot.x.toInt()} minutes",
+                                  "Seconde ${lineBarSpot.x.toInt()/10} ",
                                   const TextStyle(
                                     color: Colors.white,
                                     fontSize: 10,
@@ -853,15 +852,13 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
                         lineBarsData: lineBarsData1,
-                        minY: -0.5,
+                        minY: 0,
                         maxY: 110,
                         titlesData: FlTitlesData(
                             show: true,
                             leftTitles: AxisTitles(),
                             topTitles: AxisTitles(),
-                            bottomTitles: AxisTitles(
-                              sideTitles: bottomTitles,
-                            ),
+                            bottomTitles: AxisTitles(),
                             rightTitles: AxisTitles(
                               sideTitles: rightTitles,
                             )),
@@ -960,15 +957,7 @@ class _HomeViewState extends State<HomeView> {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 35),
-          FlSpot(2, 70),
-          FlSpot(3, 40),
-          FlSpot(4, 80),
-          FlSpot(5, 25),
-          FlSpot(6, 70),
-          FlSpot(7, 35),
-        ],
+        spots: vitesseSecondes,
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
@@ -983,15 +972,8 @@ class _HomeViewState extends State<HomeView> {
         belowBarData: BarAreaData(
           show: false,
         ),
-        spots: const [
-          FlSpot(1, 80),
-          FlSpot(2, 50),
-          FlSpot(3, 90),
-          FlSpot(4, 40),
-          FlSpot(5, 80),
-          FlSpot(6, 35),
-          FlSpot(7, 60),
-        ],
+        spots: bpmSecondes2
+        ,
       );
 
   SideTitles get rightTitles => SideTitles(
@@ -1036,8 +1018,8 @@ class _HomeViewState extends State<HomeView> {
 
   SideTitles get bottomTitles => SideTitles(
         showTitles: true,
-        reservedSize: 32,
-        interval: 1,
+        reservedSize: 50,
+        interval:1,
         getTitlesWidget: bottomTitleWidgets,
       );
 
