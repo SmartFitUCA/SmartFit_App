@@ -29,7 +29,7 @@ class _MainTabViewState extends State<MainTabView> {
         height: 70,
         child: InkWell(
           onTap: () {
-            selectTab = 0;
+            selectTab = 4;
             currentTab = const TestPage();
             if (mounted) {
               setState(() {});

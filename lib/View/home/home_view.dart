@@ -24,7 +24,9 @@ class HomeView extends StatefulWidget {
 
 
 class _HomeViewState extends State<HomeView> {
-  List<FlSpot> allSpots =  [FlSpot(0, 30),FlSpot(2, 20)];
+  List<FlSpot> allSpots =  [FlSpot(0, 30)];
+  TextEditingController bpmController = TextEditingController();
+
   List lastWorkoutArr = [
     {
       "name": "Full Body Workout",
@@ -60,14 +62,27 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    print("test1");
+
     ManagerFile m = ManagerFile();
+    print("test2");
+
     var media = MediaQuery.of(context).size;
-    print(m.getHeartRateWithTime(Provider.of<User>(context).listActivity[0]));
-    allSpots =  m.getHeartRateWithTime(Provider.of<User>(context).listActivity[0]);
+    print("test3");
+
+
+
+    if (Provider.of<User>(context, listen: true).listActivity.isNotEmpty) {
+      print("rempli");
+      allSpots = m.getHeartRateWithTime(Provider.of<User>(context).listActivity[0]);
+    } else {
+      print("vide");
+    }
+    print("test4");
+
 
     final lineBarsData = [
       LineChartBarData(
-        showingIndicators: showingTooltipOnSpots,
         spots: allSpots,
         isCurved: false,
         barWidth: 2,
@@ -84,6 +99,7 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
     ];
+    print("test5");
 
     final tooltipsOnBar = lineBarsData[0];
 
@@ -283,31 +299,25 @@ class _HomeViewState extends State<HomeView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Graph 2 ( rhythme cardiaque )",
+                                "Rhythme cardiaque",
                                 style: TextStyle(
                                     color: TColor.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700),
                               ),
-                              ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (bounds) {
-                                  return LinearGradient(
-                                          colors: TColor.primaryG,
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight)
-                                      .createShader(Rect.fromLTRB(
-                                          0, 0, bounds.width, bounds.height));
-                                },
-                                child: Text(
-                                  "78 BPM",
-                                  style: TextStyle(
+                              TextField(
+                                  controller: bpmController,
+                                  readOnly: true,
+                                    style: TextStyle(
                                       color:
-                                          TColor.primaryColor1.withOpacity(0.7),
+                                          TColor.primaryColor1.withOpacity(0.8),
                                       fontWeight: FontWeight.w700,
                                       fontSize: 18),
+                                    decoration: InputDecoration(
+                                    border: InputBorder.none,  // Ajoutez cette ligne pour supprimer la bordure
+                                    ),
                                 ),
-                              ),
+                             
                             ],
                           ),
                         ),
@@ -374,12 +384,12 @@ class _HomeViewState extends State<HomeView> {
                               touchTooltipData: LineTouchTooltipData(
                                 tooltipBgColor: TColor.secondaryColor1,
                                 tooltipRoundedRadius: 20,
-                                getTooltipItems:
-                                    (List<LineBarSpot> lineBarsSpot) {
+                                getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                                   return lineBarsSpot.map((lineBarSpot) {
+                                    bpmController.text = "${lineBarSpot.y} BPM";
                                     return LineTooltipItem(
-                                      "il y a ${lineBarSpot.x.toInt()} minutes",
-                                      const TextStyle(
+                                      "Seconde ${lineBarSpot.x.toInt() / 10}",
+                                      TextStyle(
                                         color: Colors.white,
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
@@ -390,8 +400,8 @@ class _HomeViewState extends State<HomeView> {
                               ),
                             ),
                             lineBarsData: lineBarsData,
-                            minY: 0,
-                            maxY: 130,
+                            minY: 50,
+                            maxY: 250,
                             titlesData: FlTitlesData(
                               show: false,
                             ),
