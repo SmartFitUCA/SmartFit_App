@@ -153,14 +153,12 @@ class RequestApi extends IDataStrategy {
   Future<Tuple2> modifAttribut(
       String token, String nameAttribut, String newValue) async {
     final response = await http.put(Uri.parse('$urlApi/user/$nameAttribut'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': token
-        },
+        headers: <String, String>{'Authorization': token},
         body: jsonEncode(<String, String>{nameAttribut: newValue}));
 
     if (response.statusCode == 200) {
-      return const Tuple2(true, "Successful");
+      Map<String, dynamic> json = jsonDecode(response.body);
+      return Tuple2(true, json);
     }
     if (response.statusCode == 400) {
       return const Tuple2(false, "400 - BAD REQUEST");
@@ -197,6 +195,24 @@ class RequestApi extends IDataStrategy {
     }
     if (response.statusCode == 409) {
       return const Tuple2(false, "409 - CONFLICT");
+    }
+    return const Tuple2(false, "Fail ");
+  }
+
+  @override
+  Future<Tuple2> getInfoUser(String token) async {
+    final response = await http.get(Uri.parse('$urlApi/user/info'),
+        headers: <String, String>{'Authorization': token});
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(response.body);
+      return Tuple2(true, json);
+    }
+    if (response.statusCode == 400) {
+      return const Tuple2(false, "400 - BAD REQUEST");
+    }
+    if (response.statusCode == 401) {
+      return const Tuple2(false, "401 - UNAUTHORIZED");
     }
     return const Tuple2(false, "Fail ");
   }

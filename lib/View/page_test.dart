@@ -165,6 +165,14 @@ class _TestPage extends State<TestPage> {
         .readFitFile("${await x.localPath}/Walking_2023-11-08T10_57_28.fit"));
   }
 
+  Future<void> getInfoUser() async {
+    String token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGUyYWVmMTItN2ZiNC0xMWVlLWJhZmQtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA0ODgzOTE3fQ.TUdrGEo7A0auQlUfO5RQm874QWuGXFBSKbJ8qTGPF2M";
+    Tuple2 res = await strategy.getInfoUser(token);
+    print(res.item1);
+    print(res.item2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -203,7 +211,9 @@ class _TestPage extends State<TestPage> {
           ElevatedButton(
               onPressed: uploadFile, child: const Text("Upload File")),
           ElevatedButton(
-              onPressed: getOneFile, child: const Text("Get One File"))
+              onPressed: getOneFile, child: const Text("Get One File")),
+          ElevatedButton(
+              onPressed: getInfoUser, child: const Text("Get info User"))
         ],
       ),
     );

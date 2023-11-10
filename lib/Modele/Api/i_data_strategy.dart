@@ -25,6 +25,7 @@ abstract class IDataStrategy {
   // Delete one file on BDD
   Future<Tuple2<bool, String>> deleteFile(String token, String fileUuid);
 
+  Future<Tuple2> getInfoUser(String token);
   /* -> Modification attribut 
   // Update email
   Future<void> updateEmail(String token, String email);
