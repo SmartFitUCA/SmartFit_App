@@ -4,25 +4,26 @@ import 'package:tuple/tuple.dart';
 
 abstract class IDataStrategy {
   // Create user
-  Future<bool> postUser(String email, String hash, String username);
+  Future<Tuple2<bool, String>> postUser(
+      String email, String hash, String username);
 
   // Delete user
-  Future<void> deleteUser(String token);
+  Future<Tuple2<bool, String>> deleteUser(String token);
 
   // Get Token validate
-  Future<void> connexion(String email, String hash);
+  Future<Tuple2<bool, String>> connexion(String email, String hash);
 
   // Get all files for user
-  //Future<void> getFiles(String token);
+  Future<Tuple2> getFiles(String token);
 
   // Upload file on BDD
   Future<Tuple2<bool, String>> uploadFile(String token, File file);
 
   // Get one file by id
-  Future<Tuple2<bool, String>> getFile(String token, String fileUuid);
+  Future<Tuple2> getFile(String token, String fileUuid);
 
   // Delete one file on BDD
-  //Future<void> deleteFile(String token, String idFile);
+  Future<Tuple2<bool, String>> deleteFile(String token, String fileUuid);
 
   /* -> Modification attribut 
   // Update email

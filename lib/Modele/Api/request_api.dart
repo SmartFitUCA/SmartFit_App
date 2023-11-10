@@ -11,31 +11,48 @@ class RequestApi extends IDataStrategy {
       "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api";
 
   @override
-  Future<Tuple2<bool, String>> getFile(String token, String fileUuid) async {
-    final response = await http.get(Uri.parse('$urlApi/user/files/$fileUuid'),
+  Future<Tuple2> getFile(String token, String fileUuid) async {
+    final url = Uri.parse('$urlApi/user/files/$fileUuid');
+
+    var request = http.Request('GET', url);
+    request.headers.addAll(<String, String>{'Authorization': token});
+
+    var streamedResponse = await request.send();
+    final response = await http.Response.fromStream(streamedResponse);
+    // !! Crée un fichier comme ca avec les bytes !!
+    //File("//").writeAsBytes(response.bodyBytes);
+
+    if (response.statusCode == 200) {
+      return Tuple2(true, response.bodyBytes);
+    }
+    if ((response.statusCode == 401)) {
+      return const Tuple2(false, "401 - UNAUTHORIZED");
+    }
+    if ((response.statusCode == 404)) {
+      return const Tuple2(false, "404 - NOT FOUND");
+    }
+    return const Tuple2(false, "Fail");
+  }
+
+  @override
+  Future<Tuple2<bool, String>> deleteFile(String token, String fileUuid) async {
+    final response = await http.delete(Uri.parse('$urlApi/user/files'),
         headers: <String, String>{'Authorization': token});
 
     if (response.statusCode == 200) {
-      /*return Classe.fromJson(jsonDecode(response.body) as Map<String, dynamic>);*/
-      throw UnimplementedError();
-    } else {
-      throw UnimplementedError();
+      return const Tuple2(true, "Successful");
     }
+    if (response.statusCode == 401) {
+      return const Tuple2(false, "401 - UNAUTHORIZED");
+    }
+    if (response.statusCode == 404) {
+      return const Tuple2(false, "404 - NOT FOUND");
+    }
+    return const Tuple2(false, "Fail");
   }
 
   @override
-  Future<bool> deleteFile(String token, String idFile) async {
-    final response = await http.delete(Uri.parse('$urlApi/$token/files'));
-    if (response.statusCode == 200) {
-      /*return Classe.fromJson(jsonDecode(response.body) as Map<String, dynamic>);*/
-      throw UnimplementedError();
-    } else {
-      throw UnimplementedError();
-    }
-  }
-
-  @override
-  Future<Tuple2> deleteUser(String token) async {
+  Future<Tuple2<bool, String>> deleteUser(String token) async {
     final response = await http.delete(Uri.parse('$urlApi/user'),
         headers: <String, String>{'Authorization': token});
     if (response.statusCode == 200) {
@@ -51,44 +68,45 @@ class RequestApi extends IDataStrategy {
   }
 
   @override
-  Future<String> getFiles(String token) async {
-    final response = await http.get(Uri.parse('$urlApi/$token/files'));
+  Future<Tuple2> getFiles(String token) async {
+    final response = await http.get(Uri.parse('$urlApi/user/files'),
+        headers: <String, String>{'Authorization': token});
 
     if (response.statusCode == 200) {
-      /*return Classe.fromJson(jsonDecode(response.body) as Map<String, dynamic>);*/
-      throw UnimplementedError();
-    } else {
-      throw UnimplementedError();
+      return Tuple2(true, response.body);
     }
+    if (response.statusCode == 401) {
+      return const Tuple2(false, "401 - UNAUTHORIZED");
+    }
+    return const Tuple2(false, "Fail");
   }
 
   @override
-  Future<Tuple2> connexion(String email, String hash) async {
+  Future<Tuple2<bool, String>> connexion(String email, String hash) async {
     final response =
         await http.get(Uri.parse('$urlApi/user/login/$email/$hash'));
     if (response.statusCode == 200) {
-      Map<String, String> json =
-          jsonDecode(response.body) as Map<String, String>;
-      return Tuple2<bool, String>(true, json['token']!);
+      Map<String, dynamic> json = jsonDecode(response.body);
+      return Tuple2<bool, String>(true, json['token'].toString());
     } else if (response.statusCode == 401) {
       return const Tuple2<bool, String>(false, "UNAUTHORIZED");
     }
     return const Tuple2(false, "Fail");
   }
 
-  /*
   @override
-  Future<Tuple2> postUser(String email, String hash, String username) async {
-    final response =
-        await http.post(Uri.parse('$urlApi/user'), headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    }, body: {
-      "email": "'$email'",
-      "hash": "'$hash'",
-      "username": "'$username'"
-    });
+  Future<Tuple2<bool, String>> postUser(
+      String email, String hash, String username) async {
+    final response = await http.post(Uri.parse('$urlApi/user'),
+        body: <String, String>{
+          "email": email,
+          "hash": hash,
+          "username": username
+        });
+
     if (response.statusCode == 200) {
-      return const Tuple2(true, "Successful");
+      Map<String, dynamic> json = jsonDecode(response.body);
+      return Tuple2(true, json['token'].toString());
     }
     if (response.statusCode == 400) {
       return const Tuple2(false, "400 BAD REQUEST - Json mal formaté");
@@ -98,7 +116,7 @@ class RequestApi extends IDataStrategy {
           false, "409 CONFLICT - Déja un compte avec cet email");
     }
     return const Tuple2(false, "Fail");
-  }*/
+  }
 
   /*
   @override
@@ -161,7 +179,7 @@ class RequestApi extends IDataStrategy {
 
     var request = http.MultipartRequest('POST', uri);
     final httpImage = http.MultipartFile.fromBytes(
-        'file_FIT', await file.readAsBytes(),
+        'file', await file.readAsBytes(),
         filename: file.path.split('/').last);
     request.files.add(httpImage);
     request.headers.addAll(headers);
@@ -181,11 +199,5 @@ class RequestApi extends IDataStrategy {
       return const Tuple2(false, "409 - CONFLICT");
     }
     return const Tuple2(false, "Fail ");
-  }
-
-  @override
-  Future<bool> postUser(String email, String hash, String username) {
-    // TODO: implement postUser
-    throw UnimplementedError();
   }
 }

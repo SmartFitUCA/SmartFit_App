@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
 import 'package:smartfit_app_mobile/View/on_boarding/started_view.dart';
+import 'package:smartfit_app_mobile/View/page_test.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 
 void main() {
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
           // tested with just a hot reload.
           primaryColor: TColor.primaryColor1,
           fontFamily: "Poppins"),
-      home: const StartedView(),
+      //home: const StartedView(),
+      home: const TestPage(),
     );
   }
 }
