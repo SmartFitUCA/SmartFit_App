@@ -1,8 +1,17 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
+import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/View/page_test.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/round_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -13,6 +22,32 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   bool isCheck = false;
+  IDataStrategy api = RequestApi();
+
+  final controllerTextEmail = TextEditingController();
+  final controllerTextPassword = TextEditingController();
+
+  Future<Tuple2<bool, String>> checkLoginAndPassword() async {
+    Tuple2<bool, String> result = await api.connexion(controllerTextEmail.text,
+        sha256.convert(utf8.encode(controllerTextPassword.text)).toString());
+    return result;
+  }
+
+  Future<Tuple2<bool, Map<String, String>>> getUserInfo(String token) async {
+    Tuple2 result = await api.getInfoUser(token);
+    if (result.item1 == false) {
+      return const Tuple2(false, <String, String>{"Empty": "Empty"});
+    }
+    return Tuple2(true, result.item2 as Map<String, String>);
+  }
+
+  void fillUser(BuildContext context, Map<String, String> map, String token) {
+    context.read<User>().email = map["email"];
+    context.read<User>().username = map["username"];
+    context.read<User>().token = token;
+    context.read<User>().listActivity = List.empty(growable: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -43,15 +78,17 @@ class _LoginViewState extends State<LoginView> {
                 SizedBox(
                   height: media.width * 0.04,
                 ),
-                const RoundTextField(
+                RoundTextField(
                   hitText: "Email",
                   icon: "assets/img/email.svg",
                   keyboardType: TextInputType.emailAddress,
+                  controller: controllerTextEmail,
                 ),
                 SizedBox(
                   height: media.width * 0.04,
                 ),
                 RoundTextField(
+                  controller: controllerTextPassword,
                   hitText: "Mot de passe",
                   icon: "assets/img/lock.svg",
                   obscureText: true,
@@ -80,11 +117,32 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
-               const Spacer(),
+                const Spacer(),
                 RoundButton(
                     title: "Se connecter",
-                    onPressed: () {
+                    onPressed: () async {
+                      Tuple2<bool, String> result =
+                          await checkLoginAndPassword();
 
+                      if (result.item1 == true) {
+                        Tuple2 infoUser = await getUserInfo(result.item2);
+
+                        if (infoUser.item1 == false) {
+                          print(
+                              "Erreur - Impossible de récupéré les données de l'utilisateur");
+                          // Afficher pop-up
+                        } else {
+                          fillUser(context, infoUser.item2, result.item2);
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const TestPage()));
+                        }
+                      } else {
+                        print("Connection refuser");
+                        //Afficher une pop-up
+                      }
                     }),
                 SizedBox(
                   height: media.width * 0.04,

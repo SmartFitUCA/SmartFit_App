@@ -179,7 +179,7 @@ class _TestPage extends State<TestPage> {
       body: Column(
         children: [
           const Text('A random AWESOME idea:'),
-          Text(Provider.of<User>(context).username),
+          const Text("User"),
 
           // ↓ Add this.
           ElevatedButton(

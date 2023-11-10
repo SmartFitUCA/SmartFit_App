@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/View/login/login_view.dart';
 import 'package:smartfit_app_mobile/View/on_boarding/started_view.dart';
 import 'package:smartfit_app_mobile/View/page_test.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-      create: (context) => User("toto", "toto@email", "1234"),
-      child: const MyApp()));
+      create: (context) => User(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

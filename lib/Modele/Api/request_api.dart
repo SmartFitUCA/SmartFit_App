@@ -88,8 +88,12 @@ class RequestApi extends IDataStrategy {
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(response.body);
       return Tuple2<bool, String>(true, json['token'].toString());
-    } else if (response.statusCode == 401) {
+    }
+    if (response.statusCode == 401) {
       return const Tuple2<bool, String>(false, "UNAUTHORIZED");
+    }
+    if (response.statusCode == 404) {
+      return const Tuple2<bool, String>(false, "Not found");
     }
     return const Tuple2(false, "Fail");
   }
