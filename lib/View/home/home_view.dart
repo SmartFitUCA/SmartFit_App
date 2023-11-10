@@ -299,7 +299,7 @@ class _HomeViewState extends State<HomeView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Rhythme cardiaque",
+                                "Rythme cardiaque",
                                 style: TextStyle(
                                     color: TColor.black,
                                     fontSize: 16,
