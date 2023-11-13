@@ -93,7 +93,7 @@ class RequestApi extends IDataStrategy {
       return const Tuple2<bool, String>(false, "UNAUTHORIZED");
     }
     if (response.statusCode == 404) {
-      return const Tuple2<bool, String>(false, "Not found");
+      return const Tuple2<bool, String>(false, "Not found the email");
     }
     return const Tuple2(false, "Fail");
   }

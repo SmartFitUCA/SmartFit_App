@@ -18,7 +18,10 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
+  bool _obscureText = true;
+  bool _errorCreateUser = false;
   bool isCheck = false;
+  String _msgError = "";
   IDataStrategy api = RequestApi();
 
   final controllerTextEmail = TextEditingController();
@@ -30,6 +33,13 @@ class _SignUpViewState extends State<SignUpView> {
         controllerTextEmail.text,
         sha256.convert(utf8.encode(controllerTextPassword.text)).toString(),
         controllerTextUsername.text);
+  }
+
+  // Toggles the password show status
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 
   @override
@@ -77,10 +87,10 @@ class _SignUpViewState extends State<SignUpView> {
                 RoundTextField(
                   hitText: "Mot de passe",
                   icon: "assets/img/lock.svg",
-                  obscureText: true,
+                  obscureText: _obscureText,
                   controller: controllerTextPassword,
                   rigtIcon: TextButton(
-                      onPressed: () {},
+                      onPressed: _toggle,
                       child: Container(
                           alignment: Alignment.center,
                           width: 20,
@@ -118,6 +128,10 @@ class _SignUpViewState extends State<SignUpView> {
                     )
                   ],
                 ),
+                Visibility(
+                    visible: _errorCreateUser,
+                    child: Text("Error - $_msgError",
+                        style: TextStyle(color: TColor.red))),
                 SizedBox(
                   height: media.width * 0.4,
                 ),
@@ -131,8 +145,10 @@ class _SignUpViewState extends State<SignUpView> {
                             MaterialPageRoute(
                                 builder: (context) => const LoginView()));
                       } else {
-                        print("Création de compte Impossible");
-                        print(result.item2);
+                        setState(() {
+                          _errorCreateUser = true;
+                          _msgError = result.item2;
+                        });
                       }
                     }),
                 SizedBox(
