@@ -128,6 +128,9 @@ class _SignUpViewState extends State<SignUpView> {
                     )
                   ],
                 ),
+                SizedBox(
+                  height: media.width * 0.05,
+                ),
                 Visibility(
                     visible: _errorCreateUser,
                     child: Text("Error - $_msgError",

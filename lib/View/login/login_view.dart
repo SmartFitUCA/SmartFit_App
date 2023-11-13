@@ -126,6 +126,9 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: media.width * 0.04,
+                ),
                 Visibility(
                     visible: _errorLogin,
                     child: Text("Error - $_msgError",
