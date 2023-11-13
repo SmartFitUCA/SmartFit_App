@@ -5,6 +5,7 @@ import 'package:smartfit_app_mobile/View/activity/list_activity.dart';
 import 'package:smartfit_app_mobile/View/login/login_view.dart';
 import 'package:smartfit_app_mobile/View/login/signup_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/view/main_tab/main_tab_view.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           primaryColor: TColor.primaryColor1,
           fontFamily: "Poppins"),
       //home: const StartedView(),
-      home: const SignUpView(),
+      home: const MainTabView(),
     );
   }
 }
