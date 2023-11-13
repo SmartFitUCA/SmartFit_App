@@ -85,7 +85,6 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     print("test1");
 
-    ManagerFile m = ManagerFile();
     print("test2");
 
     var media = MediaQuery.of(context).size;
@@ -95,9 +94,9 @@ class _HomeViewState extends State<HomeView> {
 
     if (Provider.of<User>(context, listen: true).listActivity.isNotEmpty) {
       print("rempli");
-      bpmSecondes = m.getHeartRateWithTime(Provider.of<User>(context).listActivity[0]);
-      vitesseSecondes = m.getSpeedWithTime(Provider.of<User>(context).listActivity[0]);
-      altitudeSecondes = m.getAltitudeWithTime(Provider.of<User>(context).listActivity[0]);
+      bpmSecondes = Provider.of<User>(context).listActivity[0].getHeartRateWithTime();
+      vitesseSecondes = Provider.of<User>(context).listActivity[0].getSpeedWithTime();
+      altitudeSecondes = Provider.of<User>(context).listActivity[0].getAltitudeWithTime();
       normaliserDeuxiemeElement(vitesseSecondes);
       normaliserDeuxiemeElement(altitudeSecondes);
       bpmSecondes2 = List.from(bpmSecondes) ;
