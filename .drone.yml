@@ -5,6 +5,8 @@ name: SmartFit_Mobile
 trigger:
   event:
     - push
+  branch:
+    - master
 
 steps:
   - name: build-apk
