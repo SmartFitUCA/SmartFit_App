@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: Passworld
+name: SmartFit_Mobile
 
 trigger:
   event:
