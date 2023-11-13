@@ -1,13 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
 
 class ActivityOfUser {
-  final String _type = "Default";
-
+  late String _nomActivite;
+  late String _imageName;
   late List<dynamic> _contentActivity;
 
   List<dynamic> get contentActivity => _contentActivity;
 
-  ActivityOfUser(List<dynamic> listeDynamic) {
+  ActivityOfUser(String nom, List<dynamic> listeDynamic) {
+    _nomActivite = nom;
+    _imageName = "assets/img/workout1.svg";
     _contentActivity = listeDynamic;
   }
 
@@ -126,5 +128,12 @@ class ActivityOfUser {
       }
     }
     return result;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'nomActivite': _nomActivite,
+      'image': _imageName,
+    };
   }
 }

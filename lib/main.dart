@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/View/activity/list_activity.dart';
 import 'package:smartfit_app_mobile/View/login/login_view.dart';
 import 'package:smartfit_app_mobile/View/login/signup_view.dart';
 import 'package:smartfit_app_mobile/View/on_boarding/started_view.dart';

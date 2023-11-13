@@ -1,3 +1,4 @@
+import 'package:smartfit_app_mobile/View/activity/list_activity.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/tab_button.dart';
 import 'package:smartfit_app_mobile/view/activity/activity.dart';
@@ -30,7 +31,7 @@ class _MainTabViewState extends State<MainTabView> {
         child: InkWell(
           onTap: () {
             selectTab = 4;
-            currentTab = const TestPage();
+            currentTab = const ListActivity();
             if (mounted) {
               setState(() {});
             }

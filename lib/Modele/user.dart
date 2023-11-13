@@ -16,4 +16,15 @@ class User extends ChangeNotifier {
     listActivity.add(activity);
     notifyListeners();
   }		  
+
+  void removeActivity(ActivityOfUser activity) {
+    listActivity.remove(activity);
+    notifyListeners();
+  }
+
+  // Method to insert an activity at a specific position
+  void insertActivity(int index, ActivityOfUser activity) {
+    listActivity.insert(index, activity);
+    notifyListeners();
+  }
 }
