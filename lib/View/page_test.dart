@@ -77,7 +77,7 @@ class _TestPage extends State<TestPage> {
       //print(x.getDistanceWithTime(ActivityOfUser(result)));
       //print(x.getDistance(ActivityOfUser(result)));
       //print(x.getAltitudeWithTime(ActivityOfUser(result)));
-      print(x.getSpeedWithTime(ActivityOfUser(result)));
+      //print(x.getSpeedWithTime(ActivityOfUser(result)));
     }
   }
 
