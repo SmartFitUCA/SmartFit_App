@@ -1,13 +1,18 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
 import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
 import 'package:smartfit_app_mobile/Modele/activity.dart';
 import 'package:smartfit_app_mobile/Modele/manager_file.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
-import 'package:smartfit_app_mobile/View/home/home_view.dart';
+import 'package:tuple/tuple.dart';
 
 // ----------- File --------------- //
 
@@ -57,6 +62,7 @@ class TestPage extends StatefulWidget {
 class _TestPage extends State<TestPage> {
   // Lire un fichier avec picker
   FilePickerResult? result;
+  IDataStrategy strategy = RequestApi();
 
   //late File x = File(file.path);
   Future<void> readFile() async {
@@ -74,12 +80,101 @@ class _TestPage extends State<TestPage> {
       print("test33");
       //print(x.getDistanceWithTime(ActivityOfUser(result)));
       //print(x.getDistance(ActivityOfUser(result)));
-      print("test44");
-      Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(result));
-      print("test55");
-
-      print(result);
+      //print(x.getAltitudeWithTime(ActivityOfUser(result)));
+      //print(x.getSpeedWithTime(ActivityOfUser(result)));
     }
+  }
+
+  Future<void> createUser() async {
+    String mds = "1234";
+    var byte = utf8.encode(mds);
+    var digest = sha256.convert(byte);
+    print(digest.toString());
+    print("Appel");
+    Tuple2<bool, String> res =
+        await strategy.postUser("toto@gmail.com", digest.toString(), "toto");
+    print(res.item1);
+    print(res.item2);
+  }
+
+  Future<void> login() async {
+    String mds = "1234";
+    var byte = utf8.encode(mds);
+    var digest = sha256.convert(byte);
+    print(digest.toString());
+    print("Appel");
+    Tuple2<bool, String> res =
+        await strategy.connexion("toto@gmail.com", digest.toString());
+    print(res.item1);
+    print(res.item2);
+  }
+
+  Future<void> deleteUser() async {
+    String token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiYjA3OThmMjAtN2ZiMy0xMWVlLWJhZmQtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA0ODgyNDI3fQ.2_bnvEC7_pwchielF3Kpu9fFtXDv_KabdOU8T07UnWI";
+    print("Appel");
+    Tuple2<bool, String> res = await strategy.deleteUser(token);
+    print(res.item1);
+    print(res.item2);
+  }
+
+  Future<void> getFiles() async {
+    String token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGUyYWVmMTItN2ZiNC0xMWVlLWJhZmQtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA0ODgyNzk3fQ.b_zsOHj2C-Y28CrcozbSjEz8BUWL8kgjjx5CDhES8PI";
+    print("Appel");
+    Tuple2 res = await strategy.getFiles(token);
+    print(res.item1);
+    print(res.item2);
+  }
+
+  Future<void> modifAttribut() async {
+    String nameAtt = "username";
+    String newValue = "toto2";
+    String token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGUyYWVmMTItN2ZiNC0xMWVlLWJhZmQtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA0ODgzMDM4fQ.umN7LmUDbKUOeIToLcsOUIioQ7u4wsReHggRDB68VPQ";
+    print("Appel");
+    Tuple2 res = await strategy.modifAttribut(token, nameAtt, newValue);
+    print(res.item1);
+    print(res.item2);
+  }
+
+  Future<void> uploadFile() async {
+    PlatformFile t = result!.files.single;
+    String token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGUyYWVmMTItN2ZiNC0xMWVlLWJhZmQtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA0ODgzNjM5fQ.0TmfJ9eYnszw4_RkNwPkMzkJxvsIFs5BI9uhQ7qYb0g";
+    String? lol = t.path!;
+    print("Appel");
+    Tuple2 res = await strategy.uploadFile(token, File(lol));
+    print(res.item1);
+    print(res.item2);
+  }
+
+  Future<void> getOneFile() async {
+    String ui = "fc6e234c-7fc6-11ee-bafd-02420a5a001f";
+    String token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGUyYWVmMTItN2ZiNC0xMWVlLWJhZmQtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA0ODgzOTE3fQ.TUdrGEo7A0auQlUfO5RQm874QWuGXFBSKbJ8qTGPF2M";
+    print("Appel");
+    Tuple2 res = await strategy.getFile(token, ui);
+    print(res.item1);
+    print(res.item2);
+
+    ManagerFile x = ManagerFile();
+    File file = File("${await x.localPath}/Walking_2023-11-08T10_57_28.fit");
+    await file.create();
+    await file.writeAsBytes(res.item2);
+    print(await x.localPath);
+    print("Save");
+
+    print(await x
+        .readFitFile("${await x.localPath}/Walking_2023-11-08T10_57_28.fit"));
+  }
+
+  Future<void> getInfoUser() async {
+    String token =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGUyYWVmMTItN2ZiNC0xMWVlLWJhZmQtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA0ODgzOTE3fQ.TUdrGEo7A0auQlUfO5RQm874QWuGXFBSKbJ8qTGPF2M";
+    Tuple2 res = await strategy.getInfoUser(token);
+    print(res.item1);
+    print(res.item2);
   }
 
   @override
@@ -88,7 +183,7 @@ class _TestPage extends State<TestPage> {
       body: Column(
         children: [
           const Text('A random AWESOME idea:'),
-          Text(Provider.of<User>(context).username),
+          const Text("User"),
 
           // ↓ Add this.
           ElevatedButton(
@@ -109,7 +204,20 @@ class _TestPage extends State<TestPage> {
                 }
               },
               child: const Text("File - ")),
-          ElevatedButton(onPressed: readFile, child: const Text("Read Data"))
+          ElevatedButton(onPressed: login, child: const Text("Connexion")),
+          ElevatedButton(
+              onPressed: createUser, child: const Text("Create User")),
+          ElevatedButton(
+              onPressed: deleteUser, child: const Text("Delete User")),
+          ElevatedButton(onPressed: getFiles, child: const Text("getFiles")),
+          ElevatedButton(
+              onPressed: modifAttribut, child: const Text("modif attribut")),
+          ElevatedButton(
+              onPressed: uploadFile, child: const Text("Upload File")),
+          ElevatedButton(
+              onPressed: getOneFile, child: const Text("Get One File")),
+          ElevatedButton(
+              onPressed: getInfoUser, child: const Text("Get info User"))
         ],
       ),
     );

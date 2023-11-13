@@ -15,6 +15,11 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   bool isCheck = false;
+
+  final controllerTextEmail = TextEditingController();
+  final controllerTextUsername = TextEditingController();
+  final controllerTextPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -55,10 +60,11 @@ class _SignUpViewState extends State<SignUpView> {
                 SizedBox(
                   height: media.width * 0.04,
                 ),
-                const RoundTextField(
+                RoundTextField(
                   hitText: "Email",
                   icon: "assets/img/email.svg",
                   keyboardType: TextInputType.emailAddress,
+                  controller: controllerTextEmail,
                 ),
                 SizedBox(
                   height: media.width * 0.04,
@@ -67,6 +73,7 @@ class _SignUpViewState extends State<SignUpView> {
                   hitText: "Mot de passe",
                   icon: "assets/img/lock.svg",
                   obscureText: true,
+                  controller: controllerTextPassword,
                   rigtIcon: TextButton(
                       onPressed: () {},
                       child: Container(
