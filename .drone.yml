@@ -10,12 +10,12 @@ trigger:
 
 steps:
   - name: build-apk
-    image: cirrusci/flutter:stable
+    image: ghcr.io/cirruslabs/flutter:3.13.9
     commands:
       - flutter build apk
 
   - name: code-analysis
-    image: cirrusci/flutter:stable
+    image: ghcr.io/cirruslabs/flutter:3.13.9
     environment:
         SONAR_TOKEN:
           from_secret: sonar_token
