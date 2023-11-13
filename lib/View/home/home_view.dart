@@ -26,6 +26,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   List<FlSpot> bpmSecondes =  [FlSpot(0, 30)];
   List<FlSpot> bpmSecondes2 =  [];
+  double calories = 0.0;
   List<FlSpot> vitesseSecondes =  [FlSpot(0, 30)];
   List<FlSpot> altitudeSecondes =  [FlSpot(0, 30)];
 
@@ -97,6 +98,8 @@ class _HomeViewState extends State<HomeView> {
       bpmSecondes = Provider.of<User>(context).listActivity[0].getHeartRateWithTime();
       vitesseSecondes = Provider.of<User>(context).listActivity[0].getSpeedWithTime();
       altitudeSecondes = Provider.of<User>(context).listActivity[0].getAltitudeWithTime();
+      calories = Provider.of<User>(context).listActivity[0].getCalories()[0].y;
+
       normaliserDeuxiemeElement(vitesseSecondes);
       normaliserDeuxiemeElement(altitudeSecondes);
       bpmSecondes2 = List.from(bpmSecondes) ;
@@ -698,7 +701,7 @@ class _HomeViewState extends State<HomeView> {
                                             0, 0, bounds.width, bounds.height));
                                   },
                                   child: Text(
-                                    "760 kCal",
+                                    '${calories.toString()} kCal',
                                     style: TextStyle(
                                         color: TColor.white.withOpacity(0.7),
                                         fontWeight: FontWeight.w700,
@@ -726,7 +729,7 @@ class _HomeViewState extends State<HomeView> {
                                           ),
                                           child: FittedBox(
                                             child: Text(
-                                              "230kCal\nrestantes",
+                                              '${200-calories.toInt()} kCal\n restantes',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: TColor.white,
@@ -739,7 +742,7 @@ class _HomeViewState extends State<HomeView> {
                                           backStrokeWidth: 10,
                                           progressColors: TColor.primaryG,
                                           backColor: Colors.grey.shade100,
-                                          valueNotifier: ValueNotifier(50),
+                                          valueNotifier: ValueNotifier(calories/200*100),
                                           startAngle: -180,
                                         ),
                                       ],

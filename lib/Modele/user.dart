@@ -13,7 +13,7 @@ class User extends ChangeNotifier {
 
 
   void addActivity(ActivityOfUser activity) {
-    listActivity.add(activity);		    listActivity.add(activity);
+    listActivity.add(activity);
     notifyListeners();
   }		  
 }

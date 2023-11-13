@@ -53,6 +53,26 @@ class ActivityOfUser {
     }
     return result;
   }
+  List<FlSpot> getCalories() {
+    List<FlSpot> result = List.empty(growable: true);
+    int firtTimeStamp = 0;
+    print("enzo");
+    print(_contentActivity.length);
+    for (List<dynamic> ligne in _contentActivity) {
+      
+      if (ligne.length >= 39 && ligne[0] == "Data" && ligne[39] == "total_calories") {
+        print("enzo");
+        print(ligne[39]);
+        if (firtTimeStamp == 0) {
+          firtTimeStamp = ligne[4];
+        }
+        //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[7].toInt()]);
+        result
+            .add(FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[40].toDouble()));
+      }
+    }
+    return result;
+  }
 
   List<FlSpot> getAltitudeWithTime() {
     List<FlSpot> result = List.empty(growable: true);
