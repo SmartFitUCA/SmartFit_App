@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:crypto/crypto.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -33,19 +32,20 @@ class _LoginViewState extends State<LoginView> {
     return result;
   }
 
-  Future<Tuple2<bool, Map<String, String>>> getUserInfo(String token) async {
+  Future<Tuple2<bool, Map<dynamic, dynamic>>> getUserInfo(String token) async {
     Tuple2 result = await api.getInfoUser(token);
     if (result.item1 == false) {
       return const Tuple2(false, <String, String>{"Empty": "Empty"});
     }
-    return Tuple2(true, result.item2 as Map<String, String>);
+    return Tuple2(true, result.item2);
   }
 
-  void fillUser(BuildContext context, Map<String, String> map, String token) {
+  void fillUser(BuildContext context, Map<String, dynamic> map, String token) {
     context.read<User>().email = map["email"];
     context.read<User>().username = map["username"];
     context.read<User>().token = token;
     context.read<User>().listActivity = List.empty(growable: true);
+    print(context.read<User>());
   }
 
   @override

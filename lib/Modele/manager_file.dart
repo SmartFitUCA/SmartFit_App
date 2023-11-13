@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:smartfit_app_mobile/Modele/activity.dart';
 
 class ManagerFile {
   // ----- Read csv File ------- //

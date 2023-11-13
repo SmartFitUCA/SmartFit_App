@@ -1,10 +1,14 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
+import 'package:smartfit_app_mobile/View/login/login_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/round_text_field.dart';
-//import 'package:smartfit_app_mobile/view/login/complete_profile_view.dart';
 import 'package:flutter/material.dart';
-import 'package:smartfit_app_mobile/view/main_tab/main_tab_view.dart';
+import 'package:tuple/tuple.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -15,10 +19,18 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   bool isCheck = false;
+  IDataStrategy api = RequestApi();
 
   final controllerTextEmail = TextEditingController();
   final controllerTextUsername = TextEditingController();
   final controllerTextPassword = TextEditingController();
+
+  Future<Tuple2<bool, String>> createUser() async {
+    return await api.postUser(
+        controllerTextEmail.text,
+        sha256.convert(utf8.encode(controllerTextPassword.text)).toString(),
+        controllerTextUsername.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +60,6 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
                 const RoundTextField(
                   hitText: "Prénom",
-                  icon: "assets/img/user_text.svg",
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                const RoundTextField(
-                  hitText: "Nom",
                   icon: "assets/img/user_text.svg",
                 ),
                 SizedBox(
@@ -116,7 +121,20 @@ class _SignUpViewState extends State<SignUpView> {
                 SizedBox(
                   height: media.width * 0.4,
                 ),
-                RoundButton(title: "Créer un compte", onPressed: () {}),
+                RoundButton(
+                    title: "Créer un compte",
+                    onPressed: () async {
+                      Tuple2<bool, String> result = await createUser();
+                      if (result.item1) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginView()));
+                      } else {
+                        print("Création de compte Impossible");
+                        print(result.item2);
+                      }
+                    }),
                 SizedBox(
                   height: media.width * 0.04,
                 ),
@@ -200,7 +218,7 @@ class _SignUpViewState extends State<SignUpView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MainTabView()));
+                            builder: (context) => const LoginView()));
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
