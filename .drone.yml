@@ -1,0 +1,33 @@
+kind: pipeline
+type: docker
+name: SmartFit_Mobile
+
+trigger:
+  event:
+    - push
+  branch:
+    - master
+
+steps:
+  - name: build-apk
+    image: ghcr.io/cirruslabs/flutter:3.13.9
+    commands:
+      - flutter build apk
+
+  - name: code-analysis
+    image: ghcr.io/cirruslabs/flutter:3.13.9
+    environment:
+        SONAR_TOKEN:
+          from_secret: sonar_token
+    commands:
+      - export SONAR_SCANNER_VERSION=4.7.0.2747
+      - mkdir .sonar
+      - cd .sonar
+      - curl -V
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+      - unzip -o sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+      - cd sonar-scanner-$SONAR_SCANNER_VERSION-linux/
+      - cd ../..
+      - export SONAR_SCANNER_OPTS="-server"
+      - ./.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux/bin/sonar-scanner -D sonar.projectKey=SmartFit_Mobile -D sonar.host.url=https://codefirst.iut.uca.fr/sonar -D sonar.login=$${SONAR_TOKEN}
+    depends_on: [ build-apk ]
