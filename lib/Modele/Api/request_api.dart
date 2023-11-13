@@ -176,13 +176,21 @@ class RequestApi extends IDataStrategy {
 
   @override
   Future<Tuple2<bool, String>> uploadFile(String token, File file) async {
+    String filename = file.path.split('/').last;
+    String typeActivity = filename.split("_").first;
+    String dateActivity = filename.split("_")[1].split("T").first;
+
     final uri = Uri.parse('$urlApi/user/files');
-    Map<String, String> headers = {'Authorization': token};
+    Map<String, String> headers = {
+      'Authorization': token,
+      'SmartFit_Type': typeActivity,
+      'SmartFit_Date': dateActivity
+    };
 
     var request = http.MultipartRequest('POST', uri);
     final httpImage = http.MultipartFile.fromBytes(
         'file', await file.readAsBytes(),
-        filename: file.path.split('/').last);
+        filename: filename);
     request.files.add(httpImage);
     request.headers.addAll(headers);
 
