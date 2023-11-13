@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:crypto/crypto.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +21,9 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  bool isCheck = false;
+  bool _obscureText = true;
+  String _msgError = "";
+  bool _errorLogin = false;
   IDataStrategy api = RequestApi();
 
   final controllerTextEmail = TextEditingController();
@@ -34,19 +35,27 @@ class _LoginViewState extends State<LoginView> {
     return result;
   }
 
-  Future<Tuple2<bool, Map<String, String>>> getUserInfo(String token) async {
+  Future<Tuple2<bool, Map<dynamic, dynamic>>> getUserInfo(String token) async {
     Tuple2 result = await api.getInfoUser(token);
     if (result.item1 == false) {
       return const Tuple2(false, <String, String>{"Empty": "Empty"});
     }
-    return Tuple2(true, result.item2 as Map<String, String>);
+    return Tuple2(true, result.item2);
   }
 
-  void fillUser(BuildContext context, Map<String, String> map, String token) {
+  void fillUser(BuildContext context, Map<String, dynamic> map, String token) {
     context.read<User>().email = map["email"];
     context.read<User>().username = map["username"];
     context.read<User>().token = token;
     context.read<User>().listActivity = List.empty(growable: true);
+    print(context.read<User>());
+  }
+
+  // Toggles the password show status
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 
   @override
@@ -92,9 +101,9 @@ class _LoginViewState extends State<LoginView> {
                   controller: controllerTextPassword,
                   hitText: "Mot de passe",
                   icon: "assets/img/lock.svg",
-                  obscureText: true,
+                  obscureText: _obscureText,
                   rigtIcon: TextButton(
-                      onPressed: () {},
+                      onPressed: _toggle,
                       child: Container(
                           alignment: Alignment.center,
                           width: 20,
@@ -118,6 +127,10 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
+                Visibility(
+                    visible: _errorLogin,
+                    child: Text("Error - $_msgError",
+                        style: TextStyle(color: TColor.red))),
                 const Spacer(),
                 RoundButton(
                     title: "Se connecter",
@@ -129,9 +142,12 @@ class _LoginViewState extends State<LoginView> {
                         Tuple2 infoUser = await getUserInfo(result.item2);
 
                         if (infoUser.item1 == false) {
-                          print(
-                              "Erreur - Impossible de récupéré les données de l'utilisateur");
-                          // Afficher pop-up
+                          //print("Erreur - Impossible de récupéré les données de l'utilisateur");
+                          setState(() {
+                            _msgError =
+                                "Impossible de récupéré les données de l'utilisateur - {$infoUser.item2}";
+                            _errorLogin = true;
+                          });
                         } else {
                           fillUser(context, infoUser.item2, result.item2);
 
@@ -141,8 +157,10 @@ class _LoginViewState extends State<LoginView> {
                                   builder: (context) => const ListActivity()));
                         }
                       } else {
-                        print("Connection refuser");
-                        //Afficher une pop-up
+                        setState(() {
+                          _msgError = "Connexion refuser - ${result.item2}";
+                          _errorLogin = true;
+                        });
                       }
                     }),
                 SizedBox(
