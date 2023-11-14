@@ -7,13 +7,10 @@ import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
-
-import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
-import 'package:smartfit_app_mobile/Modele/activity.dart';
 import 'package:smartfit_app_mobile/Modele/manager_file.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/View/login/signup_view.dart';
 import 'package:tuple/tuple.dart';
 
 // ----------- File --------------- //
@@ -119,7 +116,7 @@ class _TestPage extends State<TestPage> {
     print(digest.toString());
     print("Appel");
     Tuple2<bool, String> res =
-        await strategy.connexion("toto@gmail.com", digest.toString());
+        await strategy.connexion("1234", digest.toString());
     print(res.item1);
     print(res.item2);
   }
@@ -135,7 +132,7 @@ class _TestPage extends State<TestPage> {
 
   Future<void> getFiles() async {
     String token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGUyYWVmMTItN2ZiNC0xMWVlLWJhZmQtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA0ODgyNzk3fQ.b_zsOHj2C-Y28CrcozbSjEz8BUWL8kgjjx5CDhES8PI";
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGJiNDdmMDAtODJkNi0xMWVlLTkzMTMtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA1MjI4MTUyfQ.9ADC65f2rNI_llytvhA6tX0NM9_O3-2RlwPXqV0yYcI";
     print("Appel");
     Tuple2 res = await strategy.getFiles(token);
     print(res.item1);
@@ -156,7 +153,7 @@ class _TestPage extends State<TestPage> {
   Future<void> uploadFile() async {
     PlatformFile t = result!.files.single;
     String token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGUyYWVmMTItN2ZiNC0xMWVlLWJhZmQtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA0ODgzNjM5fQ.0TmfJ9eYnszw4_RkNwPkMzkJxvsIFs5BI9uhQ7qYb0g";
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiOGJiNDdmMDAtODJkNi0xMWVlLTkzMTMtMDI0MjBhNWEwMDFmIiwiZXhwIjoxNzA1MjI4MTUyfQ.9ADC65f2rNI_llytvhA6tX0NM9_O3-2RlwPXqV0yYcI";
     String? lol = t.path!;
     print("Appel");
     Tuple2 res = await strategy.uploadFile(token, File(lol));
@@ -399,5 +396,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
-*/
+}*/

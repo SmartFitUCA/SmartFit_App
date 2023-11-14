@@ -1,17 +1,32 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
-import 'package:smartfit_app_mobile/View/main_tab/main_tab_view.dart';
-import 'package:smartfit_app_mobile/View/page_test.dart';
-import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/common_widget/round_button.dart';
-import 'package:smartfit_app_mobile/common_widget/round_text_field.dart';
+import 'package:smartfit_app_mobile/View/login/Mobile/android_login_view.dart';
+import 'package:smartfit_app_mobile/View/login/web/web_login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
+
+String getPlatforme() {
+  if (kIsWeb) {
+    return "Web";
+  }
+  if (Platform.isAndroid) {
+    return "Android";
+  }
+  if (Platform.isWindows) {
+    return "Windows";
+  }
+  if (Platform.isMacOS) {
+    return "MacOS";
+  }
+  return "Null";
+}
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -25,13 +40,12 @@ class _LoginViewState extends State<LoginView> {
   String _msgError = "";
   bool _errorLogin = false;
   IDataStrategy api = RequestApi();
+  String platforme = getPlatforme();
 
-  final controllerTextEmail = TextEditingController();
-  final controllerTextPassword = TextEditingController();
-
-  Future<Tuple2<bool, String>> checkLoginAndPassword() async {
-    Tuple2<bool, String> result = await api.connexion(controllerTextEmail.text,
-        sha256.convert(utf8.encode(controllerTextPassword.text)).toString());
+  Future<Tuple2<bool, String>> checkLoginAndPassword(
+      String email, String password) async {
+    Tuple2<bool, String> result = await api.connexion(
+        email, sha256.convert(utf8.encode(password)).toString());
     return result;
   }
 
@@ -48,7 +62,6 @@ class _LoginViewState extends State<LoginView> {
     context.read<User>().username = map["username"];
     context.read<User>().token = token;
     context.read<User>().listActivity = List.empty(growable: true);
-    print(context.read<User>());
   }
 
   // Toggles the password show status
@@ -58,224 +71,19 @@ class _LoginViewState extends State<LoginView> {
     });
   }
 
+  void _printMsgError(String msgError) {
+    _msgError = msgError;
+    _errorLogin = true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: TColor.white,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            height: media.height * 0.9,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Bienvenue,",
-                  style: TextStyle(color: TColor.gray, fontSize: 16),
-                ),
-                Text(
-                  "Se connecter",
-                  style: TextStyle(
-                      color: TColor.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  height: media.width * 0.05,
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                RoundTextField(
-                  hitText: "Email",
-                  icon: "assets/img/email.svg",
-                  keyboardType: TextInputType.emailAddress,
-                  controller: controllerTextEmail,
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                RoundTextField(
-                  controller: controllerTextPassword,
-                  hitText: "Mot de passe",
-                  icon: "assets/img/lock.svg",
-                  obscureText: _obscureText,
-                  rigtIcon: TextButton(
-                      onPressed: _toggle,
-                      child: Container(
-                          alignment: Alignment.center,
-                          width: 20,
-                          height: 20,
-                          child: SvgPicture.asset(
-                            "assets/img/show_password.svg",
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit.contain,
-                          ))),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Mot de passe oublié ?",
-                      style: TextStyle(
-                          color: TColor.gray,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                Visibility(
-                    visible: _errorLogin,
-                    child: Text("Error - $_msgError",
-                        style: TextStyle(color: TColor.red))),
-                const Spacer(),
-                RoundButton(
-                    title: "Se connecter",
-                    onPressed: () async {
-                      Tuple2<bool, String> result =
-                          await checkLoginAndPassword();
-
-                      if (result.item1 == true) {
-                        Tuple2 infoUser = await getUserInfo(result.item2);
-
-                        if (infoUser.item1 == false) {
-                          //print("Erreur - Impossible de récupéré les données de l'utilisateur");
-                          setState(() {
-                            _msgError =
-                                "Impossible de récupéré les données de l'utilisateur - {$infoUser.item2}";
-                            _errorLogin = true;
-                          });
-                        } else {
-                          fillUser(context, infoUser.item2, result.item2);
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MainTabView()));
-                        }
-                      } else {
-                        setState(() {
-                          _msgError = "Connexion refuser - ${result.item2}";
-                          _errorLogin = true;
-                        });
-                      }
-                    }),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                Row(
-                  // crossAxisAlignment: CrossAxisAlignment.,
-                  children: [
-                    Expanded(
-                        child: Container(
-                      height: 1,
-                      color: TColor.gray.withOpacity(0.5),
-                    )),
-                    Text(
-                      "  Or  ",
-                      style: TextStyle(color: TColor.black, fontSize: 12),
-                    ),
-                    Expanded(
-                        child: Container(
-                      height: 1,
-                      color: TColor.gray.withOpacity(0.5),
-                    )),
-                  ],
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: TColor.white,
-                          border: Border.all(
-                            width: 1,
-                            color: TColor.gray.withOpacity(0.4),
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Image.asset(
-                          "assets/img/google.png",
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: media.width * 0.04,
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: TColor.white,
-                          border: Border.all(
-                            width: 1,
-                            color: TColor.gray.withOpacity(0.4),
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Image.asset(
-                          "assets/img/suunto.png",
-                          width: 35,
-                          height: 35,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Vous n'avez pas toujours pas de compte ?  ",
-                        style: TextStyle(
-                          color: TColor.black,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Text(
-                        "Créer un compte",
-                        style: TextStyle(
-                            color: TColor.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+    if (platforme == "Android") {
+      return AndroidLoginView(_obscureText, _errorLogin, _msgError, _toggle,
+          _printMsgError, getUserInfo, checkLoginAndPassword, fillUser);
+    } else {
+      return WebLoginView(_obscureText, _errorLogin, _msgError, _toggle,
+          _printMsgError, getUserInfo, checkLoginAndPassword, fillUser);
+    }
   }
 }
