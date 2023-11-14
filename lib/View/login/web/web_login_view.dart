@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/Modele/utile/login_user.dart';
 import 'package:smartfit_app_mobile/View/main_tab/main_tab_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/round_text_field.dart';
 import 'package:tuple/tuple.dart';
 
-class WebLoginView extends StatelessWidget {
-  WebLoginView(
-      this._obscureText,
-      this._errorLogin,
-      this._msgError,
-      this._toggle,
-      this._printMsgError,
-      this.getUserInfo,
-      this.checkLoginAndPassword,
-      this.fillUser,
-      {super.key});
+class WebLoginView extends StatefulWidget {
+  const WebLoginView({super.key});
 
-  bool _obscureText;
-  bool _errorLogin;
-  final String _msgError;
+  @override
+  State<WebLoginView> createState() => _WebLoginView();
+}
+
+class _WebLoginView extends State<WebLoginView> {
+  final Login util = Login();
+  bool _obscureText = true;
+  bool _errorLogin = false;
+  String _msgError = "";
 
   final controllerTextEmail = TextEditingController();
   final controllerTextPassword = TextEditingController();
 
-  // ---- Fonction --- //
-  final void Function() _toggle;
-  final Future<Tuple2<bool, String>> Function(String email, String password)
-      checkLoginAndPassword;
-  final Future<Tuple2> Function(String token) getUserInfo;
-  final void Function(String msgError) _printMsgError;
-  final void Function(
-      BuildContext context, Map<String, dynamic> map, String token) fillUser;
+  // Toggles the password show status
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  void _printMsgError(String msgError) {
+    setState(() {
+      _msgError = msgError;
+      _errorLogin = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +53,7 @@ class WebLoginView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Bienvenue, Web",
+                  "Bienvenue",
                   style: TextStyle(color: TColor.gray, fontSize: 16),
                 ),
                 Text(
@@ -114,20 +119,20 @@ class WebLoginView extends StatelessWidget {
                 RoundButton(
                     title: "Se connecter",
                     onPressed: () async {
-                      Tuple2<bool, String> result = await checkLoginAndPassword(
-                          controllerTextEmail.text,
-                          controllerTextPassword.text);
+                      Tuple2<bool, String> result =
+                          await util.checkLoginAndPassword(
+                              controllerTextEmail.text,
+                              controllerTextPassword.text);
 
                       if (result.item1 == true) {
-                        Tuple2 infoUser = await getUserInfo(result.item2);
+                        Tuple2 infoUser = await util.getUserInfo(result.item2);
 
                         if (infoUser.item1 == false) {
                           //print("Erreur - Impossible de récupéré les données de l'utilisateur");
                           _printMsgError(
                               "Impossible de récupéré les données de l'utilisateur - {$infoUser.item2}");
                         } else {
-                          fillUser(context, infoUser.item2, result.item2);
-
+                          util.fillUser(context, infoUser.item2, result.item2);
                           Navigator.push(
                               context,
                               MaterialPageRoute(

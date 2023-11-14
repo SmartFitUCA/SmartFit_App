@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
 import 'package:smartfit_app_mobile/Modele/manager_file.dart';
+import 'package:smartfit_app_mobile/Modele/user.dart';
 import 'package:smartfit_app_mobile/View/login/signup_view.dart';
 import 'package:tuple/tuple.dart';
 
@@ -191,6 +193,8 @@ class _TestPage extends State<TestPage> {
 
   @override
   Widget build(BuildContext context) {
+    User w = context.watch<User>();
+
     return Scaffold(
       body: Column(
         children: [
@@ -230,7 +234,10 @@ class _TestPage extends State<TestPage> {
               onPressed: getOneFile, child: const Text("Get One File")),
           ElevatedButton(
               onPressed: getInfoUser, child: const Text("Get info User")),
-          Text(platforme)
+          Text(platforme),
+          Text(w.email),
+          Text(context.watch<User>().username),
+          Text(Provider.of<User>(context).username)
         ],
       ),
     );

@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smartfit_app_mobile/Modele/utile/login_user.dart';
-import 'package:smartfit_app_mobile/View/main_tab/main_tab_view.dart';
+import 'package:smartfit_app_mobile/Modele/utile/signup_user.dart';
+import 'package:smartfit_app_mobile/View/login/login_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/round_text_field.dart';
 import 'package:tuple/tuple.dart';
 
-class MobileLoginView extends StatefulWidget {
-  const MobileLoginView({super.key});
+class WebSignUpView extends StatefulWidget {
+  const WebSignUpView({super.key});
 
   @override
-  State<MobileLoginView> createState() => _MobileLoginView();
+  State<WebSignUpView> createState() => _WebSignUpView();
 }
 
-class _MobileLoginView extends State<MobileLoginView> {
-  final Login util = Login();
+class _WebSignUpView extends State<WebSignUpView> {
+  final SignUp util = SignUp();
 
   bool _obscureText = true;
-  bool _errorLogin = false;
+  bool _errorCreateUser = false;
+  bool _isCheck = false;
   String _msgError = "";
 
   final controllerTextEmail = TextEditingController();
+  final controllerUsername = TextEditingController();
   final controllerTextPassword = TextEditingController();
 
   // Toggles the password show status
@@ -34,7 +36,13 @@ class _MobileLoginView extends State<MobileLoginView> {
   void _printMsgError(String msgError) {
     setState(() {
       _msgError = msgError;
-      _errorLogin = true;
+      _errorCreateUser = true;
+    });
+  }
+
+  void _check() {
+    setState(() {
+      _isCheck = !_isCheck;
     });
   }
 
@@ -45,18 +53,17 @@ class _MobileLoginView extends State<MobileLoginView> {
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Container(
-            height: media.height * 0.9,
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Bienvenue",
+                  "Bienvenue,",
                   style: TextStyle(color: TColor.gray, fontSize: 16),
                 ),
                 Text(
-                  "Se connecter",
+                  "Créer un compte",
                   style: TextStyle(
                       color: TColor.black,
                       fontSize: 20,
@@ -64,6 +71,11 @@ class _MobileLoginView extends State<MobileLoginView> {
                 ),
                 SizedBox(
                   height: media.width * 0.05,
+                ),
+                RoundTextField(
+                  hitText: "Prénom",
+                  icon: "assets/img/user_text.svg",
+                  controller: controllerUsername,
                 ),
                 SizedBox(
                   height: media.width * 0.04,
@@ -78,10 +90,10 @@ class _MobileLoginView extends State<MobileLoginView> {
                   height: media.width * 0.04,
                 ),
                 RoundTextField(
-                  controller: controllerTextPassword,
                   hitText: "Mot de passe",
                   icon: "assets/img/lock.svg",
                   obscureText: _obscureText,
+                  controller: controllerTextPassword,
                   rigtIcon: TextButton(
                       onPressed: _toggle,
                       child: Container(
@@ -96,50 +108,53 @@ class _MobileLoginView extends State<MobileLoginView> {
                           ))),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.,
                   children: [
-                    Text(
-                      "Mot de passe oublié ?",
-                      style: TextStyle(
-                          color: TColor.gray,
-                          fontSize: 15,
-                          decoration: TextDecoration.underline),
+                    IconButton(
+                      onPressed: () {
+                        _check();
+                      },
+                      icon: Icon(
+                        _isCheck
+                            ? Icons.check_box_outlined
+                            : Icons.check_box_outline_blank_outlined,
+                        color: TColor.gray,
+                        size: 20,
+                      ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        "En continuant, vous acceptez notre Politique de\nconfidentialité et nos Conditions d'utilisation.",
+                        style: TextStyle(color: TColor.gray, fontSize: 10),
+                      ),
+                    )
                   ],
                 ),
                 SizedBox(
-                  height: media.width * 0.04,
+                  height: media.width * 0.05,
                 ),
                 Visibility(
-                    visible: _errorLogin,
+                    visible: _errorCreateUser,
                     child: Text("Error - $_msgError",
                         style: TextStyle(color: TColor.red))),
-                const Spacer(),
+                SizedBox(
+                  height: media.width * 0.4,
+                ),
                 RoundButton(
-                    title: "Se connecter",
+                    title: "Créer un compte",
                     onPressed: () async {
-                      Tuple2<bool, String> result =
-                          await util.checkLoginAndPassword(
-                              controllerTextEmail.text,
-                              controllerTextPassword.text);
-
-                      if (result.item1 == true) {
-                        Tuple2 infoUser = await util.getUserInfo(result.item2);
-
-                        if (infoUser.item1 == false) {
-                          //print("Erreur - Impossible de récupéré les données de l'utilisateur");
-                          _printMsgError(
-                              "Impossible de récupéré les données de l'utilisateur - {$infoUser.item2}");
-                        } else {
-                          util.fillUser(context, infoUser.item2, result.item2);
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MainTabView()));
-                        }
+                      Tuple2<bool, String> result = await util.createUser(
+                          controllerTextEmail.text,
+                          controllerUsername.text,
+                          controllerTextPassword.text);
+                      if (result.item1) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginView()));
                       } else {
-                        _printMsgError("Connexion refuser - ${result.item2}");
+                        _printMsgError(result.item2);
                       }
                     }),
                 SizedBox(
@@ -154,7 +169,7 @@ class _MobileLoginView extends State<MobileLoginView> {
                       color: TColor.gray.withOpacity(0.5),
                     )),
                     Text(
-                      "  Or  ",
+                      "  Ou  ",
                       style: TextStyle(color: TColor.black, fontSize: 12),
                     ),
                     Expanded(
@@ -222,20 +237,23 @@ class _MobileLoginView extends State<MobileLoginView> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginView()));
                   },
-                  child: Column(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "Vous n'avez pas toujours pas de compte ?  ",
+                        "Vous avez déjà un compte ? ",
                         style: TextStyle(
                           color: TColor.black,
                           fontSize: 14,
                         ),
                       ),
                       Text(
-                        "Créer un compte",
+                        "Se connecter",
                         style: TextStyle(
                             color: TColor.black,
                             fontSize: 14,

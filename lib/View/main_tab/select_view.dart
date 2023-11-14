@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/view/home/blank_view.dart';
 
 //import '../sleep_tracker/sleep_tracker_view.dart';
-
+/*
 class SelectView extends StatelessWidget {
   const SelectView({super.key});
 
@@ -61,3 +61,4 @@ class SelectView extends StatelessWidget {
     );
   }
 }
+*/
