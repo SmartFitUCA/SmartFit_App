@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
 import 'package:smartfit_app_mobile/View/login/signup_view.dart';
+import 'package:smartfit_app_mobile/View/page_test.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 
 void main() {

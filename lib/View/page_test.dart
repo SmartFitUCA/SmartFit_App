@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
@@ -48,6 +50,22 @@ Future<int> readCounter() async {
   }
 }
 
+String getPlatforme() {
+  if (kIsWeb) {
+    return "Web";
+  }
+  if (Platform.isAndroid) {
+    return "Android";
+  }
+  if (Platform.isWindows) {
+    return "Windows";
+  }
+  if (Platform.isMacOS) {
+    return "MacOS";
+  }
+  return "Null";
+}
+
 // File picker
 
 // ------------------------------------------------- //
@@ -63,6 +81,7 @@ class _TestPage extends State<TestPage> {
   // Lire un fichier avec picker
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
+  String platforme = getPlatforme();
 
   //late File x = File(file.path);
   Future<void> readFile() async {
@@ -213,7 +232,8 @@ class _TestPage extends State<TestPage> {
           ElevatedButton(
               onPressed: getOneFile, child: const Text("Get One File")),
           ElevatedButton(
-              onPressed: getInfoUser, child: const Text("Get info User"))
+              onPressed: getInfoUser, child: const Text("Get info User")),
+          Text(platforme)
         ],
       ),
     );
