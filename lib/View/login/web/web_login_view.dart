@@ -21,9 +21,19 @@ class _WebLoginView extends State<WebLoginView> {
   bool _obscureText = true;
   bool _errorLogin = false;
   String _msgError = "";
+  bool emailValidate = false;
+  bool passwordValidate = false;
 
   final controllerTextEmail = TextEditingController();
   final controllerTextPassword = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Start listening to changes.
+    controllerTextEmail.addListener(checkEmail);
+    controllerTextPassword.addListener(checkPassword);
+  }
 
   // Toggles the password show status
   void _toggle() {
@@ -37,6 +47,27 @@ class _WebLoginView extends State<WebLoginView> {
       _msgError = msgError;
       _errorLogin = true;
     });
+  }
+
+  void checkEmail() {
+    /*
+    if (!controllerTextEmail.text.contains("@") &&
+        !(controllerTextEmail.text.length > 6)) {
+      emailValidate = false;
+      // Faire un affichage
+      return;
+    } // Enlever l'affichage*/
+    emailValidate = true;
+  }
+
+  void checkPassword() {
+    /*
+    if (!(controllerTextEmail.text.length >= 4)) {
+      passwordValidate = false;
+      //Faire un affichage
+      return;
+    } // Enlever l'affichage*/
+    passwordValidate = true;
   }
 
   @override
@@ -119,6 +150,11 @@ class _WebLoginView extends State<WebLoginView> {
                 RoundButton(
                     title: "Se connecter",
                     onPressed: () async {
+                      if (!emailValidate || !passwordValidate) {
+                        _printMsgError(
+                            "Les champs renseigné ne sont pas valide");
+                        return;
+                      }
                       Tuple2<bool, String> result =
                           await util.checkLoginAndPassword(
                               controllerTextEmail.text,

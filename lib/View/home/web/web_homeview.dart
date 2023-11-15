@@ -100,7 +100,7 @@ class _WebHomeView extends State<WebHomeView> {
                           style: TextStyle(color: TColor.gray, fontSize: 12),
                         ),
                         Text(
-                          user.email,
+                          user.username,
                           style: TextStyle(
                               color: TColor.black,
                               fontSize: 20,

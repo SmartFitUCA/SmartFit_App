@@ -101,12 +101,22 @@ class RequestApi extends IDataStrategy {
   @override
   Future<Tuple2<bool, String>> postUser(
       String email, String hash, String username) async {
-    final response = await http.post(Uri.parse('$urlApi/user'),
-        body: <String, String>{
-          "email": email,
-          "hash": hash,
-          "username": username
-        });
+    print(email);
+    print(hash);
+    print(username);
+
+    print(<String, String>{
+      "\"email\"": "\"$email\"",
+      "\"hash\"": "\"$hash\"",
+      "\"username\"": "\"$username\""
+    });
+
+    final response =
+        await http.post(Uri.parse('$urlApi/user'), body: <String, String>{
+      "\"email\"": "\"$email\"",
+      "\"hash\"": "\"$hash\"",
+      "\"username\"": "\"$username\""
+    });
 
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(response.body);

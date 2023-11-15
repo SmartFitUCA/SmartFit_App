@@ -22,9 +22,22 @@ class _MobileSignUpView extends State<MobileSignUpView> {
   bool _isCheck = false;
   String _msgError = "";
 
+  bool emailValidate = false;
+  bool passwordValidate = false;
+  bool usernameValidate = false;
+
   final controllerTextEmail = TextEditingController();
   final controllerUsername = TextEditingController();
   final controllerTextPassword = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Start listening to changes.
+    controllerTextEmail.addListener(checkEmail);
+    controllerTextPassword.addListener(checkPassword);
+    controllerUsername.addListener(checkUsername);
+  }
 
   // Toggles the password show status
   void _toggle() {
@@ -44,6 +57,33 @@ class _MobileSignUpView extends State<MobileSignUpView> {
     setState(() {
       _isCheck = !_isCheck;
     });
+  }
+
+  void checkEmail() {
+    if (!controllerTextEmail.text.contains("@") &&
+        !(controllerTextEmail.text.length > 6)) {
+      emailValidate = false;
+      // Faire un affichage
+      return;
+    } // Enlever l'affichage
+    emailValidate = true;
+  }
+
+  void checkPassword() {
+    if (!(controllerTextEmail.text.length >= 4)) {
+      passwordValidate = false;
+      //Faire un affichage
+      return;
+    } // Enlever l'affichage
+    passwordValidate = true;
+  }
+
+  void checkUsername() {
+    if (controllerUsername.text.isEmpty) {
+      usernameValidate = false;
+      return;
+    }
+    usernameValidate = true;
   }
 
   @override
@@ -144,6 +184,14 @@ class _MobileSignUpView extends State<MobileSignUpView> {
                 RoundButton(
                     title: "Créer un compte",
                     onPressed: () async {
+                      if (!emailValidate ||
+                          !passwordValidate ||
+                          !usernameValidate) {
+                        _printMsgError(
+                            "Les champs renseigné ne sont pas valide");
+                        return;
+                      }
+
                       Tuple2<bool, String> result = await util.createUser(
                           controllerTextEmail.text,
                           controllerUsername.text,

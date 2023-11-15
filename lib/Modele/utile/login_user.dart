@@ -27,6 +27,8 @@ class Login {
   }
 
   void fillUser(BuildContext context, Map<String, dynamic> map, String token) {
+    print(map);
+
     context.read<User>().email = map["email"];
     context.read<User>().username = map["username"];
     context.read<User>().token = token;
