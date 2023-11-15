@@ -7,9 +7,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
-import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/Modele/manager_file.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/modele/manager_file.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:tuple/tuple.dart';
 

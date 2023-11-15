@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
+import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:tuple/tuple.dart';
 

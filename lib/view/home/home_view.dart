@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:smartfit_app_mobile/View/home/mobile/mobile_homeview.dart';
-import 'package:smartfit_app_mobile/View/home/web/web_homeview.dart';
+import 'package:smartfit_app_mobile/view/home/mobile/mobile_homeview.dart';
+import 'package:smartfit_app_mobile/view/home/web/web_homeview.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

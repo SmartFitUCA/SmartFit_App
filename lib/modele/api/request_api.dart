@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:http/http.dart' as http;
 import 'package:tuple/tuple.dart';
 
