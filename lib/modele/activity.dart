@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:smartfit_app_mobile/common_widget/graph.dart';
 
 class ActivityOfUser {
   late String _nomActivite;
@@ -55,25 +56,108 @@ class ActivityOfUser {
     }
     return result;
   }
+
   List<FlSpot> getCalories() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
-    print("enzo");
-    print(_contentActivity.length);
     for (List<dynamic> ligne in _contentActivity) {
-      
-      if (ligne.length >= 39 && ligne[0] == "Data" && ligne[39] == "total_calories") {
-        print("enzo");
+      if (ligne.length >= 39 &&
+          ligne[0] == "Data" &&
+          ligne[39] == "total_calories") {
         print(ligne[39]);
         if (firtTimeStamp == 0) {
           firtTimeStamp = ligne[4];
         }
         //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[7].toInt()]);
-        result
-            .add(FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[40].toDouble()));
+        result.add(
+            FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[40].toDouble()));
       }
     }
     return result;
+  }
+
+  String getTotalSteps() {
+    List<FlSpot> result = List.empty(growable: true);
+
+    print(_contentActivity.length);
+    for (int i = 0;
+        i < _contentActivity[_contentActivity.length - 3].length;
+        i++) {
+      print(_contentActivity[_contentActivity.length - 3][i]);
+
+      if (_contentActivity[_contentActivity.length - 3][i] == "total_strides") {
+        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
+      }
+    }
+    return "NAN";
+  }
+
+  String getTotalCalorie() {
+    List<FlSpot> result = List.empty(growable: true);
+
+    print(_contentActivity.length);
+    for (int i = 0;
+        i < _contentActivity[_contentActivity.length - 3].length;
+        i++) {
+      print(_contentActivity[_contentActivity.length - 3][i]);
+
+      if (_contentActivity[_contentActivity.length - 3][i] ==
+          "total_calories") {
+        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
+      }
+    }
+    return "NAN";
+  }
+
+  String getTotalAvgHeartRate() {
+    List<FlSpot> result = List.empty(growable: true);
+
+    print(_contentActivity.length);
+    for (int i = 0;
+        i < _contentActivity[_contentActivity.length - 3].length;
+        i++) {
+      print(_contentActivity[_contentActivity.length - 3][i]);
+
+      if (_contentActivity[_contentActivity.length - 3][i] ==
+          "total_calories") {
+        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
+      }
+    }
+    return "NAN";
+  }
+
+  String getTotalTime() {
+    List<FlSpot> result = List.empty(growable: true);
+
+    print(_contentActivity.length);
+    for (int i = 0;
+        i < _contentActivity[_contentActivity.length - 3].length;
+        i++) {
+      print(_contentActivity[_contentActivity.length - 3][i]);
+
+      if (_contentActivity[_contentActivity.length - 3][i] ==
+          "total_elapsed_time") {
+        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
+      }
+    }
+    return "NAN";
+  }
+
+  String getTotalDistance() {
+    List<FlSpot> result = List.empty(growable: true);
+
+    print(_contentActivity.length);
+    for (int i = 0;
+        i < _contentActivity[_contentActivity.length - 3].length;
+        i++) {
+      print(_contentActivity[_contentActivity.length - 3][i]);
+
+      if (_contentActivity[_contentActivity.length - 3][i] ==
+          "total_distance") {
+        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
+      }
+    }
+    return "NAN";
   }
 
   List<FlSpot> getAltitudeWithTime() {
@@ -125,6 +209,31 @@ class ActivityOfUser {
         }
         result.add(
             FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[25].toDouble()));
+      }
+    }
+    return result;
+  }
+
+  List<DataPoint> getSpeedWithTimeActivity() {
+    List<DataPoint> result = List.empty(growable: true);
+    int firtTimeStamp = 0;
+
+    for (List<dynamic> ligne in _contentActivity) {
+      if (ligne[0] == "Data" && ligne[1] == 1) {
+        if (firtTimeStamp == 0) {
+          firtTimeStamp = ligne[4];
+        }
+        result.add(DataPoint(
+          ((ligne[4] - firtTimeStamp) / 100),
+          ligne[19].toDouble(),
+        ));
+      }
+      if (ligne[0] == "Data" && ligne[1] == 2) {
+        if (firtTimeStamp == 0) {
+          firtTimeStamp = ligne[4];
+        }
+        result.add(DataPoint(
+            ((ligne[4] - firtTimeStamp) / 100), ligne[25].toDouble()));
       }
     }
     return result;

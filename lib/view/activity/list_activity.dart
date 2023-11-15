@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
-import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
@@ -10,14 +9,8 @@ import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
-import 'package:smartfit_app_mobile/view/home/home_view.dart';
-import 'package:smartfit_app_mobile/view/main_tab/main_tab_view.dart';
-import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/workout_row.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
-import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:tuple/tuple.dart';
 import '../../common/colo_extension.dart';
 
@@ -195,7 +188,7 @@ class _ListActivityState extends State<ListActivity> {
                     )
                   ],
                 ),
-                Provider.of<User>(context, listen: true).listActivity!.isEmpty
+                Provider.of<User>(context, listen: true).listActivity.isEmpty
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -215,12 +208,12 @@ class _ListActivityState extends State<ListActivity> {
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: Provider.of<User>(context, listen: true)
-                            .listActivity!
+                            .listActivity
                             .length,
                         itemBuilder: (context, index) {
                           var activityObj =
                               Provider.of<User>(context, listen: true)
-                                  .listActivity![index] as ActivityOfUser;
+                                  .listActivity[index] as ActivityOfUser;
                           var activityMap = activityObj.toMap();
                           return InkWell(
                               onTap: () {

@@ -1,11 +1,6 @@
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/modele/activity.dart';
-import 'package:smartfit_app_mobile/modele/user.dart';
-import 'package:smartfit_app_mobile/view/activity/activity.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
 class WorkoutRow extends StatelessWidget {
   final Map wObj;

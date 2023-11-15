@@ -1,16 +1,15 @@
-/*import 'dart:convert';
-
+/*
+import 'dart:convert';
 import 'package:crypto/crypto.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:provider/provider.dart';
 import 'dart:io';
+
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/modele/manager_file.dart';
-import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
+import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:tuple/tuple.dart';
 
 // ----------- File --------------- //
@@ -89,16 +88,15 @@ class _TestPage extends State<TestPage> {
       print("t");
     } else {
       List<dynamic> result = await x.readFitFile(y!);
-      print("test11");
-      print(result);
-      print("test22");
-      print(ActivityOfUser(result).getHeartRateWithTime());
-      print("test33");
-      Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(result));
+
       //print(x.getDistanceWithTime(ActivityOfUser(result)));
       //print(x.getDistance(ActivityOfUser(result)));
       //print(x.getAltitudeWithTime(ActivityOfUser(result)));
       //print(x.getSpeedWithTime(ActivityOfUser(result)));
+      final csv = const ListToCsvConverter().convert(result.cast<List?>());
+      File f = File(await x.localPath + "/fit2.csv");
+      f.createSync();
+      await f.writeAsString(csv);
     }
   }
 
@@ -228,8 +226,7 @@ class _TestPage extends State<TestPage> {
               onPressed: createUser, child: const Text("Create User")),
           ElevatedButton(
               onPressed: deleteUser, child: const Text("Delete User")),
-          ElevatedButton(
-              onPressed: readFile, child: const Text("ReadFile")),
+          ElevatedButton(onPressed: readFile, child: const Text("ReadFile")),
           ElevatedButton(onPressed: getFiles, child: const Text("getFiles")),
           ElevatedButton(
               onPressed: modifAttribut, child: const Text("modif attribut")),
@@ -405,4 +402,5 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}*/
+}
+*/
