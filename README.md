@@ -1,4 +1,4 @@
-# smartfit_app_mobile !
+# SmartFit Web and Mobile!
 
 A new Flutter project.
 
