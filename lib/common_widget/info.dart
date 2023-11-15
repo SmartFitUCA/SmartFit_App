@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 
 class Info extends StatelessWidget {
   Info({Key? key}) : super(key: key);
