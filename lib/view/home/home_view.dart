@@ -1,4 +1,7 @@
-import 'package:dotted_dashed_line/dotted_dashed_line.dart';
+ import 'package:dotted_dashed_line/dotted_dashed_line.dart';
+import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/Modele/manager_file.dart';
+import 'package:smartfit_app_mobile/Modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +21,34 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
+
+
 class _HomeViewState extends State<HomeView> {
+  List<FlSpot> bpmSecondes =  [FlSpot(0, 30)];
+  List<FlSpot> bpmSecondes2 =  [];
+  double calories = 0.0;
+  List<FlSpot> vitesseSecondes =  [FlSpot(0, 30)];
+  List<FlSpot> altitudeSecondes =  [FlSpot(0, 30)];
+
+  TextEditingController bpmController = TextEditingController();
+  
+  void normaliserDeuxiemeElement(List<FlSpot> liste) {
+    // Trouver le plus grand élément dans la liste
+    double maxElement = 0.0;
+    for (var spot in liste) {
+      if (spot.y > maxElement) {
+        maxElement = spot.y;
+      }
+    }
+
+    // Calculer le facteur de normalisation
+    double normalisationFactor = maxElement != 0.0 ? 100 / maxElement : 1.0;
+
+    // Mettre à jour tous les éléments de la liste
+    for (int i = 0; i < liste.length; i++) {
+      liste[i] = FlSpot(liste[i].x, liste[i].y * normalisationFactor);
+    }
+  }
   List lastWorkoutArr = [
     {
       "name": "Full Body Workout",
@@ -44,8 +74,6 @@ class _HomeViewState extends State<HomeView> {
   ];
   List<int> showingTooltipOnSpots = [0];
 
-  List<FlSpot> allSpots = [FlSpot(0, 20)];
-
   List waterArr = [
     {"title": "6am - 8am", "subtitle": "600ml"},
     {"title": "9am - 11am", "subtitle": "500ml"},
@@ -56,12 +84,36 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    print("test1");
+
+    print("test2");
+
     var media = MediaQuery.of(context).size;
+    print("test3");
+
+
+
+    if (Provider.of<User>(context, listen: true).listActivity.isNotEmpty) {
+      print("rempli");
+      bpmSecondes = Provider.of<User>(context).listActivity[0].getHeartRateWithTime();
+      vitesseSecondes = Provider.of<User>(context).listActivity[0].getSpeedWithTime();
+      altitudeSecondes = Provider.of<User>(context).listActivity[0].getAltitudeWithTime();
+      calories = Provider.of<User>(context).listActivity[0].getCalories()[0].y;
+
+      normaliserDeuxiemeElement(vitesseSecondes);
+      normaliserDeuxiemeElement(altitudeSecondes);
+      bpmSecondes2 = List.from(bpmSecondes) ;
+      normaliserDeuxiemeElement(bpmSecondes2);
+
+    } else {
+      print("vide");
+    }
+    print("test4");
+
 
     final lineBarsData = [
       LineChartBarData(
-        showingIndicators: showingTooltipOnSpots,
-        spots: allSpots,
+        spots: bpmSecondes,
         isCurved: false,
         barWidth: 2,
         belowBarData: BarAreaData(
@@ -77,6 +129,7 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
     ];
+    print("test5");
 
     final tooltipsOnBar = lineBarsData[0];
 
@@ -276,31 +329,25 @@ class _HomeViewState extends State<HomeView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Graph 2 ( rhythme cardiaque )",
+                                "Rythme cardiaque",
                                 style: TextStyle(
                                     color: TColor.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700),
                               ),
-                              ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (bounds) {
-                                  return LinearGradient(
-                                          colors: TColor.primaryG,
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight)
-                                      .createShader(Rect.fromLTRB(
-                                          0, 0, bounds.width, bounds.height));
-                                },
-                                child: Text(
-                                  "78 BPM",
-                                  style: TextStyle(
+                              TextField(
+                                  controller: bpmController,
+                                  readOnly: true,
+                                    style: TextStyle(
                                       color:
-                                          TColor.primaryColor1.withOpacity(0.7),
+                                          TColor.primaryColor1.withOpacity(0.8),
                                       fontWeight: FontWeight.w700,
                                       fontSize: 18),
+                                    decoration: InputDecoration(
+                                    border: InputBorder.none,  // Ajoutez cette ligne pour supprimer la bordure
+                                    ),
                                 ),
-                              ),
+                             
                             ],
                           ),
                         ),
@@ -367,12 +414,12 @@ class _HomeViewState extends State<HomeView> {
                               touchTooltipData: LineTouchTooltipData(
                                 tooltipBgColor: TColor.secondaryColor1,
                                 tooltipRoundedRadius: 20,
-                                getTooltipItems:
-                                    (List<LineBarSpot> lineBarsSpot) {
+                                getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                                   return lineBarsSpot.map((lineBarSpot) {
+                                    bpmController.text = "${lineBarSpot.y} BPM";
                                     return LineTooltipItem(
-                                      "il y a ${lineBarSpot.x.toInt()} minutes",
-                                      const TextStyle(
+                                      "Seconde ${lineBarSpot.x.toInt() / 10}",
+                                      TextStyle(
                                         color: Colors.white,
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
@@ -383,8 +430,8 @@ class _HomeViewState extends State<HomeView> {
                               ),
                             ),
                             lineBarsData: lineBarsData,
-                            minY: 0,
-                            maxY: 130,
+                            minY: 50,
+                            maxY: 250,
                             titlesData: FlTitlesData(
                               show: false,
                             ),
@@ -654,7 +701,7 @@ class _HomeViewState extends State<HomeView> {
                                             0, 0, bounds.width, bounds.height));
                                   },
                                   child: Text(
-                                    "760 kCal",
+                                    '${calories.toString()} kCal',
                                     style: TextStyle(
                                         color: TColor.white.withOpacity(0.7),
                                         fontWeight: FontWeight.w700,
@@ -682,7 +729,7 @@ class _HomeViewState extends State<HomeView> {
                                           ),
                                           child: FittedBox(
                                             child: Text(
-                                              "230kCal\nrestantes",
+                                              '${200-calories.toInt()} kCal\n restantes',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: TColor.white,
@@ -695,7 +742,7 @@ class _HomeViewState extends State<HomeView> {
                                           backStrokeWidth: 10,
                                           progressColors: TColor.primaryG,
                                           backColor: Colors.grey.shade100,
-                                          valueNotifier: ValueNotifier(50),
+                                          valueNotifier: ValueNotifier(calories/200*100),
                                           startAngle: -180,
                                         ),
                                       ],
@@ -715,41 +762,12 @@ class _HomeViewState extends State<HomeView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "graph 5",
+                      "Rythme cardique et vitesse",
                       style: TextStyle(
                           color: TColor.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w700),
                     ),
-                    Container(
-                        height: 30,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: TColor.primaryG),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            items: ["Semaine", "Mois"]
-                                .map((name) => DropdownMenuItem(
-                                      value: name,
-                                      child: Text(
-                                        name,
-                                        style: TextStyle(
-                                            color: TColor.gray, fontSize: 14),
-                                      ),
-                                    ))
-                                .toList(),
-                            onChanged: (value) {},
-                            icon: Icon(Icons.expand_more, color: TColor.white),
-                            hint: Text(
-                              "Semaine",
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: TColor.white, fontSize: 12),
-                            ),
-                          ),
-                        )),
                   ],
                 ),
                 SizedBox(
@@ -824,7 +842,7 @@ class _HomeViewState extends State<HomeView> {
                             getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                               return lineBarsSpot.map((lineBarSpot) {
                                 return LineTooltipItem(
-                                  "il y a ${lineBarSpot.x.toInt()} minutes",
+                                  "Seconde ${lineBarSpot.x.toInt()/10} ",
                                   const TextStyle(
                                     color: Colors.white,
                                     fontSize: 10,
@@ -836,15 +854,13 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
                         lineBarsData: lineBarsData1,
-                        minY: -0.5,
+                        minY: 0,
                         maxY: 110,
                         titlesData: FlTitlesData(
                             show: true,
                             leftTitles: AxisTitles(),
                             topTitles: AxisTitles(),
-                            bottomTitles: AxisTitles(
-                              sideTitles: bottomTitles,
-                            ),
+                            bottomTitles: AxisTitles(),
                             rightTitles: AxisTitles(
                               sideTitles: rightTitles,
                             )),
@@ -882,11 +898,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  void updateChartData(List<FlSpot> newData) {
-    setState(() {
-      allSpots = newData;
-    });
-  }
+  
 
   List<PieChartSectionData> showingSections() {
     return List.generate(
@@ -947,15 +959,7 @@ class _HomeViewState extends State<HomeView> {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 35),
-          FlSpot(2, 70),
-          FlSpot(3, 40),
-          FlSpot(4, 80),
-          FlSpot(5, 25),
-          FlSpot(6, 70),
-          FlSpot(7, 35),
-        ],
+        spots: vitesseSecondes,
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
@@ -970,15 +974,8 @@ class _HomeViewState extends State<HomeView> {
         belowBarData: BarAreaData(
           show: false,
         ),
-        spots: const [
-          FlSpot(1, 80),
-          FlSpot(2, 50),
-          FlSpot(3, 90),
-          FlSpot(4, 40),
-          FlSpot(5, 80),
-          FlSpot(6, 35),
-          FlSpot(7, 60),
-        ],
+        spots: bpmSecondes2
+        ,
       );
 
   SideTitles get rightTitles => SideTitles(
@@ -1023,8 +1020,8 @@ class _HomeViewState extends State<HomeView> {
 
   SideTitles get bottomTitles => SideTitles(
         showTitles: true,
-        reservedSize: 32,
-        interval: 1,
+        reservedSize: 50,
+        interval:1,
         getTitlesWidget: bottomTitleWidgets,
       );
 
