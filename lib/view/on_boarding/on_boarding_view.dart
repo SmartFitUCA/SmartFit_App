@@ -16,15 +16,12 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
   @override
   void initState() {
-
     super.initState();
 
     controller.addListener(() {
-        selectPage = controller.page?.round() ?? 0;
+      selectPage = controller.page?.round() ?? 0;
 
-      setState(() {
-        
-      });
+      setState(() {});
     });
   }
 
@@ -39,7 +36,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       "title": "Persévérez",
       "subtitle":
           "Continuez à persévérer pour atteindre vos objectifs. La douleur n'est que temporaire. Si vous abandonnez maintenant, vous souffrirez éternellement.",
-      "image": "assets/img/on_2.svg" 
+      "image": "assets/img/on_2.svg"
     },
     {
       "title": "Laissez-nous piloter, mettez simplement votre Suunto",
@@ -51,7 +48,6 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: TColor.white,
       body: Stack(
@@ -62,52 +58,52 @@ class _OnBoardingViewState extends State<OnBoardingView> {
               itemCount: pageArr.length,
               itemBuilder: (context, index) {
                 var pObj = pageArr[index] as Map? ?? {};
-                return OnBoardingPage(pObj: pObj) ;
+                return OnBoardingPage(pObj: pObj);
               }),
-
           SizedBox(
             width: 120,
             height: 120,
             child: Stack(
               alignment: Alignment.center,
               children: [
-
                 SizedBox(
                   width: 70,
                   height: 70,
                   child: CircularProgressIndicator(
                     color: TColor.primaryColor1,
-                    value: (selectPage + 1) / 3 ,
+                    value: (selectPage + 1) / 3,
                     strokeWidth: 2,
                   ),
                 ),
-
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
                   width: 60,
                   height: 60,
-                  decoration: BoxDecoration(color: TColor.primaryColor1, borderRadius: BorderRadius.circular(35)),
-                  child: IconButton(icon: Icon( Icons.navigate_next, color: TColor.white, ), onPressed: (){
-          
-                      if(selectPage < 2) {
-                         selectPage = selectPage + 1;
-                         controller.animateToPage(selectPage, duration: const Duration(milliseconds: 200), curve: Curves.bounceInOut);
-                          setState(() {
-                            
-                          });
-          
-                      }else{
-                        Navigator.push(context,
+                  decoration: BoxDecoration(
+                      color: TColor.primaryColor1,
+                      borderRadius: BorderRadius.circular(35)),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.navigate_next,
+                      color: TColor.white,
+                    ),
+                    onPressed: () {
+                      if (selectPage < 2) {
+                        selectPage = selectPage + 1;
+                        controller.animateToPage(selectPage,
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.bounceInOut);
+                        setState(() {});
+                      } else {
+                        Navigator.push(
+                            context,
                             MaterialPageRoute(
-                                builder: (context) => const SignUpView()
-                            )
-                        );
+                                builder: (context) => const SignUpView()));
                       }
-                      
-                  },),
+                    },
+                  ),
                 ),
-
-                
               ],
             ),
           )

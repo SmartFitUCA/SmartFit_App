@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:http/http.dart' as http;
 import 'package:tuple/tuple.dart';
 
@@ -101,12 +101,10 @@ class RequestApi extends IDataStrategy {
   @override
   Future<Tuple2<bool, String>> postUser(
       String email, String hash, String username) async {
+    var body = {"email": email, "hash": hash, "username": username};
+    var header = {"Content-Type": "application/json"};
     final response = await http.post(Uri.parse('$urlApi/user'),
-        body: <String, String>{
-          "email": email,
-          "hash": hash,
-          "username": username
-        });
+        headers: header, body: jsonEncode(body));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(response.body);
@@ -157,7 +155,10 @@ class RequestApi extends IDataStrategy {
   Future<Tuple2> modifAttribut(
       String token, String nameAttribut, String newValue) async {
     final response = await http.put(Uri.parse('$urlApi/user/$nameAttribut'),
-        headers: <String, String>{'Authorization': token},
+        headers: <String, String>{
+          'Authorization': token,
+          "Content-Type": "application/json"
+        },
         body: jsonEncode(<String, String>{nameAttribut: newValue}));
 
     if (response.statusCode == 200) {
@@ -176,15 +177,23 @@ class RequestApi extends IDataStrategy {
 
   @override
   Future<Tuple2<bool, String>> uploadFile(String token, File file) async {
+    String filename = file.path.split('/').last;
+    String categoryActivity = filename.split("_").first.toLowerCase();
+    String dateActivity = filename.split("_")[1].split("T").first;
+
     final uri = Uri.parse('$urlApi/user/files');
     Map<String, String> headers = {'Authorization': token};
 
     var request = http.MultipartRequest('POST', uri);
     final httpImage = http.MultipartFile.fromBytes(
-        'file', await file.readAsBytes(),
-        filename: file.path.split('/').last);
+      'file',
+      await file.readAsBytes(),
+      filename: filename,
+    );
     request.files.add(httpImage);
     request.headers.addAll(headers);
+    request.fields["SmartFit_Category"] = categoryActivity;
+    request.fields["SmartFit_Date"] = dateActivity;
 
     final response = await request.send();
 

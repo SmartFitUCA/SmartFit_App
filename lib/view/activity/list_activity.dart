@@ -195,7 +195,7 @@ class _ListActivityState extends State<ListActivity> {
                     )
                   ],
                 ),
-                Provider.of<User>(context, listen: true).listActivity.isEmpty
+                Provider.of<User>(context, listen: true).listActivity!.isEmpty
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -215,12 +215,12 @@ class _ListActivityState extends State<ListActivity> {
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: Provider.of<User>(context, listen: true)
-                            .listActivity
+                            .listActivity!
                             .length,
                         itemBuilder: (context, index) {
                           var activityObj =
                               Provider.of<User>(context, listen: true)
-                                  .listActivity[index] as ActivityOfUser;
+                                  .listActivity![index] as ActivityOfUser;
                           var activityMap = activityObj.toMap();
                           return InkWell(
                               onTap: () {

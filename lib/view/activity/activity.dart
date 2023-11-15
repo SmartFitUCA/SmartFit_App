@@ -1,7 +1,6 @@
-import 'package:smartfit_app_mobile/common_widget/steps.dart';
-import 'package:smartfit_app_mobile/common_widget/graph.dart';
-import 'package:smartfit_app_mobile/common_widget/info.dart' hide Stats;
-import 'package:smartfit_app_mobile/common_widget/stats.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:smartfit_app_mobile/view/home/mobile/mobile_Activity_view.dart';
+import 'package:smartfit_app_mobile/view/home/web/web_Activity_view.dart';
 import 'package:flutter/material.dart';
 
 class Activity extends StatelessWidget {
@@ -9,19 +8,9 @@ class Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: const [
-          Divider(height: 80),
-          Steps(),
-          Graph(),
-          Info(),
-          Divider(height: 30),
-          Stats(),
-          SizedBox(height: 30),
-        ],
-      ),
+    return ScreenTypeLayout.builder(
+      mobile: (_) => const MobileActivity(),
+      desktop: (_) => const WebActivity(),
     );
   }
 }

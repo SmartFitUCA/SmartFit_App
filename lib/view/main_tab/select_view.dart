@@ -1,11 +1,7 @@
-import 'package:smartfit_app_mobile/common_widget/round_button.dart';
-//import 'package:smartfit_app_mobile/view/meal_planner/meal_planner_view.dart';
-//import 'package:smartfit_app_mobile/view/workout_tracker/workout_tracker_view.dart';
-import 'package:flutter/material.dart';
-import 'package:smartfit_app_mobile/view/home/blank_view.dart';
+
 
 //import '../sleep_tracker/sleep_tracker_view.dart';
-
+/*
 class SelectView extends StatelessWidget {
   const SelectView({super.key});
 
@@ -29,10 +25,10 @@ class SelectView extends StatelessWidget {
                     ),
                   );
                 }),
-
-                const SizedBox(height: 15,),
-
-                  RoundButton(
+            const SizedBox(
+              height: 15,
+            ),
+            RoundButton(
                 title: "Meal Planner",
                 onPressed: () {
                   Navigator.push(
@@ -42,10 +38,10 @@ class SelectView extends StatelessWidget {
                     ),
                   );
                 }),
-
-                const SizedBox(height: 15,),
-
-                  RoundButton(
+            const SizedBox(
+              height: 15,
+            ),
+            RoundButton(
                 title: "Sleep Tracker",
                 onPressed: () {
                   Navigator.push(
@@ -61,3 +57,4 @@ class SelectView extends StatelessWidget {
     );
   }
 }
+*/
