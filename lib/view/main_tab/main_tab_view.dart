@@ -1,9 +1,9 @@
-import 'package:smartfit_app_mobile/view/test/page_test.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/tab_button.dart';
 import 'package:smartfit_app_mobile/view/activity/activity.dart';
 import 'package:smartfit_app_mobile/view/home/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:smartfit_app_mobile/view/activity/list_activity.dart';
 import 'package:smartfit_app_mobile/view/map/my_map.dart';
 import 'package:smartfit_app_mobile/view/profile/profile_view.dart';
 
@@ -29,8 +29,8 @@ class _MainTabViewState extends State<MainTabView> {
         height: 70,
         child: InkWell(
           onTap: () {
-            selectTab = 0;
-            currentTab = const TestPage();
+            selectTab = 4;
+            currentTab = const ListActivity();
             if (mounted) {
               setState(() {});
             }
