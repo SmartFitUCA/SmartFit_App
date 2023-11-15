@@ -1,7 +1,6 @@
- import 'package:dotted_dashed_line/dotted_dashed_line.dart';
+import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/Modele/manager_file.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -21,17 +20,15 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-
-
 class _HomeViewState extends State<HomeView> {
-  List<FlSpot> bpmSecondes =  [FlSpot(0, 30)];
-  List<FlSpot> bpmSecondes2 =  [];
+  List<FlSpot> bpmSecondes = [FlSpot(0, 30)];
+  List<FlSpot> bpmSecondes2 = [];
   double calories = 0.0;
-  List<FlSpot> vitesseSecondes =  [FlSpot(0, 30)];
-  List<FlSpot> altitudeSecondes =  [FlSpot(0, 30)];
+  List<FlSpot> vitesseSecondes = [FlSpot(0, 30)];
+  List<FlSpot> altitudeSecondes = [FlSpot(0, 30)];
 
   TextEditingController bpmController = TextEditingController();
-  
+
   void normaliserDeuxiemeElement(List<FlSpot> liste) {
     // Trouver le plus grand élément dans la liste
     double maxElement = 0.0;
@@ -49,6 +46,7 @@ class _HomeViewState extends State<HomeView> {
       liste[i] = FlSpot(liste[i].x, liste[i].y * normalisationFactor);
     }
   }
+
   List lastWorkoutArr = [
     {
       "name": "Full Body Workout",
@@ -91,25 +89,24 @@ class _HomeViewState extends State<HomeView> {
     var media = MediaQuery.of(context).size;
     print("test3");
 
-
-
     if (Provider.of<User>(context, listen: true).listActivity.isNotEmpty) {
       print("rempli");
-      bpmSecondes = Provider.of<User>(context).listActivity[0].getHeartRateWithTime();
-      vitesseSecondes = Provider.of<User>(context).listActivity[0].getSpeedWithTime();
-      altitudeSecondes = Provider.of<User>(context).listActivity[0].getAltitudeWithTime();
+      bpmSecondes =
+          Provider.of<User>(context).listActivity[0].getHeartRateWithTime();
+      vitesseSecondes =
+          Provider.of<User>(context).listActivity[0].getSpeedWithTime();
+      altitudeSecondes =
+          Provider.of<User>(context).listActivity[0].getAltitudeWithTime();
       calories = Provider.of<User>(context).listActivity[0].getCalories()[0].y;
 
       normaliserDeuxiemeElement(vitesseSecondes);
       normaliserDeuxiemeElement(altitudeSecondes);
-      bpmSecondes2 = List.from(bpmSecondes) ;
+      bpmSecondes2 = List.from(bpmSecondes);
       normaliserDeuxiemeElement(bpmSecondes2);
-
     } else {
       print("vide");
     }
     print("test4");
-
 
     final lineBarsData = [
       LineChartBarData(
@@ -336,18 +333,18 @@ class _HomeViewState extends State<HomeView> {
                                     fontWeight: FontWeight.w700),
                               ),
                               TextField(
-                                  controller: bpmController,
-                                  readOnly: true,
-                                    style: TextStyle(
-                                      color:
-                                          TColor.primaryColor1.withOpacity(0.8),
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 18),
-                                    decoration: InputDecoration(
-                                    border: InputBorder.none,  // Ajoutez cette ligne pour supprimer la bordure
-                                    ),
+                                controller: bpmController,
+                                readOnly: true,
+                                style: TextStyle(
+                                    color:
+                                        TColor.primaryColor1.withOpacity(0.8),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18),
+                                decoration: InputDecoration(
+                                  border: InputBorder
+                                      .none, // Ajoutez cette ligne pour supprimer la bordure
                                 ),
-                             
+                              ),
                             ],
                           ),
                         ),
@@ -414,7 +411,8 @@ class _HomeViewState extends State<HomeView> {
                               touchTooltipData: LineTouchTooltipData(
                                 tooltipBgColor: TColor.secondaryColor1,
                                 tooltipRoundedRadius: 20,
-                                getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
+                                getTooltipItems:
+                                    (List<LineBarSpot> lineBarsSpot) {
                                   return lineBarsSpot.map((lineBarSpot) {
                                     bpmController.text = "${lineBarSpot.y} BPM";
                                     return LineTooltipItem(
@@ -729,7 +727,7 @@ class _HomeViewState extends State<HomeView> {
                                           ),
                                           child: FittedBox(
                                             child: Text(
-                                              '${200-calories.toInt()} kCal\n restantes',
+                                              '${200 - calories.toInt()} kCal\n restantes',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: TColor.white,
@@ -742,7 +740,8 @@ class _HomeViewState extends State<HomeView> {
                                           backStrokeWidth: 10,
                                           progressColors: TColor.primaryG,
                                           backColor: Colors.grey.shade100,
-                                          valueNotifier: ValueNotifier(calories/200*100),
+                                          valueNotifier: ValueNotifier(
+                                              calories / 200 * 100),
                                           startAngle: -180,
                                         ),
                                       ],
@@ -842,7 +841,7 @@ class _HomeViewState extends State<HomeView> {
                             getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                               return lineBarsSpot.map((lineBarSpot) {
                                 return LineTooltipItem(
-                                  "Seconde ${lineBarSpot.x.toInt()/10} ",
+                                  "Seconde ${lineBarSpot.x.toInt() / 10} ",
                                   const TextStyle(
                                     color: Colors.white,
                                     fontSize: 10,
@@ -897,8 +896,6 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
-
-  
 
   List<PieChartSectionData> showingSections() {
     return List.generate(
@@ -974,8 +971,7 @@ class _HomeViewState extends State<HomeView> {
         belowBarData: BarAreaData(
           show: false,
         ),
-        spots: bpmSecondes2
-        ,
+        spots: bpmSecondes2,
       );
 
   SideTitles get rightTitles => SideTitles(
@@ -1021,7 +1017,7 @@ class _HomeViewState extends State<HomeView> {
   SideTitles get bottomTitles => SideTitles(
         showTitles: true,
         reservedSize: 50,
-        interval:1,
+        interval: 1,
         getTitlesWidget: bottomTitleWidgets,
       );
 

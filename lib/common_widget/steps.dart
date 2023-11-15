@@ -1,6 +1,5 @@
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
-import 'package:smartfit_app_mobile/common_widget/helpers.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:flutter/material.dart';
 
 class Steps extends StatelessWidget {
@@ -10,7 +9,9 @@ class Steps extends StatelessWidget {
   Widget build(BuildContext context) {
     print("lhwaa");
 
-    String steps = Provider.of<User>(context, listen: false).listActivity[0].getTotalSteps();
+    String steps = Provider.of<User>(context, listen: false)
+        .listActivity[0]
+        .getTotalSteps();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(

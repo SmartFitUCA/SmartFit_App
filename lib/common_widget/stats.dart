@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 
 class Stats extends StatelessWidget {
@@ -8,16 +8,22 @@ class Stats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String calories= Provider.of<User>(context, listen: false).listActivity[0].getTotalCalorie();
-    String heartrate= Provider.of<User>(context, listen: false).listActivity[0].getTotalAvgHeartRate();
-    String time= Provider.of<User>(context, listen: false).listActivity[0].getTotalTime();
+    String calories = Provider.of<User>(context, listen: false)
+        .listActivity[0]
+        .getTotalCalorie();
+    String heartrate = Provider.of<User>(context, listen: false)
+        .listActivity[0]
+        .getTotalAvgHeartRate();
+    String time = Provider.of<User>(context, listen: false)
+        .listActivity[0]
+        .getTotalTime();
 
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Row(
-            children:  [
+            children: [
               Text(
                 'Statistiques',
                 style: TextStyle(
@@ -38,7 +44,7 @@ class Stats extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children:  [
+            children: [
               SizedBox(width: 30),
               InfoStat(
                 icon: Icons.timer,
@@ -46,7 +52,7 @@ class Stats extends StatelessWidget {
                 iconBackground: Color(0xff6131AD),
                 time: '+5s',
                 label: 'Time',
-                value: time+' s',
+                value: time + ' s',
               ),
               SizedBox(width: 15),
               InfoStat(
@@ -55,7 +61,7 @@ class Stats extends StatelessWidget {
                 iconBackground: Color(0xff6131AD),
                 time: '+5s',
                 label: 'Heart Rate',
-                value: heartrate+" BPM",
+                value: heartrate + " BPM",
               ),
               SizedBox(width: 15),
               InfoStat(
@@ -64,7 +70,7 @@ class Stats extends StatelessWidget {
                 iconBackground: Color(0xff6131AD),
                 time: '+5s',
                 label: 'Energy',
-                value:  calories+" kCal",
+                value: calories + " kCal",
               ),
               SizedBox(width: 30),
             ],

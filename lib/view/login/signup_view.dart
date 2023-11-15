@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
-import 'package:smartfit_app_mobile/View/login/login_view.dart';
+import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/modele/api/request_api.dart';
+import 'package:smartfit_app_mobile/view/login/login_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/round_text_field.dart';

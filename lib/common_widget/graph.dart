@@ -1,8 +1,7 @@
-import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 
 class Graph extends StatelessWidget {
@@ -29,8 +28,6 @@ class GraphArea extends StatefulWidget {
 class _GraphAreaState extends State<GraphArea>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  
-
 
   @override
   void initState() {
@@ -48,7 +45,9 @@ class _GraphAreaState extends State<GraphArea>
 
   @override
   Widget build(BuildContext context) {
-      List<DataPoint> vitesseSecondes = Provider.of<User>(context, listen: false).listActivity[0].getSpeedWithTimeActivity();
+    List<DataPoint> vitesseSecondes = Provider.of<User>(context, listen: false)
+        .listActivity[0]
+        .getSpeedWithTimeActivity();
 
     return GestureDetector(
       onTap: () {
@@ -98,7 +97,6 @@ class GraphPainter extends CustomPainter {
 
     var cx = 0.0;
     for (int i = 0; i < data.length; i++) {
-      
       var y = size.height - (data[i].speed * yRatio * _size.value);
 
       offsets.add(Offset(cx, y));
@@ -163,7 +161,8 @@ class GraphPainter extends CustomPainter {
     canvas.drawPath(linePath, linePaint);
 
     int maxIndex = 0;
-    double maxY = offsets[0].dy; // Supposons que la première coordonnée est la plus grande
+    double maxY = offsets[0]
+        .dy; // Supposons que la première coordonnée est la plus grande
 
     for (int i = 1; i < offsets.length; i++) {
       if (offsets[i].dy < maxY) {
@@ -189,7 +188,7 @@ class DataPoint {
   final double speed;
 
   DataPoint(
-     this.time,
-     this.speed,
+    this.time,
+    this.speed,
   );
 }

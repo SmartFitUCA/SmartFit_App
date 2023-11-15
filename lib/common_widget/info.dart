@@ -7,14 +7,14 @@ class Info extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String distance= Provider.of<User>(context, listen: false).listActivity[0].getTotalDistance();
+    String distance = Provider.of<User>(context, listen: false)
+        .listActivity[0]
+        .getTotalDistance();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-  
         Stats(value: distance, unit: 'm', label: 'Distance'),
-
       ],
     );
   }
@@ -41,25 +41,25 @@ class Stats extends StatelessWidget {
         Text.rich(
           TextSpan(
               text: value,
-              style:  TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
               ),
               children: [
-                 TextSpan(text: ' '),
+                TextSpan(text: ' '),
                 TextSpan(
                   text: unit,
-                  style:  TextStyle(
+                  style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ]),
         ),
-         SizedBox(height: 6),
+        SizedBox(height: 6),
         Text(
           label,
-          style:  TextStyle(
+          style: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w500,
           ),

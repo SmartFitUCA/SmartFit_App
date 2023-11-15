@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
-import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
-import 'package:smartfit_app_mobile/Modele/activity.dart';
-import 'package:smartfit_app_mobile/Modele/manager_file.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/modele/api/request_api.dart';
+import 'package:smartfit_app_mobile/modele/activity.dart';
+import 'package:smartfit_app_mobile/modele/manager_file.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/View/home/home_view.dart';
 import 'package:smartfit_app_mobile/View/main_tab/main_tab_view.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
@@ -46,7 +45,8 @@ class _ListActivityState extends State<ListActivity> {
       print("test22");
       print(ActivityOfUser(nom, result).getHeartRateWithTime());
       print("test33");
-      Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(nom, result));
+      Provider.of<User>(context, listen: false)
+          .addActivity(ActivityOfUser(nom, result));
       //print(x.getDistanceWithTime(ActivityOfUser(result)));
       //print(x.getDistance(ActivityOfUser(result)));
       //print(x.getAltitudeWithTime(ActivityOfUser(result)));
@@ -148,17 +148,14 @@ class _ListActivityState extends State<ListActivity> {
 
   List lastWorkoutArr = [];
 
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
 
-
-
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
-        child:  SafeArea(
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
@@ -168,7 +165,6 @@ class _ListActivityState extends State<ListActivity> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    
                     Text(
                       "List Activités",
                       style: TextStyle(
@@ -185,7 +181,6 @@ class _ListActivityState extends State<ListActivity> {
                           for (var element in result!.files) {
                             readFile(element.name);
                             print(element.name);
-
                           }
                         }
                       },
@@ -200,54 +195,61 @@ class _ListActivityState extends State<ListActivity> {
                   ],
                 ),
                 Provider.of<User>(context, listen: true).listActivity.isEmpty
-                ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                Text(
-                    "Vous n'avez pas d'activités pour le moment, veuillez en ajouter.",
-                    style: TextStyle(
-                      color: TColor.gray,
-                      fontSize: 11,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )])
-                :
-                ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: Provider.of<User>(context, listen: true).listActivity.length,
-                    itemBuilder: (context, index) {
-                      var activityObj = Provider.of<User>(context, listen: true).listActivity[index] as ActivityOfUser;
-                      var activityMap = activityObj.toMap();
-                      return InkWell(
-                          onTap: () {
-                            Provider.of<User>(context, listen: false).removeActivity(activityObj);
-                            Provider.of<User>(context, listen: false).insertActivity(0, activityObj);
-                          },
-                          child: WorkoutRow(
-                            wObj: activityMap,
-                            onDelete: () {
-                              Provider.of<User>(context, listen: false).removeActivity(activityObj);
-                            },
-                            onClick: () {
-                              Provider.of<User>(context, listen: false).removeActivity(activityObj);
-                              Provider.of<User>(context, listen: false).insertActivity(0, activityObj);
-                            },
-                          ));
-                    }),
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                            SizedBox(height: 20),
+                            Text(
+                              "Vous n'avez pas d'activités pour le moment, veuillez en ajouter.",
+                              style: TextStyle(
+                                color: TColor.gray,
+                                fontSize: 11,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )
+                          ])
+                    : ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: Provider.of<User>(context, listen: true)
+                            .listActivity
+                            .length,
+                        itemBuilder: (context, index) {
+                          var activityObj =
+                              Provider.of<User>(context, listen: true)
+                                  .listActivity[index] as ActivityOfUser;
+                          var activityMap = activityObj.toMap();
+                          return InkWell(
+                              onTap: () {
+                                Provider.of<User>(context, listen: false)
+                                    .removeActivity(activityObj);
+                                Provider.of<User>(context, listen: false)
+                                    .insertActivity(0, activityObj);
+                              },
+                              child: WorkoutRow(
+                                wObj: activityMap,
+                                onDelete: () {
+                                  Provider.of<User>(context, listen: false)
+                                      .removeActivity(activityObj);
+                                },
+                                onClick: () {
+                                  Provider.of<User>(context, listen: false)
+                                      .removeActivity(activityObj);
+                                  Provider.of<User>(context, listen: false)
+                                      .insertActivity(0, activityObj);
+                                },
+                              ));
+                        }),
                 SizedBox(
                   height: media.width * 0.1,
-             ),
-          ],
+                ),
+              ],
+            ),
+          ),
         ),
-      ), 
-    ), 
-  ), 
-); 
+      ),
+    );
   }
-
- 
 }
