@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
+import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:tuple/tuple.dart';
 
 class Login {

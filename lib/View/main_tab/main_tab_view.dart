@@ -1,4 +1,4 @@
-import 'package:smartfit_app_mobile/View/test/page_test.dart';
+import 'package:smartfit_app_mobile/view/test/page_test.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/tab_button.dart';
 import 'package:smartfit_app_mobile/view/activity/activity.dart';

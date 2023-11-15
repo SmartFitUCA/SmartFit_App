@@ -1,7 +1,7 @@
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:smartfit_app_mobile/View/login/Mobile/android_signup_view.dart';
+import 'package:smartfit_app_mobile/view/login/Mobile/android_signup_view.dart';
 import 'package:flutter/material.dart';
-import 'package:smartfit_app_mobile/View/login/web/web_signup_view.dart';
+import 'package:smartfit_app_mobile/view/login/web/web_signup_view.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});

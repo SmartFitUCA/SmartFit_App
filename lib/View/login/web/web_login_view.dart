@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/Modele/user.dart';
-import 'package:smartfit_app_mobile/Modele/utile/login_user.dart';
-import 'package:smartfit_app_mobile/View/main_tab/main_tab_view.dart';
+import 'package:smartfit_app_mobile/modele/utile/login_user.dart';
+import 'package:smartfit_app_mobile/view/main_tab/main_tab_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/round_text_field.dart';

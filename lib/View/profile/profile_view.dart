@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:smartfit_app_mobile/View/profile/mobile/mobile_profile_view.dart';
-import 'package:smartfit_app_mobile/View/profile/web/web_profile_view.dart';
+import 'package:smartfit_app_mobile/view/profile/mobile/mobile_profile_view.dart';
+import 'package:smartfit_app_mobile/view/profile/web/web_profile_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});

@@ -3,16 +3,14 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
 import 'package:smartfit_app_mobile/Modele/manager_file.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
-import 'package:smartfit_app_mobile/View/login/signup_view.dart';
+import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:tuple/tuple.dart';
 
 // ----------- File --------------- //
