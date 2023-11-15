@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 
 class Info extends StatelessWidget {
-  Info({Key? key}) : super(key: key);
+  const Info({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

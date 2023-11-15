@@ -412,5 +412,4 @@ class _MyHomePageState extends State<MyHomePage> {
 }*/
 ========
 }
-*/*/
->>>>>>>> origin/master:lib/view/page_test.dart
+*/
