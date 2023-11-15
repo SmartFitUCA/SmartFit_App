@@ -9,10 +9,10 @@ class WebActivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
       body: Column(
-        children: const [
+        children: [
           Divider(height: 80),
           Steps(),
           Graph(),

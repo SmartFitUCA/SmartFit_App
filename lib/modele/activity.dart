@@ -77,8 +77,6 @@ class ActivityOfUser {
   }
 
   String getTotalSteps() {
-    List<FlSpot> result = List.empty(growable: true);
-
     print(_contentActivity.length);
     for (int i = 0;
         i < _contentActivity[_contentActivity.length - 3].length;
@@ -93,8 +91,6 @@ class ActivityOfUser {
   }
 
   String getTotalCalorie() {
-    List<FlSpot> result = List.empty(growable: true);
-
     print(_contentActivity.length);
     for (int i = 0;
         i < _contentActivity[_contentActivity.length - 3].length;
@@ -110,8 +106,6 @@ class ActivityOfUser {
   }
 
   String getTotalAvgHeartRate() {
-    List<FlSpot> result = List.empty(growable: true);
-
     print(_contentActivity.length);
     for (int i = 0;
         i < _contentActivity[_contentActivity.length - 3].length;
@@ -127,8 +121,6 @@ class ActivityOfUser {
   }
 
   String getTotalTime() {
-    List<FlSpot> result = List.empty(growable: true);
-
     print(_contentActivity.length);
     for (int i = 0;
         i < _contentActivity[_contentActivity.length - 3].length;
@@ -144,8 +136,6 @@ class ActivityOfUser {
   }
 
   String getTotalDistance() {
-    List<FlSpot> result = List.empty(growable: true);
-
     print(_contentActivity.length);
     for (int i = 0;
         i < _contentActivity[_contentActivity.length - 3].length;

@@ -18,32 +18,9 @@ class MobileHomeView extends StatefulWidget {
 }
 
 class _MobileHomeView extends State<MobileHomeView> {
-  List lastWorkoutArr = [
-    {
-      "name": "Full Body Workout",
-      "image": "assets/img/Workout1.png",
-      "kcal": "180",
-      "time": "20",
-      "progress": 0.3
-    },
-    {
-      "name": "Lower Body Workout",
-      "image": "assets/img/Workout2.png",
-      "kcal": "200",
-      "time": "30",
-      "progress": 0.4
-    },
-    {
-      "name": "Ab Workout",
-      "image": "assets/img/Workout3.png",
-      "kcal": "300",
-      "time": "40",
-      "progress": 0.7
-    },
-  ];
   List<int> showingTooltipOnSpots = [0];
 
-  List<FlSpot> allSpots = [FlSpot(0, 20)];
+  List<FlSpot> allSpots = [const FlSpot(0, 20)];
 
   List waterArr = [
     {"title": "6am - 8am", "subtitle": "600ml"},
@@ -71,7 +48,7 @@ class _MobileHomeView extends State<MobileHomeView> {
             TColor.secondaryColor2.withOpacity(0.1),
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
-        dotData: FlDotData(show: false),
+        dotData: const FlDotData(show: false),
         gradient: LinearGradient(
           colors: TColor.secondaryG,
         ),
