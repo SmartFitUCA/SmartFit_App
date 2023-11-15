@@ -101,22 +101,10 @@ class RequestApi extends IDataStrategy {
   @override
   Future<Tuple2<bool, String>> postUser(
       String email, String hash, String username) async {
-    print(email);
-    print(hash);
-    print(username);
-
-    print(<String, String>{
-      "\"email\"": "\"$email\"",
-      "\"hash\"": "\"$hash\"",
-      "\"username\"": "\"$username\""
-    });
-
-    final response =
-        await http.post(Uri.parse('$urlApi/user'), body: <String, String>{
-      "\"email\"": "\"$email\"",
-      "\"hash\"": "\"$hash\"",
-      "\"username\"": "\"$username\""
-    });
+    var body = {"email": email, "hash": hash, "username": username};
+    var header = {"Content-Type": "application/json"};
+    final response = await http.post(Uri.parse('$urlApi/user'),
+        headers: header, body: jsonEncode(body));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(response.body);
@@ -167,7 +155,10 @@ class RequestApi extends IDataStrategy {
   Future<Tuple2> modifAttribut(
       String token, String nameAttribut, String newValue) async {
     final response = await http.put(Uri.parse('$urlApi/user/$nameAttribut'),
-        headers: <String, String>{'Authorization': token},
+        headers: <String, String>{
+          'Authorization': token,
+          "Content-Type": "application/json"
+        },
         body: jsonEncode(<String, String>{nameAttribut: newValue}));
 
     if (response.statusCode == 200) {
