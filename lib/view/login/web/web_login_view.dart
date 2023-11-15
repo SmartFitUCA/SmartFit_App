@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smartfit_app_mobile/modele/utile/login_user.dart';
 import 'package:smartfit_app_mobile/view/main_tab/main_tab_view.dart';
-import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/modele/api/request_api.dart';
-import 'package:smartfit_app_mobile/modele/user.dart';
-import 'package:smartfit_app_mobile/view/activity/list_activity.dart';
-import 'package:smartfit_app_mobile/view/page_test.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/round_text_field.dart';
@@ -82,11 +76,14 @@ class _WebLoginView extends State<WebLoginView> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            height: media.height * 0.9,
             padding: const EdgeInsets.symmetric(horizontal: 20),
+            height: media.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: media.width * 0.03,
+                ),
                 Text(
                   "Bienvenue",
                   style: TextStyle(color: TColor.gray, fontSize: 16),
@@ -97,9 +94,6 @@ class _WebLoginView extends State<WebLoginView> {
                       color: TColor.black,
                       fontSize: 20,
                       fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  height: media.width * 0.05,
                 ),
                 SizedBox(
                   height: media.width * 0.04,
@@ -130,6 +124,9 @@ class _WebLoginView extends State<WebLoginView> {
                             height: 20,
                             fit: BoxFit.contain,
                           ))),
+                ),
+                SizedBox(
+                  height: media.width * 0.01,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -202,59 +199,6 @@ class _WebLoginView extends State<WebLoginView> {
                       height: 1,
                       color: TColor.gray.withOpacity(0.5),
                     )),
-                  ],
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: TColor.white,
-                          border: Border.all(
-                            width: 1,
-                            color: TColor.gray.withOpacity(0.4),
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Image.asset(
-                          "assets/img/google.png",
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: media.width * 0.04,
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: TColor.white,
-                          border: Border.all(
-                            width: 1,
-                            color: TColor.gray.withOpacity(0.4),
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Image.asset(
-                          "assets/img/suunto.png",
-                          width: 35,
-                          height: 35,
-                        ),
-                      ),
-                    )
                   ],
                 ),
                 SizedBox(
