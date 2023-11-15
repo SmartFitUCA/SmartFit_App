@@ -6,6 +6,7 @@ import 'package:smartfit_app_mobile/Modele/Api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/Modele/Api/request_api.dart';
 import 'package:smartfit_app_mobile/Modele/user.dart';
 import 'package:smartfit_app_mobile/View/activity/list_activity.dart';
+import 'package:smartfit_app_mobile/View/main_tab/main_tab_view.dart';
 import 'package:smartfit_app_mobile/View/page_test.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/round_button.dart';
@@ -154,7 +155,7 @@ class _LoginViewState extends State<LoginView> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const ListActivity()));
+                                  builder: (context) => const MainTabView()));
                         }
                       } else {
                         setState(() {

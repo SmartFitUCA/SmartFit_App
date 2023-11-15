@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/Modele/user.dart';
 
 class Info extends StatelessWidget {
-  const Info({Key? key}) : super(key: key);
+  Info({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String distance= Provider.of<User>(context, listen: false).listActivity[0].getTotalDistance();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: const [
-        Stats(value: '345', unit: 'kcal', label: 'Calories'),
-        Stats(value: '3.6', unit: 'km', label: 'Distance'),
-        Stats(value: '1.5', unit: 'hr', label: 'Hours'),
+      children: [
+  
+        Stats(value: distance, unit: 'm', label: 'Distance'),
+
       ],
     );
   }
 }
 
 class Stats extends StatelessWidget {
-  final String value;
-  final String unit;
-  final String label;
+  String value;
+  String unit;
+  String label;
 
-  const Stats({
+  Stats({
     Key? key,
     required this.value,
     required this.unit,
@@ -37,25 +41,25 @@ class Stats extends StatelessWidget {
         Text.rich(
           TextSpan(
               text: value,
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
               ),
               children: [
-                const TextSpan(text: ' '),
+                 TextSpan(text: ' '),
                 TextSpan(
                   text: unit,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ]),
         ),
-        const SizedBox(height: 6),
+         SizedBox(height: 6),
         Text(
           label,
-          style: const TextStyle(
+          style:  TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w500,
           ),

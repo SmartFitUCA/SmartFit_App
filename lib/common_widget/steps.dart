@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/Modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +8,9 @@ class Steps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String steps = formatNumber(randBetween(3000, 6000));
+    print("lhwaa");
+
+    String steps = Provider.of<User>(context, listen: false).listActivity[0].getTotalSteps();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(

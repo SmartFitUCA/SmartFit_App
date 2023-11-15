@@ -12,7 +12,7 @@ class Activity extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
-        children: const [
+        children:  [
           Divider(height: 80),
           Steps(),
           Graph(),
