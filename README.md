@@ -1,6 +1,5 @@
 # SmartFit Web and Mobile!
-
-A new Flutter project.
+TODO: Description
 
 ## Getting Started
 
