@@ -74,4 +74,3 @@ steps:
 
 volumes:
   - name: build
-    path: /tmp/smartfit_build
