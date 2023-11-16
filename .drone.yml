@@ -42,7 +42,7 @@ steps:
       username:
         from_secret: cf_username
       password:
-        from_password: cf_password
+        from_secret: cf_password
     depends_on: [build-web]
 
   - name: deploy-web-image
