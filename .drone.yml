@@ -31,14 +31,14 @@ steps:
 
   - name: build-web-image
     image: plugins/docker
-    # volumes:
-    #   - name: build
-    #   - path: /build
+    volumes:
+      - name: build
+      - path: /build
     settings:
       dockerfile: Dockerfile
       context: .
       registry: hub.codefirst.iut.uca.fr
-      repo: hub.codefisrt.iut.uca.fr/remi.arnal/smartfit_web
+      repo: hub.codefirst.iut.uca.fr/remi.arnal/smartfit_web
       username:
         from_secret: cf_username
       password:
