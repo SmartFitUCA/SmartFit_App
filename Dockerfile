@@ -1,6 +1,6 @@
 FROM ghcr.io/cirruslabs/flutter:3.16.0
 RUN uname -a
-RUN apt-get install php-common php-cli
+RUN apt-get update && apt-get install php-common php-cli php
 RUN pwd
 RUN ls
 
