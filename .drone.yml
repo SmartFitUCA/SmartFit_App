@@ -9,14 +9,14 @@ trigger:
     - master
 
 steps:
-  # - name: build-apk
-  #   image: ghcr.io/cirruslabs/flutter:3.13.9
-  #   commands:
-  #     - flutter build apk
-  #     - sfm_apk=sfm_$(date +"%Y_%m_%d_%H_%M_%S").apk
-  #     - cp ./build/app/outputs/flutter-apk/app-release.apk $sfm_apk
-  #     - curl -F "file=@$sfm_apk" https://anonfiles.me/api/v1/upload > upload.json
-  #     - cat upload.json | cut -d '"' -f 12
+  - name: build-apk
+    image: ghcr.io/cirruslabs/flutter:3.13.9
+    commands:
+      - flutter build apk
+      - sfm_apk=sfm_$(date +"%Y_%m_%d_%H_%M_%S").apk
+      - cp ./build/app/outputs/flutter-apk/app-release.apk $sfm_apk
+      - curl -F "file=@$sfm_apk" https://anonfiles.me/api/v1/upload > upload.json
+      - cat upload.json | cut -d '"' -f 12
 
   - name: build-web
     image: ghcr.io/cirruslabs/flutter:3.13.9
@@ -28,17 +28,17 @@ steps:
       - curl -sL https://firebase.tools | bash
       - firebase deploy --token $${FIREBASE_TOKEN}
         
-  # - name: code-analysis
-  #   image: ghcr.io/cirruslabs/flutter:3.13.9
-  #   environment:
-  #       SONAR_TOKEN:
-  #         from_secret: sonar_token
-  #   commands:
-  #     - export SONAR_SCANNER_VERSION=5.0.1.3006
-  #     - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-  #     - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
-  #     - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-  #     - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-  #     - export SONAR_SCANNER_OPTS="-server"
-  #     - sonar-scanner -D sonar.projectKey=SmartFit_Mobile -D sonar.sources=. -D sonar.host.url=https://codefirst.iut.uca.fr/sonar -D sonar.login=$${SONAR_TOKEN}
-  #   depends_on: [ build-apk, build-web ]
+  - name: code-analysis
+    image: ghcr.io/cirruslabs/flutter:3.13.9
+    environment:
+        SONAR_TOKEN:
+          from_secret: sonar_token
+    commands:
+      - export SONAR_SCANNER_VERSION=5.0.1.3006
+      - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+      - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+      - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+      - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+      - export SONAR_SCANNER_OPTS="-server"
+      - sonar-scanner -D sonar.projectKey=SmartFit_Mobile -D sonar.sources=. -D sonar.host.url=https://codefirst.iut.uca.fr/sonar -D sonar.login=$${SONAR_TOKEN}
+    depends_on: [ build-apk, build-web ]
