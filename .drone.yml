@@ -18,15 +18,15 @@ steps:
   #     - curl -F "file=@$sfm_apk" https://anonfiles.me/api/v1/upload > upload.json
   #     - cat upload.json | cut -d '"' -f 12
 
-  - name: build-web
-    image: ghcr.io/cirruslabs/flutter:3.13.9
-    volumes:
-      - name: build
-        path: /tmp/smartfit_build
-    commands:
-      - flutter build web --web-renderer canvaskit
-      - cp -r ./build/web/* /tmp/smartfit_build
-      # - mountpoint /tmp/smartfit_build
+  # - name: build-web
+  #   image: ghcr.io/cirruslabs/flutter:3.13.9
+  #   volumes:
+  #     - name: build
+  #       path: /tmp/smartfit_build
+  #   commands:
+  #     - flutter build web --web-renderer canvaskit
+  #     - cp -r ./build/web/* /tmp/smartfit_build
+  #     # - mountpoint /tmp/smartfit_build
 
   - name: build-web-image
     image: plugins/docker
