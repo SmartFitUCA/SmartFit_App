@@ -11,10 +11,6 @@ class MobileActivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.watch<User>().listActivity.isEmpty) {
-      return const Scaffold(body: Text("C'est vide"));
-    }
-
     return const Scaffold(
       backgroundColor: Colors.white,
       body: Column(

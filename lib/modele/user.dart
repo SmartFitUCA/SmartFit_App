@@ -5,10 +5,11 @@ class User extends ChangeNotifier {
   String username = "VOID";
   String email = "VOID";
   String token = "VOID";
-  List<ActivityOfUser> listActivity = List.empty();
+  List<ActivityOfUser> listActivity = List.empty(growable: true);
 
   void addActivity(ActivityOfUser activity) {
     listActivity.add(activity);
+    print("add");
     notifyListeners();
   }
 

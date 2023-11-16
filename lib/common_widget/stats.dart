@@ -24,7 +24,7 @@ class Stats extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Row(
             children: [
-              Text(
+              const Text(
                 'Statistiques',
                 style: TextStyle(
                   fontSize: 14,
@@ -45,7 +45,7 @@ class Stats extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              SizedBox(width: 30),
+              const SizedBox(width: 30),
               InfoStat(
                 icon: Icons.timer,
                 iconColor: Color.fromARGB(255, 255, 255, 255),
