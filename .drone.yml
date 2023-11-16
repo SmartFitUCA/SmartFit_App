@@ -18,39 +18,16 @@ steps:
   #     - curl -F "file=@$sfm_apk" https://anonfiles.me/api/v1/upload > upload.json
   #     - cat upload.json | cut -d '"' -f 12
 
-  # - name: build-web
-  #   image: ghcr.io/cirruslabs/flutter:3.13.9
-  #   volumes:
-  #     - name: build
-  #       path: /tmp/smartfit_build
-  #   commands:
-  #     - flutter build web --web-renderer canvaskit
-  #     - cp -r ./build/web/* /tmp/smartfit_build
-  #     # - mountpoint /tmp/smartfit_build
-
-  - name: build-web-image
-    image: plugins/docker
-    settings:
-      dockerfile: Dockerfile
-      context: .
-      registry: hub.codefirst.iut.uca.fr
-      repo: hub.codefirst.iut.uca.fr/remi.arnal/smartfit_web
-      username:
-        from_secret: cf_username
-      password:
-        from_secret: cf_password
-#    depends_on: [build-web]
-
-  - name: deploy-web-image
-    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
+  - name: build-web
+    image: ghcr.io/cirruslabs/flutter:3.13.9
     environment:
-      IMAGENAME: hub.codefirst.iut.uca.fr/remi.arnal/smartfit_web
-      CONTAINERNAME: smartfit_web
-      COMMAND: create
-      OVERWRITE: true
-      ADMINS: remiarnal,enzojolys,othmanebenjelloun
-    depends_on: [build-web-image]
-  
+      FIREBASE_TOKEN:
+        from_secret: firebase_token
+    commands:
+      - flutter build web --web-renderer canvaskit
+      - curl -sL https://firebase.tools | bash
+      - firebase deploy --token $${FIREBASE_TOKEN}
+        
   # - name: code-analysis
   #   image: ghcr.io/cirruslabs/flutter:3.13.9
   #   environment:
@@ -65,7 +42,3 @@ steps:
   #     - export SONAR_SCANNER_OPTS="-server"
   #     - sonar-scanner -D sonar.projectKey=SmartFit_Mobile -D sonar.sources=. -D sonar.host.url=https://codefirst.iut.uca.fr/sonar -D sonar.login=$${SONAR_TOKEN}
   #   depends_on: [ build-apk, build-web ]
-
-# volumes:
-#   - name: build
-#     temp: {}
