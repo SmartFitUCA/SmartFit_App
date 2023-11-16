@@ -24,17 +24,15 @@ steps:
       - name: build
         path: /tmp/smartfit_build
     commands:
-      - pwd
       - flutter build web --web-renderer canvaskit
       - cp -r ./build/web/* /tmp/smartfit_build
-      - ls /tmp/smartfit_build
-      - mountpoint /tmp/smartfit_build
+      # - mountpoint /tmp/smartfit_build
 
   - name: build-web-image
-    image: plugins/docker
     volumes:
       - name: build
         path: /tmp/smartfit_build
+    image: plugins/docker
     settings:
       dockerfile: Dockerfile
       context: .
