@@ -25,7 +25,7 @@ steps:
       - path: /build 
     commands:
       - flutter build web --web-renderer canvaskit
-      - cp ./build/web/* /build/
+      - cp ./build/web/* /build
 
   - name: build-web-image
     image: plugins/docker
@@ -70,4 +70,4 @@ steps:
 
 volumes:
   - name: build
-    path: /tmp/build
+    path: /build
