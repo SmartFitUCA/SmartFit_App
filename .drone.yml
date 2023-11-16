@@ -37,7 +37,7 @@ steps:
         path: /tmp/smartfit_build
     settings:
       dockerfile: Dockerfile
-      context: /
+      context: .
       registry: hub.codefirst.iut.uca.fr
       repo: hub.codefirst.iut.uca.fr/remi.arnal/smartfit_web
       username:
