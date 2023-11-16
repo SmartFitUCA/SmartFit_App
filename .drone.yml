@@ -21,7 +21,7 @@ steps:
   - name: build-web
     image: ghcr.io/cirruslabs/flutter:3.13.9
     volumes:
-      - name: build
+      - name: docs
       - path: /tmp/smartfit_build
     commands:
       - pwd
@@ -34,7 +34,7 @@ steps:
   - name: build-web-image
     image: plugins/docker
     volumes:
-      - name: build
+      - name: docs
       - path: /tmp/smartfit_build
     settings:
       dockerfile: Dockerfile
@@ -73,5 +73,5 @@ steps:
   #   depends_on: [ build-apk, build-web ]
 
 volumes:
-  - name: build
+  - name: docs
     temp: {}
