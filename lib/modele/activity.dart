@@ -1,5 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:smartfit_app_mobile/common_widget/graph.dart';
+import 'package:smartfit_app_mobile/common_widget/graph/graph.dart';
 
 class ActivityOfUser {
   late String _nomActivite;

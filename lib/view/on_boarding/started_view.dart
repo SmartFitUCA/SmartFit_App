@@ -1,7 +1,7 @@
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/view/on_boarding/on_boarding_view.dart';
 import 'package:flutter/material.dart';
-import '../../common_widget/round_button.dart';
+import '../../common_widget/button/round_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class StartedView extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/common_widget/round_button.dart';
+import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/setting_row.dart';
 import 'package:smartfit_app_mobile/common_widget/title_subtitle_cell.dart';
 

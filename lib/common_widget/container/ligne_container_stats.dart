@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartfit_app_mobile/common_widget/container_stats.dart';
+import 'package:smartfit_app_mobile/common_widget/container/container_stats.dart';
 
 class LigneContainerStats extends StatelessWidget {
   const LigneContainerStats(this.value1, this.value2, this.value3,

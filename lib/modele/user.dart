@@ -9,7 +9,6 @@ class User extends ChangeNotifier {
 
   void addActivity(ActivityOfUser activity) {
     listActivity.add(activity);
-    print("add");
     notifyListeners();
   }
 

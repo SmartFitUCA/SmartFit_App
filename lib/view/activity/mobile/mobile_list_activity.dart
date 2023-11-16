@@ -6,7 +6,7 @@ import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
-import 'package:smartfit_app_mobile/common_widget/workout_row.dart';
+import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
 import 'package:flutter/material.dart';
 
 class MobileListActivity extends StatefulWidget {
