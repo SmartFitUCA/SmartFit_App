@@ -29,9 +29,6 @@ steps:
       # - mountpoint /tmp/smartfit_build
 
   - name: build-web-image
-    volumes:
-      - name: build
-        path: /tmp/smartfit_build
     image: plugins/docker
     settings:
       dockerfile: Dockerfile
@@ -42,6 +39,9 @@ steps:
         from_secret: cf_username
       password:
         from_secret: cf_password
+    volumes:
+      - name: build
+        path: /tmp/smartfit_build
     depends_on: [build-web]
 
   - name: deploy-web-image
