@@ -5,8 +5,9 @@ RUN apt-get update && apt-get -y install php-common php-cli php
 RUN mkdir /tmp/smartfit_web
 WORKDIR /tmp/smartfit_web
 
-RUN ls
-RUN pwd
 COPY ./ ./
 RUN flutter build web --web-renderer canvaskit
+
+RUN php -v
+EXPOSE 80
 ENTRYPOINT php -S localhost:8080 -t ./build/web/
