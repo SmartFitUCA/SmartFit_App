@@ -24,7 +24,7 @@ steps:
       - name: build
       - path: /build 
     commands:
-      - flutter build web --web-renderer canvakit
+      - flutter build web --web-renderer canvaskit
       - cp ./build/web/* /build
 
   - name: build-web-image
