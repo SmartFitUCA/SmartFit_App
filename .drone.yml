@@ -31,9 +31,9 @@ steps:
 
   - name: build-web-image
     image: plugins/docker
-    volumes:
-      - name: build
-      - path: /build
+    # volumes:
+    #   - name: build
+    #   - path: /build
     settings:
       dockerfile: Dockerfile
       context: .
