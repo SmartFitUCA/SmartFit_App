@@ -22,7 +22,7 @@ steps:
     image: ghcr.io/cirruslabs/flutter:3.13.9
     volumes:
       - name: docs
-      - path: /tmp/smartfit_build
+        path: /tmp/smartfit_build
     commands:
       - pwd
       - flutter build web --web-renderer canvaskit
@@ -35,7 +35,7 @@ steps:
     image: plugins/docker
     volumes:
       - name: docs
-      - path: /tmp/smartfit_build
+        path: /tmp/smartfit_build
     settings:
       dockerfile: Dockerfile
       context: .
