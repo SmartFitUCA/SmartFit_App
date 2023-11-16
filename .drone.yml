@@ -26,7 +26,7 @@ steps:
     commands:
       - flutter build web --web-renderer canvaskit
       - mkdir /build
-      - cp ./build/web/* /build
+      - cp -r ./build/web/* /build
 
   - name: build-web-image
     image: plugins/docker
