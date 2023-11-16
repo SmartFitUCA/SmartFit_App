@@ -70,4 +70,4 @@ steps:
 
 volumes:
   - name: build
-    temp: {}
+    path: /tmp/build
