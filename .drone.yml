@@ -29,7 +29,7 @@ steps:
       - mkdir /tmp/smartfit_build
       - cp -r ./build/web/* /tmp/smartfit_build
       - ls /tmp/smartfit_build
-      - mountpoint /tmp/smartfit_build
+      # - mountpoint /tmp/smartfit_build
 
   - name: build-web-image
     image: plugins/docker
