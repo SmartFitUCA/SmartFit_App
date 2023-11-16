@@ -1,5 +1,5 @@
 FROM ghcr.io/cirruslabs/flutter:3.16.0
-RUN apt-get install php
+RUN apt install php-common php-cli
 RUN pwd
 RUN ls
 
