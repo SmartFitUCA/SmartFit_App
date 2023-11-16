@@ -2,9 +2,10 @@ FROM ghcr.io/cirruslabs/flutter:3.13.9
 ENV TZ=Europe/Paris
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update && apt-get -y install php-common php-cli php
+RUN mkdir /tmp/smartfit_web
+WORKDIR /tmp/smartfit_web
 
 RUN ls
-RUN tree
 RUN pwd
 COPY ./ ./
 RUN flutter build web --web-renderer canvaskit
