@@ -66,6 +66,6 @@ steps:
   #     - sonar-scanner -D sonar.projectKey=SmartFit_Mobile -D sonar.sources=. -D sonar.host.url=https://codefirst.iut.uca.fr/sonar -D sonar.login=$${SONAR_TOKEN}
   #   depends_on: [ build-apk, build-web ]
 
-volumes:
-  - name: build
-    temp: {}
+# volumes:
+#   - name: build
+#     temp: {}
