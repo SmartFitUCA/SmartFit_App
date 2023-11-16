@@ -21,7 +21,7 @@ steps:
   - name: build-web
     image: ghcr.io/cirruslabs/flutter:3.13.9
     volumes:
-      - name: web_build
+      - name: build
       - path: /build 
     commands:
       - flutter build web --web-rendere canvakit
@@ -30,7 +30,7 @@ steps:
   - name: build-web-image
     image: plugins/docker
     volumes:
-      - name: web_build
+      - name: build
       - path: /build
     settings:
       dockerfile: Dockerfile
@@ -69,5 +69,5 @@ steps:
     depends_on: [ build-apk, build-web ]
 
 volumes:
-  - name: web_build
-    temp: {} 
+  - name: build
+    temp: {}
