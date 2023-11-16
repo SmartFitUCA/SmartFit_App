@@ -39,7 +39,7 @@ steps:
         from_secret: cf_username
       password:
         from_secret: cf_password
-    depends_on: [build-web]
+#    depends_on: [build-web]
 
   - name: deploy-web-image
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
