@@ -48,7 +48,7 @@ class _ChangeUsernameViewState extends State<ChangePasswordView> {
           
         ),
          title: Text(
-          "Changer son pseudo",
+          "Changer son Mot de passe",
           style: TextStyle(
               color: TColor.black, fontSize: 16, fontWeight: FontWeight.w700),
         ),
@@ -71,15 +71,15 @@ class _ChangeUsernameViewState extends State<ChangePasswordView> {
                   child: Column(
                     children: [
                       RoundTextField(
-                        hitText: "Nouveau pseudo",
-                        icon: "assets/img/email.svg",
+                        hitText: "Ancien mot de passe",
+                        icon: "assets/img/lock.svg",
                         keyboardType: TextInputType.text,
                         controller: controllerTextEmail,
                       ),
                       SizedBox(height: media.width * 0.04),
                       RoundTextField(
                         controller: controllerTextPassword,
-                        hitText: "Confirmer le pseudo",
+                        hitText: "Nouveau mot de passe",
                         icon: "assets/img/lock.svg",
                         obscureText: true,
                         rigtIcon: TextButton(
