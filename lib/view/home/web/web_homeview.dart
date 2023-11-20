@@ -24,9 +24,17 @@ class _WebHomeView extends State<WebHomeView> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    String maxBpm = context.watch<User>().listActivity[0].getMaxBpm();
-    String minBpm = context.watch<User>().listActivity[0].getMinBpm();
-    String avgBpm = context.watch<User>().listActivity[0].getAvgBpm();
+    // -- BPM -- //
+    int maxBpm = context.watch<User>().listActivity[0].getMaxBpm();
+    int minBpm = context.watch<User>().listActivity[0].getMinBpm();
+    int avgBpm = context.watch<User>().listActivity[0].getAvgBpm();
+    // -- Altitude -- //
+    double minAltitude = context.watch<User>().listActivity[0].getMinAltitude();
+    double maxAltitude = context.watch<User>().listActivity[0].getMaxAltitude();
+    double avgAltitude = (maxAltitude + minAltitude) / 2;
+    // -- Speed -- //
+    double maxSpeed = context.watch<User>().listActivity[0].getMaxSpeed();
+    double avgSpeed = context.watch<User>().listActivity[0].getAvgSpeed();
 
     data = HomeViewUtil().initData(context);
 
@@ -61,9 +69,9 @@ class _WebHomeView extends State<WebHomeView> {
                   height: media.width * 0.05,
                 ),
                 LigneContainerStats(
-                    "$minBpm BPM",
-                    "$maxBpm BPM",
-                    "$avgBpm BPM",
+                    "${double.parse(maxSpeed.toStringAsFixed(2))} KM/H",
+                    "${double.parse(avgSpeed.toStringAsFixed(2))} km/H",
+                    "${avgBpm.toString()} BPM",
                     "Minimum",
                     "Maximum",
                     "Moyenne",
@@ -92,10 +100,10 @@ class _WebHomeView extends State<WebHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                const LigneContainerStats(
-                    "30 BPM",
-                    "90 BPM",
-                    "290 BPM",
+                LigneContainerStats(
+                    "${minAltitude.toInt()} M",
+                    "${maxAltitude.toInt()} M",
+                    "${avgAltitude.toInt()} M",
                     "Minimum",
                     "Maximum",
                     "Moyenne",
@@ -105,7 +113,10 @@ class _WebHomeView extends State<WebHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                GraphAltitudeByTime(media, data)
+                GraphAltitudeByTime(media, data),
+                SizedBox(
+                  height: media.width * 0.05,
+                ),
               ],
             ),
           ),
