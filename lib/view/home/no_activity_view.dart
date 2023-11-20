@@ -14,51 +14,50 @@ class NoActivityView extends StatefulWidget {
 }
 
 class _NoActivityViewState extends State<NoActivityView> {
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: TColor.white,
       body: SafeArea(
-        child: Container(
-          width: media.width,
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-            SizedBox(
-                height: media.width * 0.05,
-              ),
-               SvgPicture.asset(
-                "assets/img/group.svg",
-                width: media.width * 0.75,
-                height:  media.height * 0.4,
-                fit: BoxFit.fitWidth,
-              ),
-              SizedBox(
-                height: media.width * 0.05  ,
-              ),
-              Text(
-                "Pas d'activité selectionnée",
-                style: TextStyle(
+        child: Center( // Utilisation du widget Center pour centrer verticalement
+          child: Container(
+            width: media.width,
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min, // Utilisation de MainAxisSize.min pour que la colonne prenne la hauteur minimale nécessaire
+              children: [
+                SizedBox(
+                  height: media.height * 0.1,
+                ),
+                SvgPicture.asset(
+                  "assets/img/group.svg",
+                  width: media.width * 0.75,
+                  height: media.height * 0.4,
+                  fit: BoxFit.fitWidth,
+                ),
+                SizedBox(
+                  height: media.height * 0.1,
+                ),
+                Text(
+                  "Pas d'activité sélectionnée",
+                  style: TextStyle(
                     color: TColor.black,
                     fontSize: 20,
-                    fontWeight: FontWeight.w700),
-              ),
-              Text(
-                "Veuillez selectionner une activité en cliquant sur la loupe ci-dessous",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: TColor.gray, fontSize: 12),
-              ),
-             const Spacer(),
-
-               
-            ],
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  "Veuillez sélectionner une activité en cliquant sur la loupe ci-dessous",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: TColor.gray, fontSize: 12),
+                ),
+                Spacer(),
+              ],
+            ),
           ),
         ),
-
       ),
     );
   }

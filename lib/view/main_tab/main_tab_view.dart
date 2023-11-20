@@ -17,7 +17,7 @@ class MainTabView extends StatefulWidget {
 class _MainTabViewState extends State<MainTabView> {
   int selectTab = 0;
   final PageStorageBucket pageBucket = PageStorageBucket();
-  Widget currentTab = const HomeView();
+  Widget currentTab = const ListActivity();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
