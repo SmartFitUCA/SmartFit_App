@@ -52,7 +52,7 @@ class _MobileHomeView extends State<MobileHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                const LigneContainerStats("1", "2", "3", "s", "s", "s"),
+                const LigneContainerStats("1", "2", "3", "Minimum", "Maximum", "Moyenne", Icons.trending_down,Icons.trending_up,Icons.favorite_outline ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -72,7 +72,7 @@ class _MobileHomeView extends State<MobileHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                const LigneContainerStats("1", "2", "3", "s", "s", "s"),
+                const LigneContainerStats("1", "2", "3", "Minimum", "Maximum", "Moyenne", Icons.trending_down,Icons.trending_up,Icons.favorite_outline ),
                 Container(
                     padding: const EdgeInsets.only(left: 15),
                     height: media.width * 0.5,

@@ -5,6 +5,7 @@ import 'package:smartfit_app_mobile/common_widget/container/container_stats.dart
 class LigneContainerStats extends StatelessWidget {
   const LigneContainerStats(this.value1, this.value2, this.value3,
       this.designation1, this.designation2, this.designation3,
+      this.icon1, this.icon2, this.icon3,
       {Key? key})
       : super(key: key);
 
@@ -15,6 +16,11 @@ class LigneContainerStats extends StatelessWidget {
   final String designation1;
   final String designation2;
   final String designation3;
+
+  final IconData icon1;
+  final IconData icon2;
+  final IconData icon3;
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +50,17 @@ class LigneContainerStats extends StatelessWidget {
         ),
 
         SizedBox(height: 20),
-
-        Row(
+      SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child:Row(
           mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(width: 25),
-        ContainerStats(value1, designation1, Icons.timer ),
-        const SizedBox(width: 25),
-        ContainerStats(value2, designation2, Icons.favorite_outline),
-        const SizedBox(width: 25),
-        ContainerStats(value3, designation3,  Icons.bolt),
-      ],
+        ContainerStats(value1, designation1, icon1),
+        const SizedBox(width: 20),
+        ContainerStats(value2, designation2, icon2),
+        const SizedBox(width: 20),
+        ContainerStats(value3, designation3,  icon3),
+      ],)
     ),
     Divider(height: 30),
       ],

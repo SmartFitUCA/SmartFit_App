@@ -13,8 +13,8 @@ class ContainerStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 110,
-      width: 110,
+      height: 100,
+      width: 100,
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(

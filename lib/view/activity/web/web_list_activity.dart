@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'dart:html' as html; // Importation des fonctionnalités HTML
+import 'package:universal_html/html.dart' as html; 
 
 import 'package:crypto/crypto.dart';
 import 'package:file_picker/file_picker.dart';

@@ -45,7 +45,7 @@ class Stats extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              const SizedBox(width: 30),
+              const SizedBox(width: 15),
               InfoStat(
                 icon: Icons.timer,
                 iconColor: Color.fromARGB(255, 255, 255, 255),
