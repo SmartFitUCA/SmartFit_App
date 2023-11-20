@@ -55,7 +55,7 @@ class _WebHomeView extends State<WebHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                const LigneContainerStats("1", "2", "3", "s", "s", "s"),
+                const LigneContainerStats("30 s", "90 BPM", "290 kCal", "Temps", "Heart rate", "Calories"),
                 SizedBox(
                   height: media.width * 0.05,
                 ),
@@ -78,7 +78,7 @@ class _WebHomeView extends State<WebHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                const LigneContainerStats("1", "2", "3", "s", "s", "s"),
+                const LigneContainerStats("30 s", "90 BPM", "290 kCal", "Temps", "Heart rate", "Calories"),
                 SizedBox(
                   height: media.width * 0.05,
                 ),

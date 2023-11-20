@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/container/container_stats.dart';
 
 class LigneContainerStats extends StatelessWidget {
@@ -17,15 +18,48 @@ class LigneContainerStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        const SizedBox(width: 20),
-        ContainerStats(value1, designation1),
-        const SizedBox(width: 20),
-        ContainerStats(value2, designation2),
-        const SizedBox(width: 20),
-        ContainerStats(value3, designation3),
+        Divider(height: 30),
+        
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Row(
+            children: [
+              const Text(
+                'Statistiques',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              SizedBox(width: 8),
+              Icon(
+                Icons.pie_chart_rounded,
+                size: 15,
+                color: TColor.secondaryColor1,
+              ),
+            ],
+          ),
+        ),
+
+        SizedBox(height: 20),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(width: 25),
+        ContainerStats(value1, designation1, Icons.timer ),
+        const SizedBox(width: 25),
+        ContainerStats(value2, designation2, Icons.favorite_outline),
+        const SizedBox(width: 25),
+        ContainerStats(value3, designation3,  Icons.bolt),
+      ],
+    ),
+    Divider(height: 30),
       ],
     );
+    
+    
   }
 }
