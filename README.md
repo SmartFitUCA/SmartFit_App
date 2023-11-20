@@ -2,6 +2,12 @@
 TODO: Description
 
 ## Getting Started
+
+### Web
+We host a [SmartFit Web](https://smartfit-9b86c.web.app/) instance on Firebase.
+TODO: Build
+
+### Mobile
 TODO: Installation and Build
 
 ## Docs
