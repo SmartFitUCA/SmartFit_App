@@ -19,11 +19,11 @@ class LigneContainerStats extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const SizedBox(height: 10),
+        const SizedBox(width: 20),
         ContainerStats(value1, designation1),
-        const SizedBox(height: 10),
+        const SizedBox(width: 20),
         ContainerStats(value2, designation2),
-        const SizedBox(height: 10),
+        const SizedBox(width: 20),
         ContainerStats(value3, designation3),
       ],
     );

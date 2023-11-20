@@ -80,7 +80,7 @@ class _GraphBpmByTime extends State<GraphBpmByTime> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(25),
       child: Container(
-        height: media.width * 0.4,
+        height: media.width * 0.2,
         width: double.maxFinite,
         decoration: BoxDecoration(
           color: TColor.primaryColor2.withOpacity(0.3),

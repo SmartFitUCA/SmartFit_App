@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'dart:html' as html; // Importation des fonctionnalités HTML
+
+import 'package:crypto/crypto.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
@@ -8,40 +15,45 @@ import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 class WebListActivity extends StatefulWidget {
   const WebListActivity({super.key});
 
   @override
-  State<WebListActivity> createState() => _WebListActivity();
+  State<WebListActivity> createState() => _WebListActivityState();
 }
 
-class _WebListActivity extends State<WebListActivity> {
+class _WebListActivityState extends State<WebListActivity> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
 
-  Future<void> readFile(String nom) async {
-    ManagerFile x = ManagerFile();
-    PlatformFile t = result!.files.single;
-    String? y = t.path;
-    if (t.path == null) {
-      print("t");
-    } else {
-      List<dynamic> result = await x.readFitFile(y!);
-      print("test11");
-      print(result);
-      print("test22");
-      print(ActivityOfUser(nom, result).getHeartRateWithTime());
-      print("test33");
-      Provider.of<User>(context, listen: false)
-          .addActivity(ActivityOfUser(nom, result));
-      //print(x.getDistanceWithTime(ActivityOfUser(result)));
-      //print(x.getDistance(ActivityOfUser(result)));
-      //print(x.getAltitudeWithTime(ActivityOfUser(result)));
-      //print(x.getSpeedWithTime(ActivityOfUser(result)));
+  //late File x = File(file.path);
+  List<String> parseFile(Uint8List bytes) {
+    String csvString = utf8.decode(bytes); // Convertit les bytes en chaîne UTF-8
+    List<String> lines = LineSplitter.split(csvString).toList(); // Sépare les lignes
+    
+    for (String line in lines) {
+      print(line); // Affiche chaque ligne du fichier
     }
+
+    return lines; // Ou retournez les lignes du fichier
   }
 
+  void readFile(html.File file) async {
+    ManagerFile x = ManagerFile();
+    final reader = html.FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onLoadEnd.listen((event) {
+      if (reader.readyState == html.FileReader.DONE) {
+        Uint8List bytes = reader.result as Uint8List;
+        List<dynamic>  result =  x.readFitFileWeb(bytes) ; 
+        Provider.of<User>(context, listen: false)
+          .addActivity(ActivityOfUser(file.name, result ));
+      }
+    });
+  }
+  
   List lastWorkoutArr = [];
 
   @override
@@ -70,15 +82,15 @@ class _WebListActivity extends State<WebListActivity> {
                     ),
                     TextButton(
                       onPressed: () async {
-                        result = await FilePicker.platform.pickFiles();
-                        if (result == null) {
-                          print("No file selected");
-                        } else {
-                          for (var element in result!.files) {
-                            readFile(element.name);
-                            print(element.name);
+                        html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+                        uploadInput.click();
+
+                        uploadInput.onChange.listen((e) {
+                          final files = uploadInput.files;
+                          if (files != null && files.isNotEmpty) {
+                            readFile(files[0]); // Lecture du fichier sélectionné
                           }
-                        }
+                        });
                       },
                       child: Text(
                         "Ajouter",
@@ -147,5 +159,7 @@ class _WebListActivity extends State<WebListActivity> {
         ),
       ),
     );
-  }
+  } 
+  
+ 
 }

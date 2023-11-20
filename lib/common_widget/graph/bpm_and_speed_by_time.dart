@@ -116,7 +116,7 @@ class _GraphBpmAndSpeedByTime extends State<GraphBpmAndSpeedByTime> {
 
     return Container(
         padding: const EdgeInsets.only(left: 15),
-        height: widget.media.width * 0.5,
+        height: widget.media.width * 0.3,
         width: double.maxFinite,
         child: LineChart(
           LineChartData(
