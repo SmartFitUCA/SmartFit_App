@@ -1,7 +1,7 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/container/ligne_container_stats.dart';
+import 'package:smartfit_app_mobile/common_widget/graph/altitude_by_time.dart';
 import 'package:smartfit_app_mobile/common_widget/graph/bpm_and_speed_by_time.dart';
 import 'package:smartfit_app_mobile/common_widget/graph/bpm_by_time.dart';
 import 'package:smartfit_app_mobile/common_widget/other/entete_home_view.dart';
@@ -56,8 +56,16 @@ class _MobileHomeView extends State<MobileHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                LigneContainerStats(minBpm+ " BPM",maxBpm+ " BPM" ,avgBpm+ " BPM",  "Minimum", "Maximum", "Moyenne",  Icons.trending_down,Icons.trending_up,Icons.favorite_outline),
-
+                LigneContainerStats(
+                    "$minBpm BPM",
+                    "$maxBpm BPM",
+                    "$avgBpm BPM",
+                    "Minimum",
+                    "Maximum",
+                    "Moyenne",
+                    Icons.trending_down,
+                    Icons.trending_up,
+                    Icons.favorite_outline),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -77,12 +85,20 @@ class _MobileHomeView extends State<MobileHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                const LigneContainerStats("1", "2", "3", "Minimum", "Maximum", "Moyenne", Icons.trending_down,Icons.trending_up,Icons.favorite_outline ),
-                Container(
-                    padding: const EdgeInsets.only(left: 15),
-                    height: media.width * 0.5,
-                    width: double.maxFinite,
-                    child: LineChart(LineChartData()))
+                const LigneContainerStats(
+                    "30 BPM",
+                    "90 BPM",
+                    "290 BPM",
+                    "Minimum",
+                    "Maximum",
+                    "Moyenne",
+                    Icons.trending_down,
+                    Icons.trending_up,
+                    Icons.favorite_outline),
+                SizedBox(
+                  height: media.width * 0.05,
+                ),
+                GraphAltitudeByTime(media, data)
               ],
             ),
           ),

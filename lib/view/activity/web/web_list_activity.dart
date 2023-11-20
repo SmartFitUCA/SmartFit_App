@@ -1,21 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:universal_html/html.dart' as html; 
+import 'package:smartfit_app_mobile/modele/manager_file.dart';
+import 'package:universal_html/html.dart' as html;
 
-import 'package:crypto/crypto.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
-import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
-import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 
 class WebListActivity extends StatefulWidget {
   const WebListActivity({super.key});
@@ -38,13 +34,13 @@ class _WebListActivityState extends State<WebListActivity> {
     reader.onLoadEnd.listen((event) {
       if (reader.readyState == html.FileReader.DONE) {
         Uint8List bytes = reader.result as Uint8List;
-        List<dynamic>  result =  x.readFitFileWeb(bytes) ; 
+        List<dynamic> result = x.readFitFileWeb(bytes);
         Provider.of<User>(context, listen: false)
-          .addActivity(ActivityOfUser(file.name, result ));
+            .addActivity(ActivityOfUser(file.name, result));
       }
     });
   }
-  
+
   List lastWorkoutArr = [];
 
   @override
@@ -60,7 +56,7 @@ class _WebListActivityState extends State<WebListActivity> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -73,13 +69,15 @@ class _WebListActivityState extends State<WebListActivity> {
                     ),
                     TextButton(
                       onPressed: () async {
-                        html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+                        html.FileUploadInputElement uploadInput =
+                            html.FileUploadInputElement();
                         uploadInput.click();
 
                         uploadInput.onChange.listen((e) {
                           final files = uploadInput.files;
                           if (files != null && files.isNotEmpty) {
-                            readFile(files[0]); // Lecture du fichier sélectionné
+                            readFile(
+                                files[0]); // Lecture du fichier sélectionné
                           }
                         });
                       },
@@ -150,7 +148,5 @@ class _WebListActivityState extends State<WebListActivity> {
         ),
       ),
     );
-  } 
-  
- 
+  }
 }

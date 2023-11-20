@@ -41,12 +41,12 @@ class Stats extends StatelessWidget {
         Text.rich(
           TextSpan(
               text: value,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
               ),
               children: [
-                TextSpan(text: ' '),
+                const TextSpan(text: ' '),
                 TextSpan(
                   text: unit,
                   style: TextStyle(
@@ -56,10 +56,10 @@ class Stats extends StatelessWidget {
                 ),
               ]),
         ),
-        SizedBox(height: 6),
+        const SizedBox(height: 6),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w500,
           ),
