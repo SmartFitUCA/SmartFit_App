@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../common/colo_extension.dart';
+import '../../common/colo_extension.dart';
 
 class OnBoardingPage extends StatelessWidget {
   final Map pObj;
@@ -10,10 +9,8 @@ class OnBoardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     var media = MediaQuery.of(context).size;
-    return 
-    
-    SizedBox(
+    var media = MediaQuery.of(context).size;
+    return SizedBox(
       width: media.width,
       height: media.height,
       child: Column(

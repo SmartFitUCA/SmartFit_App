@@ -1,5 +1,5 @@
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/common_widget/helpers.dart';
+import 'package:smartfit_app_mobile/common_widget/not_use/helpers.dart';
 import 'package:flutter/material.dart';
 
 class Dates extends StatelessWidget {
@@ -45,7 +45,7 @@ class DateBox extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
       decoration: BoxDecoration(
         gradient: active
-            ?  LinearGradient(colors: [
+            ? LinearGradient(colors: [
                 TColor.primaryColor2,
                 TColor.primaryColor1,
               ], begin: Alignment.topCenter)

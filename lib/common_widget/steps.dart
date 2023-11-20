@@ -7,8 +7,6 @@ class Steps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("lhwaa");
-
     String steps = Provider.of<User>(context, listen: false)
         .listActivity[0]
         .getTotalSteps();

@@ -1,10 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:smartfit_app_mobile/common_widget/graph.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:smartfit_app_mobile/common_widget/graph/graph.dart';
 
 class ActivityOfUser {
   late String _nomActivite;
   late String _imageName;
   late List<dynamic> _contentActivity;
+  late int _dataSession;
 
   List<dynamic> get contentActivity => _contentActivity;
 
@@ -12,8 +14,21 @@ class ActivityOfUser {
     _nomActivite = nom;
     _imageName = "assets/img/workout1.svg";
     _contentActivity = listeDynamic;
+    _dataSession = getDataSession();
   }
 
+  // ----- Retourne l'indice de la ligne qui contient les données de la session -- //
+  int getDataSession() {
+    for (int i = _contentActivity.length - 1; i != 0; i--) {
+      if (_contentActivity[i][0] == "Data" &&
+          _contentActivity[i][2] == "session") {
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  // -----------------  BPM ------------------ //
   List<FlSpot> getHeartRateWithTime() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -40,6 +55,35 @@ class ActivityOfUser {
     return result;
   }
 
+  int getMaxBpm() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "max_heart_rate") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0;
+  }
+
+  int getMinBpm() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "min_heart_rate") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0;
+  }
+
+  int getAvgBpm() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "avg_heart_rate") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0;
+  }
+  // -------------------------- FIN BPM ---------------------- //
+
+  // ---------------------- Distance ---------------------- //
   List<FlSpot> getDistanceWithTime() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -57,6 +101,18 @@ class ActivityOfUser {
     return result;
   }
 
+  String getTotalDistance() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "total_distance") {
+        return _contentActivity[_dataSession][i + 1].toString();
+      }
+    }
+    return "null";
+  }
+
+  // ---------------------- FIN Distance ---------------------- //
+
+  // ---------------------- Calories ---------------------- //
   List<FlSpot> getCalories() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -64,7 +120,6 @@ class ActivityOfUser {
       if (ligne.length >= 39 &&
           ligne[0] == "Data" &&
           ligne[39] == "total_calories") {
-        print(ligne[39]);
         if (firtTimeStamp == 0) {
           firtTimeStamp = ligne[4];
         }
@@ -76,80 +131,40 @@ class ActivityOfUser {
     return result;
   }
 
-  String getTotalSteps() {
-    print(_contentActivity.length);
-    for (int i = 0;
-        i < _contentActivity[_contentActivity.length - 3].length;
-        i++) {
-      print(_contentActivity[_contentActivity.length - 3][i]);
-
-      if (_contentActivity[_contentActivity.length - 3][i] == "total_strides") {
-        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
-      }
-    }
-    return "NAN";
-  }
-
   String getTotalCalorie() {
-    print(_contentActivity.length);
-    for (int i = 0;
-        i < _contentActivity[_contentActivity.length - 3].length;
-        i++) {
-      print(_contentActivity[_contentActivity.length - 3][i]);
-
-      if (_contentActivity[_contentActivity.length - 3][i] ==
-          "total_calories") {
-        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "total_calories") {
+        return _contentActivity[_dataSession][i + 1].toString();
       }
     }
-    return "NAN";
+    return "null";
   }
 
-  String getTotalAvgHeartRate() {
-    print(_contentActivity.length);
-    for (int i = 0;
-        i < _contentActivity[_contentActivity.length - 3].length;
-        i++) {
-      print(_contentActivity[_contentActivity.length - 3][i]);
+  // ---------------------- FIN Calories ---------------------- //
 
-      if (_contentActivity[_contentActivity.length - 3][i] ==
-          "total_calories") {
-        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
+  // ---------------------- Step ------------------------------//
+  String getTotalSteps() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "total_strides") {
+        return _contentActivity[_dataSession][i + 1].toString();
       }
     }
-    return "NAN";
+    return "null";
   }
+  // ----------------------- FIN Step ------------------------ //
 
+  // ------------------------- Time ----------------------------- //
   String getTotalTime() {
-    print(_contentActivity.length);
-    for (int i = 0;
-        i < _contentActivity[_contentActivity.length - 3].length;
-        i++) {
-      print(_contentActivity[_contentActivity.length - 3][i]);
-
-      if (_contentActivity[_contentActivity.length - 3][i] ==
-          "total_elapsed_time") {
-        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "total_elapsed_time") {
+        return _contentActivity[_dataSession][i + 1].toString();
       }
     }
-    return "NAN";
+    return "null";
   }
+  // ---------------------------- FIN time -------------------- //
 
-  String getTotalDistance() {
-    print(_contentActivity.length);
-    for (int i = 0;
-        i < _contentActivity[_contentActivity.length - 3].length;
-        i++) {
-      print(_contentActivity[_contentActivity.length - 3][i]);
-
-      if (_contentActivity[_contentActivity.length - 3][i] ==
-          "total_distance") {
-        return _contentActivity[_contentActivity.length - 3][i + 1].toString();
-      }
-    }
-    return "NAN";
-  }
-
+  // ---------------------------------------- Altitude -------------------- //
   List<FlSpot> getAltitudeWithTime() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -167,19 +182,26 @@ class ActivityOfUser {
     return result;
   }
 
-  double getDistance() {
-    double result = 0.0;
-    for (int i = _contentActivity.length - 1; i >= 0; i--) {
-      if (_contentActivity[i].length >= 8 &&
-          _contentActivity[i][0] == "Data" &&
-          _contentActivity[i][6] == "distance") {
-        if (_contentActivity[i][7] > result) {
-          result = _contentActivity[i][7].toDouble();
-        }
+  double getMaxAltitude() {
+    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "max_altitude") {
+        return _contentActivity[_dataSession][i + 1];
       }
     }
-    return result;
+    return 0.0;
   }
+
+  double getMinAltitude() {
+    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "min_altitude") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0.0;
+  }
+  // -------------------------- FIN altitude ---------------------- //
+
+  // -------------------------- Speed  ---------------------- //
 
   List<FlSpot> getSpeedWithTime() {
     List<FlSpot> result = List.empty(growable: true);
@@ -228,6 +250,41 @@ class ActivityOfUser {
     }
     return result;
   }
+
+  double getMaxSpeed() {
+    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "max_speed") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0.0;
+  }
+
+  double getAvgSpeed() {
+    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "avg_speed") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0.0;
+  }
+
+  // -------------------------- FIN Speed  ---------------------- //
+
+  // -------------------------- Localisation ------------------- //
+
+  List<LatLng> getPosition() {
+    List<LatLng> list = List.empty(growable: true);
+
+    for (List<dynamic> ligne in _contentActivity) {
+      if (ligne[0] == "Data" && ligne[6] == "position_lat") {
+        list.add(LatLng(ligne[7], ligne[10]));
+      }
+    }
+    return list;
+  }
+
+  // -------------------------- FIN Localisation  ---------------------- //
 
   Map<String, dynamic> toMap() {
     return {

@@ -13,7 +13,8 @@ class Stats extends StatelessWidget {
         .getTotalCalorie();
     String heartrate = Provider.of<User>(context, listen: false)
         .listActivity[0]
-        .getTotalAvgHeartRate();
+        .getAvgBpm()
+        .toString();
     String time = Provider.of<User>(context, listen: false)
         .listActivity[0]
         .getTotalTime();
@@ -24,7 +25,7 @@ class Stats extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Row(
             children: [
-              Text(
+              const Text(
                 'Statistiques',
                 style: TextStyle(
                   fontSize: 14,
@@ -45,7 +46,7 @@ class Stats extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              SizedBox(width: 30),
+              const SizedBox(width: 15),
               InfoStat(
                 icon: Icons.timer,
                 iconColor: Color.fromARGB(255, 255, 255, 255),
@@ -126,7 +127,6 @@ class InfoStat extends StatelessWidget {
             iconColor: iconColor,
             iconBackground: iconBackground,
           ),
-          Change(time: time),
           Align(
             alignment: Alignment.bottomLeft,
             child: Column(
@@ -148,36 +148,6 @@ class InfoStat extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class Change extends StatelessWidget {
-  const Change({
-    Key? key,
-    required this.time,
-  }) : super(key: key);
-
-  final String time;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topRight,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 1,
-          horizontal: 4,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(500),
-        ),
-        child: Text(
-          time,
-          style: const TextStyle(fontSize: 10, color: Colors.white),
-        ),
       ),
     );
   }

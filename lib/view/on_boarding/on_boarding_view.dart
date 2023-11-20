@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/common_widget/on_boarding_page.dart';
+import 'package:smartfit_app_mobile/common_widget/on_boarding/on_boarding_page.dart';
 import 'package:smartfit_app_mobile/view/login/signup_view.dart';
 
 class OnBoardingView extends StatefulWidget {
