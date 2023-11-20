@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SmartFit 3 in 1',
+      title: 'SmartFit',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           // This is the theme of your application.
