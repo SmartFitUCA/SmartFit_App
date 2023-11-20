@@ -1,21 +1,22 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 
 class HomeViewUtil {
   DataHomeView initData(BuildContext context) {
-    List<FlSpot> bpmSecondes =
-        Provider.of<User>(context).listActivity[0].getHeartRateWithTime();
-    List<FlSpot> vitesseSecondes =
-        Provider.of<User>(context).listActivity[0].getSpeedWithTime();
+    ActivityOfUser activity = Provider.of<User>(context).listActivity[0];
+
+    List<FlSpot> bpmSecondes = activity.getHeartRateWithTime();
+    List<FlSpot> vitesseSecondes = activity.getSpeedWithTime();
+    List<FlSpot> altitudeSeconde = activity.getAltitudeWithTime();
 
     List<FlSpot> bpmSecondes2 = List.from(bpmSecondes);
-    return DataHomeView(
-        bpmSecondes,
-        normaliserDeuxiemeElement(bpmSecondes2),
-        normaliserDeuxiemeElement(vitesseSecondes));
+
+    return DataHomeView(bpmSecondes, normaliserDeuxiemeElement(bpmSecondes2),
+        normaliserDeuxiemeElement(vitesseSecondes), altitudeSeconde);
   }
 
   List<FlSpot> normaliserDeuxiemeElement(List<FlSpot> liste) {

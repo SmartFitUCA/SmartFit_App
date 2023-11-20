@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/common_widget/container/ligne_container_stats.dart';
+import 'package:smartfit_app_mobile/common_widget/graph/altitude_by_time.dart';
 import 'package:smartfit_app_mobile/common_widget/graph/bpm_and_speed_by_time.dart';
 import 'package:smartfit_app_mobile/common_widget/graph/bpm_by_time.dart';
 import 'package:smartfit_app_mobile/common_widget/other/entete_home_view.dart';
@@ -73,11 +74,7 @@ class _MobileHomeView extends State<MobileHomeView> {
                   height: media.width * 0.05,
                 ),
                 const LigneContainerStats("1", "2", "3", "s", "s", "s"),
-                Container(
-                    padding: const EdgeInsets.only(left: 15),
-                    height: media.width * 0.5,
-                    width: double.maxFinite,
-                    child: LineChart(LineChartData()))
+                GraphAltitudeByTime(media, data)
               ],
             ),
           ),

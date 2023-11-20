@@ -133,6 +133,7 @@ class ActivityOfUser {
     return "null";
   }
 
+  // ---------------------------------------- Altitude -------------------- //
   List<FlSpot> getAltitudeWithTime() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -149,6 +150,25 @@ class ActivityOfUser {
     }
     return result;
   }
+
+  double getMaxAltitude() {
+    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "max_altitude") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0.0;
+  }
+
+  double getMinAltitude() {
+    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "min_altitude") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0.0;
+  }
+  // -------------------------- FIN altitude ---------------------- //
 
   List<FlSpot> getSpeedWithTime() {
     List<FlSpot> result = List.empty(growable: true);

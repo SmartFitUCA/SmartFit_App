@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'dart:html' as html; // Importation des fonctionnalités HTML
 
 import 'package:crypto/crypto.dart';
 import 'package:file_picker/file_picker.dart';
@@ -30,9 +29,11 @@ class _WebListActivityState extends State<WebListActivity> {
 
   //late File x = File(file.path);
   List<String> parseFile(Uint8List bytes) {
-    String csvString = utf8.decode(bytes); // Convertit les bytes en chaîne UTF-8
-    List<String> lines = LineSplitter.split(csvString).toList(); // Sépare les lignes
-    
+    String csvString =
+        utf8.decode(bytes); // Convertit les bytes en chaîne UTF-8
+    List<String> lines =
+        LineSplitter.split(csvString).toList(); // Sépare les lignes
+
     for (String line in lines) {
       print(line); // Affiche chaque ligne du fichier
     }
@@ -40,20 +41,21 @@ class _WebListActivityState extends State<WebListActivity> {
     return lines; // Ou retournez les lignes du fichier
   }
 
-  void readFile(html.File file) async {
+  void readFile() async {
+    /*
     ManagerFile x = ManagerFile();
     final reader = html.FileReader();
     reader.readAsArrayBuffer(file);
     reader.onLoadEnd.listen((event) {
       if (reader.readyState == html.FileReader.DONE) {
         Uint8List bytes = reader.result as Uint8List;
-        List<dynamic>  result =  x.readFitFileWeb(bytes) ; 
+        List<dynamic> result = x.readFitFileWeb(bytes);
         Provider.of<User>(context, listen: false)
-          .addActivity(ActivityOfUser(file.name, result ));
+            .addActivity(ActivityOfUser(file.name, result));
       }
-    });
+    });*/
   }
-  
+
   List lastWorkoutArr = [];
 
   @override
@@ -82,15 +84,18 @@ class _WebListActivityState extends State<WebListActivity> {
                     ),
                     TextButton(
                       onPressed: () async {
-                        html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+                        /*
+                        html.FileUploadInputElement uploadInput =
+                            html.FileUploadInputElement();
                         uploadInput.click();
 
                         uploadInput.onChange.listen((e) {
                           final files = uploadInput.files;
                           if (files != null && files.isNotEmpty) {
-                            readFile(files[0]); // Lecture du fichier sélectionné
+                            readFile(
+                                files[0]); // Lecture du fichier sélectionné
                           }
-                        });
+                        });*/
                       },
                       child: Text(
                         "Ajouter",
@@ -159,7 +164,5 @@ class _WebListActivityState extends State<WebListActivity> {
         ),
       ),
     );
-  } 
-  
- 
+  }
 }
