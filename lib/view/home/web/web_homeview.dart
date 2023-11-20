@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/container/ligne_container_stats.dart';
@@ -22,7 +21,6 @@ class _WebHomeView extends State<WebHomeView> {
   late DataHomeView data;
   TextEditingController bpmController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -31,7 +29,7 @@ class _WebHomeView extends State<WebHomeView> {
     String avgBpm = context.watch<User>().listActivity[0].getAvgBpm();
 
     data = HomeViewUtil().initData(context);
-    
+
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
@@ -62,8 +60,16 @@ class _WebHomeView extends State<WebHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                
-                LigneContainerStats(minBpm+ " BPM",maxBpm+ " BPM" ,avgBpm+ " BPM",  "Minimum", "Maximum", "Moyenne",  Icons.trending_down,Icons.trending_up,Icons.favorite_outline),
+                LigneContainerStats(
+                    "$minBpm BPM",
+                    "$maxBpm BPM",
+                    "$avgBpm BPM",
+                    "Minimum",
+                    "Maximum",
+                    "Moyenne",
+                    Icons.trending_down,
+                    Icons.trending_up,
+                    Icons.favorite_outline),
                 SizedBox(
                   height: media.width * 0.05,
                 ),
@@ -86,8 +92,16 @@ class _WebHomeView extends State<WebHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                const LigneContainerStats("30 BPM", "90 BPM", "290 BPM",  "Minimum", "Maximum", "Moyenne",  Icons.trending_down,Icons.trending_up,Icons.favorite_outline),
-
+                const LigneContainerStats(
+                    "30 BPM",
+                    "90 BPM",
+                    "290 BPM",
+                    "Minimum",
+                    "Maximum",
+                    "Moyenne",
+                    Icons.trending_down,
+                    Icons.trending_up,
+                    Icons.favorite_outline),
                 SizedBox(
                   height: media.width * 0.05,
                 ),

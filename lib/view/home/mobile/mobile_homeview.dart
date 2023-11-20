@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/container/ligne_container_stats.dart';
@@ -58,9 +57,9 @@ class _MobileHomeView extends State<MobileHomeView> {
                   height: media.width * 0.05,
                 ),
                 LigneContainerStats(
-                    minBpm + " BPM",
-                    maxBpm + " BPM",
-                    avgBpm + " BPM",
+                    "$minBpm BPM",
+                    "$maxBpm BPM",
+                    "$avgBpm BPM",
                     "Minimum",
                     "Maximum",
                     "Moyenne",
@@ -86,7 +85,19 @@ class _MobileHomeView extends State<MobileHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                const LigneContainerStats("1", "2", "3", "s", "s", "s"),
+                const LigneContainerStats(
+                    "30 BPM",
+                    "90 BPM",
+                    "290 BPM",
+                    "Minimum",
+                    "Maximum",
+                    "Moyenne",
+                    Icons.trending_down,
+                    Icons.trending_up,
+                    Icons.favorite_outline),
+                SizedBox(
+                  height: media.width * 0.05,
+                ),
                 GraphAltitudeByTime(media, data)
               ],
             ),
