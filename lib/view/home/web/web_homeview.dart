@@ -62,7 +62,7 @@ class _WebHomeView extends State<WebHomeView> {
                   height: media.width * 0.05,
                 ),
                 
-                LigneContainerStats(maxBpm+ " BPM",minBpm+ " BPM" ,avgBpm+ " BPM",  "Minimum", "Maximum", "Moyenne",  Icons.trending_down,Icons.trending_up,Icons.favorite_outline),
+                LigneContainerStats(minBpm+ " BPM",maxBpm+ " BPM" ,avgBpm+ " BPM",  "Minimum", "Maximum", "Moyenne",  Icons.trending_down,Icons.trending_up,Icons.favorite_outline),
                 SizedBox(
                   height: media.width * 0.05,
                 ),

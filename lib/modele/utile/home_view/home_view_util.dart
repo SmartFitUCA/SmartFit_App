@@ -15,7 +15,7 @@ class HomeViewUtil {
     return DataHomeView(
         bpmSecondes,
         normaliserDeuxiemeElement(bpmSecondes2),
-        normaliserDeuxiemeElement(vitesseSecondes));
+        normaliserDeuxiemeElement(vitesseSecondes),);
   }
 
   List<FlSpot> normaliserDeuxiemeElement(List<FlSpot> liste) {

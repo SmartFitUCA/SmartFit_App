@@ -126,7 +126,6 @@ class InfoStat extends StatelessWidget {
             iconColor: iconColor,
             iconBackground: iconBackground,
           ),
-          Change(time: time),
           Align(
             alignment: Alignment.bottomLeft,
             child: Column(
@@ -153,35 +152,7 @@ class InfoStat extends StatelessWidget {
   }
 }
 
-class Change extends StatelessWidget {
-  const Change({
-    Key? key,
-    required this.time,
-  }) : super(key: key);
 
-  final String time;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topRight,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 1,
-          horizontal: 4,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(500),
-        ),
-        child: Text(
-          time,
-          style: const TextStyle(fontSize: 10, color: Colors.white),
-        ),
-      ),
-    );
-  }
-}
 
 class StatIcon extends StatelessWidget {
   const StatIcon({
