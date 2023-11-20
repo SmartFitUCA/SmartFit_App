@@ -264,7 +264,7 @@ class _MobileHomeView extends State<MobileHomeView> {
                           title: "Voir",
                           type: RoundButtonType.bgGradient,
                           fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w0,
                           onPressed: () {
                             Navigator.push(
                               context,

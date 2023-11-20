@@ -97,6 +97,32 @@ class ActivityOfUser {
     return "null";
   }
 
+  String getMaxBpm() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "max_heart_rate") {
+        return _contentActivity[_dataSession][i + 1].toString();
+      }
+    }
+    return "null";
+  }
+  String getMinBpm() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "min_heart_rate") {
+        return _contentActivity[_dataSession][i + 1].toString();
+      }
+    }
+    return "null";
+  }
+
+    String getAvgBpm() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "avg_heart_rate") {
+        return _contentActivity[_dataSession][i + 1].toString();
+      }
+    }
+    return "null";
+  }
+
   String getTotalCalorie() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "total_calories") {

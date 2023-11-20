@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/common_widget/stats.dart';
 
 class ContainerStats extends StatelessWidget {
-  const ContainerStats(this.value, this.designation, {Key? key})
+  const ContainerStats(this.value, this.designation, this.icon, {Key? key})
       : super(key: key);
 
   final String value;
   final String designation;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 110,
-      width: 110,
+      height: 100,
+      width: 100,
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
@@ -29,6 +32,11 @@ class ContainerStats extends StatelessWidget {
           ]),
       child: Stack(
         children: [
+          StatIcon(
+            icon: icon,
+            iconColor: TColor.white,
+            iconBackground:  TColor.secondaryColor1,
+          ),
           Align(
             alignment: Alignment.bottomLeft,
             child: Column(
