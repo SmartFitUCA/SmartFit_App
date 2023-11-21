@@ -24,8 +24,6 @@ class _WebListActivityState extends State<WebListActivity> {
   IDataStrategy strategy = RequestApi();
   int firstActivityIndex = 0;
 
-  //late File x = File(file.path);
-
   void readFile(html.File file) async {
     ManagerFile x = ManagerFile();
     final reader = html.FileReader();
@@ -34,13 +32,15 @@ class _WebListActivityState extends State<WebListActivity> {
       if (reader.readyState == html.FileReader.DONE) {
         Uint8List bytes = reader.result as Uint8List;
         List<dynamic> result = x.readFitFileWeb(bytes);
+        Provider.of<User>(context, listen: false).addActivity(
+            ActivityOfUser("Date random", "${file.name} Categorie", "", ""));
         Provider.of<User>(context, listen: false)
-            .addActivity(ActivityOfUser(file.name, result));
+            .listActivity
+            .last
+            .contentActivity = result;
       }
     });
   }
-
-  List lastWorkoutArr = [];
 
   @override
   Widget build(BuildContext context) {

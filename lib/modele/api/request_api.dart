@@ -73,7 +73,8 @@ class RequestApi extends IDataStrategy {
         headers: <String, String>{'Authorization': token});
 
     if (response.statusCode == 200) {
-      return Tuple2(true, response.body);
+      return Tuple2(true,
+          (json.decode(response.body) as List).cast<Map<String, dynamic>>());
     }
     if (response.statusCode == 401) {
       return const Tuple2(false, "401 - UNAUTHORIZED");
@@ -119,37 +120,6 @@ class RequestApi extends IDataStrategy {
     }
     return const Tuple2(false, "Fail");
   }
-
-  /*
-  @override
-  Future<bool> updateEmail(String token, String email) async {
-    final response = await http.put(Uri.parse('$urlApi/$token/email'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{'email': email}));
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  @override
-  Future<bool> updateUsername(String token, String username) async {
-    final response = await http.put(Uri.parse('$urlApi/$token/username'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{'username': username}));
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }*/
 
   @override
   Future<Tuple2> modifAttribut(

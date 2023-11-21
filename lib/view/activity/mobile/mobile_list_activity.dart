@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,9 +7,10 @@ import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
-import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
+import 'package:smartfit_app_mobile/modele/utile/list_activity.dart/list_activity_utile.dart';
+import 'package:tuple/tuple.dart';
 
 class MobileListActivity extends StatefulWidget {
   const MobileListActivity({Key? key}) : super(key: key);
@@ -19,8 +22,9 @@ class MobileListActivity extends StatefulWidget {
 class _MobileListActivity extends State<MobileListActivity> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
-  ManagerFile _managerFile = ManagerFile();
+  final ListActivityUtile _utile = ListActivityUtile();
 
+  /*
   Future<void> readFile(String nom) async {
     PlatformFile t = result!.files.single;
     String? y = t.path;
@@ -28,17 +32,60 @@ class _MobileListActivity extends State<MobileListActivity> {
       print("t");
     } else {
       List<dynamic> result = await _managerFile.readFitFile(y!);
+
+      // Upload the file and Syncronise (getFiles())
+
+      strategy.uploadFile(context.watch<User>().token, File(y));
+
       Provider.of<User>(context, listen: false)
-          .addActivity(ActivityOfUser(nom, result));
+          .addActivity(ActivityOfUser("Random date", "$nom categorie !"));
+      Provider.of<User>(context, listen: false)
+          .listActivity
+          .last
+          .contentActivity = result;
     }
+  }*/
+
+  void addFile(String path) async {
+    Tuple2<bool, String> result = await strategy.uploadFile(
+        Provider.of<User>(context, listen: false).token, File(path));
+    if (result.item1 == false) {
+      // Afficher msg d'erreur
+      print("Upload - ${result.item2}");
+      return;
+    }
+    getFiles();
   }
 
-  List lastWorkoutArr = [];
+  void getFiles() async {
+    Tuple2 result = await strategy
+        .getFiles(Provider.of<User>(context, listen: false).token);
+    if (result.item1 == false) {
+      print("GetFiles - ${result.item2}");
+      // Afficher une message d'erreur
+      return;
+    }
+    Provider.of<User>(context, listen: false).listActivity.clear();
+
+    for (Map<String, dynamic> element in result.item2) {
+      Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
+          element["creation_date"].toString(),
+          element["category"].toString(),
+          element["uuid"].toString(),
+          element["filename"].toString()));
+    }
+    _utile.getContentOnTheFirstFile(context);
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     int firstActivityIndex = 0;
+
+    if (Provider.of<User>(context).listActivity.isNotEmpty) {
+      _utile.getContentOnTheFirstFile(context);
+    }
 
     return Scaffold(
       backgroundColor: TColor.white,
@@ -61,15 +108,22 @@ class _MobileListActivity extends State<MobileListActivity> {
                           fontWeight: FontWeight.w700),
                     ),
                     TextButton(
+                        onPressed: getFiles,
+                        child: Text("Get activity",
+                            style: TextStyle(
+                                color: TColor.gray,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700))),
+                    TextButton(
                       onPressed: () async {
-                        result = await FilePicker.platform.pickFiles();
-                        if (result == null) {
-                          print("No file selected");
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles();
+                        if (result != null) {
+                          addFile(result.files.single.path!);
                         } else {
-                          for (var element in result!.files) {
-                            readFile(element.name);
-                            print(element.name);
-                          }
+                          print("Picker");
+                          // msg d'erreur
+                          // User canceled the picker
                         }
                       },
                       child: Text(
@@ -86,7 +140,7 @@ class _MobileListActivity extends State<MobileListActivity> {
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(
                               "Vous n'avez pas d'activités pour le moment, veuillez en ajouter.",
                               style: TextStyle(
@@ -109,7 +163,7 @@ class _MobileListActivity extends State<MobileListActivity> {
                           itemBuilder: (context, index) {
                             var activityObj =
                                 Provider.of<User>(context, listen: true)
-                                    .listActivity[index] as ActivityOfUser;
+                                    .listActivity[index];
                             var activityMap = activityObj.toMap();
 
                             bool isFirstActivity = false;
@@ -136,7 +190,7 @@ class _MobileListActivity extends State<MobileListActivity> {
                                   Provider.of<User>(context, listen: false)
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
-                                      .insertActivity(0, activityObj);
+                                      .insertActivityTop(activityObj, context);
                                 },
                                 isFirstActivity: isFirstActivity,
                               ),
