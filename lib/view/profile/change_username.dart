@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/text_field/round_text_field.dart';
 
@@ -15,7 +14,6 @@ class ChangeUsernameView extends StatefulWidget {
 class _ChangeUsernameViewState extends State<ChangeUsernameView> {
   final TextEditingController controllerTextEmail = TextEditingController();
   final TextEditingController controllerTextPassword = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +42,14 @@ class _ChangeUsernameViewState extends State<ChangeUsernameView> {
               height: 15,
               fit: BoxFit.contain,
             ),
-            
           ),
-          
         ),
-         title: Text(
+        title: Text(
           "Changer son pseudo",
           style: TextStyle(
               color: TColor.black, fontSize: 16, fontWeight: FontWeight.w700),
         ),
-        ),
+      ),
       backgroundColor: TColor.white,
       body: Column(
         children: [
@@ -78,9 +74,7 @@ class _ChangeUsernameViewState extends State<ChangeUsernameView> {
                         controller: controllerTextEmail,
                       ),
                       SizedBox(height: media.width * 0.04),
-                      RoundButton(
-                    title: "Confirmer",
-                    onPressed: ()  {}),
+                      RoundButton(title: "Confirmer", onPressed: () {}),
                     ],
                   ),
                 ),
