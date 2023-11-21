@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
@@ -23,20 +22,9 @@ class WebListActivity extends StatefulWidget {
 class _WebListActivityState extends State<WebListActivity> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
+  int firstActivityIndex = 0;
 
   //late File x = File(file.path);
-  List<String> parseFile(Uint8List bytes) {
-    String csvString =
-        utf8.decode(bytes); // Convertit les bytes en chaîne UTF-8
-    List<String> lines =
-        LineSplitter.split(csvString).toList(); // Sépare les lignes
-
-    for (String line in lines) {
-      print(line); // Affiche chaque ligne du fichier
-    }
-
-    return lines; // Ou retournez les lignes du fichier
-  }
 
   void readFile(html.File file) async {
     ManagerFile x = ManagerFile();
@@ -117,20 +105,30 @@ class _WebListActivityState extends State<WebListActivity> {
                               ),
                             )
                           ])
-                    : ListView.builder(
-                        padding: EdgeInsets.zero,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: Provider.of<User>(context, listen: true)
-                            .listActivity
-                            .length,
-                        itemBuilder: (context, index) {
-                          var activityObj =
-                              Provider.of<User>(context, listen: true)
-                                  .listActivity[index] as ActivityOfUser;
-                          var activityMap = activityObj.toMap();
-                          return InkWell(
+                    : Material(
+                        color: Colors.transparent,
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: Provider.of<User>(context, listen: true)
+                              .listActivity
+                              .length,
+                          itemBuilder: (context, index) {
+                            var activityObj =
+                                Provider.of<User>(context, listen: true)
+                                    .listActivity[index] as ActivityOfUser;
+                            var activityMap = activityObj.toMap();
+
+                            bool isFirstActivity = false;
+                            if (index == firstActivityIndex) {
+                              isFirstActivity = true;
+                            }
+                            return InkWell(
                               onTap: () {
+                                setState(() {
+                                  firstActivityIndex = index;
+                                });
                                 Provider.of<User>(context, listen: false)
                                     .removeActivity(activityObj);
                                 Provider.of<User>(context, listen: false)
@@ -148,8 +146,12 @@ class _WebListActivityState extends State<WebListActivity> {
                                   Provider.of<User>(context, listen: false)
                                       .insertActivity(0, activityObj);
                                 },
-                              ));
-                        }),
+                                isFirstActivity: isFirstActivity,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                 SizedBox(
                   height: media.width * 0.1,
                 ),
