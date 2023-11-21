@@ -4,6 +4,11 @@ import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/setting_row.dart';
 import 'package:smartfit_app_mobile/common_widget/title_subtitle_cell.dart';
+import 'package:smartfit_app_mobile/view/profile/change_password.dart';
+import 'package:smartfit_app_mobile/view/profile/change_email.dart';
+import 'package:smartfit_app_mobile/view/profile/change_username.dart';
+import 'package:smartfit_app_mobile/view/profile/contact_us_view.dart';
+import 'package:smartfit_app_mobile/view/profile/policy_view.dart';
 
 class MobileProfileView extends StatefulWidget {
   const MobileProfileView({super.key});
@@ -18,8 +23,18 @@ class _MobileProfileView extends State<MobileProfileView> {
   List accountArr = [
     {
       "image": "assets/img/p_personal.png",
-      "name": "Données personnelles",
+      "name": "Changer son pseudo",
       "tag": "1"
+    },
+    {
+      "image": "assets/img/p_personal.png",
+      "name": "Changer son email",
+      "tag": "3"
+    },
+    {
+      "image": "assets/img/p_personal.png",
+      "name": "Changer son mot de passe",
+      "tag": "2"
     },
   ];
 
@@ -190,14 +205,37 @@ class _MobileProfileView extends State<MobileProfileView> {
                       shrinkWrap: true,
                       itemCount: accountArr.length,
                       itemBuilder: (context, index) {
-                        var iObj = accountArr[index] as Map? ?? {};
+                        var iObj = accountArr[index];
                         return SettingRow(
-                          icon: iObj["image"].toString(),
-                          title: iObj["name"].toString(),
-                          onPressed: () {},
+                          icon: iObj["image"]!,
+                          title: iObj["name"]!,
+                          onPressed: () {
+                            if (iObj["tag"] == "1") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangeUsernameView(),
+                                ),
+                              );
+                            } else if (iObj["tag"] == "2") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangePasswordView(),
+                                ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangeEmailView(),
+                                ),
+                              );
+                            }
+                          },
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -345,7 +383,25 @@ class _MobileProfileView extends State<MobileProfileView> {
                         return SettingRow(
                           icon: iObj["image"].toString(),
                           title: iObj["name"].toString(),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (iObj["tag"] == "6") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PrivacyPolicyView(),
+                                ),
+                              );
+                            } else if (iObj["tag"] == "5") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ContactUsView(),
+                                ),
+                              );
+                            } else {
+                              // Autre logique si nécessaire pour d'autres éléments de la liste
+                            }
+                          },
                         );
                       },
                     )
