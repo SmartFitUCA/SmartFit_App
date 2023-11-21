@@ -19,26 +19,17 @@ class MobileListActivity extends StatefulWidget {
 class _MobileListActivity extends State<MobileListActivity> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
+  ManagerFile _managerFile = ManagerFile();
 
   Future<void> readFile(String nom) async {
-    ManagerFile x = ManagerFile();
     PlatformFile t = result!.files.single;
     String? y = t.path;
     if (t.path == null) {
       print("t");
     } else {
-      List<dynamic> result = await x.readFitFile(y!);
-      print("test11");
-      print(result);
-      print("test22");
-      print(ActivityOfUser(nom, result).getHeartRateWithTime());
-      print("test33");
+      List<dynamic> result = await _managerFile.readFitFile(y!);
       Provider.of<User>(context, listen: false)
           .addActivity(ActivityOfUser(nom, result));
-      //print(x.getDistanceWithTime(ActivityOfUser(result)));
-      //print(x.getDistance(ActivityOfUser(result)));
-      //print(x.getAltitudeWithTime(ActivityOfUser(result)));
-      //print(x.getSpeedWithTime(ActivityOfUser(result)));
     }
   }
 
