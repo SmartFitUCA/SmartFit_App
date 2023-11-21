@@ -15,7 +15,7 @@ class MainTabView extends StatefulWidget {
 }
 
 class _MainTabViewState extends State<MainTabView> {
-  int selectTab = 0;
+  int selectTab = -1;
   final PageStorageBucket pageBucket = PageStorageBucket();
   Widget currentTab = const ListActivity();
   @override
