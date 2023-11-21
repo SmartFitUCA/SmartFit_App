@@ -206,14 +206,16 @@ class _WebProfileView extends State<WebProfileView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ChangeUsernameView(),
+                                  builder: (context) =>
+                                      const ChangeUsernameView(),
                                 ),
                               );
                             } else if (iObj["tag"] == "2") {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ChangePasswordView(),
+                                  builder: (context) =>
+                                      const ChangePasswordView(),
                                 ),
                               );
                             } else {
@@ -264,7 +266,7 @@ class _WebProfileView extends State<WebProfileView> {
                             ),
                             Expanded(
                               child: Text(
-                                "Pop-up Notification",
+                                "Push Notifications",
                                 style: TextStyle(
                                   color: TColor.black,
                                   fontSize: 12,
@@ -273,9 +275,9 @@ class _WebProfileView extends State<WebProfileView> {
                             ),
                             CustomAnimatedToggleSwitch<bool>(
                               current: positive,
-                              values: [false, true],
+                              values: const [false, true],
                               spacing: 0.0,
-                              indicatorSize: Size.square(25.0),
+                              indicatorSize: const Size.square(25.0),
                               animationDuration:
                                   const Duration(milliseconds: 200),
                               animationCurve: Curves.linear,
@@ -283,7 +285,7 @@ class _WebProfileView extends State<WebProfileView> {
                               iconBuilder: (context, local, global) {
                                 return const SizedBox();
                               },
-                              cursors: ToggleCursors(
+                              cursors: const ToggleCursors(
                                   defaultCursor: SystemMouseCursors.click),
                               onTap: (_) =>
                                   setState(() => positive = !positive),
