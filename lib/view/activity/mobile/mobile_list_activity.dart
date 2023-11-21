@@ -1,16 +1,16 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
-import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
-import 'package:flutter/material.dart';
 
 class MobileListActivity extends StatefulWidget {
-  const MobileListActivity({super.key});
+  const MobileListActivity({Key? key}) : super(key: key);
 
   @override
   State<MobileListActivity> createState() => _MobileListActivity();
@@ -47,6 +47,7 @@ class _MobileListActivity extends State<MobileListActivity> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+    int firstActivityIndex = 0;
 
     return Scaffold(
       backgroundColor: TColor.white,
@@ -105,20 +106,30 @@ class _MobileListActivity extends State<MobileListActivity> {
                               ),
                             )
                           ])
-                    : ListView.builder(
-                        padding: EdgeInsets.zero,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: Provider.of<User>(context, listen: true)
-                            .listActivity
-                            .length,
-                        itemBuilder: (context, index) {
-                          var activityObj =
-                              Provider.of<User>(context, listen: true)
-                                  .listActivity[index] as ActivityOfUser;
-                          var activityMap = activityObj.toMap();
-                          return InkWell(
+                    : Material(
+                        color: Colors.transparent,
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: Provider.of<User>(context, listen: true)
+                              .listActivity
+                              .length,
+                          itemBuilder: (context, index) {
+                            var activityObj =
+                                Provider.of<User>(context, listen: true)
+                                    .listActivity[index] as ActivityOfUser;
+                            var activityMap = activityObj.toMap();
+
+                            bool isFirstActivity = false;
+                            if (index == firstActivityIndex) {
+                              isFirstActivity = true;
+                            }
+                            return InkWell(
                               onTap: () {
+                                setState(() {
+                                  firstActivityIndex = index;
+                                });
                                 Provider.of<User>(context, listen: false)
                                     .removeActivity(activityObj);
                                 Provider.of<User>(context, listen: false)
@@ -136,8 +147,12 @@ class _MobileListActivity extends State<MobileListActivity> {
                                   Provider.of<User>(context, listen: false)
                                       .insertActivity(0, activityObj);
                                 },
-                              ));
-                        }),
+                                isFirstActivity: isFirstActivity,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                 SizedBox(
                   height: media.width * 0.1,
                 ),

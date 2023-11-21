@@ -4,6 +4,9 @@ import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/setting_row.dart';
 import 'package:smartfit_app_mobile/common_widget/title_subtitle_cell.dart';
+import 'package:smartfit_app_mobile/view/home/notification_view.dart';
+import 'package:smartfit_app_mobile/view/profile/change_password.dart';
+import 'package:smartfit_app_mobile/view/profile/change_username.dart';
 
 class WebProfileView extends StatefulWidget {
   const WebProfileView({super.key});
@@ -18,8 +21,13 @@ class _WebProfileView extends State<WebProfileView> {
   List accountArr = [
     {
       "image": "assets/img/p_personal.png",
-      "name": "Données personnelles",
+      "name": "Changer son pseudo",
       "tag": "1"
+    },
+    {
+      "image": "assets/img/p_personal.png",
+      "name": "Changer son mot de passe",
+      "tag": "2"
     },
   ];
 
@@ -190,14 +198,32 @@ class _WebProfileView extends State<WebProfileView> {
                       shrinkWrap: true,
                       itemCount: accountArr.length,
                       itemBuilder: (context, index) {
-                        var iObj = accountArr[index] as Map? ?? {};
+                        var iObj = accountArr[index];
                         return SettingRow(
-                          icon: iObj["image"].toString(),
-                          title: iObj["name"].toString(),
-                          onPressed: () {},
+                          icon: iObj["image"]!,
+                          title: iObj["name"]!,
+                          onPressed: () {
+                            if (iObj["tag"] == "1") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangeUsernameView(),
+                                ),
+                              );
+                            } else if (iObj["tag"] == "2") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangePasswordView(),
+                                ),
+                              );
+                            } else {
+                              // Autre logique si nécessaire pour d'autres éléments de la liste
+                            }
+                          },
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
