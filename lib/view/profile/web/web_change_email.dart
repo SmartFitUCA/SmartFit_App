@@ -93,7 +93,7 @@ class _WebChangeEmailViewState extends State<WebChangeEmailView> {
                     children: [
                       
                       RoundTextField(
-                        hitText: "Nouveau pseudo",
+                        hitText: "Nouveau email",
                         icon: "assets/img/user_text.svg",
                         keyboardType: TextInputType.text,
                         controller: controllerTextEmail,
