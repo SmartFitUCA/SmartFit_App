@@ -93,10 +93,13 @@ class _WebSignUpView extends State<WebSignUpView> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 300),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: media.width * 0.04,
+                ),
                 Text(
                   "Bienvenue,",
                   style: TextStyle(color: TColor.gray, fontSize: 16),
@@ -170,15 +173,13 @@ class _WebSignUpView extends State<WebSignUpView> {
                     )
                   ],
                 ),
-                SizedBox(
-                  height: media.width * 0.05,
-                ),
+                
                 Visibility(
                     visible: _errorCreateUser,
                     child: Text("Error - $_msgError",
                         style: TextStyle(color: TColor.red))),
                 SizedBox(
-                  height: media.width * 0.4,
+                  height: media.width * 0.05,
                 ),
                 RoundButton(
                     title: "Créer un compte",
@@ -206,78 +207,7 @@ class _WebSignUpView extends State<WebSignUpView> {
                 SizedBox(
                   height: media.width * 0.04,
                 ),
-                Row(
-                  // crossAxisAlignment: CrossAxisAlignment.,
-                  children: [
-                    Expanded(
-                        child: Container(
-                      height: 1,
-                      color: TColor.gray.withOpacity(0.5),
-                    )),
-                    Text(
-                      "  Ou  ",
-                      style: TextStyle(color: TColor.black, fontSize: 12),
-                    ),
-                    Expanded(
-                        child: Container(
-                      height: 1,
-                      color: TColor.gray.withOpacity(0.5),
-                    )),
-                  ],
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: TColor.white,
-                          border: Border.all(
-                            width: 1,
-                            color: TColor.gray.withOpacity(0.4),
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Image.asset(
-                          "assets/img/google.png",
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: media.width * 0.04,
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: TColor.white,
-                          border: Border.all(
-                            width: 1,
-                            color: TColor.gray.withOpacity(0.4),
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Image.asset(
-                          "assets/img/suunto.png",
-                          width: 35,
-                          height: 35,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+               
                 SizedBox(
                   height: media.width * 0.04,
                 ),

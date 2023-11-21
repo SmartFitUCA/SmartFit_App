@@ -16,7 +16,7 @@ class WorkoutRow extends StatelessWidget {
     required this.isFirstActivity,
   }) : super(key: key);
 
- @override
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onClick,
@@ -24,17 +24,22 @@ class WorkoutRow extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
         decoration: BoxDecoration(
           border: Border.all(
-            color: isFirstActivity ? Color.fromARGB(255, 144, 252, 148) : Colors.transparent,
+            color: isFirstActivity
+                ? Color.fromARGB(255, 144, 252, 148)
+                : Colors.transparent,
             width: 2.0,
           ),
-          borderRadius: BorderRadius.circular(10), 
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Material(
-          
-          color: isFirstActivity ? Color.fromARGB(255, 240, 255, 240) : Colors.transparent,
+          color: isFirstActivity
+              ? Color.fromARGB(255, 240, 255, 240)
+              : Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(10), // Utiliser le même borderRadius
-            splashColor: Color.fromARGB(255, 42, 94, 44).withOpacity(0.3), // Couleur du fond au survol
+            borderRadius:
+                BorderRadius.circular(10), // Utiliser le même borderRadius
+            splashColor: Color.fromARGB(255, 42, 94, 44)
+                .withOpacity(0.3), // Couleur du fond au survol
             onTap: onClick,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),

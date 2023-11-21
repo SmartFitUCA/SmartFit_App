@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smartfit_app_mobile/common_widget/graph/graph.dart';
 
 class ActivityOfUser {
@@ -27,6 +28,7 @@ class ActivityOfUser {
     return 0;
   }
 
+  // -----------------  BPM ------------------ //
   List<FlSpot> getHeartRateWithTime() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -53,6 +55,35 @@ class ActivityOfUser {
     return result;
   }
 
+  int getMaxBpm() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "max_heart_rate") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0;
+  }
+
+  int getMinBpm() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "min_heart_rate") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0;
+  }
+
+  int getAvgBpm() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "avg_heart_rate") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0;
+  }
+  // -------------------------- FIN BPM ---------------------- //
+
+  // ---------------------- Distance ---------------------- //
   List<FlSpot> getDistanceWithTime() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -70,6 +101,18 @@ class ActivityOfUser {
     return result;
   }
 
+  String getTotalDistance() {
+    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "total_distance") {
+        return _contentActivity[_dataSession][i + 1].toString();
+      }
+    }
+    return "null";
+  }
+
+  // ---------------------- FIN Distance ---------------------- //
+
+  // ---------------------- Calories ---------------------- //
   List<FlSpot> getCalories() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -88,41 +131,6 @@ class ActivityOfUser {
     return result;
   }
 
-  String getTotalSteps() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "total_strides") {
-        return _contentActivity[_dataSession][i + 1].toString();
-      }
-    }
-    return "null";
-  }
-
-  String getMaxBpm() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "max_heart_rate") {
-        return _contentActivity[_dataSession][i + 1].toString();
-      }
-    }
-    return "null";
-  }
-  String getMinBpm() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "min_heart_rate") {
-        return _contentActivity[_dataSession][i + 1].toString();
-      }
-    }
-    return "null";
-  }
-
-    String getAvgBpm() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "avg_heart_rate") {
-        return _contentActivity[_dataSession][i + 1].toString();
-      }
-    }
-    return "null";
-  }
-
   String getTotalCalorie() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "total_calories") {
@@ -132,15 +140,20 @@ class ActivityOfUser {
     return "null";
   }
 
-  String getTotalAvgHeartRate() {
+  // ---------------------- FIN Calories ---------------------- //
+
+  // ---------------------- Step ------------------------------//
+  String getTotalSteps() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "avg_heart_rate") {
+      if (_contentActivity[_dataSession][i] == "total_strides") {
         return _contentActivity[_dataSession][i + 1].toString();
       }
     }
     return "null";
   }
+  // ----------------------- FIN Step ------------------------ //
 
+  // ------------------------- Time ----------------------------- //
   String getTotalTime() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "total_elapsed_time") {
@@ -149,15 +162,7 @@ class ActivityOfUser {
     }
     return "null";
   }
-
-  String getTotalDistance() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "total_distance") {
-        return _contentActivity[_dataSession][i + 1].toString();
-      }
-    }
-    return "null";
-  }
+  // ---------------------------- FIN time -------------------- //
 
   // ---------------------------------------- Altitude -------------------- //
   List<FlSpot> getAltitudeWithTime() {
@@ -195,6 +200,8 @@ class ActivityOfUser {
     return 0.0;
   }
   // -------------------------- FIN altitude ---------------------- //
+
+  // -------------------------- Speed  ---------------------- //
 
   List<FlSpot> getSpeedWithTime() {
     List<FlSpot> result = List.empty(growable: true);
@@ -243,6 +250,41 @@ class ActivityOfUser {
     }
     return result;
   }
+
+  double getMaxSpeed() {
+    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "max_speed") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0.0;
+  }
+
+  double getAvgSpeed() {
+    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
+      if (_contentActivity[_dataSession][i] == "avg_speed") {
+        return _contentActivity[_dataSession][i + 1];
+      }
+    }
+    return 0.0;
+  }
+
+  // -------------------------- FIN Speed  ---------------------- //
+
+  // -------------------------- Localisation ------------------- //
+
+  List<LatLng> getPosition() {
+    List<LatLng> list = List.empty(growable: true);
+
+    for (List<dynamic> ligne in _contentActivity) {
+      if (ligne[0] == "Data" && ligne[6] == "position_lat") {
+        list.add(LatLng(ligne[7], ligne[10]));
+      }
+    }
+    return list;
+  }
+
+  // -------------------------- FIN Localisation  ---------------------- //
 
   Map<String, dynamic> toMap() {
     return {

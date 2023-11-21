@@ -13,7 +13,8 @@ class Stats extends StatelessWidget {
         .getTotalCalorie();
     String heartrate = Provider.of<User>(context, listen: false)
         .listActivity[0]
-        .getTotalAvgHeartRate();
+        .getAvgBpm()
+        .toString();
     String time = Provider.of<User>(context, listen: false)
         .listActivity[0]
         .getTotalTime();
@@ -151,8 +152,6 @@ class InfoStat extends StatelessWidget {
     );
   }
 }
-
-
 
 class StatIcon extends StatelessWidget {
   const StatIcon({

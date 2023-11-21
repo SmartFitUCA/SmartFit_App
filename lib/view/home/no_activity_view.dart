@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../common/colo_extension.dart';
-import '../../common_widget/button/round_button.dart';
-import '../main_tab/main_tab_view.dart';
-
 
 class NoActivityView extends StatefulWidget {
   const NoActivityView({super.key});
@@ -20,13 +17,15 @@ class _NoActivityViewState extends State<NoActivityView> {
     return Scaffold(
       backgroundColor: TColor.white,
       body: SafeArea(
-        child: Center( // Utilisation du widget Center pour centrer verticalement
+        child: Center(
+          // Utilisation du widget Center pour centrer verticalement
           child: Container(
             width: media.width,
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min, // Utilisation de MainAxisSize.min pour que la colonne prenne la hauteur minimale nécessaire
+              mainAxisSize: MainAxisSize
+                  .min, // Utilisation de MainAxisSize.min pour que la colonne prenne la hauteur minimale nécessaire
               children: [
                 SizedBox(
                   height: media.height * 0.1,

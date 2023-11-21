@@ -28,6 +28,9 @@ class _GraphAltitudeByTime extends State<GraphAltitudeByTime> {
       LineChartBarData(
           spots: widget.data.altitudeSeconde,
           isCurved: false,
+          gradient: LinearGradient(
+            colors: TColor.primaryG,
+          ),
           dotData: const FlDotData(show: false))
     ];
 
@@ -43,7 +46,7 @@ class _GraphAltitudeByTime extends State<GraphAltitudeByTime> {
             gridData: FlGridData(
                 drawVerticalLine: false,
                 drawHorizontalLine: true,
-                horizontalInterval: 1,
+                horizontalInterval: (maxY - minY) / 5,
                 getDrawingHorizontalLine: (value) {
                   return FlLine(
                     color: TColor.gray.withOpacity(0.15),
@@ -56,10 +59,10 @@ class _GraphAltitudeByTime extends State<GraphAltitudeByTime> {
               bottomTitles: const AxisTitles(),
               rightTitles: AxisTitles(
                   sideTitles: SideTitles(
-                reservedSize: 50,
+                reservedSize: 60,
                 showTitles: true,
                 getTitlesWidget: (value, meta) {
-                  return Text("${value.toInt()} m");
+                  return Text("${double.parse(value.toStringAsFixed(2))} m");
                 },
               )),
             ))));

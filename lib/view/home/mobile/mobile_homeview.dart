@@ -24,9 +24,18 @@ class _MobileHomeView extends State<MobileHomeView> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    String maxBpm = context.watch<User>().listActivity[0].getMaxBpm();
-    String minBpm = context.watch<User>().listActivity[0].getMinBpm();
-    String avgBpm = context.watch<User>().listActivity[0].getAvgBpm();
+    // -- BPM -- //
+    int maxBpm = context.watch<User>().listActivity[0].getMaxBpm();
+    int minBpm = context.watch<User>().listActivity[0].getMinBpm();
+    int avgBpm = context.watch<User>().listActivity[0].getAvgBpm();
+    // -- Altitude -- //
+    double minAltitude = context.watch<User>().listActivity[0].getMinAltitude();
+    double maxAltitude = context.watch<User>().listActivity[0].getMaxAltitude();
+    double avgAltitude = (maxAltitude + minAltitude) / 2;
+    // -- Speed -- //
+    double maxSpeed = context.watch<User>().listActivity[0].getMaxSpeed();
+    double avgSpeed = context.watch<User>().listActivity[0].getAvgSpeed();
+
     data = HomeViewUtil().initData(context);
 
     return Scaffold(
@@ -57,9 +66,9 @@ class _MobileHomeView extends State<MobileHomeView> {
                   height: media.width * 0.05,
                 ),
                 LigneContainerStats(
-                    "$minBpm BPM",
-                    "$maxBpm BPM",
-                    "$avgBpm BPM",
+                    "${minBpm.toString()} BPM",
+                    "${maxBpm.toString()} BPM",
+                    "${avgBpm.toString()} BPM",
                     "Minimum",
                     "Maximum",
                     "Moyenne",
@@ -85,10 +94,36 @@ class _MobileHomeView extends State<MobileHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                const LigneContainerStats(
-                    "30 BPM",
-                    "90 BPM",
-                    "290 BPM",
+                LigneContainerStats(
+                    "${double.parse(maxSpeed.toStringAsFixed(2))} KM/H",
+                    "${double.parse(avgSpeed.toStringAsFixed(2))} km/H",
+                    "${avgBpm.toString()} BPM",
+                    "Max Speed",
+                    "Moyenne Speed",
+                    "Moyenne BPM",
+                    Icons.trending_down,
+                    Icons.trending_up,
+                    Icons.favorite_outline),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Altitude",
+                      style: TextStyle(
+                          color: TColor.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: media.width * 0.05,
+                ),
+                GraphAltitudeByTime(media, data),
+                LigneContainerStats(
+                    "${minAltitude.toInt()} M",
+                    "${maxAltitude.toInt()} M",
+                    "${avgAltitude.toInt()} M",
                     "Minimum",
                     "Maximum",
                     "Moyenne",
@@ -98,7 +133,6 @@ class _MobileHomeView extends State<MobileHomeView> {
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                GraphAltitudeByTime(media, data)
               ],
             ),
           ),

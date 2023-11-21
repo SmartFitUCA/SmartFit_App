@@ -18,6 +18,16 @@ steps:
       - curl -F "file=@$sfm_apk" https://anonfiles.me/api/v1/upload > upload.json
       - cat upload.json | cut -d '"' -f 12
 
+  - name: build-web
+    image: ghcr.io/cirruslabs/flutter:3.13.9
+    environment:
+      FIREBASE_TOKEN:
+        from_secret: firebase_token
+    commands:
+      - flutter build web --web-renderer canvaskit
+      - curl -sL https://firebase.tools | bash
+      - firebase deploy --token $${FIREBASE_TOKEN}
+        
   - name: code-analysis
     image: ghcr.io/cirruslabs/flutter:3.13.9
     environment:
@@ -31,4 +41,4 @@ steps:
       - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
       - export SONAR_SCANNER_OPTS="-server"
       - sonar-scanner -D sonar.projectKey=SmartFit_Mobile -D sonar.sources=. -D sonar.host.url=https://codefirst.iut.uca.fr/sonar -D sonar.login=$${SONAR_TOKEN}
-    depends_on: [ build-apk ]
+    depends_on: [ build-apk, build-web ]

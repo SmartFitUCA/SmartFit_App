@@ -76,7 +76,7 @@ class _WebLoginView extends State<WebLoginView> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 300),
             height: media.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -182,25 +182,7 @@ class _WebLoginView extends State<WebLoginView> {
                 SizedBox(
                   height: media.width * 0.04,
                 ),
-                Row(
-                  // crossAxisAlignment: CrossAxisAlignment.,
-                  children: [
-                    Expanded(
-                        child: Container(
-                      height: 1,
-                      color: TColor.gray.withOpacity(0.5),
-                    )),
-                    Text(
-                      "  Or  ",
-                      style: TextStyle(color: TColor.black, fontSize: 12),
-                    ),
-                    Expanded(
-                        child: Container(
-                      height: 1,
-                      color: TColor.gray.withOpacity(0.5),
-                    )),
-                  ],
-                ),
+                
                 SizedBox(
                   height: media.width * 0.04,
                 ),

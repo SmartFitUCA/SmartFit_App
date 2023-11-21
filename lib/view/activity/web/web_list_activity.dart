@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
@@ -27,7 +26,6 @@ class _WebListActivityState extends State<WebListActivity> {
 
   //late File x = File(file.path);
 
-
   void readFile(html.File file) async {
     ManagerFile x = ManagerFile();
     final reader = html.FileReader();
@@ -47,7 +45,7 @@ class _WebListActivityState extends State<WebListActivity> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    
+
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
@@ -107,7 +105,7 @@ class _WebListActivityState extends State<WebListActivity> {
                               ),
                             )
                           ])
-                    :  Material(
+                    : Material(
                         color: Colors.transparent,
                         child: ListView.builder(
                           padding: EdgeInsets.zero,
