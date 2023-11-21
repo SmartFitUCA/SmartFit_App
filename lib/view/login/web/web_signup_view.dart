@@ -90,159 +90,154 @@ class _WebSignUpView extends State<WebSignUpView> {
     var media = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: TColor.white,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 300),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                Text(
-                  "Bienvenue,",
-                  style: TextStyle(color: TColor.gray, fontSize: 16),
-                ),
-                Text(
-                  "Créer un compte",
-                  style: TextStyle(
-                      color: TColor.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700),
-                ),
-                SizedBox(
-                  height: media.width * 0.05,
-                ),
-                RoundTextField(
-                  hitText: "Prénom",
-                  icon: "assets/img/user_text.svg",
-                  controller: controllerUsername,
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                RoundTextField(
-                  hitText: "Email",
-                  icon: "assets/img/email.svg",
-                  keyboardType: TextInputType.emailAddress,
-                  controller: controllerTextEmail,
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                RoundTextField(
-                  hitText: "Mot de passe",
-                  icon: "assets/img/lock.svg",
-                  obscureText: _obscureText,
-                  controller: controllerTextPassword,
-                  rigtIcon: TextButton(
-                      onPressed: _toggle,
-                      child: Container(
-                          alignment: Alignment.center,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 300),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: media.width * 0.04,
+              ),
+              Text(
+                "Bienvenue,",
+                style: TextStyle(color: TColor.gray, fontSize: 16),
+              ),
+              Text(
+                "Créer un compte",
+                style: TextStyle(
+                    color: TColor.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+                height: media.width * 0.05,
+              ),
+              RoundTextField(
+                hitText: "Prénom",
+                icon: "assets/img/user_text.svg",
+                controller: controllerUsername,
+              ),
+              SizedBox(
+                height: media.width * 0.04,
+              ),
+              RoundTextField(
+                hitText: "Email",
+                icon: "assets/img/email.svg",
+                keyboardType: TextInputType.emailAddress,
+                controller: controllerTextEmail,
+              ),
+              SizedBox(
+                height: media.width * 0.04,
+              ),
+              RoundTextField(
+                hitText: "Mot de passe",
+                icon: "assets/img/lock.svg",
+                obscureText: _obscureText,
+                controller: controllerTextPassword,
+                rigtIcon: TextButton(
+                    onPressed: _toggle,
+                    child: Container(
+                        alignment: Alignment.center,
+                        width: 20,
+                        height: 20,
+                        child: SvgPicture.asset(
+                          "assets/img/show_password.svg",
                           width: 20,
                           height: 20,
-                          child: SvgPicture.asset(
-                            "assets/img/show_password.svg",
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit.contain,
-                          ))),
-                ),
-                Row(
-                  // crossAxisAlignment: CrossAxisAlignment.,
+                          fit: BoxFit.contain,
+                        ))),
+              ),
+              Row(
+                // crossAxisAlignment: CrossAxisAlignment.,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      _check();
+                    },
+                    icon: Icon(
+                      _isCheck
+                          ? Icons.check_box_outlined
+                          : Icons.check_box_outline_blank_outlined,
+                      color: TColor.gray,
+                      size: 20,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      "En continuant, vous acceptez notre Politique de\nconfidentialité et nos Conditions d'utilisation.",
+                      style: TextStyle(color: TColor.gray, fontSize: 10),
+                    ),
+                  )
+                ],
+              ),
+              Visibility(
+                  visible: _errorCreateUser,
+                  child: Text("Error - $_msgError",
+                      style: TextStyle(color: TColor.red))),
+              SizedBox(
+                height: media.width * 0.05,
+              ),
+              RoundButton(
+                  title: "Créer un compte",
+                  onPressed: () async {
+                    if (!emailValidate ||
+                        !passwordValidate ||
+                        !usernameValidate) {
+                      _printMsgError("Les champs renseigné ne sont pas valide");
+                      return;
+                    }
+                    Tuple2<bool, String> result = await util.createUser(
+                        controllerTextEmail.text,
+                        controllerUsername.text,
+                        controllerTextPassword.text);
+                    if (result.item1) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginView()));
+                    } else {
+                      _printMsgError(result.item2);
+                    }
+                  }),
+              SizedBox(
+                height: media.width * 0.04,
+              ),
+              SizedBox(
+                height: media.width * 0.04,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginView()));
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    IconButton(
-                      onPressed: () {
-                        _check();
-                      },
-                      icon: Icon(
-                        _isCheck
-                            ? Icons.check_box_outlined
-                            : Icons.check_box_outline_blank_outlined,
-                        color: TColor.gray,
-                        size: 20,
+                    Text(
+                      "Vous avez déjà un compte ? ",
+                      style: TextStyle(
+                        color: TColor.black,
+                        fontSize: 14,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        "En continuant, vous acceptez notre Politique de\nconfidentialité et nos Conditions d'utilisation.",
-                        style: TextStyle(color: TColor.gray, fontSize: 10),
-                      ),
+                    Text(
+                      "Se connecter",
+                      style: TextStyle(
+                          color: TColor.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700),
                     )
                   ],
                 ),
-                
-                Visibility(
-                    visible: _errorCreateUser,
-                    child: Text("Error - $_msgError",
-                        style: TextStyle(color: TColor.red))),
-                SizedBox(
-                  height: media.width * 0.05,
-                ),
-                RoundButton(
-                    title: "Créer un compte",
-                    onPressed: () async {
-                      if (!emailValidate ||
-                          !passwordValidate ||
-                          !usernameValidate) {
-                        _printMsgError(
-                            "Les champs renseigné ne sont pas valide");
-                        return;
-                      }
-                      Tuple2<bool, String> result = await util.createUser(
-                          controllerTextEmail.text,
-                          controllerUsername.text,
-                          controllerTextPassword.text);
-                      if (result.item1) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginView()));
-                      } else {
-                        _printMsgError(result.item2);
-                      }
-                    }),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-               
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginView()));
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Vous avez déjà un compte ? ",
-                        style: TextStyle(
-                          color: TColor.black,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Text(
-                        "Se connecter",
-                        style: TextStyle(
-                            color: TColor.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: media.width * 0.04,
+              ),
+            ],
           ),
         ),
       ),
