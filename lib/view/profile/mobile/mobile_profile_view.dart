@@ -239,7 +239,7 @@ class _MobileProfileView extends State<MobileProfileView> {
                             ),
                             Expanded(
                               child: Text(
-                                "Pop-up Notification",
+                                "Push Notifications",
                                 style: TextStyle(
                                   color: TColor.black,
                                   fontSize: 12,
@@ -248,9 +248,9 @@ class _MobileProfileView extends State<MobileProfileView> {
                             ),
                             CustomAnimatedToggleSwitch<bool>(
                               current: positive,
-                              values: [false, true],
+                              values: const [false, true],
                               spacing: 0.0,
-                              indicatorSize: Size.square(25.0),
+                              indicatorSize: const Size.square(25.0),
                               animationDuration:
                                   const Duration(milliseconds: 200),
                               animationCurve: Curves.linear,
@@ -258,7 +258,7 @@ class _MobileProfileView extends State<MobileProfileView> {
                               iconBuilder: (context, local, global) {
                                 return const SizedBox();
                               },
-                              cursors: ToggleCursors(
+                              cursors: const ToggleCursors(
                                   defaultCursor: SystemMouseCursors.click),
                               onTap: (_) =>
                                   setState(() => positive = !positive),
