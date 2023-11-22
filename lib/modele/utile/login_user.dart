@@ -26,12 +26,9 @@ class Login {
     return Tuple2(true, result.item2);
   }
 
-  void fillUser(BuildContext context, Map<String, dynamic> map, String token) {
-    print(map);
-
+  void fillUser(BuildContext context, Map<dynamic, dynamic> map, String token) {
     context.read<User>().email = map["email"];
     context.read<User>().username = map["username"];
     context.read<User>().token = token;
-    context.read<User>().listActivity = List.empty(growable: true);
   }
 }

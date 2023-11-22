@@ -5,7 +5,6 @@ import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/view/home/no_activity_view.dart';
 import 'package:smartfit_app_mobile/view/map/mobile/mobile_my_map.dart';
 import 'package:smartfit_app_mobile/view/map/web/web_my_map.dart';
-import 'package:smartfit_app_mobile/view/profile/profile_view.dart';
 
 class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
