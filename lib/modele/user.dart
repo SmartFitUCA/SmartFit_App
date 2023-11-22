@@ -24,9 +24,15 @@ class User extends ChangeNotifier {
     notifyListeners();
   }
 
-  void insertActivityTop(ActivityOfUser activity, BuildContext context) {
+  void insertActivityTopMobile(ActivityOfUser activity, BuildContext context) {
     listActivity.insert(0, activity);
-    ListActivityUtile().getContentOnTheFirstFile(context);
+    ListActivityUtile().getContentOnTheFirstFileMobile(context);
+    notifyListeners();
+  }
+
+  void insertActivityTopWeb(ActivityOfUser activity, BuildContext context) {
+    listActivity.insert(0, activity);
+    ListActivityUtile().getContentOnTheFirstFileWeb(context);
     notifyListeners();
   }
 }

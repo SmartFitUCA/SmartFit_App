@@ -1,6 +1,9 @@
+import 'dart:html';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
+import 'package:smartfit_app_mobile/modele/utile/list_activity.dart/list_activity_utile.dart';
+import 'package:tuple/tuple.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'package:file_picker/file_picker.dart';
@@ -22,8 +25,9 @@ class WebListActivity extends StatefulWidget {
 class _WebListActivityState extends State<WebListActivity> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
+  final ListActivityUtile _utile = ListActivityUtile();
   int firstActivityIndex = 0;
-
+  /*
   void readFile(html.File file) async {
     ManagerFile x = ManagerFile();
     final reader = html.FileReader();
@@ -40,6 +44,56 @@ class _WebListActivityState extends State<WebListActivity> {
             .contentActivity = result;
       }
     });
+  }*/
+
+  void addFile(html.File file) async {
+    FileReader reader = html.FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onLoadEnd.listen((event) async {
+      if (reader.readyState == html.FileReader.DONE) {
+        Uint8List bytes = reader.result as Uint8List;
+
+        String filename = file.name;
+        String categoryActivity = filename.split("_").first.toLowerCase();
+        String dateActivity = filename.split("_")[1].split("T").first;
+
+        Tuple2<bool, String> result = await strategy.uploadFileByte(
+            Provider.of<User>(context, listen: false).token,
+            bytes,
+            filename,
+            categoryActivity,
+            dateActivity);
+
+        if (result.item1 == false) {
+          // Afficher msg d'erreur
+          print("Upload - ${result.item2}");
+          return;
+        }
+        getFiles();
+      }
+    });
+  }
+
+  // -- On doit garder cet fonction dans la page pour pouvoir afficher les msg -- //
+  void getFiles() async {
+    Tuple2 result = await strategy
+        .getFiles(Provider.of<User>(context, listen: false).token);
+    if (result.item1 == false) {
+      print("GetFiles - ${result.item2}");
+      // Afficher une message d'erreur
+      return;
+    }
+    Provider.of<User>(context, listen: false).listActivity.clear();
+
+    for (Map<String, dynamic> element in result.item2) {
+      Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
+          element["creation_date"].toString(),
+          element["category"].toString(),
+          element["uuid"].toString(),
+          element["filename"].toString()));
+    }
+    await _utile.getContentOnTheFirstFileWeb(context);
+    return;
   }
 
   @override
@@ -67,6 +121,13 @@ class _WebListActivityState extends State<WebListActivity> {
                           fontWeight: FontWeight.w700),
                     ),
                     TextButton(
+                        onPressed: getFiles,
+                        child: Text("Get activity",
+                            style: TextStyle(
+                                color: TColor.gray,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700))),
+                    TextButton(
                       onPressed: () async {
                         html.FileUploadInputElement uploadInput =
                             html.FileUploadInputElement();
@@ -75,8 +136,7 @@ class _WebListActivityState extends State<WebListActivity> {
                         uploadInput.onChange.listen((e) {
                           final files = uploadInput.files;
                           if (files != null && files.isNotEmpty) {
-                            readFile(
-                                files[0]); // Lecture du fichier sélectionné
+                            addFile(files[0]); // Lecture du fichier sélectionné
                           }
                         });
                       },
@@ -94,7 +154,7 @@ class _WebListActivityState extends State<WebListActivity> {
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(
                               "Vous n'avez pas d'activités pour le moment, veuillez en ajouter.",
                               style: TextStyle(
@@ -117,7 +177,7 @@ class _WebListActivityState extends State<WebListActivity> {
                           itemBuilder: (context, index) {
                             var activityObj =
                                 Provider.of<User>(context, listen: true)
-                                    .listActivity[index] as ActivityOfUser;
+                                    .listActivity[index];
                             var activityMap = activityObj.toMap();
 
                             bool isFirstActivity = false;
@@ -144,7 +204,8 @@ class _WebListActivityState extends State<WebListActivity> {
                                   Provider.of<User>(context, listen: false)
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
-                                      .insertActivity(0, activityObj);
+                                      .insertActivityTopWeb(
+                                          activityObj, context);
                                 },
                                 isFirstActivity: isFirstActivity,
                               ),

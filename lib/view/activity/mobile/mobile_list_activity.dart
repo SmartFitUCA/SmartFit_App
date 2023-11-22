@@ -21,8 +21,9 @@ class MobileListActivity extends StatefulWidget {
 
 class _MobileListActivity extends State<MobileListActivity> {
   FilePickerResult? result;
-  IDataStrategy strategy = RequestApi();
+  final IDataStrategy strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
+  int firstActivityIndex = 0;
 
   /*
   Future<void> readFile(String nom) async {
@@ -74,18 +75,13 @@ class _MobileListActivity extends State<MobileListActivity> {
           element["uuid"].toString(),
           element["filename"].toString()));
     }
-    _utile.getContentOnTheFirstFile(context);
+    await _utile.getContentOnTheFirstFileMobile(context);
     return;
   }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    int firstActivityIndex = 0;
-
-    if (Provider.of<User>(context).listActivity.isNotEmpty) {
-      _utile.getContentOnTheFirstFile(context);
-    }
 
     return Scaffold(
       backgroundColor: TColor.white,
@@ -190,7 +186,8 @@ class _MobileListActivity extends State<MobileListActivity> {
                                   Provider.of<User>(context, listen: false)
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
-                                      .insertActivityTop(activityObj, context);
+                                      .insertActivityTopMobile(
+                                          activityObj, context);
                                 },
                                 isFirstActivity: isFirstActivity,
                               ),

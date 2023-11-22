@@ -12,7 +12,7 @@ class ListActivityUtile {
   final IDataStrategy _strategy = RequestApi();
   final ManagerFile _managerFile = ManagerFile();
 
-  Future<void> getContentOnTheFirstFile(BuildContext context) async {
+  Future<void> getContentOnTheFirstFileMobile(BuildContext context) async {
     Tuple2 result = await _strategy.getFile(
         Provider.of<User>(context, listen: false).token,
         Provider.of<User>(context, listen: false).listActivity[0].fileUuid);
@@ -27,5 +27,18 @@ class ListActivityUtile {
     await file.writeAsBytes(result.item2);
     Provider.of<User>(context, listen: false).listActivity[0].contentActivity =
         await _managerFile.readFitFileWhithFile(file);
+  }
+
+  Future<void> getContentOnTheFirstFileWeb(BuildContext context) async {
+    User user = Provider.of<User>(context, listen: false);
+    Tuple2 result =
+        await _strategy.getFile(user.token, user.listActivity[0].fileUuid);
+    if (result.item1 == false) {
+      //Erreur
+      //print(result);
+      return;
+    }
+    Provider.of<User>(context, listen: false).listActivity[0].contentActivity =
+        await _managerFile.readFitFileWeb(result.item2);
   }
 }
