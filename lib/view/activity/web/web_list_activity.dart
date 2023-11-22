@@ -1,7 +1,5 @@
-import 'dart:html';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity.dart/list_activity_utile.dart';
 import 'package:tuple/tuple.dart';
 import 'package:universal_html/html.dart' as html;
@@ -47,7 +45,7 @@ class _WebListActivityState extends State<WebListActivity> {
   }*/
 
   void addFile(html.File file) async {
-    FileReader reader = html.FileReader();
+    final reader = html.FileReader();
     reader.readAsArrayBuffer(file);
     reader.onLoadEnd.listen((event) async {
       if (reader.readyState == html.FileReader.DONE) {
