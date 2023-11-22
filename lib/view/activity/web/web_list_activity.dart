@@ -47,7 +47,7 @@ class _WebListActivityState extends State<WebListActivity> {
   }*/
 
   void addFile(html.File file) async {
-    FileReader reader = html.FileReader();
+    final reader = html.FileReader();
     reader.readAsArrayBuffer(file);
     reader.onLoadEnd.listen((event) async {
       if (reader.readyState == html.FileReader.DONE) {

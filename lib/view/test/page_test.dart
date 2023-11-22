@@ -1,4 +1,4 @@
-/*import 'dart:convert';
+import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -79,7 +79,9 @@ class _TestPage extends State<TestPage> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
   String platforme = getPlatforme();
+  final ManagerFile _managerFile = ManagerFile();
 
+  /*
   //late File x = File(file.path);
   Future<void> readFile() async {
     ManagerFile x = ManagerFile();
@@ -100,7 +102,7 @@ class _TestPage extends State<TestPage> {
       //print(x.getAltitudeWithTime(ActivityOfUser(result)));
       //print(x.getSpeedWithTime(ActivityOfUser(result)));
     }
-  }
+  }*/
 
   Future<void> createUser() async {
     String mds = "1234";
@@ -194,6 +196,10 @@ class _TestPage extends State<TestPage> {
     print(res.item2);
   }
 
+  void lunch() {
+    print(_managerFile.fileExist("lol"));
+  }
+
   @override
   Widget build(BuildContext context) {
     User w = context.watch<User>();
@@ -228,8 +234,7 @@ class _TestPage extends State<TestPage> {
               onPressed: createUser, child: const Text("Create User")),
           ElevatedButton(
               onPressed: deleteUser, child: const Text("Delete User")),
-          ElevatedButton(
-              onPressed: readFile, child: const Text("ReadFile")),
+          ElevatedButton(onPressed: () {}, child: const Text("ReadFile")),
           ElevatedButton(onPressed: getFiles, child: const Text("getFiles")),
           ElevatedButton(
               onPressed: modifAttribut, child: const Text("modif attribut")),
@@ -242,7 +247,9 @@ class _TestPage extends State<TestPage> {
           Text(platforme),
           Text(w.email),
           Text(context.watch<User>().username),
-          Text(Provider.of<User>(context).username)
+          Text(Provider.of<User>(context).username),
+          const Text("-----------------------------"),
+          ElevatedButton(onPressed: lunch, child: const Text("Lunch !!")),
         ],
       ),
     );
@@ -410,6 +417,4 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 <<<<<<<< HEAD:lib/view/test/page_test.dart
 }*/
-========
-}
-*/
+

@@ -55,6 +55,22 @@ class ManagerFile {
     return true;
   }
 
+  // -- Check si le fichier existe localement -- //
+  Future<bool> fileExist(String filname) async {
+    Directory directory = Directory("${await localPath}\\Files\\");
+    if (!directory.existsSync()) {
+      print("Le dossier n'existe pas !");
+      return false;
+    }
+    List<FileSystemEntity> files = directory.listSync();
+    for (FileSystemEntity file in files) {
+      if (file.path.split("\\").last == filname) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   // --- Ligne utile --- //
   //final csv = const ListToCsvConverter().convert(fitFile.toRows());
   //await outFile.writeAsString(csv);*/

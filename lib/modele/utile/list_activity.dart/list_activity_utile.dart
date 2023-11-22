@@ -13,6 +13,9 @@ class ListActivityUtile {
   final ManagerFile _managerFile = ManagerFile();
 
   Future<void> getContentOnTheFirstFileMobile(BuildContext context) async {
+    String fileUuid =
+        Provider.of<User>(context, listen: false).listActivity[0].fileUuid;
+
     Tuple2 result = await _strategy.getFile(
         Provider.of<User>(context, listen: false).token,
         Provider.of<User>(context, listen: false).listActivity[0].fileUuid);
