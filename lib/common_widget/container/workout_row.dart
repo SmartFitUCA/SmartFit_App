@@ -60,7 +60,14 @@ class WorkoutRow extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          wObj["nomActivite"].toString(),
+                          wObj["categorie"].toString(),
+                          style: TextStyle(
+                            color: TColor.black,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          wObj["date"].toString(),
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 12,

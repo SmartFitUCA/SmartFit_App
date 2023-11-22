@@ -3,18 +3,40 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smartfit_app_mobile/common_widget/graph/graph.dart';
 
 class ActivityOfUser {
-  late String _nomActivite;
+  // A afficher
+  late String _categorie;
+  late String _date;
+  late String _fileUuid;
+  late String _nameFile;
+  // ------------ //
   late String _imageName;
   late List<dynamic> _contentActivity;
   late int _dataSession;
 
+  // -- Getter/Setter -- //
   List<dynamic> get contentActivity => _contentActivity;
-
-  ActivityOfUser(String nom, List<dynamic> listeDynamic) {
-    _nomActivite = nom;
-    _imageName = "assets/img/workout1.svg";
-    _contentActivity = listeDynamic;
+  set contentActivity(List<dynamic> content) {
+    _contentActivity = content;
     _dataSession = getDataSession();
+  }
+
+  String get fileUuid => _fileUuid;
+  String get nameFile => _nameFile;
+
+  ActivityOfUser(
+      String date, String categorie, String fileUuid, String nameFile) {
+    _categorie = categorie;
+    _date = date;
+    _fileUuid = fileUuid;
+    _nameFile = nameFile;
+
+    // Mettre dans une fonction appart
+    if (categorie == "Walking") {
+      _imageName = "assets/img/workout1.svg";
+    } else {
+      // Mettre des conditions pour d'autre type d'activité
+      _imageName = "assets/img/workout1.svg";
+    }
   }
 
   // ----- Retourne l'indice de la ligne qui contient les données de la session -- //
@@ -287,9 +309,6 @@ class ActivityOfUser {
   // -------------------------- FIN Localisation  ---------------------- //
 
   Map<String, dynamic> toMap() {
-    return {
-      'nomActivite': _nomActivite,
-      'image': _imageName,
-    };
+    return {'categorie': _categorie, 'image': _imageName, 'date': _date};
   }
 }

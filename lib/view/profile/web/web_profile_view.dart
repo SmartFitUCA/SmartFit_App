@@ -5,7 +5,10 @@ import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/setting_row.dart';
 import 'package:smartfit_app_mobile/common_widget/title_subtitle_cell.dart';
 import 'package:smartfit_app_mobile/view/profile/change_password.dart';
+import 'package:smartfit_app_mobile/view/profile/change_email.dart';
 import 'package:smartfit_app_mobile/view/profile/change_username.dart';
+import 'package:smartfit_app_mobile/view/profile/contact_us_view.dart';
+import 'package:smartfit_app_mobile/view/profile/policy_view.dart';
 
 class WebProfileView extends StatefulWidget {
   const WebProfileView({super.key});
@@ -22,6 +25,11 @@ class _WebProfileView extends State<WebProfileView> {
       "image": "assets/img/p_personal.png",
       "name": "Changer son pseudo",
       "tag": "1"
+    },
+    {
+      "image": "assets/img/p_personal.png",
+      "name": "Changer son email",
+      "tag": "3"
     },
     {
       "image": "assets/img/p_personal.png",
@@ -219,7 +227,12 @@ class _WebProfileView extends State<WebProfileView> {
                                 ),
                               );
                             } else {
-                              // Autre logique si nécessaire pour d'autres éléments de la liste
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangeEmailView(),
+                                ),
+                              );
                             }
                           },
                         );
@@ -372,7 +385,25 @@ class _WebProfileView extends State<WebProfileView> {
                         return SettingRow(
                           icon: iObj["image"].toString(),
                           title: iObj["name"].toString(),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (iObj["tag"] == "6") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const PrivacyPolicyView(),
+                                ),
+                              );
+                            } else if (iObj["tag"] == "5") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ContactUsView(),
+                                ),
+                              );
+                            } else {
+                              // Autre logique si nécessaire pour d'autres éléments de la liste
+                            }
+                          },
                         );
                       },
                     )

@@ -27,10 +27,18 @@ class ManagerFile {
 
     return fitFile.toRows();
   }
-  List<dynamic> readFitFileWeb(Uint8List bytes)  {
+
+  Future<List<dynamic>> readFitFileWhithFile(File file) async {
+    final bytes = await file.readAsBytes();
     final fitFile = FitFile.fromBytes(bytes);
     return fitFile.toRows();
   }
+
+  List<dynamic> readFitFileWeb(Uint8List bytes) {
+    final fitFile = FitFile.fromBytes(bytes);
+    return fitFile.toRows();
+  }
+
   // ------------- Get The path of application --- //
   Future<String> get localPath async {
     final directory = await getApplicationDocumentsDirectory();
