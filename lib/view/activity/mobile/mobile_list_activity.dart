@@ -48,7 +48,7 @@ class _MobileListActivity extends State<MobileListActivity> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     int firstActivityIndex = 0;
-
+    print("tttt");
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(

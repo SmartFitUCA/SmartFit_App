@@ -45,7 +45,7 @@ class _WebListActivityState extends State<WebListActivity> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-
+    print("tttt");
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
