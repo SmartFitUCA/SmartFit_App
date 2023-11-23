@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:csv/csv.dart';
+import 'package:fit_tool/fit_tool.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -81,7 +83,6 @@ class _TestPage extends State<TestPage> {
   String platforme = getPlatforme();
   final ManagerFile _managerFile = ManagerFile();
 
-  /*
   //late File x = File(file.path);
   Future<void> readFile() async {
     ManagerFile x = ManagerFile();
@@ -90,19 +91,102 @@ class _TestPage extends State<TestPage> {
     if (t.path == null) {
       print("t");
     } else {
-      List<dynamic> result = await x.readFitFile(y!);
-      print("test11");
-      print(result);
-      print("test22");
-      print(ActivityOfUser(result).getHeartRateWithTime());
-      print("test33");
-      Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(result));
+      File file = File(y!);
+      final content = await file.readAsBytes();
+      FitFile fitFile = FitFile.fromBytes(content);
+      //print(fitFile.toRows());
+      print("--------------");
+      print("--------------");
+      print("--------------");
+
+      print("${await _managerFile.localPath}\\test.csv");
+      final outFile = File("${await _managerFile.localPath}\\test.csv");
+      //final csv = const ListToCsvConverter().convert(fitFile.toRows());
+      //await outFile.writeAsString(csv);
+
+      // ----------- Lire le fit et extarire les données qu'on choisi ----------- //
+      List<Record> liste = fitFile.records;
+      List<String> allowedField = [
+        "timestamp",
+        "position_lat",
+        "position_long",
+        "distance"
+      ];
+      List<Map<String, Map<String, String>>> dataResult =
+          List.empty(growable: true);
+
+      for (Record element in liste) {
+        List listeField = element.toRow();
+        Map<String, Map<String, String>> ligneDataResult = {};
+        bool skip = true;
+
+        if (listeField[0] != "Data") {
+          continue;
+        }
+
+        for (int i = 0; i < listeField.length;) {
+          if (allowedField.contains(listeField[i])) {
+            Map<String, String> tmp = {};
+            tmp["Value"] = listeField[i + 1].toString();
+            tmp["Unite"] = listeField[i + 2].toString();
+            ligneDataResult[listeField[i]] = tmp;
+            i += 2;
+            skip = false;
+          }
+          i += 1;
+        }
+        if (!skip) {
+          dataResult.add(ligneDataResult);
+        }
+      }
+      /*
+      for (var x in dataResult) {
+        print(x["timestamp"]!["Value"]);
+      }*/
+      // -------------------------------- Fin ------------------------- //
+      // ------- Création du csv ----- //
+      // --- Création de l'entête -- //
+      List<String> enteteCSV = [];
+      for (String field in allowedField) {
+        enteteCSV.add("Value_$field");
+        enteteCSV.add("Unite_$field");
+      }
+
+      List<List<String>> csvData = List.empty(growable: true);
+      //
+      for (Map<String, Map<String, String>> ligne in dataResult) {
+        List<String> tmpLigne = List.empty(growable: true);
+        for (String field in allowedField) {
+          if (!ligne.containsKey(field)) {
+            tmpLigne.add("null");
+            tmpLigne.add("null");
+          } else {
+            tmpLigne.add(ligne[field]!["Value"]!);
+            tmpLigne.add(ligne[field]!["Unite"]!);
+          }
+        }
+        csvData.add(tmpLigne);
+      }
+      csvData.insert(0, enteteCSV);
+
+      final csv = const ListToCsvConverter().convert(csvData);
+      await outFile.writeAsString(csv);
+
+      // ------- FIN --------------- //
+
+      //List<dynamic> result = await x.readFitFile(y!);
+      //print("test11");
+      //print(result);
+      //print("test22");
+      //print(ActivityOfUser(result).getHeartRateWithTime());
+      //print("test33");
+      //Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(result));
       //print(x.getDistanceWithTime(ActivityOfUser(result)));
       //print(x.getDistance(ActivityOfUser(result)));
       //print(x.getAltitudeWithTime(ActivityOfUser(result)));
       //print(x.getSpeedWithTime(ActivityOfUser(result)));
     }
-  }*/
+  }
 
   Future<void> createUser() async {
     String mds = "1234";
@@ -196,8 +280,8 @@ class _TestPage extends State<TestPage> {
     print(res.item2);
   }
 
-  void lunch() {
-    print(_managerFile.fileExist("lol"));
+  void lunch() async {
+    print(await _managerFile.fileExist("lol"));
   }
 
   @override
@@ -224,7 +308,7 @@ class _TestPage extends State<TestPage> {
                   print("No file selected");
                 } else {
                   for (var element in result!.files) {
-                    print(element.name);
+                    readFile();
                   }
                 }
               },

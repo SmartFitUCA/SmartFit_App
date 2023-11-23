@@ -45,15 +45,17 @@ class ManagerFile {
     return directory.path;
   }
 
+  /*
   // --- A modifier si utilisé --- //
-  Future<bool> writeFile(String nameFileWithExtension, File file) async {
+  Future<bool> saveFileLocal(String nameFileWithExtension, String path) async {
+    /*
     final outFile = File("${await localPath}\\Files\\$nameFileWithExtension");
     if (outFile.existsSync() == false) {
       outFile.createSync(recursive: true);
     }
     await outFile.writeAsString(await file.readAsString());
-    return true;
-  }
+    return true;*/
+  }*/
 
   // -- Check si le fichier existe localement -- //
   Future<bool> fileExist(String filname) async {

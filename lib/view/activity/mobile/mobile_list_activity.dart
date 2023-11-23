@@ -48,6 +48,9 @@ class _MobileListActivity extends State<MobileListActivity> {
   }*/
 
   void addFile(String path) async {
+    // --- Save Local
+
+    // --- BDD
     Tuple2<bool, String> result = await strategy.uploadFile(
         Provider.of<User>(context, listen: false).token, File(path));
     if (result.item1 == false) {
