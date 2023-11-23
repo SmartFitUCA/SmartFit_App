@@ -123,7 +123,7 @@ class RequestApi extends IDataStrategy {
   }
 
   @override
-  Future<Tuple2> modifAttribut(
+  Future<Tuple2<bool, String>> modifAttribut(
       String token, String nameAttribut, String newValue) async {
     final response = await http.put(Uri.parse('$urlApi/user/$nameAttribut'),
         headers: <String, String>{
@@ -133,8 +133,8 @@ class RequestApi extends IDataStrategy {
         body: jsonEncode(<String, String>{nameAttribut: newValue}));
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(response.body);
-      return Tuple2(true, json);
+      //Map<String, dynamic> json = jsonDecode(response.body);
+      return const Tuple2(true, "200 - OK");
     }
     if (response.statusCode == 400) {
       return const Tuple2(false, "400 - BAD REQUEST");

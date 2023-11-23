@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/setting_row.dart';
@@ -48,6 +50,8 @@ class _WebProfileView extends State<WebProfileView> {
   ];
   @override
   Widget build(BuildContext context) {
+    String _username = context.watch<User>().username;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TColor.white,
@@ -106,7 +110,7 @@ class _WebProfileView extends State<WebProfileView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Benjelloun Othmane",
+                          _username,
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 14,
@@ -390,7 +394,8 @@ class _WebProfileView extends State<WebProfileView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const PrivacyPolicyView(),
+                                  builder: (context) =>
+                                      const PrivacyPolicyView(),
                                 ),
                               );
                             } else if (iObj["tag"] == "5") {

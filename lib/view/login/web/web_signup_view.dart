@@ -204,9 +204,6 @@ class _WebSignUpView extends State<WebSignUpView> {
               SizedBox(
                 height: media.width * 0.04,
               ),
-              SizedBox(
-                height: media.width * 0.04,
-              ),
               TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -233,9 +230,6 @@ class _WebSignUpView extends State<WebSignUpView> {
                     )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: media.width * 0.04,
               ),
             ],
           ),
