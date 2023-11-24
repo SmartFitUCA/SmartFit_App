@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smartfit_app_mobile/common_widget/graph/graph.dart';
+import 'package:smartfit_app_mobile/modele/manager_file.dart';
 
 class ActivityOfUser {
   // A afficher
@@ -10,14 +11,20 @@ class ActivityOfUser {
   late String _nameFile;
   // ------------ //
   late String _imageName;
-  late List<dynamic> _contentActivity;
-  late int _dataSession;
+  late List<List<String>> _contentActivity;
+  Map<String, int> enteteCSV = {};
+
+  // ManagerFile for the field
+  final ManagerFile _managerFile = ManagerFile();
 
   // -- Getter/Setter -- //
-  List<dynamic> get contentActivity => _contentActivity;
-  set contentActivity(List<dynamic> content) {
+  List<List<String>> get contentActivity => _contentActivity;
+  set contentActivity(List<List<String>> content) {
     _contentActivity = content;
-    _dataSession = getDataSession();
+    for (int i = 0; i < content.first.length; i++) {
+      enteteCSV.addAll({content.first[i]: i});
+    }
+    _contentActivity.removeAt(0);
   }
 
   String get fileUuid => _fileUuid;
@@ -39,18 +46,33 @@ class ActivityOfUser {
     }
   }
 
-  // ----- Retourne l'indice de la ligne qui contient les données de la session -- //
-  int getDataSession() {
-    for (int i = _contentActivity.length - 1; i != 0; i--) {
-      if (_contentActivity[i][0] == "Data" &&
-          _contentActivity[i][2] == "session") {
-        return i;
-      }
+  // -----------------  BPM ------------------ //
+
+// Retourne le Temps+BPM (Fichier CSV)
+  List<FlSpot> getHeartRateWithTime() {
+    List<FlSpot> result = List.empty(growable: true);
+    int firstTimestamp = int.parse(contentActivity
+        .first[enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!]);
+
+    result.add(FlSpot(
+        (firstTimestamp ~/ 100).toDouble(),
+        double.parse(contentActivity
+            .first[enteteCSV["Value_${_managerFile.fielBPM}"]!])));
+
+    for (int i = 1; i < contentActivity.length; i++) {
+      result.add(FlSpot(
+          ((int.parse(contentActivity[i][
+                          enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!]) -
+                      firstTimestamp) ~/
+                  100)
+              .toDouble(),
+          double.parse(contentActivity[i]
+              [enteteCSV["Value_${_managerFile.fielBPM}"]!])));
     }
-    return 0;
+    return result;
   }
 
-  // -----------------  BPM ------------------ //
+  /*
   List<FlSpot> getHeartRateWithTime() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -75,8 +97,23 @@ class ActivityOfUser {
       }
     }
     return result;
+  }*/
+
+  // Retourne le BPM Max (Fichier CSV)
+  int getMaxBpm() {
+    int max = int.parse(
+        contentActivity.first[enteteCSV["Value_${_managerFile.fielBPM}"]!]);
+    for (int i = 1; i < contentActivity.length; i++) {
+      int valueTmp = int.parse(
+          contentActivity[i][enteteCSV["Value_${_managerFile.fielBPM}"]!]);
+      if (valueTmp > max) {
+        max = valueTmp;
+      }
+    }
+    return 0;
   }
 
+  /*
   int getMaxBpm() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "max_heart_rate") {
@@ -84,7 +121,7 @@ class ActivityOfUser {
       }
     }
     return 0;
-  }
+  }*/
 
   int getMinBpm() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
@@ -104,7 +141,7 @@ class ActivityOfUser {
     return 0;
   }
   // -------------------------- FIN BPM ---------------------- //
-
+  /*
   // ---------------------- Distance ---------------------- //
   List<FlSpot> getDistanceWithTime() {
     List<FlSpot> result = List.empty(growable: true);
@@ -304,7 +341,7 @@ class ActivityOfUser {
       }
     }
     return list;
-  }
+  }*/
 
   // -------------------------- FIN Localisation  ---------------------- //
 

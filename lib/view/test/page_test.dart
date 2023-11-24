@@ -268,8 +268,8 @@ class _TestPage extends State<TestPage> {
     print(await x.localPath);
     print("Save");
 
-    print(await x
-        .readFitFile("${await x.localPath}/Walking_2023-11-08T10_57_28.fit"));
+    //print(await x
+    //    .readFitFile("${await x.localPath}/Walking_2023-11-08T10_57_28.fit"));
   }
 
   Future<void> getInfoUser() async {
@@ -281,7 +281,7 @@ class _TestPage extends State<TestPage> {
   }
 
   void lunch() async {
-    print(await _managerFile.fileExist("lol"));
+    //print(await _managerFile.fileExist("lol"));
   }
 
   @override

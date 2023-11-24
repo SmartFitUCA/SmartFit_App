@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/modele/utile/signup_user.dart';
+import 'package:smartfit_app_mobile/view/login/login_view.dart';
+import 'package:smartfit_app_mobile/view/login/signup_view.dart';
 import 'package:smartfit_app_mobile/view/test/page_test.dart';
 
 void main() {
@@ -36,7 +39,7 @@ class MyApp extends StatelessWidget {
           primaryColor: TColor.primaryColor1,
           fontFamily: "Poppins"),
       //home: const StartedView(),
-      home: const TestPage(),
+      home: const SignUpView(),
     );
   }
 }

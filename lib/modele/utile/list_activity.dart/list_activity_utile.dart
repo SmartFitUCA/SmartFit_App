@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
@@ -13,9 +12,6 @@ class ListActivityUtile {
   final ManagerFile _managerFile = ManagerFile();
 
   Future<void> getContentOnTheFirstFileMobile(BuildContext context) async {
-    String fileUuid =
-        Provider.of<User>(context, listen: false).listActivity[0].fileUuid;
-
     Tuple2 result = await _strategy.getFile(
         Provider.of<User>(context, listen: false).token,
         Provider.of<User>(context, listen: false).listActivity[0].fileUuid);
@@ -24,12 +20,16 @@ class ListActivityUtile {
       //print(result);
       return;
     }
+    /*
     File file = File(
         "${await _managerFile.localPath}/${Provider.of<User>(context, listen: false).listActivity[0].nameFile}");
     await file.create();
     await file.writeAsBytes(result.item2);
     Provider.of<User>(context, listen: false).listActivity[0].contentActivity =
         await _managerFile.readFitFileWhithFile(file);
+    */
+    Provider.of<User>(context, listen: false).listActivity[0].contentActivity =
+        _managerFile.convertByteIntoCSV(result.item2);
   }
 
   Future<void> getContentOnTheFirstFileWeb(BuildContext context) async {
@@ -42,6 +42,6 @@ class ListActivityUtile {
       return;
     }
     Provider.of<User>(context, listen: false).listActivity[0].contentActivity =
-        await _managerFile.readFitFileWeb(result.item2);
+        _managerFile.convertByteIntoCSV(result.item2);
   }
 }

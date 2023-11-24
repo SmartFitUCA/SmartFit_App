@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +10,7 @@ import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
+import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity.dart/list_activity_utile.dart';
@@ -21,8 +25,9 @@ class MobileListActivity extends StatefulWidget {
 
 class _MobileListActivity extends State<MobileListActivity> {
   FilePickerResult? result;
-  final IDataStrategy strategy = RequestApi();
+  final IDataStrategy _strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
+  final ManagerFile _managerFile = ManagerFile();
   int firstActivityIndex = 0;
 
   /*
@@ -47,23 +52,42 @@ class _MobileListActivity extends State<MobileListActivity> {
     }
   }*/
 
-  void addFile(String path) async {
+  Future<bool> deleteFileOnBDD(String token, String fileUuid) async {
+    Tuple2<bool, String> result = await _strategy.deleteFile(token, fileUuid);
+    if (!result.item1) {
+      print(fileUuid);
+      print("msg d'erreur");
+      print(result.item2);
+      return false;
+    }
+    return true;
+  }
+
+  void addFile(String path, String token, String filename) async {
+    // -- Transormer le fit en CSV
+    List<List<String>> csv = _managerFile
+        .convertBytesFitFileIntoCSVList(await File(path).readAsBytes());
+    String csvString = const ListToCsvConverter().convert(csv);
+    Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
     // --- Save Local
 
-    // --- BDD
-    Tuple2<bool, String> result = await strategy.uploadFile(
-        Provider.of<User>(context, listen: false).token, File(path));
+    // --- Api
+    String categoryActivity = filename.split("_").first.toLowerCase();
+    String dateActivity = filename.split("_")[1].split("T").first;
+
+    Tuple2<bool, String> result = await _strategy.uploadFileByte(
+        token, byteCSV, filename, categoryActivity, dateActivity);
+
     if (result.item1 == false) {
       // Afficher msg d'erreur
       print("Upload - ${result.item2}");
       return;
     }
-    getFiles();
+    getFiles(token);
   }
 
-  void getFiles() async {
-    Tuple2 result = await strategy
-        .getFiles(Provider.of<User>(context, listen: false).token);
+  void getFiles(String token) async {
+    Tuple2 result = await _strategy.getFiles(token);
     if (result.item1 == false) {
       print("GetFiles - ${result.item2}");
       // Afficher une message d'erreur
@@ -107,7 +131,8 @@ class _MobileListActivity extends State<MobileListActivity> {
                           fontWeight: FontWeight.w700),
                     ),
                     TextButton(
-                        onPressed: getFiles,
+                        onPressed: () => getFiles(
+                            Provider.of<User>(context, listen: false).token),
                         child: Text("Get activity",
                             style: TextStyle(
                                 color: TColor.gray,
@@ -118,7 +143,10 @@ class _MobileListActivity extends State<MobileListActivity> {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles();
                         if (result != null) {
-                          addFile(result.files.single.path!);
+                          addFile(
+                              result.files.single.path!,
+                              Provider.of<User>(context, listen: false).token,
+                              result.files.single.name);
                         } else {
                           print("Picker");
                           // msg d'erreur
@@ -181,9 +209,14 @@ class _MobileListActivity extends State<MobileListActivity> {
                               },
                               child: WorkoutRow(
                                 wObj: activityMap,
-                                onDelete: () {
-                                  Provider.of<User>(context, listen: false)
-                                      .removeActivity(activityObj);
+                                onDelete: () async {
+                                  if (await deleteFileOnBDD(
+                                      Provider.of<User>(context, listen: false)
+                                          .token,
+                                      activityObj.fileUuid)) {
+                                    Provider.of<User>(context, listen: false)
+                                        .removeActivity(activityObj);
+                                  }
                                 },
                                 onClick: () {
                                   Provider.of<User>(context, listen: false)

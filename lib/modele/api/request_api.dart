@@ -37,7 +37,8 @@ class RequestApi extends IDataStrategy {
 
   @override
   Future<Tuple2<bool, String>> deleteFile(String token, String fileUuid) async {
-    final response = await http.delete(Uri.parse('$urlApi/user/files'),
+    final response = await http.delete(
+        Uri.parse('$urlApi/user/files/$fileUuid'),
         headers: <String, String>{'Authorization': token});
 
     if (response.statusCode == 200) {
@@ -146,6 +147,7 @@ class RequestApi extends IDataStrategy {
     }
   }
 
+  // -- Priviligié uploadFileByte -- //
   @override
   Future<Tuple2<bool, String>> uploadFile(String token, File file) async {
     String filename = file.path.split('/').last;
