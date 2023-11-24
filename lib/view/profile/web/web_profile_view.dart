@@ -50,7 +50,7 @@ class _WebProfileView extends State<WebProfileView> {
   ];
   @override
   Widget build(BuildContext context) {
-    String _username = context.watch<User>().username;
+    String username = context.watch<User>().username;
 
     return Scaffold(
       appBar: AppBar(
@@ -110,7 +110,7 @@ class _WebProfileView extends State<WebProfileView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _username,
+                          username,
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 14,
@@ -234,7 +234,7 @@ class _WebProfileView extends State<WebProfileView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ChangeEmailView(),
+                                  builder: (context) => const ChangeEmailView(),
                                 ),
                               );
                             }
@@ -402,7 +402,7 @@ class _WebProfileView extends State<WebProfileView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ContactUsView(),
+                                  builder: (context) => const ContactUsView(),
                                 ),
                               );
                             } else {
