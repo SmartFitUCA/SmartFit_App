@@ -208,20 +208,24 @@ class _MobileGraphBpmAndSpeedByTime extends State<MobileGraphBpmAndSpeedByTime> 
                 topTitles: const AxisTitles(),
                 bottomTitles: const AxisTitles(),
                 rightTitles: AxisTitles(
-                  sideTitles: rightTitles,
-                )),
+                  sideTitles: SideTitles(
+                reservedSize: 70,
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  return Text("${double.parse(value.toStringAsFixed(2))} BPM");
+                },
+              ))),
             gridData: FlGridData(
-              show: true,
-              drawHorizontalLine: true,
-              horizontalInterval: 25,
-              drawVerticalLine: false,
-              getDrawingHorizontalLine: (value) {
-                return FlLine(
-                  color: TColor.gray.withOpacity(0.15),
-                  strokeWidth: 2,
-                );
-              },
-            ),
+                drawVerticalLine: true,
+                drawHorizontalLine: true,
+                horizontalInterval: (maxY - minY) / 5,
+                verticalInterval: (maxX - minX) / 4,
+                getDrawingHorizontalLine: (value) {
+                  return FlLine(
+                    color: TColor.gray.withOpacity(0.15),
+                    strokeWidth: 1,
+                  );
+                }),
             borderData: FlBorderData(
               show: true,
               border: Border.all(

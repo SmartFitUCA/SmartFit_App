@@ -19,6 +19,10 @@ class WebGraphAltitudeByTime extends StatefulWidget {
 class _WebGraphAltitudeByTime extends State<WebGraphAltitudeByTime> {
   @override
   Widget build(BuildContext context) {
+    final double maxX =
+        widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
+    final double minX =
+        0.0;
     final double maxY =
         context.watch<User>().listActivity[0].getMaxAltitude() + 2;
     final double minY =
@@ -56,7 +60,14 @@ class _WebGraphAltitudeByTime extends State<WebGraphAltitudeByTime> {
             titlesData: FlTitlesData(
               leftTitles: const AxisTitles(),
               topTitles: const AxisTitles(),
-              bottomTitles: const AxisTitles(),
+              bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                reservedSize: 20,
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  return Text("${double.parse((value/10).toStringAsFixed(2))}s");
+                },
+              )),
               rightTitles: AxisTitles(
                   sideTitles: SideTitles(
                 reservedSize: 60,

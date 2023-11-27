@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 
 class WebGraphBpmAndSpeedByTime extends StatefulWidget {
@@ -75,6 +77,7 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: widget.data.vitesseSecondes,
+        
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
@@ -94,6 +97,20 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
 
   @override
   Widget build(BuildContext context) {
+
+      final double maxY =
+        context.watch<User>().listActivity[0].getMaxBpm() + 2;
+    final double minY =
+        context.watch<User>().listActivity[0].getMinBpm() - 2;
+    final double maxY1 =
+        context.watch<User>().listActivity[0].getMaxBpm() + 2;
+    final double minY2 =
+        context.watch<User>().listActivity[0].getMinBpm() - 2;
+    final double maxX =
+        widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
+    final double minX =
+        0.0;
+
     final lineBarsData = [
       LineChartBarData(
         spots: widget.data.bpmSecondes,
@@ -110,6 +127,7 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
         gradient: LinearGradient(
           colors: TColor.secondaryG,
         ),
+        
       ),
     ];
     final tooltipsOnBar = lineBarsData[0];
@@ -197,22 +215,33 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
                   sideTitles: rightTitles,
                 ),
                 topTitles: const AxisTitles(),
-                bottomTitles: const AxisTitles(),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                reservedSize: 20,
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  return Text("${double.parse((value/10).toStringAsFixed(2))}s");
+                },
+              )),
                 rightTitles: AxisTitles(
-                  sideTitles: rightTitles,
-                )),
+                  sideTitles: SideTitles(
+                reservedSize: 70,
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  return Text("${double.parse(value.toStringAsFixed(2))} BPM");
+                },
+              ))),
             gridData: FlGridData(
-              show: true,
-              drawHorizontalLine: true,
-              horizontalInterval: 25,
-              drawVerticalLine: false,
-              getDrawingHorizontalLine: (value) {
-                return FlLine(
-                  color: TColor.gray.withOpacity(0.15),
-                  strokeWidth: 2,
-                );
-              },
-            ),
+                drawVerticalLine: true,
+                drawHorizontalLine: true,
+                horizontalInterval: (maxY - minY) / 5,
+                verticalInterval: (maxX - minX) / 4,
+                getDrawingHorizontalLine: (value) {
+                  return FlLine(
+                    color: TColor.gray.withOpacity(0.15),
+                    strokeWidth: 1,
+                  );
+                }),
             borderData: FlBorderData(
               show: true,
               border: Border.all(
