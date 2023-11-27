@@ -13,7 +13,7 @@ import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
-import 'package:smartfit_app_mobile/modele/utile/list_activity.dart/list_activity_utile.dart';
+import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
 import 'package:tuple/tuple.dart';
 
 class MobileListActivity extends StatefulWidget {
@@ -63,50 +63,18 @@ class _MobileListActivity extends State<MobileListActivity> {
     return true;
   }
 
-  void addFile(String path, String token, String filename) async {
-    // -- Transormer le fit en CSV
-    List<List<String>> csv = _managerFile
-        .convertBytesFitFileIntoCSVList(await File(path).readAsBytes());
-    String csvString = const ListToCsvConverter().convert(csv);
-    Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
-    // --- Save Local
-    // --- Api
-    String categoryActivity = filename.split("_").first.toLowerCase();
-    String dateActivity = filename.split("_")[1].split("T").first;
-
-    Tuple2<bool, String> result = await _strategy.uploadFileByte(
-        token, byteCSV, filename, categoryActivity, dateActivity);
-    if (result.item1 == false) {
-      // Afficher msg d'erreur
-      print("Upload - ${result.item2}");
+  void addFileMobile(String path, String token, String filename) async {
+    Tuple2<bool, String> resultAdd =
+        await _utile.addFile(await File(path).readAsBytes(), filename, token);
+    if (!resultAdd.item1) {
+      //print("Message error");
       return;
     }
-    getFiles(token);
-  }
-
-  void getFiles(String token) async {
-    bool check = false;
-    Tuple2 result = await _strategy.getFiles(token);
-
-    if (result.item1 == false) {
-      print("GetFiles - ${result.item2}");
-      // Afficher une message d'erreur
+    Tuple2<bool, String> resultGet = await _utile.getFiles(token, context);
+    if (!resultGet.item1) {
+      //print("Message error");
       return;
     }
-    Provider.of<User>(context, listen: false).listActivity.clear();
-
-    for (Map<String, dynamic> element in result.item2) {
-      Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
-          element["creation_date"].toString(),
-          element["category"].toString(),
-          element["uuid"].toString(),
-          element["filename"].toString()));
-      check = true;
-    }
-    if (check) {
-      await _utile.getContentOnTheFirstFileMobile(context);
-    }
-    return;
   }
 
   @override
@@ -134,8 +102,9 @@ class _MobileListActivity extends State<MobileListActivity> {
                           fontWeight: FontWeight.w700),
                     ),
                     TextButton(
-                        onPressed: () => getFiles(
-                            Provider.of<User>(context, listen: false).token),
+                        onPressed: () => _utile.getFiles(
+                            Provider.of<User>(context, listen: false).token,
+                            context),
                         child: Text("Get activity",
                             style: TextStyle(
                                 color: TColor.gray,
@@ -146,7 +115,7 @@ class _MobileListActivity extends State<MobileListActivity> {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles();
                         if (result != null) {
-                          addFile(
+                          addFileMobile(
                               result.files.single.path!,
                               Provider.of<User>(context, listen: false).token,
                               result.files.single.name);
@@ -225,8 +194,8 @@ class _MobileListActivity extends State<MobileListActivity> {
                                   Provider.of<User>(context, listen: false)
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
-                                      .insertActivityTopMobile(
-                                          activityObj, context);
+                                      .insertActivity(0, activityObj);
+                                  _utile.getContentActivity(context);
                                 },
                                 isFirstActivity: isFirstActivity,
                               ),

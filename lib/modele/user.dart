@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
-import 'package:smartfit_app_mobile/modele/utile/list_activity.dart/list_activity_utile.dart';
+import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
 
 class User extends ChangeNotifier {
   String username = "VOID";
@@ -21,18 +21,6 @@ class User extends ChangeNotifier {
   // Method to insert an activity at a specific position
   void insertActivity(int index, ActivityOfUser activity) {
     listActivity.insert(index, activity);
-    notifyListeners();
-  }
-
-  void insertActivityTopMobile(ActivityOfUser activity, BuildContext context) {
-    listActivity.insert(0, activity);
-    ListActivityUtile().getContentOnTheFirstFileMobile(context);
-    notifyListeners();
-  }
-
-  void insertActivityTopWeb(ActivityOfUser activity, BuildContext context) {
-    listActivity.insert(0, activity);
-    ListActivityUtile().getContentOnTheFirstFileWeb(context);
     notifyListeners();
   }
 }

@@ -134,7 +134,8 @@ class ActivityOfUser {
     for (int i = contentActivity.length - 1; i != 0; i--) {
       if (notNull(i, enteteCSV["Value_${_managerFile.fieldDistance}"]!)) {
         double valueTmp = contentActivity[i]
-            [enteteCSV["Value_${_managerFile.fieldDistance}"]!];
+                [enteteCSV["Value_${_managerFile.fieldDistance}"]!]
+            .toDouble();
         if (valueTmp > max) {
           max = valueTmp;
         }
@@ -164,7 +165,8 @@ class ActivityOfUser {
     for (int i = contentActivity.length - 1; i != 0; i--) {
       if (notNull(i, enteteCSV["Value_${_managerFile.fieldTotalStep}"]!)) {
         return contentActivity[i]
-            [enteteCSV["Value_${_managerFile.fieldTotalStep}"]!];
+                [enteteCSV["Value_${_managerFile.fieldTotalStep}"]!]
+            .toInt();
       }
     }
     return 0;
@@ -192,7 +194,8 @@ class ActivityOfUser {
     for (int i = 0; i < contentActivity.length; i++) {
       if (notNull(i, enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
         double valueTmp = contentActivity[i]
-            [enteteCSV["Value_${_managerFile.fieldAltitude}"]!];
+                [enteteCSV["Value_${_managerFile.fieldAltitude}"]!]
+            .toDouble();
         if (valueTmp > max) {
           max = valueTmp;
         }
@@ -207,7 +210,8 @@ class ActivityOfUser {
     for (int i = 0; i < contentActivity.length; i++) {
       if (notNull(i, enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
         double valueTmp = contentActivity[i]
-            [enteteCSV["Value_${_managerFile.fieldAltitude}"]!];
+                [enteteCSV["Value_${_managerFile.fieldAltitude}"]!]
+            .toDouble();
         if (valueTmp < min) {
           min = valueTmp;
         }
@@ -238,8 +242,8 @@ class ActivityOfUser {
                         firstTimestamp) ~/
                     100)
                 .toDouble(),
-            contentActivity[i]
-                [enteteCSV["Value_${_managerFile.fieldSpeed}"]!]));
+            contentActivity[i][enteteCSV["Value_${_managerFile.fieldSpeed}"]!]
+                .toDouble()));
       }
     }
     return result;
@@ -250,8 +254,9 @@ class ActivityOfUser {
     double max = 0.00;
     for (int i = 0; i < contentActivity.length; i++) {
       if (notNull(i, enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
-        double valueTmp =
-            contentActivity[i][enteteCSV["Value_${_managerFile.fieldSpeed}"]!];
+        double valueTmp = contentActivity[i]
+                [enteteCSV["Value_${_managerFile.fieldSpeed}"]!]
+            .toDouble();
         if (valueTmp > max) {
           max = valueTmp;
         }
