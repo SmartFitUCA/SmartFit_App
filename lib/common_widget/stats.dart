@@ -17,7 +17,7 @@ class Stats extends StatelessWidget {
         .toString();
     String time = Provider.of<User>(context, listen: false)
         .listActivity[0]
-        .getTotalTime();
+        .getTotalTime().toString();
 
     return Column(
       children: [
@@ -173,7 +173,7 @@ class StatIcon extends StatelessWidget {
         color: iconBackground,
         borderRadius: BorderRadius.circular(9),
       ),
-      child: Icon(icon, size: 15, color: iconColor),
+      child: Icon(icon, size: 8, color: iconColor),
     );
   }
 }

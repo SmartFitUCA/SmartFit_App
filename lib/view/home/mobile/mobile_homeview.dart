@@ -61,7 +61,7 @@ class _MobileHomeView extends State<MobileHomeView> {
                 SizedBox(
                   height: media.width * 0.02,
                 ),
-                GraphBpmByTime(media, data),
+                BpmByTime(media, data),
                 SizedBox(
                   height: media.width * 0.05,
                 ),
@@ -95,8 +95,8 @@ class _MobileHomeView extends State<MobileHomeView> {
                   height: media.width * 0.05,
                 ),
                 LigneContainerStats(
-                    "${double.parse(maxSpeed.toStringAsFixed(2))} KM/H",
-                    "${double.parse(avgSpeed.toStringAsFixed(2))} km/H",
+                    "${double.parse(maxSpeed.toStringAsFixed(2))} m/s",
+                    "${double.parse(avgSpeed.toStringAsFixed(2))} m/s",
                     "${avgBpm.toString()} BPM",
                     "Max Speed",
                     "Moyenne Speed",

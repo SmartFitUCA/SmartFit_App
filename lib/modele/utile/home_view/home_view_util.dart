@@ -12,8 +12,7 @@ class HomeViewUtil {
     List<FlSpot> bpmSecondes = activity.getHeartRateWithTime();
     List<FlSpot> vitesseSecondes = activity.getSpeedWithTime();
     List<FlSpot> altitudeSeconde = activity.getAltitudeWithTime();
-
-    List<FlSpot> bpmSecondes2 = List.from(bpmSecondes);
+    List<FlSpot> bpmSecondes2 = activity.getHeartRateWithTime2();
 
     return DataHomeView(bpmSecondes, normaliserDeuxiemeElement(bpmSecondes2),
         normaliserDeuxiemeElement(vitesseSecondes), altitudeSeconde);

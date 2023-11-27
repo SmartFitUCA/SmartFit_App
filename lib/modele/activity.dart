@@ -41,6 +41,32 @@ class ActivityOfUser {
           }
           //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[10]]);
           result.add(
+              FlSpot((ligne[4] - firtTimeStamp) / 1000, ligne[10].toDouble()));
+        } else if (ligne.length >= 16 && ligne[15] == "heart_rate") {
+          if (firtTimeStamp == 0) {
+            firtTimeStamp = ligne[4];
+          }
+          //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[17]]);
+          result.add(
+              FlSpot((ligne[4] - firtTimeStamp) / 1000, ligne[16].toDouble()));
+        }
+      }
+    }
+    return result;
+  }
+
+  List<FlSpot> getHeartRateWithTime2() {
+    List<FlSpot> result = List.empty(growable: true);
+    int firtTimeStamp = 0;
+
+    for (List<dynamic> ligne in _contentActivity) {
+      if (ligne[0] == "Data") {
+        if (ligne.length >= 10 && ligne[9] == "heart_rate") {
+          if (firtTimeStamp == 0) {
+            firtTimeStamp = ligne[4];
+          }
+          //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[10]]);
+          result.add(
               FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[10].toDouble()));
         } else if (ligne.length >= 16 && ligne[15] == "heart_rate") {
           if (firtTimeStamp == 0) {
@@ -63,6 +89,7 @@ class ActivityOfUser {
     }
     return 0;
   }
+
 
   int getMinBpm() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
@@ -154,13 +181,13 @@ class ActivityOfUser {
   // ----------------------- FIN Step ------------------------ //
 
   // ------------------------- Time ----------------------------- //
-  String getTotalTime() {
+  double getTotalTime() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "total_elapsed_time") {
-        return _contentActivity[_dataSession][i + 1].toString();
+        return _contentActivity[_dataSession][i + 1];
       }
     }
-    return "null";
+    return 0;
   }
   // ---------------------------- FIN time -------------------- //
 

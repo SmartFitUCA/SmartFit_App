@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
-import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/common_widget/container/container_stats.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:smartfit_app_mobile/common_widget/container/mobile/mobile_ligne_container_stats.dart';
+import 'package:smartfit_app_mobile/common_widget/container/web/web_ligne_container_stats.dart';
 
 class LigneContainerStats extends StatelessWidget {
   const LigneContainerStats(this.value1, this.value2, this.value3,
@@ -21,51 +23,11 @@ class LigneContainerStats extends StatelessWidget {
   final IconData icon2;
   final IconData icon3;
 
-
-  @override
+ @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Divider(height: 30),
-        
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Row(
-            children: [
-              const Text(
-                'Statistiques',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              SizedBox(width: 8),
-              Icon(
-                Icons.pie_chart_rounded,
-                size: 15,
-                color: TColor.secondaryColor1,
-              ),
-            ],
-          ),
-        ),
-
-        SizedBox(height: 20),
-      SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child:Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ContainerStats(value1, designation1, icon1),
-        const SizedBox(width: 20),
-        ContainerStats(value2, designation2, icon2),
-        const SizedBox(width: 20),
-        ContainerStats(value3, designation3,  icon3),
-      ],)
-    ),
-    Divider(height: 30),
-      ],
+    return ScreenTypeLayout.builder(
+      mobile: (_) =>  MobileLigneContainerStats(value1, value2, value3, designation1, designation2, designation3, icon1, icon2, icon3),
+      desktop: (_) =>  WebLigneContainerStats(value1, value2, value3, designation1, designation2, designation3, icon1, icon2, icon3),
     );
-    
-    
   }
 }
