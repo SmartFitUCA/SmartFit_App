@@ -14,6 +14,7 @@ class ManagerFile {
   final String _fieldSpeed = "speed";
   final String _fieldAltitude = "altitude";
   final String _fieldTotalStep = "total_strides";
+  final String _fieldTotalCalorie = "total_calories";
   // -- Getter field
   String get fieldTimeStamp => _fieldTimestamp;
   String get fieldPositionLatitude => _fieldPositionLatitue;
@@ -23,6 +24,7 @@ class ManagerFile {
   String get fieldSpeed => _fieldSpeed;
   String get fieldAltitude => _fieldAltitude;
   String get fieldTotalStep => _fieldTotalStep;
+  String get fieldTotalCalories => _fieldTotalCalorie;
 
   List<String> allowedFieldWalking = List.empty(growable: true);
 
@@ -35,7 +37,8 @@ class ManagerFile {
       _fieldBPM,
       _fieldSpeed,
       _fieldAltitude,
-      _fieldTotalStep
+      _fieldTotalStep,
+      _fieldTotalCalorie
     ];
   }
 

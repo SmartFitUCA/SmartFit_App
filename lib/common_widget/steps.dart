@@ -11,6 +11,7 @@ class Steps extends StatelessWidget {
         .listActivity[0]
         .getTotalSteps()
         .toString();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(

@@ -80,57 +80,6 @@ class ActivityOfUser {
   }
 
 // -----------------  BPM ------------------ //
-/*
-// Retourne le Temps+BPM (Fichier CSV)
-  List<FlSpot> getHeartRateWithTime() {
-    List<FlSpot> result = List.empty(growable: true);
-    int firstTimestamp = int.parse(contentActivity
-        .first[enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!]);
-
-    result.add(FlSpot(
-        (firstTimestamp ~/ 100).toDouble(),
-        double.parse(contentActivity
-            .first[enteteCSV["Value_${_managerFile.fielBPM}"]!])));
-
-    for (int i = 1; i < contentActivity.length; i++) {
-      result.add(FlSpot(
-          ((int.parse(contentActivity[i][
-                          enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!]) -
-                      firstTimestamp) ~/
-                  100)
-              .toDouble(),
-          double.parse(contentActivity[i]
-              [enteteCSV["Value_${_managerFile.fielBPM}"]!])));
-    }
-    return result;
-  }*/
-
-  /*
-  List<FlSpot> getHeartRateWithTime() {
-    List<FlSpot> result = List.empty(growable: true);
-    int firtTimeStamp = 0;
-
-    for (List<dynamic> ligne in _contentActivity) {
-      if (ligne[0] == "Data") {
-        if (ligne.length >= 10 && ligne[9] == "heart_rate") {
-          if (firtTimeStamp == 0) {
-            firtTimeStamp = ligne[4];
-          }
-          //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[10]]);
-          result.add(
-              FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[10].toDouble()));
-        } else if (ligne.length >= 16 && ligne[15] == "heart_rate") {
-          if (firtTimeStamp == 0) {
-            firtTimeStamp = ligne[4];
-          }
-          //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[17]]);
-          result.add(
-              FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[16].toDouble()));
-        }
-      }
-    }
-    return result;
-  }*/
 
   // Retourne le BPM Max (Fichier CSV)
   int getMaxBpm() {
@@ -147,15 +96,6 @@ class ActivityOfUser {
     return max;
   }
 
-  /*
-  int getMaxBpm() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "max_heart_rate") {
-        return _contentActivity[_dataSession][i + 1];
-      }
-    }
-    return 0;
-  }*/
 // Retourne le BPM Min (Fichier CSV)
   int getMinBpm() {
     int min = 300;
@@ -171,15 +111,6 @@ class ActivityOfUser {
     return min;
   }
 
-  /*
-  int getMinBpm() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "min_heart_rate") {
-        return _contentActivity[_dataSession][i + 1];
-      }
-    }
-    return 0;
-  }*/
   // Retourne le BPM avg (Fichier CSV)
   int getAvgBpm() {
     int somme = 0;
@@ -194,35 +125,9 @@ class ActivityOfUser {
     return somme ~/ nb;
   }
 
-  /*
-  int getAvgBpm() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "avg_heart_rate") {
-        return _contentActivity[_dataSession][i + 1];
-      }
-    }
-    return 0;
-  }*/
   // -------------------------- FIN BPM ---------------------- //
-  /*
-  // ---------------------- Distance ---------------------- //
-  List<FlSpot> getDistanceWithTime() {
-    List<FlSpot> result = List.empty(growable: true);
-    int firtTimeStamp = 0;
 
-    for (List<dynamic> ligne in _contentActivity) {
-      if (ligne.length >= 8 && ligne[0] == "Data" && ligne[6] == "distance") {
-        if (firtTimeStamp == 0) {
-          firtTimeStamp = ligne[4];
-        }
-        //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[7].toInt()]);
-        result
-            .add(FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[7].toDouble()));
-      }
-    }
-    return result;
-  }
-  */
+  // ---------------------- Distance ---------------------- //
 
   double getTotalDistance() {
     double max = 0;
@@ -238,56 +143,25 @@ class ActivityOfUser {
     return max;
   }
 
-  /*
   // ---------------------- FIN Distance ---------------------- //
 
   // ---------------------- Calories ---------------------- //
-  List<FlSpot> getCalories() {
-    List<FlSpot> result = List.empty(growable: true);
-    int firtTimeStamp = 0;
-    for (List<dynamic> ligne in _contentActivity) {
-      if (ligne.length >= 39 &&
-          ligne[0] == "Data" &&
-          ligne[39] == "total_calories") {
-        if (firtTimeStamp == 0) {
-          firtTimeStamp = ligne[4];
-        }
-        //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[7].toInt()]);
-        result.add(
-            FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[40].toDouble()));
+  int getCalorie() {
+    for (int i = contentActivity.length - 1; i != 0; i--) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fieldTotalCalories}"]!)) {
+        return contentActivity[i]
+            [enteteCSV["Value_${_managerFile.fieldTotalCalories}"]!] as int;
       }
     }
-    return result;
-  }*/
-  /*
-  String getTotalCalorie() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "total_calories") {
-        return _contentActivity[_dataSession][i + 1].toString();
-      }
-    }
-    return "null";
-  }*/
-
-  String getTotalCalorie() {
-    return "NULL";
+    return 0;
   }
 
   // ---------------------- FIN Calories ---------------------- //
 
   // ---------------------- Step ------------------------------//
-  /*
-  String getTotalSteps() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "total_strides") {
-        return _contentActivity[_dataSession][i + 1].toString();
-      }
-    }
-    return "null";
-  }*/
 
   int getTotalSteps() {
-    for (int i = contentActivity.length; i != 0; i--) {
+    for (int i = contentActivity.length - 1; i != 0; i--) {
       if (notNull(i, enteteCSV["Value_${_managerFile.fieldTotalStep}"]!)) {
         return contentActivity[i]
             [enteteCSV["Value_${_managerFile.fieldTotalStep}"]!];
@@ -298,15 +172,6 @@ class ActivityOfUser {
   // ----------------------- FIN Step ------------------------ //
 
   // ------------------------- Time ----------------------------- //
-  /*
-  String getTotalTime() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "total_elapsed_time") {
-        return _contentActivity[_dataSession][i + 1].toString();
-      }
-    }
-    return "null";
-  }*/
 
   int getTotalTime() {
     for (int i = contentActivity.length - 1; i != 0; i--) {
@@ -320,23 +185,6 @@ class ActivityOfUser {
   // ---------------------------- FIN time -------------------- //
 
   // ---------------------------------------- Altitude -------------------- //
-  /*
-  List<FlSpot> getAltitudeWithTime() {
-    List<FlSpot> result = List.empty(growable: true);
-    int firtTimeStamp = 0;
-
-    for (List<dynamic> ligne in _contentActivity) {
-      if (ligne.length >= 14 && ligne[0] == "Data" && ligne[12] == "altitude") {
-        if (firtTimeStamp == 0) {
-          firtTimeStamp = ligne[4];
-        }
-        //result.add([(ligne[4] - firtTimeStamp) ~/ 100, ligne[13].toInt()]);
-        result.add(
-            FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[13].toDouble()));
-      }
-    }
-    return result;
-  }*/
 
   // --- Fichier CSV --- //
   double getMaxAltitude() {
@@ -352,15 +200,6 @@ class ActivityOfUser {
     }
     return max;
   }
-  /*
-  double getMaxAltitude() {
-    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "max_altitude") {
-        return _contentActivity[_dataSession][i + 1];
-      }
-    }
-    return 0.0;
-  }*/
 
   // --- Fichier CSV --- //
   double getMinAltitude() {
@@ -376,43 +215,10 @@ class ActivityOfUser {
     }
     return min;
   }
-  /*
-  double getMinAltitude() {
-    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "min_altitude") {
-        return _contentActivity[_dataSession][i + 1];
-      }
-    }
-    return 0.0;
-  }*/
 
-  /*
   // -------------------------- FIN altitude ---------------------- //
 
   // -------------------------- Speed  ---------------------- //
-
-  List<FlSpot> getSpeedWithTime() {
-    List<FlSpot> result = List.empty(growable: true);
-    int firtTimeStamp = 0;
-
-    for (List<dynamic> ligne in _contentActivity) {
-      if (ligne[0] == "Data" && ligne[1] == 1) {
-        if (firtTimeStamp == 0) {
-          firtTimeStamp = ligne[4];
-        }
-        result.add(
-            FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[19].toDouble()));
-      }
-      if (ligne[0] == "Data" && ligne[1] == 2) {
-        if (firtTimeStamp == 0) {
-          firtTimeStamp = ligne[4];
-        }
-        result.add(
-            FlSpot((ligne[4] - firtTimeStamp) / 100, ligne[25].toDouble()));
-      }
-    }
-    return result;
-  }*/
 
   // -- CSV -- //
   List<DataPoint> getSpeedWithTimeActivity() {
@@ -438,31 +244,6 @@ class ActivityOfUser {
     }
     return result;
   }
-  /*
-  List<DataPoint> getSpeedWithTimeActivity() {
-    List<DataPoint> result = List.empty(growable: true);
-    int firtTimeStamp = 0;
-
-    for (List<dynamic> ligne in _contentActivity) {
-      if (ligne[0] == "Data" && ligne[1] == 1) {
-        if (firtTimeStamp == 0) {
-          firtTimeStamp = ligne[4];
-        }
-        result.add(DataPoint(
-          ((ligne[4] - firtTimeStamp) / 100),
-          ligne[19].toDouble(),
-        ));
-      }
-      if (ligne[0] == "Data" && ligne[1] == 2) {
-        if (firtTimeStamp == 0) {
-          firtTimeStamp = ligne[4];
-        }
-        result.add(DataPoint(
-            ((ligne[4] - firtTimeStamp) / 100), ligne[25].toDouble()));
-      }
-    }
-    return result;
-  }*/
 
   // Retourne la Speed Max (Fichier CSV)
   double getMaxSpeed() {
@@ -478,15 +259,6 @@ class ActivityOfUser {
     }
     return max;
   }
-  /*
-  double getMaxSpeed() {
-    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "max_speed") {
-        return _contentActivity[_dataSession][i + 1];
-      }
-    }
-    return 0.0;
-  }*/
 
   // Retourne avg Max (Fichier CSV)
   double getAvgSpeed() {
@@ -501,15 +273,6 @@ class ActivityOfUser {
     }
     return somme / nb;
   }
-  /*
-  double getAvgSpeed() {
-    for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "avg_speed") {
-        return _contentActivity[_dataSession][i + 1];
-      }
-    }
-    return 0.0;
-  }*/
 
   // -------------------------- FIN Speed  ---------------------- //
 
@@ -533,17 +296,6 @@ class ActivityOfUser {
     }
     return list;
   }
-  /*
-  List<LatLng> getPosition() {
-    List<LatLng> list = List.empty(growable: true);
-
-    for (List<dynamic> ligne in _contentActivity) {
-      if (ligne[0] == "Data" && ligne[6] == "position_lat") {
-        list.add(LatLng(ligne[7], ligne[10]));
-      }
-    }
-    return list;
-  }*/
 
   // -------------------------- FIN Localisation  ---------------------- //
 
