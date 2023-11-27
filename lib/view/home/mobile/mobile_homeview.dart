@@ -28,6 +28,7 @@ class _MobileHomeView extends State<MobileHomeView> {
     int maxBpm = context.watch<User>().listActivity[0].getMaxBpm();
     int minBpm = context.watch<User>().listActivity[0].getMinBpm();
     int avgBpm = context.watch<User>().listActivity[0].getAvgBpm();
+
     // -- Altitude -- //
     double minAltitude = context.watch<User>().listActivity[0].getMinAltitude();
     double maxAltitude = context.watch<User>().listActivity[0].getMaxAltitude();
@@ -35,7 +36,6 @@ class _MobileHomeView extends State<MobileHomeView> {
     // -- Speed -- //
     double maxSpeed = context.watch<User>().listActivity[0].getMaxSpeed();
     double avgSpeed = context.watch<User>().listActivity[0].getAvgSpeed();
-
     data = HomeViewUtil().initData(context);
 
     return Scaffold(

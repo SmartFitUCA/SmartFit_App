@@ -2,16 +2,23 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
+import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 
 class HomeViewUtil {
   DataHomeView initData(BuildContext context) {
-    ActivityOfUser activity = Provider.of<User>(context).listActivity[0];
+    ManagerFile _managerFile = ManagerFile();
 
-    List<FlSpot> bpmSecondes = activity.getHeartRateWithTime();
-    List<FlSpot> vitesseSecondes = activity.getSpeedWithTime();
-    List<FlSpot> altitudeSeconde = activity.getAltitudeWithTime();
+    ActivityOfUser activity = Provider.of<User>(context).listActivity[0];
+    //List<FlSpot> bpmSecondes = activity.getHeartRateWithTime();
+    List<FlSpot> bpmSecondes = activity.getXWithTime(_managerFile.fielBPM);
+    //List<FlSpot> vitesseSecondes = activity.getSpeedWithTime();
+    List<FlSpot> vitesseSecondes =
+        activity.getXWithTime(_managerFile.fieldSpeed);
+    //List<FlSpot> altitudeSeconde = activity.getAltitudeWithTime();
+    List<FlSpot> altitudeSeconde =
+        activity.getXWithTime(_managerFile.fieldAltitude);
 
     List<FlSpot> bpmSecondes2 = List.from(bpmSecondes);
 

@@ -1,6 +1,7 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:smartfit_app_mobile/modele/utile/list_activity.dart/list_activity_utile.dart';
+import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
 import 'package:tuple/tuple.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -9,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
-import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
 
@@ -25,6 +25,8 @@ class _WebListActivityState extends State<WebListActivity> {
   IDataStrategy strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
   int firstActivityIndex = 0;
+  final IDataStrategy _strategy = RequestApi();
+
   /*
   void readFile(html.File file) async {
     ManagerFile x = ManagerFile();
@@ -44,60 +46,42 @@ class _WebListActivityState extends State<WebListActivity> {
     });
   }*/
 
-  void addFile(html.File file) async {
-    final reader = html.FileReader();
-    reader.readAsArrayBuffer(file);
-    reader.onLoadEnd.listen((event) async {
-      if (reader.readyState == html.FileReader.DONE) {
-        Uint8List bytes = reader.result as Uint8List;
-
-        String filename = file.name;
-        String categoryActivity = filename.split("_").first.toLowerCase();
-        String dateActivity = filename.split("_")[1].split("T").first;
-
-        Tuple2<bool, String> result = await strategy.uploadFileByte(
-            Provider.of<User>(context, listen: false).token,
-            bytes,
-            filename,
-            categoryActivity,
-            dateActivity);
-
-        if (result.item1 == false) {
-          // Afficher msg d'erreur
-          print("Upload - ${result.item2}");
-          return;
-        }
-        getFiles();
-      }
-    });
+  Future<bool> deleteFileOnBDD(String token, String fileUuid) async {
+    Tuple2<bool, String> result = await _strategy.deleteFile(token, fileUuid);
+    if (!result.item1) {
+      //print(fileUuid);
+      //print("msg d'erreur");
+      //print(result.item2);
+      return false;
+    }
+    return true;
   }
 
-  // -- On doit garder cet fonction dans la page pour pouvoir afficher les msg -- //
-  void getFiles() async {
-    Tuple2 result = await strategy
-        .getFiles(Provider.of<User>(context, listen: false).token);
-    if (result.item1 == false) {
-      print("GetFiles - ${result.item2}");
-      // Afficher une message d'erreur
-      return;
-    }
-    Provider.of<User>(context, listen: false).listActivity.clear();
+  void addFileWeb(html.File file, String token) async {
+    final reader = html.FileReader();
+    reader.readAsArrayBuffer(file);
 
-    for (Map<String, dynamic> element in result.item2) {
-      Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
-          element["creation_date"].toString(),
-          element["category"].toString(),
-          element["uuid"].toString(),
-          element["filename"].toString()));
-    }
-    await _utile.getContentOnTheFirstFileWeb(context);
-    return;
+    reader.onLoadEnd.listen((event) async {
+      if (reader.readyState == html.FileReader.DONE) {
+        print("donne");
+        Uint8List bytes = reader.result as Uint8List;
+        Tuple2<bool, String> resultAdd =
+            await _utile.addFile(bytes, file.name, token);
+        if (!resultAdd.item1) {
+          return;
+        }
+        Tuple2<bool, String> resultGet = await _utile.getFiles(token, context);
+        if (!resultGet.item1) {
+          //print("MessageError");
+          return;
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    print("tttt");
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
@@ -119,7 +103,9 @@ class _WebListActivityState extends State<WebListActivity> {
                           fontWeight: FontWeight.w700),
                     ),
                     TextButton(
-                        onPressed: getFiles,
+                        onPressed: () => _utile.getFiles(
+                            Provider.of<User>(context, listen: false).token,
+                            context),
                         child: Text("Get activity",
                             style: TextStyle(
                                 color: TColor.gray,
@@ -134,7 +120,10 @@ class _WebListActivityState extends State<WebListActivity> {
                         uploadInput.onChange.listen((e) {
                           final files = uploadInput.files;
                           if (files != null && files.isNotEmpty) {
-                            addFile(files[0]); // Lecture du fichier sélectionné
+                            addFileWeb(
+                                files[0],
+                                Provider.of<User>(context, listen: false)
+                                    .token); // Lecture du fichier sélectionné
                           }
                         });
                       },
@@ -194,16 +183,21 @@ class _WebListActivityState extends State<WebListActivity> {
                               },
                               child: WorkoutRow(
                                 wObj: activityMap,
-                                onDelete: () {
-                                  Provider.of<User>(context, listen: false)
-                                      .removeActivity(activityObj);
+                                onDelete: () async {
+                                  if (await deleteFileOnBDD(
+                                      Provider.of<User>(context, listen: false)
+                                          .token,
+                                      activityObj.fileUuid)) {
+                                    Provider.of<User>(context, listen: false)
+                                        .removeActivity(activityObj);
+                                  }
                                 },
                                 onClick: () {
                                   Provider.of<User>(context, listen: false)
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
-                                      .insertActivityTopWeb(
-                                          activityObj, context);
+                                      .insertActivity(0, activityObj);
+                                  _utile.getContentActivity(context);
                                 },
                                 isFirstActivity: isFirstActivity,
                               ),

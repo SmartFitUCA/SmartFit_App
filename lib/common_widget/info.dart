@@ -9,7 +9,8 @@ class Info extends StatelessWidget {
   Widget build(BuildContext context) {
     String distance = Provider.of<User>(context, listen: false)
         .listActivity[0]
-        .getTotalDistance();
+        .getTotalDistance()
+        .toString();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

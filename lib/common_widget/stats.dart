@@ -10,15 +10,16 @@ class Stats extends StatelessWidget {
   Widget build(BuildContext context) {
     String calories = Provider.of<User>(context, listen: false)
         .listActivity[0]
-        .getTotalCalorie();
+        .getCalorie()
+        .toString();
     String heartrate = Provider.of<User>(context, listen: false)
         .listActivity[0]
         .getAvgBpm()
         .toString();
     String time = Provider.of<User>(context, listen: false)
         .listActivity[0]
-        .getTotalTime();
-
+        .getTotalTime()
+        .toString();
     return Column(
       children: [
         Padding(
@@ -32,7 +33,7 @@ class Stats extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Icon(
                 Icons.pie_chart_rounded,
                 size: 15,
@@ -49,31 +50,31 @@ class Stats extends StatelessWidget {
               const SizedBox(width: 15),
               InfoStat(
                 icon: Icons.timer,
-                iconColor: Color.fromARGB(255, 255, 255, 255),
-                iconBackground: Color(0xff6131AD),
+                iconColor: const Color.fromARGB(255, 255, 255, 255),
+                iconBackground: const Color(0xff6131AD),
                 time: '+5s',
                 label: 'Time',
-                value: time + ' s',
+                value: '$time s',
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               InfoStat(
                 icon: Icons.favorite_outline,
-                iconColor: Color.fromARGB(255, 255, 255, 255),
-                iconBackground: Color(0xff6131AD),
+                iconColor: const Color.fromARGB(255, 255, 255, 255),
+                iconBackground: const Color(0xff6131AD),
                 time: '+5s',
                 label: 'Heart Rate',
-                value: heartrate + " BPM",
+                value: "$heartrate BPM",
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               InfoStat(
                 icon: Icons.bolt,
-                iconColor: Color.fromARGB(255, 255, 255, 255),
-                iconBackground: Color(0xff6131AD),
+                iconColor: const Color.fromARGB(255, 255, 255, 255),
+                iconBackground: const Color(0xff6131AD),
                 time: '+5s',
                 label: 'Energy',
-                value: calories + " kCal",
+                value: "$calories kCal",
               ),
-              SizedBox(width: 30),
+              const SizedBox(width: 30),
             ],
           ),
         )
