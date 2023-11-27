@@ -17,7 +17,8 @@ class Stats extends StatelessWidget {
         .toString();
     String time = Provider.of<User>(context, listen: false)
         .listActivity[0]
-        .getTotalTime();
+        .getTotalTime()
+        .toString();
 
     return Column(
       children: [

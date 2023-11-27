@@ -28,8 +28,9 @@ class ListActivityUtile {
     Provider.of<User>(context, listen: false).listActivity[0].contentActivity =
         await _managerFile.readFitFileWhithFile(file);
     */
+
     Provider.of<User>(context, listen: false).listActivity[0].contentActivity =
-        _managerFile.convertByteIntoCSV(result.item2);
+        List.from(_managerFile.convertByteIntoCSV(result.item2));
   }
 
   Future<void> getContentOnTheFirstFileWeb(BuildContext context) async {
@@ -41,7 +42,8 @@ class ListActivityUtile {
       //print(result);
       return;
     }
+    /*
     Provider.of<User>(context, listen: false).listActivity[0].contentActivity =
-        _managerFile.convertByteIntoCSV(result.item2);
+        _managerFile.convertByteIntoCSV(result.item2);*/
   }
 }

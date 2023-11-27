@@ -9,7 +9,8 @@ class Steps extends StatelessWidget {
   Widget build(BuildContext context) {
     String steps = Provider.of<User>(context, listen: false)
         .listActivity[0]
-        .getTotalSteps();
+        .getTotalSteps()
+        .toString();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(

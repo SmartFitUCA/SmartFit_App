@@ -11,15 +11,15 @@ class ActivityOfUser {
   late String _nameFile;
   // ------------ //
   late String _imageName;
-  late List<List<String>> _contentActivity;
+  late List<List<dynamic>> _contentActivity;
   Map<String, int> enteteCSV = {};
 
   // ManagerFile for the field
   final ManagerFile _managerFile = ManagerFile();
 
   // -- Getter/Setter -- //
-  List<List<String>> get contentActivity => _contentActivity;
-  set contentActivity(List<List<String>> content) {
+  List<List<dynamic>> get contentActivity => _contentActivity;
+  set contentActivity(List<List<dynamic>> content) {
     _contentActivity = content;
     for (int i = 0; i < content.first.length; i++) {
       enteteCSV.addAll({content.first[i]: i});
@@ -46,8 +46,41 @@ class ActivityOfUser {
     }
   }
 
-  // -----------------  BPM ------------------ //
+// -- func utile -- //
+  bool notNull(int ligne, int colonne) {
+    if (_contentActivity[ligne][colonne] == "null") {
+      return false;
+    }
+    return true;
+  }
 
+// ----------------- X WithTime ------------ //
+
+  List<FlSpot> getXWithTime(String field) {
+    List<FlSpot> result = List.empty(growable: true);
+
+    int firstTimestamp = 0;
+
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(i, enteteCSV["Value_$field"]!)) {
+        if (firstTimestamp == 0) {
+          firstTimestamp = contentActivity[i]
+              [enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+        }
+        result.add(FlSpot(
+            (((contentActivity[i][enteteCSV[
+                            "Value_${_managerFile.fieldTimeStamp}"]!]) -
+                        firstTimestamp) ~/
+                    100)
+                .toDouble(),
+            contentActivity[i][enteteCSV["Value_$field"]!].toDouble()));
+      }
+    }
+    return result;
+  }
+
+// -----------------  BPM ------------------ //
+/*
 // Retourne le Temps+BPM (Fichier CSV)
   List<FlSpot> getHeartRateWithTime() {
     List<FlSpot> result = List.empty(growable: true);
@@ -70,7 +103,7 @@ class ActivityOfUser {
               [enteteCSV["Value_${_managerFile.fielBPM}"]!])));
     }
     return result;
-  }
+  }*/
 
   /*
   List<FlSpot> getHeartRateWithTime() {
@@ -101,16 +134,17 @@ class ActivityOfUser {
 
   // Retourne le BPM Max (Fichier CSV)
   int getMaxBpm() {
-    int max = int.parse(
-        contentActivity.first[enteteCSV["Value_${_managerFile.fielBPM}"]!]);
-    for (int i = 1; i < contentActivity.length; i++) {
-      int valueTmp = int.parse(
-          contentActivity[i][enteteCSV["Value_${_managerFile.fielBPM}"]!]);
-      if (valueTmp > max) {
-        max = valueTmp;
+    int max = 0;
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
+        int valueTmp =
+            contentActivity[i][enteteCSV["Value_${_managerFile.fielBPM}"]!];
+        if (valueTmp > max) {
+          max = valueTmp;
+        }
       }
     }
-    return 0;
+    return max;
   }
 
   /*
@@ -122,7 +156,22 @@ class ActivityOfUser {
     }
     return 0;
   }*/
+// Retourne le BPM Min (Fichier CSV)
+  int getMinBpm() {
+    int min = 300;
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
+        int valueTmp =
+            contentActivity[i][enteteCSV["Value_${_managerFile.fielBPM}"]!];
+        if (valueTmp < min) {
+          min = valueTmp;
+        }
+      }
+    }
+    return min;
+  }
 
+  /*
   int getMinBpm() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "min_heart_rate") {
@@ -130,8 +179,22 @@ class ActivityOfUser {
       }
     }
     return 0;
+  }*/
+  // Retourne le BPM avg (Fichier CSV)
+  int getAvgBpm() {
+    int somme = 0;
+    int nb = 0;
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
+        somme += contentActivity[i][enteteCSV["Value_${_managerFile.fielBPM}"]!]
+            as int;
+        nb++;
+      }
+    }
+    return somme ~/ nb;
   }
 
+  /*
   int getAvgBpm() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "avg_heart_rate") {
@@ -139,7 +202,7 @@ class ActivityOfUser {
       }
     }
     return 0;
-  }
+  }*/
   // -------------------------- FIN BPM ---------------------- //
   /*
   // ---------------------- Distance ---------------------- //
@@ -159,16 +222,23 @@ class ActivityOfUser {
     }
     return result;
   }
+  */
 
-  String getTotalDistance() {
-    for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
-      if (_contentActivity[_dataSession][i] == "total_distance") {
-        return _contentActivity[_dataSession][i + 1].toString();
+  double getTotalDistance() {
+    double max = 0;
+    for (int i = contentActivity.length - 1; i != 0; i--) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fieldDistance}"]!)) {
+        double valueTmp = contentActivity[i]
+            [enteteCSV["Value_${_managerFile.fieldDistance}"]!];
+        if (valueTmp > max) {
+          max = valueTmp;
+        }
       }
     }
-    return "null";
+    return max;
   }
 
+  /*
   // ---------------------- FIN Distance ---------------------- //
 
   // ---------------------- Calories ---------------------- //
@@ -188,8 +258,8 @@ class ActivityOfUser {
       }
     }
     return result;
-  }
-
+  }*/
+  /*
   String getTotalCalorie() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "total_calories") {
@@ -197,11 +267,16 @@ class ActivityOfUser {
       }
     }
     return "null";
+  }*/
+
+  String getTotalCalorie() {
+    return "NULL";
   }
 
   // ---------------------- FIN Calories ---------------------- //
 
   // ---------------------- Step ------------------------------//
+  /*
   String getTotalSteps() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "total_strides") {
@@ -209,10 +284,21 @@ class ActivityOfUser {
       }
     }
     return "null";
+  }*/
+
+  int getTotalSteps() {
+    for (int i = contentActivity.length; i != 0; i--) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fieldTotalStep}"]!)) {
+        return contentActivity[i]
+            [enteteCSV["Value_${_managerFile.fieldTotalStep}"]!];
+      }
+    }
+    return 0;
   }
   // ----------------------- FIN Step ------------------------ //
 
   // ------------------------- Time ----------------------------- //
+  /*
   String getTotalTime() {
     for (int i = 0; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "total_elapsed_time") {
@@ -220,10 +306,21 @@ class ActivityOfUser {
       }
     }
     return "null";
+  }*/
+
+  int getTotalTime() {
+    for (int i = contentActivity.length - 1; i != 0; i--) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
+        return contentActivity[i]
+            [enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+      }
+    }
+    return 0;
   }
   // ---------------------------- FIN time -------------------- //
 
   // ---------------------------------------- Altitude -------------------- //
+  /*
   List<FlSpot> getAltitudeWithTime() {
     List<FlSpot> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -239,8 +336,23 @@ class ActivityOfUser {
       }
     }
     return result;
-  }
+  }*/
 
+  // --- Fichier CSV --- //
+  double getMaxAltitude() {
+    double max = 0;
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
+        double valueTmp = contentActivity[i]
+            [enteteCSV["Value_${_managerFile.fieldAltitude}"]!];
+        if (valueTmp > max) {
+          max = valueTmp;
+        }
+      }
+    }
+    return max;
+  }
+  /*
   double getMaxAltitude() {
     for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "max_altitude") {
@@ -248,8 +360,23 @@ class ActivityOfUser {
       }
     }
     return 0.0;
-  }
+  }*/
 
+  // --- Fichier CSV --- //
+  double getMinAltitude() {
+    double min = 5000;
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
+        double valueTmp = contentActivity[i]
+            [enteteCSV["Value_${_managerFile.fieldAltitude}"]!];
+        if (valueTmp < min) {
+          min = valueTmp;
+        }
+      }
+    }
+    return min;
+  }
+  /*
   double getMinAltitude() {
     for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "min_altitude") {
@@ -257,7 +384,9 @@ class ActivityOfUser {
       }
     }
     return 0.0;
-  }
+  }*/
+
+  /*
   // -------------------------- FIN altitude ---------------------- //
 
   // -------------------------- Speed  ---------------------- //
@@ -283,8 +412,33 @@ class ActivityOfUser {
       }
     }
     return result;
-  }
+  }*/
 
+  // -- CSV -- //
+  List<DataPoint> getSpeedWithTimeActivity() {
+    List<DataPoint> result = List.empty(growable: true);
+    int firstTimestamp = 0;
+
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!) &&
+          notNull(i, enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
+        if (firstTimestamp == 0) {
+          firstTimestamp = contentActivity[i]
+              [enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+        }
+        result.add(DataPoint(
+            (((contentActivity[i][enteteCSV[
+                            "Value_${_managerFile.fieldTimeStamp}"]!]) -
+                        firstTimestamp) ~/
+                    100)
+                .toDouble(),
+            contentActivity[i]
+                [enteteCSV["Value_${_managerFile.fieldSpeed}"]!]));
+      }
+    }
+    return result;
+  }
+  /*
   List<DataPoint> getSpeedWithTimeActivity() {
     List<DataPoint> result = List.empty(growable: true);
     int firtTimeStamp = 0;
@@ -308,8 +462,23 @@ class ActivityOfUser {
       }
     }
     return result;
-  }
+  }*/
 
+  // Retourne la Speed Max (Fichier CSV)
+  double getMaxSpeed() {
+    double max = 0.00;
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
+        double valueTmp =
+            contentActivity[i][enteteCSV["Value_${_managerFile.fieldSpeed}"]!];
+        if (valueTmp > max) {
+          max = valueTmp;
+        }
+      }
+    }
+    return max;
+  }
+  /*
   double getMaxSpeed() {
     for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "max_speed") {
@@ -317,8 +486,22 @@ class ActivityOfUser {
       }
     }
     return 0.0;
-  }
+  }*/
 
+  // Retourne avg Max (Fichier CSV)
+  double getAvgSpeed() {
+    double somme = 0;
+    int nb = 0;
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(i, enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
+        somme +=
+            contentActivity[i][enteteCSV["Value_${_managerFile.fieldSpeed}"]!];
+        nb++;
+      }
+    }
+    return somme / nb;
+  }
+  /*
   double getAvgSpeed() {
     for (int i = 4; i < _contentActivity[_dataSession].length; i++) {
       if (_contentActivity[_dataSession][i] == "avg_speed") {
@@ -326,12 +509,31 @@ class ActivityOfUser {
       }
     }
     return 0.0;
-  }
+  }*/
 
   // -------------------------- FIN Speed  ---------------------- //
 
   // -------------------------- Localisation ------------------- //
 
+  // Retourne les positions (Fichier CSV)
+  List<LatLng> getPosition() {
+    List<LatLng> list = List.empty(growable: true);
+
+    for (int i = 0; i < contentActivity.length; i++) {
+      if (notNull(
+              i, enteteCSV["Value_${_managerFile.fieldPositionLatitude}"]!) &&
+          notNull(
+              i, enteteCSV["Value_${_managerFile.fieldPositionLongitude}"]!)) {
+        list.add(LatLng(
+            contentActivity[i]
+                [enteteCSV["Value_${_managerFile.fieldPositionLatitude}"]!],
+            contentActivity[i]
+                [enteteCSV["Value_${_managerFile.fieldPositionLongitude}"]!]));
+      }
+    }
+    return list;
+  }
+  /*
   List<LatLng> getPosition() {
     List<LatLng> list = List.empty(growable: true);
 

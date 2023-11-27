@@ -70,14 +70,12 @@ class _MobileListActivity extends State<MobileListActivity> {
     String csvString = const ListToCsvConverter().convert(csv);
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
     // --- Save Local
-
     // --- Api
     String categoryActivity = filename.split("_").first.toLowerCase();
     String dateActivity = filename.split("_")[1].split("T").first;
 
     Tuple2<bool, String> result = await _strategy.uploadFileByte(
         token, byteCSV, filename, categoryActivity, dateActivity);
-
     if (result.item1 == false) {
       // Afficher msg d'erreur
       print("Upload - ${result.item2}");
@@ -87,7 +85,9 @@ class _MobileListActivity extends State<MobileListActivity> {
   }
 
   void getFiles(String token) async {
+    bool check = false;
     Tuple2 result = await _strategy.getFiles(token);
+
     if (result.item1 == false) {
       print("GetFiles - ${result.item2}");
       // Afficher une message d'erreur
@@ -101,8 +101,11 @@ class _MobileListActivity extends State<MobileListActivity> {
           element["category"].toString(),
           element["uuid"].toString(),
           element["filename"].toString()));
+      check = true;
     }
-    await _utile.getContentOnTheFirstFileMobile(context);
+    if (check) {
+      await _utile.getContentOnTheFirstFileMobile(context);
+    }
     return;
   }
 

@@ -25,6 +25,8 @@ class _WebListActivityState extends State<WebListActivity> {
   IDataStrategy strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
   int firstActivityIndex = 0;
+  final IDataStrategy _strategy = RequestApi();
+
   /*
   void readFile(html.File file) async {
     ManagerFile x = ManagerFile();
@@ -43,6 +45,17 @@ class _WebListActivityState extends State<WebListActivity> {
       }
     });
   }*/
+
+  Future<bool> deleteFileOnBDD(String token, String fileUuid) async {
+    Tuple2<bool, String> result = await _strategy.deleteFile(token, fileUuid);
+    if (!result.item1) {
+      print(fileUuid);
+      print("msg d'erreur");
+      print(result.item2);
+      return false;
+    }
+    return true;
+  }
 
   void addFile(html.File file) async {
     final reader = html.FileReader();
@@ -74,6 +87,7 @@ class _WebListActivityState extends State<WebListActivity> {
 
   // -- On doit garder cet fonction dans la page pour pouvoir afficher les msg -- //
   void getFiles() async {
+    bool check = false;
     Tuple2 result = await strategy
         .getFiles(Provider.of<User>(context, listen: false).token);
     if (result.item1 == false) {
@@ -89,15 +103,17 @@ class _WebListActivityState extends State<WebListActivity> {
           element["category"].toString(),
           element["uuid"].toString(),
           element["filename"].toString()));
+      check = true;
     }
-    await _utile.getContentOnTheFirstFileWeb(context);
+    if (check) {
+      await _utile.getContentOnTheFirstFileWeb(context);
+    }
     return;
   }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    print("tttt");
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
@@ -194,9 +210,14 @@ class _WebListActivityState extends State<WebListActivity> {
                               },
                               child: WorkoutRow(
                                 wObj: activityMap,
-                                onDelete: () {
-                                  Provider.of<User>(context, listen: false)
-                                      .removeActivity(activityObj);
+                                onDelete: () async {
+                                  if (await deleteFileOnBDD(
+                                      Provider.of<User>(context, listen: false)
+                                          .token,
+                                      activityObj.fileUuid)) {
+                                    Provider.of<User>(context, listen: false)
+                                        .removeActivity(activityObj);
+                                  }
                                 },
                                 onClick: () {
                                   Provider.of<User>(context, listen: false)

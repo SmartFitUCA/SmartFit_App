@@ -11,12 +11,18 @@ class ManagerFile {
   final String _fieldPositionLongitude = "position_long";
   final String _fieldDistance = "distance";
   final String _fieldBPM = "heart_rate";
+  final String _fieldSpeed = "speed";
+  final String _fieldAltitude = "altitude";
+  final String _fieldTotalStep = "total_strides";
   // -- Getter field
   String get fieldTimeStamp => _fieldTimestamp;
   String get fieldPositionLatitude => _fieldPositionLatitue;
   String get fieldPositionLongitude => _fieldPositionLongitude;
   String get fieldDistance => _fieldDistance;
   String get fielBPM => _fieldBPM;
+  String get fieldSpeed => _fieldSpeed;
+  String get fieldAltitude => _fieldAltitude;
+  String get fieldTotalStep => _fieldTotalStep;
 
   List<String> allowedFieldWalking = List.empty(growable: true);
 
@@ -26,7 +32,10 @@ class ManagerFile {
       _fieldPositionLatitue,
       _fieldPositionLongitude,
       _fieldDistance,
-      _fieldBPM
+      _fieldBPM,
+      _fieldSpeed,
+      _fieldAltitude,
+      _fieldTotalStep
     ];
   }
 
@@ -92,7 +101,7 @@ class ManagerFile {
   }
 
   // -- Read the byte of file CSV -- //
-  List<List<String>> convertByteIntoCSV(Uint8List bytes) {
+  List<List<dynamic>> convertByteIntoCSV(Uint8List bytes) {
     return const CsvToListConverter().convert(utf8.decode(bytes));
   }
 
