@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:tuple/tuple.dart';
+import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/text_field/round_text_field.dart';
-
+import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
+import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
+import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 
 class WebChangePasswordView extends StatefulWidget {
   const WebChangePasswordView({super.key});
@@ -13,13 +18,16 @@ class WebChangePasswordView extends StatefulWidget {
 }
 
 class _WebChangePasswordViewState extends State<WebChangePasswordView> {
-  final TextEditingController controllerTextEmail = TextEditingController();
-  final TextEditingController controllerTextPassword = TextEditingController();
-
+  final TextEditingController controllerActualPasswd = TextEditingController();
+  final TextEditingController controllerNewPasswd = TextEditingController();
+  final TextEditingController controllerNewPasswd2 = TextEditingController();
+  final InfoMessage infoManager = InfoMessage();
+  final ApiWrapper api = ApiWrapper();
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+    User providerUser = Provider.of<User>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -44,16 +52,14 @@ class _WebChangePasswordViewState extends State<WebChangePasswordView> {
               height: 15,
               fit: BoxFit.contain,
             ),
-            
           ),
-          
         ),
-         title: Text(
+        title: Text(
           "Changer son Mot de passe",
           style: TextStyle(
               color: TColor.black, fontSize: 16, fontWeight: FontWeight.w700),
         ),
-        ),
+      ),
       backgroundColor: TColor.white,
       body: Column(
         children: [
@@ -76,29 +82,54 @@ class _WebChangePasswordViewState extends State<WebChangePasswordView> {
                         obscureText: true,
                         icon: "assets/img/lock.svg",
                         keyboardType: TextInputType.text,
-                        controller: controllerTextEmail,
+                        controller: controllerActualPasswd,
                       ),
                       SizedBox(height: media.width * 0.02),
                       RoundTextField(
-                        controller: controllerTextPassword,
+                        controller: controllerNewPasswd,
                         hitText: "Nouveau mot de passe",
                         icon: "assets/img/lock.svg",
                         obscureText: true,
-                        
                       ),
                       SizedBox(height: media.width * 0.02),
                       RoundTextField(
-                        controller: controllerTextPassword,
+                        controller: controllerNewPasswd2,
                         hitText: "Confirmer nouveau mot de passe",
                         icon: "assets/img/lock.svg",
                         obscureText: true,
-                        
                       ),
+                      Visibility(
+                          visible: infoManager.isVisible,
+                          child: Text(infoManager.message,
+                              style:
+                                  TextStyle(color: infoManager.messageColor))),
                       SizedBox(height: media.width * 0.04),
                       RoundButton(
-                        title: "Confirmer",
-                        onPressed: ()  {}),
-                    
+                          title: "Confirmer",
+                          onPressed: () async {
+                            Tuple2<bool, String> res = await api.login(
+                                controllerActualPasswd.text,
+                                providerUser.email,
+                                infoManager);
+                            if (res.item1) {
+                              if (controllerNewPasswd.text ==
+                                  controllerNewPasswd2.text) {
+                                await api.modifyUserInfo(
+                                    'password',
+                                    sha256
+                                        .convert(utf8
+                                            .encode(controllerNewPasswd.text))
+                                        .toString(),
+                                    providerUser.token,
+                                    infoManager);
+                              } else {
+                                infoManager.displayMessage(
+                                    'Passwords does not match each other! Enter them carefully.',
+                                    true);
+                              }
+                            }
+                            setState(() {});
+                          }),
                     ],
                   ),
                 ),

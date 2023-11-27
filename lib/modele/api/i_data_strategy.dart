@@ -37,6 +37,6 @@ abstract class IDataStrategy {
   Future<void> updateUsername(String token, String username);
   */
 
-  Future<Tuple2> modifAttribut(
+  Future<Tuple2<bool, String>> modifAttribut(
       String token, String nameAttribut, String newValue);
 }

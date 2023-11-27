@@ -1,5 +1,7 @@
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/setting_row.dart';
@@ -48,6 +50,8 @@ class _MobileProfileView extends State<MobileProfileView> {
   ];
   @override
   Widget build(BuildContext context) {
+    String username = context.watch<User>().username;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TColor.white,
@@ -106,7 +110,7 @@ class _MobileProfileView extends State<MobileProfileView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Benjelloun Othmane",
+                          username,
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 14,
@@ -214,21 +218,23 @@ class _MobileProfileView extends State<MobileProfileView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ChangeUsernameView(),
+                                  builder: (context) =>
+                                      const ChangeUsernameView(),
                                 ),
                               );
                             } else if (iObj["tag"] == "2") {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ChangePasswordView(),
+                                  builder: (context) =>
+                                      const ChangePasswordView(),
                                 ),
                               );
                             } else {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ChangeEmailView(),
+                                  builder: (context) => const ChangeEmailView(),
                                 ),
                               );
                             }
@@ -388,14 +394,15 @@ class _MobileProfileView extends State<MobileProfileView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PrivacyPolicyView(),
+                                  builder: (context) =>
+                                      const PrivacyPolicyView(),
                                 ),
                               );
                             } else if (iObj["tag"] == "5") {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ContactUsView(),
+                                  builder: (context) => const ContactUsView(),
                                 ),
                               );
                             } else {

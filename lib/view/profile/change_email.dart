@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:smartfit_app_mobile/view/profile/mobile/mobile_change_email.dart';
-import 'package:smartfit_app_mobile/view/profile/mobile/mobile_change_username.dart';
 import 'package:smartfit_app_mobile/view/profile/web/web_change_email.dart';
-import 'package:smartfit_app_mobile/view/profile/web/web_change_username.dart';
-
 
 class ChangeEmailView extends StatefulWidget {
   const ChangeEmailView({super.key});
@@ -14,7 +11,7 @@ class ChangeEmailView extends StatefulWidget {
 }
 
 class _ChangeEmailViewState extends State<ChangeEmailView> {
- @override
+  @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout.builder(
       mobile: (_) => const MobileChangeEmailView(),
