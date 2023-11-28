@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/container/ligne_container_stats.dart';
@@ -43,7 +45,7 @@ class _WebHomeView extends State<WebHomeView> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 200),
+            padding: const EdgeInsets.symmetric(horizontal: 50),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -52,8 +54,14 @@ class _WebHomeView extends State<WebHomeView> {
                 ),
                 const EnteteHomeView(),
                 SizedBox(
-                  height: media.width * 0.05,
+                  height: media.width * 0.03,
                 ),
+                Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                 Text(
                   "Status d'activité",
                   style: TextStyle(
@@ -64,9 +72,11 @@ class _WebHomeView extends State<WebHomeView> {
                 SizedBox(
                   height: media.width * 0.02,
                 ),
-                GraphBpmByTime(media, data),
+                Row(
+                children: [
+                BpmByTime(media, data),
                 SizedBox(
-                  height: media.width * 0.05,
+                  width: media.width * 0.01,
                 ),
                 LigneContainerStats(
                     "${minBpm.toString()} BPM",
@@ -78,12 +88,13 @@ class _WebHomeView extends State<WebHomeView> {
                     Icons.trending_down,
                     Icons.trending_up,
                     Icons.favorite_outline),
+                    ]),]),
                 SizedBox(
                   height: media.width * 0.05,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                     Text(
                       "Rythme cardique et vitesse",
                       style: TextStyle(
@@ -91,11 +102,13 @@ class _WebHomeView extends State<WebHomeView> {
                           fontSize: 16,
                           fontWeight: FontWeight.w700),
                     ),
-                  ],
-                ),
+              
                 SizedBox(
-                  height: media.width * 0.05,
+                  height: media.width * 0.02,
                 ),
+                Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                 GraphBpmAndSpeedByTime(media, data),
                 SizedBox(
                   height: media.width * 0.05,
@@ -105,14 +118,27 @@ class _WebHomeView extends State<WebHomeView> {
                     "${double.parse(avgSpeed.toStringAsFixed(2))} m/s",
                     "${avgBpm.toString()} BPM",
                     "Max vitesse",
-                    "Moyenne vitesse",
-                    "Moyenne Bpm",
+                    "Moy vitesse",
+                    "Moy Bpm",
                     Icons.trending_up,
                     Icons.bolt,
                     Icons.favorite_outline),
                 SizedBox(
                   height: media.width * 0.05,
+                ),]),]),]),
+                SizedBox(
+                  height: media.width * 0.02,
                 ),
+                Text(
+                      "Altitude",
+                      style: TextStyle(
+                          color: TColor.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ),
+                Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                 GraphAltitudeByTime(media, data),
                 LigneContainerStats(
                     "${minAltitude.toInt()} m",
@@ -124,9 +150,7 @@ class _WebHomeView extends State<WebHomeView> {
                     Icons.trending_down,
                     Icons.trending_up,
                     Icons.favorite_outline),
-                SizedBox(
-                  height: media.width * 0.05,
-                ),
+                ]),
               ],
             ),
           ),

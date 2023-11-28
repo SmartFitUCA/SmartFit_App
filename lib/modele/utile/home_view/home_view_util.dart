@@ -11,12 +11,9 @@ class HomeViewUtil {
     ManagerFile _managerFile = ManagerFile();
 
     ActivityOfUser activity = Provider.of<User>(context).listActivity[0];
-    //List<FlSpot> bpmSecondes = activity.getHeartRateWithTime();
     List<FlSpot> bpmSecondes = activity.getXWithTime(_managerFile.fielBPM);
-    //List<FlSpot> vitesseSecondes = activity.getSpeedWithTime();
     List<FlSpot> vitesseSecondes =
         activity.getXWithTime(_managerFile.fieldSpeed);
-    //List<FlSpot> altitudeSeconde = activity.getAltitudeWithTime();
     List<FlSpot> altitudeSeconde =
         activity.getXWithTime(_managerFile.fieldAltitude);
 

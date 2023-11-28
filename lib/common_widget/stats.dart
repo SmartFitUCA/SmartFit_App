@@ -174,7 +174,7 @@ class StatIcon extends StatelessWidget {
         color: iconBackground,
         borderRadius: BorderRadius.circular(9),
       ),
-      child: Icon(icon, size: 15, color: iconColor),
+      child: Icon(icon, size: 8, color: iconColor),
     );
   }
 }

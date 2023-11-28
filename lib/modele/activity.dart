@@ -183,6 +183,7 @@ class ActivityOfUser {
       }
     }
     return 0;
+    return 0;
   }
   // ---------------------------- FIN time -------------------- //
 
