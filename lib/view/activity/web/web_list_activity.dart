@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
@@ -197,7 +196,8 @@ class _WebListActivityState extends State<WebListActivity> {
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
                                       .insertActivity(0, activityObj);
-                                  _utile.getContentActivity(context);
+                                  _utile.getContentActivity(
+                                      context, activityObj);
                                 },
                                 isFirstActivity: isFirstActivity,
                               ),

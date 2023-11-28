@@ -21,12 +21,11 @@ class _WebGraphAltitudeByTime extends State<WebGraphAltitudeByTime> {
   Widget build(BuildContext context) {
     final double maxX =
         widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
-    final double minX =
-        0.0;
+    final double minX = 0.0;
     final double maxY =
-        context.watch<User>().listActivity[0].getMaxAltitude() + 2;
+        context.watch<User>().managerSelectedActivity.getMaxAltitude() + 2;
     final double minY =
-        context.watch<User>().listActivity[0].getMinAltitude() - 2;
+        context.watch<User>().managerSelectedActivity.getMinAltitude() - 2;
 
     final lineBarsData = [
       LineChartBarData(
@@ -65,7 +64,8 @@ class _WebGraphAltitudeByTime extends State<WebGraphAltitudeByTime> {
                 reservedSize: 20,
                 showTitles: true,
                 getTitlesWidget: (value, meta) {
-                  return Text("${double.parse((value/10).toStringAsFixed(2))}s");
+                  return Text(
+                      "${double.parse((value / 10).toStringAsFixed(2))}s");
                 },
               )),
               rightTitles: AxisTitles(

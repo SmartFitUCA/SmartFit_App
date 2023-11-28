@@ -13,10 +13,12 @@ class MobileGraphBpmAndSpeedByTime extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<MobileGraphBpmAndSpeedByTime> createState() => _MobileGraphBpmAndSpeedByTime();
+  State<MobileGraphBpmAndSpeedByTime> createState() =>
+      _MobileGraphBpmAndSpeedByTime();
 }
 
-class _MobileGraphBpmAndSpeedByTime extends State<MobileGraphBpmAndSpeedByTime> {
+class _MobileGraphBpmAndSpeedByTime
+    extends State<MobileGraphBpmAndSpeedByTime> {
   TextEditingController bpmController = TextEditingController();
 
   List<int> showingTooltipOnSpots = [0];
@@ -96,15 +98,13 @@ class _MobileGraphBpmAndSpeedByTime extends State<MobileGraphBpmAndSpeedByTime> 
 
   @override
   Widget build(BuildContext context) {
-
-        final double maxY =
-        context.watch<User>().listActivity[0].getMaxBpm() + 2;
+    final double maxY =
+        context.watch<User>().managerSelectedActivity.getMaxBpm() + 2;
     final double minY =
-        context.watch<User>().listActivity[0].getMinBpm() - 2;
+        context.watch<User>().managerSelectedActivity.getMinBpm() - 2;
     final double maxX =
         widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
-    final double minX =
-        0.0;
+    final double minX = 0.0;
     final lineBarsData = [
       LineChartBarData(
         spots: widget.data.bpmSecondes,
@@ -188,7 +188,7 @@ class _MobileGraphBpmAndSpeedByTime extends State<MobileGraphBpmAndSpeedByTime> 
                 getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                   return lineBarsSpot.map((lineBarSpot) {
                     return LineTooltipItem(
-                      "Seconde ${lineBarSpot.x.toInt() } ",
+                      "Seconde ${lineBarSpot.x.toInt()} ",
                       const TextStyle(
                         color: Colors.white,
                         fontSize: 10,
@@ -208,13 +208,14 @@ class _MobileGraphBpmAndSpeedByTime extends State<MobileGraphBpmAndSpeedByTime> 
                 topTitles: const AxisTitles(),
                 bottomTitles: const AxisTitles(),
                 rightTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                reservedSize: 70,
-                showTitles: true,
-                getTitlesWidget: (value, meta) {
-                  return Text("${double.parse(value.toStringAsFixed(2))} BPM");
-                },
-              ))),
+                    sideTitles: SideTitles(
+                  reservedSize: 70,
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    return Text(
+                        "${double.parse(value.toStringAsFixed(2))} BPM");
+                  },
+                ))),
             gridData: FlGridData(
                 drawVerticalLine: true,
                 drawHorizontalLine: true,

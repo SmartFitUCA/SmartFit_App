@@ -8,7 +8,7 @@ class Info extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String distance = Provider.of<User>(context, listen: false)
-        .listActivity[0]
+        .managerSelectedActivity
         .getTotalDistance()
         .toString();
 

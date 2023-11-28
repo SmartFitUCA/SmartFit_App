@@ -16,7 +16,11 @@ class MyMap extends StatefulWidget {
 class _MyMapState extends State<MyMap> {
   @override
   Widget build(BuildContext context) {
-    return context.watch<User>().listActivity.isEmpty
+    return context
+            .watch<User>()
+            .managerSelectedActivity
+            .activitySelected
+            .isEmpty
         ? ScreenTypeLayout.builder(
             mobile: (_) => const NoActivityView(),
             desktop: (_) => const NoActivityView(),

@@ -6,6 +6,7 @@ import 'package:smartfit_app_mobile/common_widget/graph/bpm_and_speed_by_time.da
 import 'package:smartfit_app_mobile/common_widget/graph/bpm_by_time.dart';
 import 'package:smartfit_app_mobile/common_widget/other/entete_home_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/home_view_util.dart';
@@ -24,18 +25,21 @@ class _MobileHomeView extends State<MobileHomeView> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+    ManagerSelectedActivity managerSelectedActivity =
+        context.watch<User>().managerSelectedActivity;
+
     // -- BPM -- //
-    int maxBpm = context.watch<User>().listActivity[0].getMaxBpm();
-    int minBpm = context.watch<User>().listActivity[0].getMinBpm();
-    int avgBpm = context.watch<User>().listActivity[0].getAvgBpm();
+    int maxBpm = managerSelectedActivity.getMaxBpm();
+    int minBpm = managerSelectedActivity.getMinBpm();
+    int avgBpm = managerSelectedActivity.getAvgBpm();
 
     // -- Altitude -- //
-    double minAltitude = context.watch<User>().listActivity[0].getMinAltitude();
-    double maxAltitude = context.watch<User>().listActivity[0].getMaxAltitude();
+    double minAltitude = managerSelectedActivity.getMinAltitude();
+    double maxAltitude = managerSelectedActivity.getMaxAltitude();
     double avgAltitude = (maxAltitude + minAltitude) / 2;
     // -- Speed -- //
-    double maxSpeed = context.watch<User>().listActivity[0].getMaxSpeed();
-    double avgSpeed = context.watch<User>().listActivity[0].getAvgSpeed();
+    double maxSpeed = managerSelectedActivity.getMaxSpeed();
+    double avgSpeed = managerSelectedActivity.getAvgSpeed();
     data = HomeViewUtil().initData(context);
 
     return Scaffold(

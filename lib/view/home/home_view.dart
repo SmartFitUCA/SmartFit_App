@@ -16,7 +16,11 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    return context.watch<User>().listActivity.isEmpty
+    return context
+            .watch<User>()
+            .managerSelectedActivity
+            .activitySelected
+            .isEmpty
         ? ScreenTypeLayout.builder(
             mobile: (_) => const NoActivityView(),
             desktop: (_) => const NoActivityView(),

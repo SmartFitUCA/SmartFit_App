@@ -9,7 +9,7 @@ class MapUtil {
     _polylines.add(Polyline(
         polylineId: const PolylineId("Polyline"),
         color: couleur,
-        points: context.watch<User>().listActivity[0].getPosition(),
+        points: context.watch<User>().managerSelectedActivity.getPosition(),
         width: largueur));
     return _polylines;
   }

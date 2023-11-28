@@ -27,30 +27,7 @@ class _MobileListActivity extends State<MobileListActivity> {
   FilePickerResult? result;
   final IDataStrategy _strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
-  final ManagerFile _managerFile = ManagerFile();
   int firstActivityIndex = 0;
-
-  /*
-  Future<void> readFile(String nom) async {
-    PlatformFile t = result!.files.single;
-    String? y = t.path;
-    if (t.path == null) {
-      print("t");
-    } else {
-      List<dynamic> result = await _managerFile.readFitFile(y!);
-
-      // Upload the file and Syncronise (getFiles())
-
-      strategy.uploadFile(context.watch<User>().token, File(y));
-
-      Provider.of<User>(context, listen: false)
-          .addActivity(ActivityOfUser("Random date", "$nom categorie !"));
-      Provider.of<User>(context, listen: false)
-          .listActivity
-          .last
-          .contentActivity = result;
-    }
-  }*/
 
   Future<bool> deleteFileOnBDD(String token, String fileUuid) async {
     Tuple2<bool, String> result = await _strategy.deleteFile(token, fileUuid);
@@ -195,7 +172,8 @@ class _MobileListActivity extends State<MobileListActivity> {
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
                                       .insertActivity(0, activityObj);
-                                  _utile.getContentActivity(context);
+                                  _utile.getContentActivity(
+                                      context, activityObj);
                                 },
                                 isFirstActivity: isFirstActivity,
                               ),
