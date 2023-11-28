@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/container/ligne_container_stats.dart';
@@ -56,100 +54,98 @@ class _WebHomeView extends State<WebHomeView> {
                 SizedBox(
                   height: media.width * 0.03,
                 ),
-                Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Status d'activité",
+                          style: TextStyle(
+                              color: TColor.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(
+                          height: media.width * 0.02,
+                        ),
+                        Row(children: [
+                          BpmByTime(media, data),
+                          SizedBox(
+                            width: media.width * 0.01,
+                          ),
+                          LigneContainerStats(
+                              "${minBpm.toString()} BPM",
+                              "${maxBpm.toString()} BPM",
+                              "${avgBpm.toString()} BPM",
+                              "Minimum",
+                              "Maximum",
+                              "Moyenne",
+                              Icons.trending_down,
+                              Icons.trending_up,
+                              Icons.favorite_outline),
+                        ]),
+                      ]),
+                  SizedBox(
+                    height: media.width * 0.05,
+                  ),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Rythme cardique et vitesse",
+                          style: TextStyle(
+                              color: TColor.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(
+                          height: media.width * 0.02,
+                        ),
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GraphBpmAndSpeedByTime(media, data),
+                              SizedBox(
+                                height: media.width * 0.05,
+                              ),
+                              LigneContainerStats(
+                                  "${double.parse(maxSpeed.toStringAsFixed(2))} m/s",
+                                  "${double.parse(avgSpeed.toStringAsFixed(2))} m/s",
+                                  "${avgBpm.toString()} BPM",
+                                  "Max vitesse",
+                                  "Moy vitesse",
+                                  "Moy Bpm",
+                                  Icons.trending_up,
+                                  Icons.bolt,
+                                  Icons.favorite_outline),
+                              SizedBox(
+                                height: media.width * 0.05,
+                              ),
+                            ]),
+                      ]),
+                ]),
+                SizedBox(
+                  height: media.width * 0.02,
+                ),
                 Text(
-                  "Status d'activité",
+                  "Altitude",
                   style: TextStyle(
                       color: TColor.black,
                       fontSize: 16,
                       fontWeight: FontWeight.w700),
                 ),
-                SizedBox(
-                  height: media.width * 0.02,
-                ),
-                Row(
-                children: [
-                BpmByTime(media, data),
-                SizedBox(
-                  width: media.width * 0.01,
-                ),
-                LigneContainerStats(
-                    "${minBpm.toString()} BPM",
-                    "${maxBpm.toString()} BPM",
-                    "${avgBpm.toString()} BPM",
-                    "Minimum",
-                    "Maximum",
-                    "Moyenne",
-                    Icons.trending_down,
-                    Icons.trending_up,
-                    Icons.favorite_outline),
-                    ]),]),
-                SizedBox(
-                  height: media.width * 0.05,
-                ),
-                Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                    Text(
-                      "Rythme cardique et vitesse",
-                      style: TextStyle(
-                          color: TColor.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700),
-                    ),
-              
-                SizedBox(
-                  height: media.width * 0.02,
-                ),
-                Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                GraphBpmAndSpeedByTime(media, data),
-                SizedBox(
-                  height: media.width * 0.05,
-                ),
-                LigneContainerStats(
-                    "${double.parse(maxSpeed.toStringAsFixed(2))} m/s",
-                    "${double.parse(avgSpeed.toStringAsFixed(2))} m/s",
-                    "${avgBpm.toString()} BPM",
-                    "Max vitesse",
-                    "Moy vitesse",
-                    "Moy Bpm",
-                    Icons.trending_up,
-                    Icons.bolt,
-                    Icons.favorite_outline),
-                SizedBox(
-                  height: media.width * 0.05,
-                ),]),]),]),
-                SizedBox(
-                  height: media.width * 0.02,
-                ),
-                Text(
-                      "Altitude",
-                      style: TextStyle(
-                          color: TColor.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700),
-                    ),
-                Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                GraphAltitudeByTime(media, data),
-                LigneContainerStats(
-                    "${minAltitude.toInt()} m",
-                    "${maxAltitude.toInt()} m",
-                    "${avgAltitude.toInt()} m",
-                    "Minimum",
-                    "Maximum",
-                    "Moyenne",
-                    Icons.trending_down,
-                    Icons.trending_up,
-                    Icons.favorite_outline),
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  GraphAltitudeByTime(media, data),
+                  LigneContainerStats(
+                      "${minAltitude.toInt()} m",
+                      "${maxAltitude.toInt()} m",
+                      "${avgAltitude.toInt()} m",
+                      "Minimum",
+                      "Maximum",
+                      "Moyenne",
+                      Icons.trending_down,
+                      Icons.trending_up,
+                      Icons.favorite_outline),
                 ]),
               ],
             ),
