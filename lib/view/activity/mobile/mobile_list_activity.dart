@@ -27,14 +27,10 @@ class _MobileListActivity extends State<MobileListActivity> {
   FilePickerResult? result;
   final IDataStrategy _strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
-  int firstActivityIndex = 0;
 
   Future<bool> deleteFileOnBDD(String token, String fileUuid) async {
     Tuple2<bool, String> result = await _strategy.deleteFile(token, fileUuid);
     if (!result.item1) {
-      print(fileUuid);
-      print("msg d'erreur");
-      print(result.item2);
       return false;
     }
     return true;
@@ -142,20 +138,8 @@ class _MobileListActivity extends State<MobileListActivity> {
                                     .listActivity[index];
                             var activityMap = activityObj.toMap();
 
-                            bool isFirstActivity = false;
-                            if (index == firstActivityIndex) {
-                              isFirstActivity = true;
-                            }
                             return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  firstActivityIndex = index;
-                                });
-                                Provider.of<User>(context, listen: false)
-                                    .removeActivity(activityObj);
-                                Provider.of<User>(context, listen: false)
-                                    .insertActivity(0, activityObj);
-                              },
+                              onTap: () {},
                               child: WorkoutRow(
                                 wObj: activityMap,
                                 onDelete: () async {
@@ -167,15 +151,31 @@ class _MobileListActivity extends State<MobileListActivity> {
                                         .removeActivity(activityObj);
                                   }
                                 },
-                                onClick: () {
+                                onClick: () async {
+                                  if (!Provider.of<User>(context, listen: false)
+                                      .managerSelectedActivity
+                                      .fileNotSelected(activityObj.fileUuid)) {
+                                    Provider.of<User>(context, listen: false)
+                                        .managerSelectedActivity
+                                        .removeSelectedActivity(
+                                            activityObj.fileUuid);
+                                    return;
+                                  }
+
+                                  Tuple2<bool, String> result = await _utile
+                                      .getContentActivity(context, activityObj);
+                                  if (!result.item1) {
+                                    return;
+                                  }
+
                                   Provider.of<User>(context, listen: false)
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
                                       .insertActivity(0, activityObj);
-                                  _utile.getContentActivity(
-                                      context, activityObj);
                                 },
-                                isFirstActivity: isFirstActivity,
+                                isSelected: !Provider.of<User>(context)
+                                    .managerSelectedActivity
+                                    .fileNotSelected(activityObj.fileUuid),
                               ),
                             );
                           },

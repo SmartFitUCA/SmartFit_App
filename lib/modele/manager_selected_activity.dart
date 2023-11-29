@@ -9,14 +9,38 @@ class ManagerSelectedActivity {
   List<ActivityOfUser> activitySelected = List.empty(growable: true);
 
   bool addSelectedActivity(ActivityOfUser activityOfUser) {
-    // Chercher le contenu du fichier
     // Regarder si l'entete est la même
-    // Supprimer l'entete
+    // C'est de la merde!!
+    /*
+    if (activitySelected.isNotEmpty &&
+        activitySelected.first.enteteCSV != activityOfUser.enteteCSV) {
+      return false;
+    }*/
+    activitySelected.add(activityOfUser);
     return true;
+  }
+
+  bool removeSelectedActivity(String fileUuid) {
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.fileUuid == fileUuid) {
+        activitySelected.remove(activityOfUser);
+        return true;
+      }
+    }
+    return false;
   }
 
   // ---- Function utile ---- //
   // -- func utile -- //
+  bool fileNotSelected(String fileUuid) {
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.fileUuid == fileUuid) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   bool _notNull(int indexActivitySelected, int ligne, int colonne) {
     if (activitySelected[indexActivitySelected].contentActivity[ligne]
             [colonne] ==
@@ -33,21 +57,26 @@ class ManagerSelectedActivity {
 
     int firstTimestamp = 0;
 
-    for (int i = 0; i < activity.contentActivity.length; i++) {
-      if (_notNull(
-          activity.contentActivity, i, activity.enteteCSV["Value_$field"]!)) {
-        if (firstTimestamp == 0) {
-          firstTimestamp = activity.contentActivity[i]
-              [activity.enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(c, i, activitySelected[c].enteteCSV["Value_$field"]!)) {
+          if (firstTimestamp == 0) {
+            firstTimestamp = activitySelected[c].contentActivity[i][
+                activitySelected[c]
+                    .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+          }
+          result.add(FlSpot(
+              (((activitySelected[c].contentActivity[i][
+                              activitySelected[c].enteteCSV[
+                                  "Value_${_managerFile.fieldTimeStamp}"]!]) -
+                          firstTimestamp) ~/
+                      100)
+                  .toDouble(),
+              activitySelected[c]
+                  .contentActivity[i]
+                      [activitySelected[c].enteteCSV["Value_$field"]!]
+                  .toDouble()));
         }
-        result.add(FlSpot(
-            (((activity.contentActivity[i][activity.enteteCSV[
-                            "Value_${_managerFile.fieldTimeStamp}"]!]) -
-                        firstTimestamp) ~/
-                    100)
-                .toDouble(),
-            activity.contentActivity[i][activity.enteteCSV["Value_$field"]!]
-                .toDouble()));
       }
     }
     return result;
@@ -58,29 +87,35 @@ class ManagerSelectedActivity {
   // Retourne le BPM Max (Fichier CSV)
   int getMaxBpm() {
     int max = 0;
-    for (int i = 0; i < activity.contentActivity.length; i++) {
-      if (_notNull(activity.contentActivity, i,
-          activity.enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
-        int valueTmp = activity.contentActivity[i]
-            [activity.enteteCSV["Value_${_managerFile.fielBPM}"]!];
-        if (valueTmp > max) {
-          max = valueTmp;
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(c, i,
+            activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
+          int valueTmp = activitySelected[c].contentActivity[i]
+              [activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!];
+          if (valueTmp > max) {
+            max = valueTmp;
+          }
         }
       }
     }
+
     return max;
   }
 
 // Retourne le BPM Min (Fichier CSV)
   int getMinBpm() {
     int min = 300;
-    for (int i = 0; i < activity.contentActivity.length; i++) {
-      if (_notNull(activity.contentActivity, i,
-          activity.enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
-        int valueTmp = activity.contentActivity[i]
-            [activity.enteteCSV["Value_${_managerFile.fielBPM}"]!];
-        if (valueTmp < min) {
-          min = valueTmp;
+
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(c, i,
+            activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
+          int valueTmp = activitySelected[c].contentActivity[i]
+              [activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!];
+          if (valueTmp < min) {
+            min = valueTmp;
+          }
         }
       }
     }
@@ -91,12 +126,14 @@ class ManagerSelectedActivity {
   int getAvgBpm() {
     int somme = 0;
     int nb = 0;
-    for (int i = 0; i < contentActivity.length; i++) {
-      if (_notNull(
-          contentActivity, i, enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
-        somme += contentActivity[i][enteteCSV["Value_${_managerFile.fielBPM}"]!]
-            as int;
-        nb++;
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(c, i,
+            activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
+          somme += activitySelected[c].contentActivity[i][activitySelected[c]
+              .enteteCSV["Value_${_managerFile.fielBPM}"]!] as int;
+          nb++;
+        }
       }
     }
     return somme ~/ nb;
@@ -108,17 +145,27 @@ class ManagerSelectedActivity {
 
   double getTotalDistance() {
     double max = 0;
-    for (int i = contentActivity.length - 1; i != 0; i--) {
-      if (_notNull(contentActivity, i,
-          enteteCSV["Value_${_managerFile.fieldDistance}"]!)) {
-        double valueTmp = contentActivity[i]
-                [enteteCSV["Value_${_managerFile.fieldDistance}"]!]
-            .toDouble();
-        if (valueTmp > max) {
-          max = valueTmp;
+
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = activitySelected[c].contentActivity.length - 1;
+          i != 0;
+          i--) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldDistance}"]!)) {
+          double valueTmp = activitySelected[c]
+              .contentActivity[i][activitySelected[c]
+                  .enteteCSV["Value_${_managerFile.fieldDistance}"]!]
+              .toDouble();
+          if (valueTmp > max) {
+            max = valueTmp;
+          }
         }
       }
     }
+
     return max;
   }
 
@@ -126,11 +173,18 @@ class ManagerSelectedActivity {
 
   // ---------------------- Calories ---------------------- //
   int getCalorie() {
-    for (int i = contentActivity.length - 1; i != 0; i--) {
-      if (_notNull(contentActivity, i,
-          enteteCSV["Value_${_managerFile.fieldTotalCalories}"]!)) {
-        return contentActivity[i]
-            [enteteCSV["Value_${_managerFile.fieldTotalCalories}"]!] as int;
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = activitySelected[c].contentActivity.length - 1;
+          i != 0;
+          i--) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldTotalCalories}"]!)) {
+          return activitySelected[c].contentActivity[i][activitySelected[c]
+              .enteteCSV["Value_${_managerFile.fieldTotalCalories}"]!] as int;
+        }
       }
     }
     return 0;
@@ -140,12 +194,20 @@ class ManagerSelectedActivity {
   // ---------------------- Step ------------------------------//
 
   int getTotalSteps() {
-    for (int i = contentActivity.length - 1; i != 0; i--) {
-      if (_notNull(contentActivity, i,
-          enteteCSV["Value_${_managerFile.fieldTotalStep}"]!)) {
-        return contentActivity[i]
-                [enteteCSV["Value_${_managerFile.fieldTotalStep}"]!]
-            .toInt();
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = activitySelected[c].contentActivity.length - 1;
+          i != 0;
+          i--) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldTotalStep}"]!)) {
+          return activitySelected[c]
+              .contentActivity[i][activitySelected[c]
+                  .enteteCSV["Value_${_managerFile.fieldTotalStep}"]!]
+              .toInt();
+        }
       }
     }
     return 0;
@@ -155,11 +217,18 @@ class ManagerSelectedActivity {
   // ------------------------- Time ----------------------------- //
 
   int getTotalTime() {
-    for (int i = contentActivity.length - 1; i != 0; i--) {
-      if (_notNull(contentActivity, i,
-          enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
-        return contentActivity[i]
-            [enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = activitySelected[c].contentActivity.length - 1;
+          i != 0;
+          i--) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
+          return activitySelected[c].contentActivity[i][activitySelected[c]
+              .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+        }
       }
     }
     return 0;
@@ -171,14 +240,20 @@ class ManagerSelectedActivity {
   // --- Fichier CSV --- //
   double getMaxAltitude() {
     double max = 0;
-    for (int i = 0; i < contentActivity.length; i++) {
-      if (_notNull(contentActivity, i,
-          enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
-        double valueTmp = contentActivity[i]
-                [enteteCSV["Value_${_managerFile.fieldAltitude}"]!]
-            .toDouble();
-        if (valueTmp > max) {
-          max = valueTmp;
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
+          double valueTmp = activitySelected[c]
+              .contentActivity[i][activitySelected[c]
+                  .enteteCSV["Value_${_managerFile.fieldAltitude}"]!]
+              .toDouble();
+          if (valueTmp > max) {
+            max = valueTmp;
+          }
         }
       }
     }
@@ -188,14 +263,20 @@ class ManagerSelectedActivity {
   // --- Fichier CSV --- //
   double getMinAltitude() {
     double min = 5000;
-    for (int i = 0; i < contentActivity.length; i++) {
-      if (_notNull(contentActivity, i,
-          enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
-        double valueTmp = contentActivity[i]
-                [enteteCSV["Value_${_managerFile.fieldAltitude}"]!]
-            .toDouble();
-        if (valueTmp < min) {
-          min = valueTmp;
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
+          double valueTmp = activitySelected[c]
+              .contentActivity[i][activitySelected[c]
+                  .enteteCSV["Value_${_managerFile.fieldAltitude}"]!]
+              .toDouble();
+          if (valueTmp < min) {
+            min = valueTmp;
+          }
         }
       }
     }
@@ -211,23 +292,35 @@ class ManagerSelectedActivity {
     List<DataPoint> result = List.empty(growable: true);
     int firstTimestamp = 0;
 
-    for (int i = 0; i < contentActivity.length; i++) {
-      if (_notNull(contentActivity, i,
-              enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!) &&
-          notNull(contentActivity, i,
-              enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
-        if (firstTimestamp == 0) {
-          firstTimestamp = contentActivity[i]
-              [enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(
+                c,
+                i,
+                activitySelected[c]
+                    .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!) &&
+            _notNull(
+                c,
+                i,
+                activitySelected[c]
+                    .enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
+          if (firstTimestamp == 0) {
+            firstTimestamp = activitySelected[c].contentActivity[i][
+                activitySelected[c]
+                    .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+          }
+          result.add(DataPoint(
+              (((activitySelected[c].contentActivity[i][
+                              activitySelected[c].enteteCSV[
+                                  "Value_${_managerFile.fieldTimeStamp}"]!]) -
+                          firstTimestamp) ~/
+                      100)
+                  .toDouble(),
+              activitySelected[c]
+                  .contentActivity[i][activitySelected[c]
+                      .enteteCSV["Value_${_managerFile.fieldSpeed}"]!]
+                  .toDouble()));
         }
-        result.add(DataPoint(
-            (((contentActivity[i][enteteCSV[
-                            "Value_${_managerFile.fieldTimeStamp}"]!]) -
-                        firstTimestamp) ~/
-                    100)
-                .toDouble(),
-            contentActivity[i][enteteCSV["Value_${_managerFile.fieldSpeed}"]!]
-                .toDouble()));
       }
     }
     return result;
@@ -236,14 +329,21 @@ class ManagerSelectedActivity {
   // Retourne la Speed Max (Fichier CSV)
   double getMaxSpeed() {
     double max = 0.00;
-    for (int i = 0; i < contentActivity.length; i++) {
-      if (_notNull(
-          contentActivity, i, enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
-        double valueTmp = contentActivity[i]
-                [enteteCSV["Value_${_managerFile.fieldSpeed}"]!]
-            .toDouble();
-        if (valueTmp > max) {
-          max = valueTmp;
+
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
+          double valueTmp = activitySelected[c]
+              .contentActivity[i][activitySelected[c]
+                  .enteteCSV["Value_${_managerFile.fieldSpeed}"]!]
+              .toDouble();
+          if (valueTmp > max) {
+            max = valueTmp;
+          }
         }
       }
     }
@@ -254,14 +354,21 @@ class ManagerSelectedActivity {
   double getAvgSpeed() {
     double somme = 0;
     int nb = 0;
-    for (int i = 0; i < contentActivity.length; i++) {
-      if (_notNull(
-          contentActivity, i, enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
-        somme +=
-            contentActivity[i][enteteCSV["Value_${_managerFile.fieldSpeed}"]!];
-        nb++;
+
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
+          somme += activitySelected[c].contentActivity[i][activitySelected[c]
+              .enteteCSV["Value_${_managerFile.fieldSpeed}"]!];
+          nb++;
+        }
       }
     }
+
     return somme / nb;
   }
 

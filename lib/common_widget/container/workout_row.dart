@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class WorkoutRow extends StatelessWidget {
   final Map wObj;
-  final bool isFirstActivity; // Ajouter la propriété isFirstActivity
+  final bool isSelected;
   final VoidCallback onDelete;
   final VoidCallback onClick;
 
@@ -13,7 +13,7 @@ class WorkoutRow extends StatelessWidget {
     required this.wObj,
     required this.onDelete,
     required this.onClick,
-    required this.isFirstActivity,
+    required this.isSelected,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class WorkoutRow extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
         decoration: BoxDecoration(
           border: Border.all(
-            color: isFirstActivity
+            color: isSelected
                 ? Color.fromARGB(255, 144, 252, 148)
                 : Colors.transparent,
             width: 2.0,
@@ -32,7 +32,7 @@ class WorkoutRow extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Material(
-          color: isFirstActivity
+          color: isSelected
               ? Color.fromARGB(255, 240, 255, 240)
               : Colors.transparent,
           child: InkWell(
