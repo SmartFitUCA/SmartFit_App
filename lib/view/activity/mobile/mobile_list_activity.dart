@@ -137,7 +137,6 @@ class _MobileListActivity extends State<MobileListActivity> {
                               child: WorkoutRow(
                                 wObj: activityMap,
                                 onDelete: () async {
-                                  // Attention toute modif peut amener à une surchage mémoire !!
                                   if (await deleteFileOnBDD(
                                       Provider.of<User>(context, listen: false)
                                           .token,

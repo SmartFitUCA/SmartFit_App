@@ -145,16 +145,7 @@ class _WebListActivityState extends State<WebListActivity> {
                                     .listActivity[index];
                             var activityMap = activityObj.toMap();
                             return InkWell(
-                              onTap: () {
-                                /*
-                                setState(() {
-                                  firstActivityIndex = index;
-                                });
-                                Provider.of<User>(context, listen: false)
-                                    .removeActivity(activityObj);
-                                Provider.of<User>(context, listen: false)
-                                    .insertActivity(0, activityObj);*/
-                              },
+                              onTap: () {},
                               child: WorkoutRow(
                                 wObj: activityMap,
                                 onDelete: () async {
@@ -162,17 +153,41 @@ class _WebListActivityState extends State<WebListActivity> {
                                       Provider.of<User>(context, listen: false)
                                           .token,
                                       activityObj.fileUuid)) {
+                                    if (!Provider.of<User>(context,
+                                            listen: false)
+                                        .managerSelectedActivity
+                                        .fileNotSelected(
+                                            activityObj.fileUuid)) {
+                                      Provider.of<User>(context, listen: false)
+                                          .managerSelectedActivity
+                                          .removeSelectedActivity(
+                                              activityObj.fileUuid);
+                                    }
                                     Provider.of<User>(context, listen: false)
                                         .removeActivity(activityObj);
                                   }
                                 },
-                                onClick: () {
+                                onClick: () async {
+                                  if (!Provider.of<User>(context, listen: false)
+                                      .managerSelectedActivity
+                                      .fileNotSelected(activityObj.fileUuid)) {
+                                    Provider.of<User>(context, listen: false)
+                                        .managerSelectedActivity
+                                        .removeSelectedActivity(
+                                            activityObj.fileUuid);
+                                    return;
+                                  }
+
+                                  Tuple2<bool, String> result = await _utile
+                                      .getContentActivity(context, activityObj);
+                                  if (!result.item1) {
+                                    return;
+                                  }
+
                                   Provider.of<User>(context, listen: false)
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
                                       .insertActivity(0, activityObj);
-                                  _utile.getContentActivity(
-                                      context, activityObj);
                                 },
                                 isSelected: Provider.of<User>(context)
                                     .managerSelectedActivity
