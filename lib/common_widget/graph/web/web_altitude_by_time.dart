@@ -19,9 +19,6 @@ class WebGraphAltitudeByTime extends StatefulWidget {
 class _WebGraphAltitudeByTime extends State<WebGraphAltitudeByTime> {
   @override
   Widget build(BuildContext context) {
-    final double maxX =
-        widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
-    final double minX = 0.0;
     final double maxY =
         context.watch<User>().managerSelectedActivity.getMaxAltitude() + 2;
     final double minY =

@@ -28,9 +28,10 @@ class _MobileHomeView extends State<MobileHomeView> {
     ManagerSelectedActivity managerSelectedActivity =
         context.watch<User>().managerSelectedActivity;
 
+    data = HomeViewUtil().initData(context);
     // -- BPM -- //
-    int maxBpm = managerSelectedActivity.getMaxBpm();
-    int minBpm = managerSelectedActivity.getMinBpm();
+    data.maxBPM = managerSelectedActivity.getMaxBpm();
+    data.minBPM = managerSelectedActivity.getMinBpm();
     int avgBpm = managerSelectedActivity.getAvgBpm();
 
     // -- Altitude -- //
@@ -40,7 +41,6 @@ class _MobileHomeView extends State<MobileHomeView> {
     // -- Speed -- //
     double maxSpeed = managerSelectedActivity.getMaxSpeed();
     double avgSpeed = managerSelectedActivity.getAvgSpeed();
-    data = HomeViewUtil().initData(context);
 
     return Scaffold(
       backgroundColor: TColor.white,
@@ -70,8 +70,8 @@ class _MobileHomeView extends State<MobileHomeView> {
                   height: media.width * 0.05,
                 ),
                 LigneContainerStats(
-                    "${minBpm.toString()} BPM",
-                    "${maxBpm.toString()} BPM",
+                    "${data.minBPM.toString()} BPM",
+                    "${data.maxBPM.toString()} BPM",
                     "${avgBpm.toString()} BPM",
                     "Minimum",
                     "Maximum",

@@ -98,13 +98,11 @@ class _MobileGraphBpmAndSpeedByTime
 
   @override
   Widget build(BuildContext context) {
-    final double maxY =
-        context.watch<User>().managerSelectedActivity.getMaxBpm() + 2;
-    final double minY =
-        context.watch<User>().managerSelectedActivity.getMinBpm() - 2;
+    final double maxY = widget.data.maxBPM + 2;
+    final double minY = widget.data.minBPM - 2;
     final double maxX =
         widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
-    final double minX = 0.0;
+    const double minX = 0.0;
     final lineBarsData = [
       LineChartBarData(
         spots: widget.data.bpmSecondes,

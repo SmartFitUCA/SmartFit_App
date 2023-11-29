@@ -1,16 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
-import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
@@ -143,10 +137,21 @@ class _MobileListActivity extends State<MobileListActivity> {
                               child: WorkoutRow(
                                 wObj: activityMap,
                                 onDelete: () async {
+                                  // Attention toute modif peut amener à une surchage mémoire !!
                                   if (await deleteFileOnBDD(
                                       Provider.of<User>(context, listen: false)
                                           .token,
                                       activityObj.fileUuid)) {
+                                    if (!Provider.of<User>(context,
+                                            listen: false)
+                                        .managerSelectedActivity
+                                        .fileNotSelected(
+                                            activityObj.fileUuid)) {
+                                      Provider.of<User>(context, listen: false)
+                                          .managerSelectedActivity
+                                          .removeSelectedActivity(
+                                              activityObj.fileUuid);
+                                    }
                                     Provider.of<User>(context, listen: false)
                                         .removeActivity(activityObj);
                                   }

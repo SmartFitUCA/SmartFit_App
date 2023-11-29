@@ -4,7 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import '../../common/colo_extension.dart';
 
 class NoActivityView extends StatefulWidget {
-  const NoActivityView({super.key});
+  const NoActivityView(this.msg, {super.key});
+  final String msg;
 
   @override
   State<NoActivityView> createState() => _NoActivityViewState();
@@ -40,7 +41,7 @@ class _NoActivityViewState extends State<NoActivityView> {
                   height: media.height * 0.1,
                 ),
                 Text(
-                  "Pas d'activité sélectionnée",
+                  widget.msg,
                   style: TextStyle(
                     color: TColor.black,
                     fontSize: 20,
