@@ -65,7 +65,7 @@ class _MobileBpmByTime extends State<MobileBpmByTime> {
                 reservedSize: 20,
                 showTitles: true,
                 getTitlesWidget: (value, meta) {
-                  return Text("${double.parse(value.toStringAsFixed(2))}s");
+                  return Text("${double.parse((value/10).toStringAsFixed(2))}s");
                 },
               )),
               rightTitles: AxisTitles(

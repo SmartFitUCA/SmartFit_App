@@ -36,6 +36,7 @@ class MobileContainerStats extends StatelessWidget {
             icon: icon,
             iconColor: TColor.white,
             iconBackground:  TColor.secondaryColor1,
+            sizeIcon: 12,
           ),
           Align(
             alignment: Alignment.bottomLeft,
