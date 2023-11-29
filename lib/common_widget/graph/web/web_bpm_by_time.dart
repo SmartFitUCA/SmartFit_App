@@ -24,7 +24,7 @@ class _WebBpmByTime extends State<WebBpmByTime> {
         context.watch<User>().managerSelectedActivity.getMinBpm() - 2;
     final double maxX =
         widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
-    final double minX = 0.0;
+    const double minX = 0.0;
     final lineBarsData = [
       LineChartBarData(
           spots: widget.data.bpmSecondes,

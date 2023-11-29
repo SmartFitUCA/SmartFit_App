@@ -81,11 +81,9 @@ class _TestPage extends State<TestPage> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
   String platforme = getPlatforme();
-  final ManagerFile _managerFile = ManagerFile();
 
   //late File x = File(file.path);
   Future<void> readFile() async {
-    ManagerFile x = ManagerFile();
     PlatformFile t = result!.files.single;
     String? y = t.path;
     if (t.path == null) {
@@ -169,7 +167,7 @@ class _TestPage extends State<TestPage> {
       }
       csvData.insert(0, enteteCSV);
 
-      final csv = const ListToCsvConverter().convert(csvData);
+      //final csv = const ListToCsvConverter().convert(csvData);
       //await outFile.writeAsString(csv);
 
       // ------- FIN --------------- //
