@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/modele/local_db/objectbox.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/view/login/signup_view.dart';
 
-void main() {
+late ObjectBox localDB;
+
+Future<void> main() async {
   runApp(ChangeNotifierProvider(
       create: (context) => User(), child: const MyApp()));
+
+  localDB = await ObjectBox.create();
+  localDB.init();
 }
 
 class MyApp extends StatelessWidget {
