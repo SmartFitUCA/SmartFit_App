@@ -13,16 +13,17 @@ class MobileGraphAltitudeByTime extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<MobileGraphAltitudeByTime> createState() => _MobileGraphAltitudeByTime();
+  State<MobileGraphAltitudeByTime> createState() =>
+      _MobileGraphAltitudeByTime();
 }
 
 class _MobileGraphAltitudeByTime extends State<MobileGraphAltitudeByTime> {
   @override
   Widget build(BuildContext context) {
     final double maxY =
-        context.watch<User>().listActivity[0].getMaxAltitude() + 2;
+        context.watch<User>().managerSelectedActivity.getMaxAltitude() + 2;
     final double minY =
-        context.watch<User>().listActivity[0].getMinAltitude() - 2;
+        context.watch<User>().managerSelectedActivity.getMinAltitude() - 2;
 
     final lineBarsData = [
       LineChartBarData(

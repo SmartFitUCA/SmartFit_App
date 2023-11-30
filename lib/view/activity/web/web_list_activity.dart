@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
@@ -24,27 +23,7 @@ class _WebListActivityState extends State<WebListActivity> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
-  int firstActivityIndex = 0;
   final IDataStrategy _strategy = RequestApi();
-
-  /*
-  void readFile(html.File file) async {
-    ManagerFile x = ManagerFile();
-    final reader = html.FileReader();
-    reader.readAsArrayBuffer(file);
-    reader.onLoadEnd.listen((event) {
-      if (reader.readyState == html.FileReader.DONE) {
-        Uint8List bytes = reader.result as Uint8List;
-        List<dynamic> result = x.readFitFileWeb(bytes);
-        Provider.of<User>(context, listen: false).addActivity(
-            ActivityOfUser("Date random", "${file.name} Categorie", "", ""));
-        Provider.of<User>(context, listen: false)
-            .listActivity
-            .last
-            .contentActivity = result;
-      }
-    });
-  }*/
 
   Future<bool> deleteFileOnBDD(String token, String fileUuid) async {
     Tuple2<bool, String> result = await _strategy.deleteFile(token, fileUuid);
@@ -63,7 +42,6 @@ class _WebListActivityState extends State<WebListActivity> {
 
     reader.onLoadEnd.listen((event) async {
       if (reader.readyState == html.FileReader.DONE) {
-        print("donne");
         Uint8List bytes = reader.result as Uint8List;
         Tuple2<bool, String> resultAdd =
             await _utile.addFile(bytes, file.name, token);
@@ -166,20 +144,16 @@ class _WebListActivityState extends State<WebListActivity> {
                                 Provider.of<User>(context, listen: true)
                                     .listActivity[index];
                             var activityMap = activityObj.toMap();
-
-                            bool isFirstActivity = false;
-                            if (index == firstActivityIndex) {
-                              isFirstActivity = true;
-                            }
                             return InkWell(
                               onTap: () {
+                                /*
                                 setState(() {
                                   firstActivityIndex = index;
                                 });
                                 Provider.of<User>(context, listen: false)
                                     .removeActivity(activityObj);
                                 Provider.of<User>(context, listen: false)
-                                    .insertActivity(0, activityObj);
+                                    .insertActivity(0, activityObj);*/
                               },
                               child: WorkoutRow(
                                 wObj: activityMap,
@@ -197,9 +171,12 @@ class _WebListActivityState extends State<WebListActivity> {
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
                                       .insertActivity(0, activityObj);
-                                  _utile.getContentActivity(context);
+                                  _utile.getContentActivity(
+                                      context, activityObj);
                                 },
-                                isFirstActivity: isFirstActivity,
+                                isSelected: Provider.of<User>(context)
+                                    .managerSelectedActivity
+                                    .fileNotSelected(activityObj.fileUuid),
                               ),
                             );
                           },

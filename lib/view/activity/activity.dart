@@ -11,10 +11,14 @@ class Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return context.watch<User>().listActivity.isEmpty
+    return context
+            .watch<User>()
+            .managerSelectedActivity
+            .activitySelected
+            .isEmpty
         ? ScreenTypeLayout.builder(
-            mobile: (_) => const NoActivityView(),
-            desktop: (_) => const NoActivityView(),
+            mobile: (_) => const NoActivityView("Pas d'activité sélectionnée"),
+            desktop: (_) => const NoActivityView("Pas d'activité sélectionnée"),
           )
         : ScreenTypeLayout.builder(
             mobile: (_) => const MobileActivity(),

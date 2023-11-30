@@ -13,7 +13,8 @@ class WebGraphBpmAndSpeedByTime extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<WebGraphBpmAndSpeedByTime> createState() => _WebGraphBpmAndSpeedByTime();
+  State<WebGraphBpmAndSpeedByTime> createState() =>
+      _WebGraphBpmAndSpeedByTime();
 }
 
 class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
@@ -77,7 +78,6 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: widget.data.vitesseSecondes,
-        
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
@@ -97,19 +97,11 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
 
   @override
   Widget build(BuildContext context) {
-
-      final double maxY =
-        context.watch<User>().listActivity[0].getMaxBpm() + 2;
-    final double minY =
-        context.watch<User>().listActivity[0].getMinBpm() - 2;
-    final double maxY1 =
-        context.watch<User>().listActivity[0].getMaxBpm() + 2;
-    final double minY2 =
-        context.watch<User>().listActivity[0].getMinBpm() - 2;
+    final double maxY = widget.data.maxBPM + 2;
+    final double minY = widget.data.minBPM - 2;
     final double maxX =
         widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
-    final double minX =
-        0.0;
+    const double minX = 0.0;
 
     final lineBarsData = [
       LineChartBarData(
@@ -127,7 +119,6 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
         gradient: LinearGradient(
           colors: TColor.secondaryG,
         ),
-        
       ),
     ];
     final tooltipsOnBar = lineBarsData[0];
@@ -216,21 +207,23 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
                 ),
                 topTitles: const AxisTitles(),
                 bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                reservedSize: 20,
-                showTitles: true,
-                getTitlesWidget: (value, meta) {
-                  return Text("${double.parse((value/10).toStringAsFixed(2))}s");
-                },
-              )),
+                    sideTitles: SideTitles(
+                  reservedSize: 20,
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    return Text(
+                        "${double.parse((value / 10).toStringAsFixed(2))}s");
+                  },
+                )),
                 rightTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                reservedSize: 70,
-                showTitles: true,
-                getTitlesWidget: (value, meta) {
-                  return Text("${double.parse(value.toStringAsFixed(2))} BPM");
-                },
-              ))),
+                    sideTitles: SideTitles(
+                  reservedSize: 70,
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    return Text(
+                        "${double.parse(value.toStringAsFixed(2))} BPM");
+                  },
+                ))),
             gridData: FlGridData(
                 drawVerticalLine: true,
                 drawHorizontalLine: true,

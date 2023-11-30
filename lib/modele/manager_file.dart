@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ManagerFile {
   // -- Field
@@ -108,11 +107,12 @@ class ManagerFile {
     return const CsvToListConverter().convert(utf8.decode(bytes));
   }
 
+  /*
   // ------------- Get The path of application --- //
   Future<String> get localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
-  }
+  }*/
 
   /*
   // ----- Read csv File ------- //

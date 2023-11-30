@@ -1,16 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
-import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
@@ -27,37 +21,10 @@ class _MobileListActivity extends State<MobileListActivity> {
   FilePickerResult? result;
   final IDataStrategy _strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
-  final ManagerFile _managerFile = ManagerFile();
-  int firstActivityIndex = 0;
-
-  /*
-  Future<void> readFile(String nom) async {
-    PlatformFile t = result!.files.single;
-    String? y = t.path;
-    if (t.path == null) {
-      print("t");
-    } else {
-      List<dynamic> result = await _managerFile.readFitFile(y!);
-
-      // Upload the file and Syncronise (getFiles())
-
-      strategy.uploadFile(context.watch<User>().token, File(y));
-
-      Provider.of<User>(context, listen: false)
-          .addActivity(ActivityOfUser("Random date", "$nom categorie !"));
-      Provider.of<User>(context, listen: false)
-          .listActivity
-          .last
-          .contentActivity = result;
-    }
-  }*/
 
   Future<bool> deleteFileOnBDD(String token, String fileUuid) async {
     Tuple2<bool, String> result = await _strategy.deleteFile(token, fileUuid);
     if (!result.item1) {
-      print(fileUuid);
-      print("msg d'erreur");
-      print(result.item2);
       return false;
     }
     return true;
@@ -165,39 +132,55 @@ class _MobileListActivity extends State<MobileListActivity> {
                                     .listActivity[index];
                             var activityMap = activityObj.toMap();
 
-                            bool isFirstActivity = false;
-                            if (index == firstActivityIndex) {
-                              isFirstActivity = true;
-                            }
                             return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  firstActivityIndex = index;
-                                });
-                                Provider.of<User>(context, listen: false)
-                                    .removeActivity(activityObj);
-                                Provider.of<User>(context, listen: false)
-                                    .insertActivity(0, activityObj);
-                              },
+                              onTap: () {},
                               child: WorkoutRow(
                                 wObj: activityMap,
                                 onDelete: () async {
+                                  // Attention toute modif peut amener à une surchage mémoire !!
                                   if (await deleteFileOnBDD(
                                       Provider.of<User>(context, listen: false)
                                           .token,
                                       activityObj.fileUuid)) {
+                                    if (!Provider.of<User>(context,
+                                            listen: false)
+                                        .managerSelectedActivity
+                                        .fileNotSelected(
+                                            activityObj.fileUuid)) {
+                                      Provider.of<User>(context, listen: false)
+                                          .managerSelectedActivity
+                                          .removeSelectedActivity(
+                                              activityObj.fileUuid);
+                                    }
                                     Provider.of<User>(context, listen: false)
                                         .removeActivity(activityObj);
                                   }
                                 },
-                                onClick: () {
+                                onClick: () async {
+                                  if (!Provider.of<User>(context, listen: false)
+                                      .managerSelectedActivity
+                                      .fileNotSelected(activityObj.fileUuid)) {
+                                    Provider.of<User>(context, listen: false)
+                                        .managerSelectedActivity
+                                        .removeSelectedActivity(
+                                            activityObj.fileUuid);
+                                    return;
+                                  }
+
+                                  Tuple2<bool, String> result = await _utile
+                                      .getContentActivity(context, activityObj);
+                                  if (!result.item1) {
+                                    return;
+                                  }
+
                                   Provider.of<User>(context, listen: false)
                                       .removeActivity(activityObj);
                                   Provider.of<User>(context, listen: false)
                                       .insertActivity(0, activityObj);
-                                  _utile.getContentActivity(context);
                                 },
-                                isFirstActivity: isFirstActivity,
+                                isSelected: !Provider.of<User>(context)
+                                    .managerSelectedActivity
+                                    .fileNotSelected(activityObj.fileUuid),
                               ),
                             );
                           },

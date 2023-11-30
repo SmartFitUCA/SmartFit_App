@@ -14,15 +14,21 @@ class ListActivityUtile {
   final IDataStrategy _strategy = RequestApi();
   final ManagerFile _managerFile = ManagerFile();
 
-  Future<Tuple2<bool, String>> getContentActivity(BuildContext context) async {
+  Future<Tuple2<bool, String>> getContentActivity(
+      BuildContext context, ActivityOfUser activityOfUser) async {
     Tuple2 result = await _strategy.getFile(
         Provider.of<User>(context, listen: false).token,
-        Provider.of<User>(context, listen: false).listActivity[0].fileUuid);
+        activityOfUser.fileUuid);
     if (result.item1 == false) {
       return Tuple2(result.item1, result.item2);
     }
-    Provider.of<User>(context, listen: false).listActivity[0].contentActivity =
+
+    activityOfUser.contentActivity =
         List.from(_managerFile.convertByteIntoCSV(result.item2));
+
+    Provider.of<User>(context, listen: false)
+        .managerSelectedActivity
+        .addSelectedActivity(activityOfUser);
     return const Tuple2(true, "Yeah");
   }
 
@@ -46,10 +52,10 @@ class ListActivityUtile {
           element["uuid"].toString(),
           element["filename"].toString()));
     }
-
+    /*
     if (notZero) {
       await getContentActivity(context);
-    }
+    }*/
     return const Tuple2(true, "Yeah");
   }
 

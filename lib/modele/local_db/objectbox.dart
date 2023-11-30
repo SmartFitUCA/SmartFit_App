@@ -22,4 +22,8 @@ class ObjectBox {
     userBox = store.box<User>();
     activityBox = store.box<Activity>();
   }
+
+  bool hasUser() {
+    return !userBox.isEmpty();
+  }
 }

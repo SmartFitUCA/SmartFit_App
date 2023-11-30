@@ -46,7 +46,7 @@ class _GraphAreaState extends State<GraphArea>
   @override
   Widget build(BuildContext context) {
     List<DataPoint> vitesseSecondes = Provider.of<User>(context, listen: false)
-        .listActivity[0]
+        .managerSelectedActivity
         .getSpeedWithTimeActivity();
 
     return GestureDetector(

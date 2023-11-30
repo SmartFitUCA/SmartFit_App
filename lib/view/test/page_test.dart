@@ -99,8 +99,8 @@ class _TestPage extends State<TestPage> {
       print("--------------");
       print("--------------");
 
-      print("${await _managerFile.localPath}\\test.csv");
-      final outFile = File("${await _managerFile.localPath}\\test.csv");
+      //print("${await _managerFile.localPath}\\test.csv");
+      //final outFile = File("${await _managerFile.localPath}\\test.csv");
       //final csv = const ListToCsvConverter().convert(fitFile.toRows());
       //await outFile.writeAsString(csv);
 
@@ -170,7 +170,7 @@ class _TestPage extends State<TestPage> {
       csvData.insert(0, enteteCSV);
 
       final csv = const ListToCsvConverter().convert(csvData);
-      await outFile.writeAsString(csv);
+      //await outFile.writeAsString(csv);
 
       // ------- FIN --------------- //
 
@@ -262,10 +262,10 @@ class _TestPage extends State<TestPage> {
     print(res.item2);
 
     ManagerFile x = ManagerFile();
-    File file = File("${await x.localPath}/Walking_2023-11-08T10_57_28.fit");
-    await file.create();
-    await file.writeAsBytes(res.item2);
-    print(await x.localPath);
+    //File file = File("${await x.localPath}/Walking_2023-11-08T10_57_28.fit");
+    //await file.create();
+    //await file.writeAsBytes(res.item2);
+    //print(await x.localPath);
     print("Save");
 
     //print(await x

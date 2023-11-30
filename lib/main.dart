@@ -4,15 +4,18 @@ import 'package:smartfit_app_mobile/modele/local_db/objectbox.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/view/login/signup_view.dart';
+import 'package:smartfit_app_mobile/view/main_tab/main_tab_view.dart';
 
 late ObjectBox localDB;
 
 Future<void> main() async {
-  runApp(ChangeNotifierProvider(
-      create: (context) => User(), child: const MyApp()));
-
+  // ObjectBox
+  WidgetsFlutterBinding.ensureInitialized();
   localDB = await ObjectBox.create();
   localDB.init();
+
+  runApp(ChangeNotifierProvider(
+      create: (context) => User(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,6 +23,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget viewToDisplay = const SignUpView();
+    if (localDB.hasUser()) viewToDisplay = const MainTabView();
+
     return MaterialApp(
       title: 'SmartFit',
       debugShowCheckedModeBanner: false,
@@ -41,7 +47,7 @@ class MyApp extends StatelessWidget {
           // tested with just a hot reload.
           primaryColor: TColor.primaryColor1,
           fontFamily: "Poppins"),
-      home: const SignUpView(),
+      home: viewToDisplay,
       //home: const ProfileView(),
     );
   }

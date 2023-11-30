@@ -25,16 +25,20 @@ class _WebHomeView extends State<WebHomeView> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     // -- BPM -- //
-    int maxBpm = context.watch<User>().listActivity[0].getMaxBpm();
-    int minBpm = context.watch<User>().listActivity[0].getMinBpm();
-    int avgBpm = context.watch<User>().listActivity[0].getAvgBpm();
+    int maxBpm = context.watch<User>().managerSelectedActivity.getMaxBpm();
+    int minBpm = context.watch<User>().managerSelectedActivity.getMinBpm();
+    int avgBpm = context.watch<User>().managerSelectedActivity.getAvgBpm();
     // -- Altitude -- //
-    double minAltitude = context.watch<User>().listActivity[0].getMinAltitude();
-    double maxAltitude = context.watch<User>().listActivity[0].getMaxAltitude();
+    double minAltitude =
+        context.watch<User>().managerSelectedActivity.getMinAltitude();
+    double maxAltitude =
+        context.watch<User>().managerSelectedActivity.getMaxAltitude();
     double avgAltitude = (maxAltitude + minAltitude) / 2;
     // -- Speed -- //
-    double maxSpeed = context.watch<User>().listActivity[0].getMaxSpeed();
-    double avgSpeed = context.watch<User>().listActivity[0].getAvgSpeed();
+    double maxSpeed =
+        context.watch<User>().managerSelectedActivity.getMaxSpeed();
+    double avgSpeed =
+        context.watch<User>().managerSelectedActivity.getAvgSpeed();
 
     data = HomeViewUtil().initData(context);
 

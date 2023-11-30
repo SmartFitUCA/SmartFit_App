@@ -9,15 +9,15 @@ class Stats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String calories = Provider.of<User>(context, listen: false)
-        .listActivity[0]
+        .managerSelectedActivity
         .getCalorie()
         .toString();
     String heartrate = Provider.of<User>(context, listen: false)
-        .listActivity[0]
+        .managerSelectedActivity
         .getAvgBpm()
         .toString();
     String time = Provider.of<User>(context, listen: false)
-        .listActivity[0]
+        .managerSelectedActivity
         .getTotalTime()
         .toString();
     return Column(
