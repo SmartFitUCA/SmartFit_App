@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
@@ -76,5 +77,28 @@ class ListActivityUtile {
       return Tuple2(false, result.item2);
     }
     return const Tuple2(true, "Yeah");
+  }
+
+  Future<bool> deleteFileOnBDD(String token, String fileUuid) async {
+    Tuple2<bool, String> result = await _strategy.deleteFile(token, fileUuid);
+    if (!result.item1) {
+      return false;
+    }
+    return true;
+  }
+
+  void addFileMobile(
+      String path, String token, String filename, BuildContext context) async {
+    Tuple2<bool, String> resultAdd =
+        await addFile(await File(path).readAsBytes(), filename, token);
+    if (!resultAdd.item1) {
+      //print("Message error");
+      return;
+    }
+    Tuple2<bool, String> resultGet = await getFiles(token, context);
+    if (!resultGet.item1) {
+      //print("Message error");
+      return;
+    }
   }
 }
