@@ -55,6 +55,7 @@ class _ListActivity extends State<ListActivity> {
                   Provider.of<User>(context, listen: false)
                       .managerSelectedActivity
                       .removeSelectedActivity(activityObj.fileUuid);
+                  setState(() {});
                   return;
                 }
 

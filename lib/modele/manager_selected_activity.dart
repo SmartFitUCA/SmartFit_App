@@ -10,7 +10,7 @@ class ManagerSelectedActivity {
 
   bool addSelectedActivity(ActivityOfUser activityOfUser) {
     // Regarder si l'entete est la même
-    // C'est de la merde!!
+    // C'est de la merde!! à recoder !!
     /*
     if (activitySelected.isNotEmpty &&
         activitySelected.first.enteteCSV != activityOfUser.enteteCSV) {
