@@ -1,9 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
-import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 

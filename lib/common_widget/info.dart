@@ -22,11 +22,11 @@ class Info extends StatelessWidget {
 }
 
 class Stats extends StatelessWidget {
-  String value;
-  String unit;
-  String label;
+  final String value;
+  final String unit;
+  final String label;
 
-  Stats({
+  const Stats({
     Key? key,
     required this.value,
     required this.unit,
@@ -50,7 +50,7 @@ class Stats extends StatelessWidget {
                 const TextSpan(text: ' '),
                 TextSpan(
                   text: unit,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                   ),

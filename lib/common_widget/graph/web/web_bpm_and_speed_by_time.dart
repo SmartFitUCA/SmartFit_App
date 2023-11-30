@@ -1,8 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 
 class WebGraphBpmAndSpeedByTime extends StatefulWidget {

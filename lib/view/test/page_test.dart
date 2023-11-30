@@ -1,16 +1,13 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:tuple/tuple.dart';
@@ -19,8 +16,9 @@ import 'package:tuple/tuple.dart';
 
 // Dossier de l'application
 Future<String> get _localPath async {
-  final directory = await getApplicationDocumentsDirectory();
-  return directory.path;
+  //final directory = await getApplicationDocumentsDirectory();
+  //return directory.path;
+  return "PATH";
 }
 
 // Uri du fichier
@@ -81,11 +79,9 @@ class _TestPage extends State<TestPage> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
   String platforme = getPlatforme();
-  final ManagerFile _managerFile = ManagerFile();
 
   //late File x = File(file.path);
   Future<void> readFile() async {
-    ManagerFile x = ManagerFile();
     PlatformFile t = result!.files.single;
     String? y = t.path;
     if (t.path == null) {
@@ -169,7 +165,7 @@ class _TestPage extends State<TestPage> {
       }
       csvData.insert(0, enteteCSV);
 
-      final csv = const ListToCsvConverter().convert(csvData);
+      //final csv = const ListToCsvConverter().convert(csvData);
       //await outFile.writeAsString(csv);
 
       // ------- FIN --------------- //
@@ -261,7 +257,6 @@ class _TestPage extends State<TestPage> {
     print(res.item1);
     print(res.item2);
 
-    ManagerFile x = ManagerFile();
     //File file = File("${await x.localPath}/Walking_2023-11-08T10_57_28.fit");
     //await file.create();
     //await file.writeAsBytes(res.item2);
@@ -307,9 +302,7 @@ class _TestPage extends State<TestPage> {
                 if (result == null) {
                   print("No file selected");
                 } else {
-                  for (var element in result!.files) {
-                    readFile();
-                  }
+                  readFile();
                 }
               },
               child: const Text("File - ")),
