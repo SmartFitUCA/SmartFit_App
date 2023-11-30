@@ -53,14 +53,7 @@ class ProfileEntete extends StatelessWidget {
             type: RoundButtonType.bgGradient,
             fontSize: 12,
             fontWeight: FontWeight.w400,
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const ActivityTrackerView(),
-              //   ),
-              // );
-            },
+            onPressed: () {},
           ),
         )
       ],
