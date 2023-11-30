@@ -216,22 +216,37 @@ class ManagerSelectedActivity {
 
   // ------------------------- Time ----------------------------- //
 
-  int getTotalTime() {
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = activitySelected[c].contentActivity.length - 1;
-          i != 0;
-          i--) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
-          return activitySelected[c].contentActivity[i][activitySelected[c]
-              .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
-        }
+  // Possible que sur 1 activité
+  double getTotalTime() {
+    int timestampMax = 0;
+    int timestampMin = 0;
+
+    for (int i = 0; i < activitySelected[0].contentActivity.length; i++) {
+      if (_notNull(
+          0,
+          i,
+          activitySelected[0]
+              .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
+        timestampMin = activitySelected[0].contentActivity[i][
+            activitySelected[0]
+                .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+        break;
       }
     }
-    return 0;
+
+    for (int i = activitySelected[0].contentActivity.length - 1; i != 0; i--) {
+      if (_notNull(
+          0,
+          i,
+          activitySelected[0]
+              .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
+        timestampMax = activitySelected[0].contentActivity[i][
+            activitySelected[0]
+                .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+        break;
+      }
+    }
+    return (timestampMax - timestampMin) / 1000;
   }
   // ---------------------------- FIN time -------------------- //
 
