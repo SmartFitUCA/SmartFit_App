@@ -1,13 +1,16 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/common_widget/graph/data_for_graph/func_bpm_and_speed_by_time.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 
 class MobileGraphBpmAndSpeedByTime extends StatefulWidget {
   final Size media;
   final DataHomeView data;
+  final FuncBpmAndSpeedByTime func;
 
-  const MobileGraphBpmAndSpeedByTime(this.media, this.data, {Key? key})
+  const MobileGraphBpmAndSpeedByTime(this.media, this.data, this.func,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -19,81 +22,6 @@ class _MobileGraphBpmAndSpeedByTime
     extends State<MobileGraphBpmAndSpeedByTime> {
   TextEditingController bpmController = TextEditingController();
 
-  List<int> showingTooltipOnSpots = [0];
-
-  SideTitles get rightTitles => SideTitles(
-        getTitlesWidget: rightTitleWidgets,
-        showTitles: true,
-        interval: 20,
-        reservedSize: 40,
-      );
-
-  Widget rightTitleWidgets(double value, TitleMeta meta) {
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = '0%';
-        break;
-      case 20:
-        text = '20%';
-        break;
-      case 40:
-        text = '40%';
-        break;
-      case 60:
-        text = '60%';
-        break;
-      case 80:
-        text = '80%';
-        break;
-      case 100:
-        text = '100%';
-        break;
-      default:
-        return Container();
-    }
-
-    return Text(text,
-        style: TextStyle(
-          color: TColor.gray,
-          fontSize: 12,
-        ),
-        textAlign: TextAlign.center);
-  }
-
-  List<LineChartBarData> get lineBarsData1 => [
-        lineChartBarData1_1,
-        lineChartBarData1_2,
-      ];
-
-  LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
-        gradient: LinearGradient(colors: [
-          TColor.primaryColor2.withOpacity(0.5),
-          TColor.primaryColor1.withOpacity(0.5),
-        ]),
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: const FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: widget.data.vitesseSecondes,
-      );
-
-  LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: true,
-        gradient: LinearGradient(colors: [
-          TColor.secondaryColor2.withOpacity(0.5),
-          TColor.secondaryColor1.withOpacity(0.5),
-        ]),
-        barWidth: 2,
-        isStrokeCapRound: true,
-        dotData: const FlDotData(show: false),
-        belowBarData: BarAreaData(
-          show: false,
-        ),
-        spots: widget.data.bpmSecondes2,
-      );
-
   @override
   Widget build(BuildContext context) {
     final double maxY = widget.data.maxBPM + 2;
@@ -101,25 +29,6 @@ class _MobileGraphBpmAndSpeedByTime
     final double maxX =
         widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
     const double minX = 0.0;
-    final lineBarsData = [
-      LineChartBarData(
-        spots: widget.data.bpmSecondes,
-        isCurved: false,
-        barWidth: 2,
-        belowBarData: BarAreaData(
-          show: true,
-          gradient: LinearGradient(colors: [
-            TColor.secondaryColor1.withOpacity(0.4),
-            TColor.secondaryColor2.withOpacity(0.1),
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-        ),
-        dotData: const FlDotData(show: false),
-        gradient: LinearGradient(
-          colors: TColor.secondaryG,
-        ),
-      ),
-    ];
-    final tooltipsOnBar = lineBarsData[0];
 
     return Container(
         padding: const EdgeInsets.only(left: 15),
@@ -127,12 +36,13 @@ class _MobileGraphBpmAndSpeedByTime
         width: double.maxFinite,
         child: LineChart(
           LineChartData(
-            showingTooltipIndicators: showingTooltipOnSpots.map((index) {
+            showingTooltipIndicators:
+                widget.func.showingTooltipOnSpots.map((index) {
               return ShowingTooltipIndicators([
                 LineBarSpot(
-                  tooltipsOnBar,
-                  lineBarsData.indexOf(tooltipsOnBar),
-                  tooltipsOnBar.spots[index],
+                  widget.func.tooltipsOnBar,
+                  widget.func.lineBarsData.indexOf(widget.func.tooltipsOnBar),
+                  widget.func.tooltipsOnBar.spots[index],
                 ),
               ]);
             }).toList(),
@@ -145,9 +55,9 @@ class _MobileGraphBpmAndSpeedByTime
                 }
                 if (event is FlTapUpEvent) {
                   final spotIndex = response.lineBarSpots!.first.spotIndex;
-                  showingTooltipOnSpots.clear();
+                  widget.func.showingTooltipOnSpots.clear();
                   setState(() {
-                    showingTooltipOnSpots.add(spotIndex);
+                    widget.func.showingTooltipOnSpots.add(spotIndex);
                   });
                 }
               },
@@ -195,7 +105,7 @@ class _MobileGraphBpmAndSpeedByTime
                 },
               ),
             ),
-            lineBarsData: lineBarsData1,
+            lineBarsData: widget.func.lineBarsData1,
             minY: 0,
             maxY: 110,
             titlesData: FlTitlesData(
