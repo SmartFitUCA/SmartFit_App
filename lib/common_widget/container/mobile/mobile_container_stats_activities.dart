@@ -19,8 +19,8 @@ class MobileContainerStatsActivities extends StatelessWidget {
     var media = MediaQuery.of(context).size;
 
     return Container(
-      height: media.width * 0.5,
-      width: media.width * 0.4,
+      height: media.width * 0.4,
+      width: media.width * 0.27,
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
@@ -46,18 +46,18 @@ class MobileContainerStatsActivities extends StatelessWidget {
             icon: icon,
             iconColor: TColor.white,
             iconBackground: TColor.secondaryColor1,
-            sizeIcon: 40.0,
+            sizeIcon: 30.0,
           ),
-          SizedBox(height: 40), // Espacement entre l'icône et le texte
+          SizedBox(height: 20), // Espacement entre l'icône et le texte
           Text(
             designation,
-            style: const TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 12),
             textAlign: TextAlign.center,
           ),
           Text(
             value,
             style: const TextStyle(
-              fontSize: 20  ,
+              fontSize: 17  ,
               fontWeight: FontWeight.w800,
             ),
             textAlign: TextAlign.center,

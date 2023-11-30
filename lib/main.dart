@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           // tested with just a hot reload.
           primaryColor: TColor.primaryColor1,
           fontFamily: "Poppins"),
-      home: const StatAtivities(),
+      home: const SignUpView(),
       //home: const ProfileView(),
     );
   }
