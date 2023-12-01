@@ -9,13 +9,10 @@ class ManagerSelectedActivity {
   List<ActivityOfUser> activitySelected = List.empty(growable: true);
 
   bool addSelectedActivity(ActivityOfUser activityOfUser) {
-    // Regarder si l'entete est la même
-    // C'est de la merde!! à recoder !!
-    /*
     if (activitySelected.isNotEmpty &&
-        activitySelected.first.enteteCSV != activityOfUser.enteteCSV) {
+        activityOfUser.category != activitySelected.first.category) {
       return false;
-    }*/
+    }
     activitySelected.add(activityOfUser);
     return true;
   }

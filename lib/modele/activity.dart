@@ -12,6 +12,7 @@ class ActivityOfUser {
 
   String get fileUuid => _fileUuid;
   String get nameFile => _nameFile;
+  String get category => _categorie;
   Map<String, int> get enteteCSV => _enteteCSV;
 
   // -- Getter/Setter -- Ancien //

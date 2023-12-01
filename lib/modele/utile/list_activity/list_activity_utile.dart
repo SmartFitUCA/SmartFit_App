@@ -27,9 +27,11 @@ class ListActivityUtile {
     activityOfUser.contentActivity =
         List.from(_managerFile.convertByteIntoCSV(result.item2));
 
-    Provider.of<User>(context, listen: false)
+    if (!Provider.of<User>(context, listen: false)
         .managerSelectedActivity
-        .addSelectedActivity(activityOfUser);
+        .addSelectedActivity(activityOfUser)) {
+      return const Tuple2(false, "Pas de même categorie");
+    }
     return const Tuple2(true, "Yeah");
   }
 
