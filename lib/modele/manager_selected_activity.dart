@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smartfit_app_mobile/common_widget/graph/graph.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
+import 'package:latlong2/latlong.dart' as osm;
 
 class ManagerSelectedActivity {
   final ManagerFile _managerFile = ManagerFile();
@@ -511,6 +512,30 @@ class ManagerSelectedActivity {
               activitySelected[0].enteteCSV[
                   "Value_${_managerFile.fieldPositionLongitude}"]!)) {
         list.add(LatLng(
+            activitySelected[0].contentActivity[i][activitySelected[0]
+                .enteteCSV["Value_${_managerFile.fieldPositionLatitude}"]!],
+            activitySelected[0].contentActivity[i][activitySelected[0]
+                .enteteCSV["Value_${_managerFile.fieldPositionLongitude}"]!]));
+      }
+    }
+    return list;
+  }
+
+  List<osm.LatLng> getPositionOSM() {
+    List<osm.LatLng> list = List.empty(growable: true);
+
+    for (int i = 0; i < activitySelected[0].contentActivity.length; i++) {
+      if (_notNull(
+              0,
+              i,
+              activitySelected[0]
+                  .enteteCSV["Value_${_managerFile.fieldPositionLatitude}"]!) &&
+          _notNull(
+              0,
+              i,
+              activitySelected[0].enteteCSV[
+                  "Value_${_managerFile.fieldPositionLongitude}"]!)) {
+        list.add(osm.LatLng(
             activitySelected[0].contentActivity[i][activitySelected[0]
                 .enteteCSV["Value_${_managerFile.fieldPositionLatitude}"]!],
             activitySelected[0].contentActivity[i][activitySelected[0]

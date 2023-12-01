@@ -20,11 +20,14 @@ class _MobileMyMaps extends State<MobileMyMaps> {
   Widget build(BuildContext context) {
     _polylines = MapUtil().initPolines(context, 10, TColor.primaryColor1);
     _cameraPosition =
-        CameraPosition(target: _polylines.first.points.first, zoom: 18);
+        CameraPosition(target: _polylines.first.points.first, zoom: 15);
 
     return Scaffold(
-      body: _getMap(),
-    );
+        appBar: AppBar(
+          title: const Text("Carte Google Map "),
+          backgroundColor: TColor.primaryColor1,
+        ),
+        body: _getMap());
   }
 
   Widget _getMap() {
