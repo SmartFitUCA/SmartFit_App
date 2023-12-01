@@ -16,7 +16,6 @@ class ManagerFile {
   final String _fieldTotalCalorie = "total_calories";
   final String _fieldTemperature = "temperature";
 
-
   // -- Getter field
   String get fieldTimeStamp => _fieldTimestamp;
   String get fieldPositionLatitude => _fieldPositionLatitue;
@@ -28,7 +27,6 @@ class ManagerFile {
   String get fieldTotalStep => _fieldTotalStep;
   String get fieldTotalCalories => _fieldTotalCalorie;
   String get fieldTemperature => _fieldTemperature;
-
 
   List<String> allowedFieldWalking = List.empty(growable: true);
 

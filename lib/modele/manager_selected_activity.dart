@@ -41,7 +41,6 @@ class ManagerSelectedActivity {
     return true;
   }
 
-
   bool _notNull(int indexActivitySelected, int ligne, int colonne) {
     if (activitySelected[indexActivitySelected].contentActivity[ligne]
             [colonne] ==
@@ -139,48 +138,60 @@ class ManagerSelectedActivity {
     }
     return somme ~/ nb;
   }
-    double getAvgAltitude() {
-      double somme = 0;
-      int nb = 0;
-      for (int c = 0; c < activitySelected.length; c++) {
-        for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-          if (_notNull(c, i,
-              activitySelected[c].enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
-            somme += activitySelected[c].contentActivity[i][activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldAltitude}"]!] ;
-            nb++;
-          }
+
+  double getAvgAltitude() {
+    double somme = 0;
+    int nb = 0;
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
+          somme += activitySelected[c].contentActivity[i][activitySelected[c]
+              .enteteCSV["Value_${_managerFile.fieldAltitude}"]!];
+          nb++;
         }
       }
-      double average = somme / nb;
-      return double.parse(average.toStringAsFixed(2));
+    }
+    double average = somme / nb;
+    return double.parse(average.toStringAsFixed(2));
   }
 
-    double getAvgTemperature() {
-      double somme = 0;
-      int nb = 0;
-      for (int c = 0; c < activitySelected.length; c++) {
-        for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-          if (_notNull(c, i,
-              activitySelected[c].enteteCSV["Value_${_managerFile.fieldTemperature}"]!)) {
-            somme += activitySelected[c].contentActivity[i][activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldTemperature}"]!];
-            nb++;
-          }
+  double getAvgTemperature() {
+    double somme = 0;
+    int nb = 0;
+    for (int c = 0; c < activitySelected.length; c++) {
+      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldTemperature}"]!)) {
+          somme += activitySelected[c].contentActivity[i][activitySelected[c]
+              .enteteCSV["Value_${_managerFile.fieldTemperature}"]!];
+          nb++;
         }
       }
-      double average = somme / nb;
-      return double.parse(average.toStringAsFixed(2));
     }
+    double average = somme / nb;
+    return double.parse(average.toStringAsFixed(2));
+  }
 
-    double getMaxTemperature() {
+  double getMaxTemperature() {
     double max = 0;
     for (int c = 0; c < activitySelected.length; c++) {
       for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(c, i,
-            activitySelected[c].enteteCSV["Value_${_managerFile.fieldTemperature}"]!)) {
-          double valueTmp = activitySelected[c].contentActivity[i]
-              [activitySelected[c].enteteCSV["Value_${_managerFile.fieldTemperature}"]!];
+        if (_notNull(
+            c,
+            i,
+            activitySelected[c]
+                .enteteCSV["Value_${_managerFile.fieldTemperature}"]!)) {
+          double valueTmp = activitySelected[c]
+              .contentActivity[i][activitySelected[c]
+                  .enteteCSV["Value_${_managerFile.fieldTemperature}"]!]
+              .toDouble();
           if (valueTmp > max) {
             max = valueTmp;
           }
@@ -212,10 +223,6 @@ class ManagerSelectedActivity {
     }
     return min;
   }
-
-
-  
-
 
   // -------------------------- FIN BPM ---------------------- //
 
@@ -295,20 +302,20 @@ class ManagerSelectedActivity {
   // ------------------------- Time ----------------------------- //
 
   double getTotalTime() {
-      int timestampMax = 0;
-      int timestampMin = 0;
+    int timestampMax = 0;
+    int timestampMin = 0;
 
-      for (int i = 0; i < activitySelected[0].contentActivity.length; i++) {
-        if (_notNull(
-            0,
-            i,
+    for (int i = 0; i < activitySelected[0].contentActivity.length; i++) {
+      if (_notNull(
+          0,
+          i,
+          activitySelected[0]
+              .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
+        timestampMin = activitySelected[0].contentActivity[i][
             activitySelected[0]
-                .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
-          timestampMin = activitySelected[0].contentActivity[i][
-              activitySelected[0]
-                  .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
-          break;
-        }
+                .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
+        break;
+      }
     }
 
     for (int i = activitySelected[0].contentActivity.length - 1; i != 0; i--) {

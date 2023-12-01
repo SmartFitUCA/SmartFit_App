@@ -111,7 +111,7 @@ class _MobileGraphBpmAndSpeedByTime
             titlesData: FlTitlesData(
                 show: true,
                 leftTitles: AxisTitles(
-                  sideTitles: rightTitles,
+                  sideTitles: widget.func.rightTitles,
                 ),
                 topTitles: const AxisTitles(),
                 bottomTitles: AxisTitles(
