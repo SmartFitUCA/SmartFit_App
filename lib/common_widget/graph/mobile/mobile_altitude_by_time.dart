@@ -57,7 +57,15 @@ class _MobileGraphAltitudeByTime extends State<MobileGraphAltitudeByTime> {
             titlesData: FlTitlesData(
               leftTitles: const AxisTitles(),
               topTitles: const AxisTitles(),
-              bottomTitles: const AxisTitles(),
+              bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                reservedSize: 20,
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  return Text(
+                      "${double.parse((value / 10).toStringAsFixed(2))}s");
+                },
+              )),
               rightTitles: AxisTitles(
                   sideTitles: SideTitles(
                 reservedSize: 60,

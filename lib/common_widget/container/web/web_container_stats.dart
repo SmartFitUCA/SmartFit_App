@@ -13,7 +13,7 @@ class WebContainerStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 80,
       width: 70,
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -36,6 +36,7 @@ class WebContainerStats extends StatelessWidget {
             icon: icon,
             iconColor: TColor.white,
             iconBackground:  TColor.secondaryColor1,
+            sizeIcon: 8.0,
           ),
           Align(
             alignment: Alignment.bottomLeft,

@@ -94,7 +94,7 @@ class _MobileGraphBpmAndSpeedByTime
                 getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                   return lineBarsSpot.map((lineBarSpot) {
                     return LineTooltipItem(
-                      "Seconde ${lineBarSpot.x.toInt()} ",
+                      "Seconde ${lineBarSpot.x.toInt() / 10} ",
                       const TextStyle(
                         color: Colors.white,
                         fontSize: 10,
@@ -110,9 +110,19 @@ class _MobileGraphBpmAndSpeedByTime
             maxY: 110,
             titlesData: FlTitlesData(
                 show: true,
-                leftTitles: const AxisTitles(),
+                leftTitles: AxisTitles(
+                  sideTitles: rightTitles,
+                ),
                 topTitles: const AxisTitles(),
-                bottomTitles: const AxisTitles(),
+                bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                  reservedSize: 20,
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    return Text(
+                        "${double.parse((value / 10).toStringAsFixed(2))}s");
+                  },
+                )),
                 rightTitles: AxisTitles(
                     sideTitles: SideTitles(
                   reservedSize: 70,

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
@@ -127,6 +128,7 @@ class InfoStat extends StatelessWidget {
             icon: icon,
             iconColor: iconColor,
             iconBackground: iconBackground,
+            sizeIcon: 8.0,
           ),
           Align(
             alignment: Alignment.bottomLeft,
@@ -160,11 +162,13 @@ class StatIcon extends StatelessWidget {
     required this.icon,
     required this.iconColor,
     required this.iconBackground,
+    required this.sizeIcon,
   }) : super(key: key);
 
   final IconData icon;
   final Color iconColor;
   final Color iconBackground;
+  final double? sizeIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +178,7 @@ class StatIcon extends StatelessWidget {
         color: iconBackground,
         borderRadius: BorderRadius.circular(9),
       ),
-      child: Icon(icon, size: 8, color: iconColor),
+      child: Icon(icon, size: sizeIcon, color: iconColor),
     );
   }
 }
