@@ -63,16 +63,17 @@ class ListActivityUtile {
   Future<Tuple2<bool, String>> addFile(
       Uint8List bytes, String filename, String token) async {
     // -- Transormer le fit en CSV
-    List<List<String>> csv = _managerFile.convertBytesFitFileIntoCSVList(bytes);
-    String csvString = const ListToCsvConverter().convert(csv);
+    Tuple3<String, String, List<List<String>>> categorieStarttimeCsv =
+        _managerFile.convertBytesFitFileIntoCSVList(bytes);
+
+    String csvString =
+        const ListToCsvConverter().convert(categorieStarttimeCsv.item3);
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
     // --- Save Local
     // --- Api
-    String categoryActivity = filename.split("_").first.toLowerCase();
-    String dateActivity = filename.split("_")[1].split("T").first;
 
-    Tuple2<bool, String> result = await _strategy.uploadFileByte(
-        token, byteCSV, filename, categoryActivity, dateActivity);
+    Tuple2<bool, String> result = await _strategy.uploadFileByte(token, byteCSV,
+        filename, categorieStarttimeCsv.item1, categorieStarttimeCsv.item2);
     if (result.item1 == false) {
       return Tuple2(false, result.item2);
     }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:tuple/tuple.dart';
@@ -82,6 +84,8 @@ class _TestPage extends State<TestPage> {
 
   //late File x = File(file.path);
   Future<void> readFile() async {
+    ManagerFile _managerFile = ManagerFile();
+
     PlatformFile t = result!.files.single;
     String? y = t.path;
     if (t.path == null) {
@@ -91,15 +95,13 @@ class _TestPage extends State<TestPage> {
       final content = await file.readAsBytes();
       FitFile fitFile = FitFile.fromBytes(content);
       //print(fitFile.toRows());
-      print("--------------");
-      print("--------------");
-      print("--------------");
 
       //print("${await _managerFile.localPath}\\test.csv");
-      //final outFile = File("${await _managerFile.localPath}\\test.csv");
-      //final csv = const ListToCsvConverter().convert(fitFile.toRows());
-      //await outFile.writeAsString(csv);
+      final outFile = File("${await _managerFile.localPath}\\test.csv");
+      final csv = const ListToCsvConverter().convert(fitFile.toRows());
+      await outFile.writeAsString(csv);
 
+      /*
       // ----------- Lire le fit et extarire les données qu'on choisi ----------- //
       List<Record> liste = fitFile.records;
       List<String> allowedField = [
@@ -180,7 +182,7 @@ class _TestPage extends State<TestPage> {
       //print(x.getDistanceWithTime(ActivityOfUser(result)));
       //print(x.getDistance(ActivityOfUser(result)));
       //print(x.getAltitudeWithTime(ActivityOfUser(result)));
-      //print(x.getSpeedWithTime(ActivityOfUser(result)));
+      //print(x.getSpeedWithTime(ActivityOfUser(result)));*/
     }
   }
 

@@ -54,7 +54,6 @@ class ManagerSelectedActivity {
 
   List<FlSpot> getXWithTime(String field) {
     List<FlSpot> result = List.empty(growable: true);
-
     int firstTimestamp = 0;
 
     for (int c = 0; c < activitySelected.length; c++) {

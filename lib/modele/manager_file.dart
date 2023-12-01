@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:tuple/tuple.dart';
 
 class ManagerFile {
   // -- Field
@@ -45,23 +48,42 @@ class ManagerFile {
     ];
   }
 
-  List<List<String>> convertBytesFitFileIntoCSVList(Uint8List bytes) {
+  Tuple3<String, String, List<List<String>>> convertBytesFitFileIntoCSVList(
+      Uint8List bytes) {
     FitFile fitFile = FitFile.fromBytes(bytes);
 
     // ----------- Lire le fit et extarire les données qu'on choisi ----------- //
     List<Map<String, Map<String, String>>> dataResult =
         List.empty(growable: true);
+    String startTime = "2000-01-01";
+    String category = "Generic";
 
     for (Record element in fitFile.records) {
       List listeField = element.toRow();
       Map<String, Map<String, String>> ligneDataResult = {};
       bool skip = true;
+      bool sesssionLigne = false;
 
       if (listeField[0] != "Data") {
         continue;
       }
 
       for (int i = 0; i < listeField.length;) {
+        // -- Check si c'est une ligne session --//
+        if (i == 0 && listeField[0] == "Data" && listeField[2] == "session") {
+          sesssionLigne = true;
+        }
+        // -- Si ligne session && starttime -- //
+        if (sesssionLigne && listeField[i] == "start_time") {
+          startTime =
+              DateTime.fromMillisecondsSinceEpoch(listeField[i + 1] as int)
+                  .toIso8601String();
+        }
+        // -- Si ligne session && sport -- //
+        if (sesssionLigne && listeField[i] == "sport") {
+          category = _getCategoryById(listeField[i + 1] as int);
+        }
+
         if (allowedFieldWalking.contains(listeField[i])) {
           Map<String, String> tmp = {};
           tmp["Value"] = listeField[i + 1].toString();
@@ -103,7 +125,9 @@ class ManagerFile {
     }
     csvData.insert(0, enteteCSV);
     // ------- FIN --------------- //
-    return csvData;
+    // -- Extraire la catégorie + date début -- //
+
+    return Tuple3(category, startTime, csvData);
   }
 
   // -- Read the byte of file CSV -- //
@@ -111,12 +135,48 @@ class ManagerFile {
     return const CsvToListConverter().convert(utf8.decode(bytes));
   }
 
-  /*
+  // -- Retourne la catégorie et la date d'une activité -- //
+  Tuple2<String, String> getCategoryAndDate(List<List<String>> contentFile) {
+    String startTime = "2000-01-01";
+    String category = "Generic";
+
+    // On regarde que les 8 derniers ligne !!
+    for (int i = contentFile.length - 1; i != contentFile.length - 8; i--) {
+      if (contentFile[i][0] == "Data" && contentFile[i][0] == "session") {
+        for (int colonne = 6; colonne < contentFile[i].length; colonne++) {
+          if (contentFile[i][colonne] == "start_time") {
+            // Convertir la date timestamp !!!
+            startTime = DateTime.fromMillisecondsSinceEpoch(
+                    contentFile[i][colonne + 1] as int)
+                .toIso8601String();
+          }
+          if (contentFile[i][colonne] == "sport") {
+            category = _getCategoryById(contentFile[i][colonne + 1] as int);
+          }
+        }
+      }
+    }
+    return Tuple2(category, startTime);
+  }
+
+  String _getCategoryById(int id) {
+    switch (id) {
+      case 0:
+        return "generic";
+      case 2:
+        return "cycling";
+      case 11:
+        return "walking";
+      default:
+        return "generic";
+    }
+  }
+
   // ------------- Get The path of application --- //
   Future<String> get localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
-  }*/
+  }
 
   /*
   // ----- Read csv File ------- //
