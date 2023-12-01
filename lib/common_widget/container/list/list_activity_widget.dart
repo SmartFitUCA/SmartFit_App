@@ -5,14 +5,14 @@ import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
 import 'package:tuple/tuple.dart';
 
-class ListActivity extends StatefulWidget {
-  const ListActivity({Key? key}) : super(key: key);
+class ListActivityWidget extends StatefulWidget {
+  const ListActivityWidget({Key? key}) : super(key: key);
 
   @override
-  State<ListActivity> createState() => _ListActivity();
+  State<ListActivityWidget> createState() => _ListActivityWidget();
 }
 
-class _ListActivity extends State<ListActivity> {
+class _ListActivityWidget extends State<ListActivityWidget> {
   final ListActivityUtile _utile = ListActivityUtile();
 
   @override

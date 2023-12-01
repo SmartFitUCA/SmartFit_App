@@ -2,7 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/common_widget/container/list/list_activity.dart';
+import 'package:smartfit_app_mobile/common_widget/container/list/list_activity_widget.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
 
@@ -92,7 +92,7 @@ class _MobileListActivity extends State<MobileListActivity> {
                               ),
                             )
                           ])
-                    : const ListActivity(),
+                    : const ListActivityWidget(),
                 SizedBox(
                   height: media.width * 0.1,
                 ),

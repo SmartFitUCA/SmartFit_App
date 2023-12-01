@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:smartfit_app_mobile/common_widget/container/list/list_activity_widget.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
-import 'package:smartfit_app_mobile/view/activity/list_activity.dart';
 import 'package:tuple/tuple.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -118,7 +118,7 @@ class _WebListActivityState extends State<WebListActivity> {
                               ),
                             )
                           ])
-                    : const ListActivity(),
+                    : const ListActivityWidget(),
                 SizedBox(
                   height: media.width * 0.1,
                 ),
