@@ -4,7 +4,8 @@ class DataFile {
   final String startTime;
   final double denivelePositif;
   final double deniveleNegatif;
+  final double timeOfActivity;
 
   DataFile(this.csvData, this.category, this.startTime, this.denivelePositif,
-      this.deniveleNegatif);
+      this.deniveleNegatif, this.timeOfActivity);
 }

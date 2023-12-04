@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/title_subtitle_cell.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 
 class ProfileInfoUser extends StatelessWidget {
   const ProfileInfoUser({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
         Expanded(
           child: TitleSubtitleCell(
-            title: "X",
+            title: context.watch<User>().listActivity.length.toString(),
             subtitle: "Nombre d'activité",
           ),
         ),

@@ -22,6 +22,7 @@ class ManagerFile {
   final String _session = "session";
   final String _startTime = "start_time";
   final String _sport = "sport";
+  final String _timeActivity = "total_elapsed_time";
 
   // -- Getter field
   String get fieldTimeStamp => _fieldTimestamp;
@@ -62,11 +63,12 @@ class ManagerFile {
     String startTime = "2000-01-01";
     // -- Category Default -- //
     String category = "Generic";
+    // -- Time of activity default -- //
+    double timeActivity = 0.0;
     // -- Denivelé positif et négatif -- //
     double denivelePositif = 0.0;
     double deniveleNegatif = 0.0;
     double lastDenivele = 0.0;
-
     // --------------------------------------- //
 
     for (Record element in fitFile.records) {
@@ -95,6 +97,11 @@ class ManagerFile {
         // -- Si ligne session && sport -- //
         if (sesssionLigne && listeField[i] == _sport) {
           category = _getCategoryById(listeField[i + 1] as int);
+        }
+
+        // -- Si ligne session && total_elapsed_time -- //
+        if (sesssionLigne && listeField[i] == _timeActivity) {
+          timeActivity = listeField[i + 1];
         }
 
         // Calcul denivelé positif et négatif
@@ -149,8 +156,8 @@ class ManagerFile {
     }
     csvData.insert(0, enteteCSV);
     // ------- FIN --------------- //
-    return DataFile(
-        csvData, category, startTime, denivelePositif, deniveleNegatif);
+    return DataFile(csvData, category, startTime, denivelePositif,
+        deniveleNegatif, timeActivity);
   }
 
   // -- Read the byte of file CSV -- //
