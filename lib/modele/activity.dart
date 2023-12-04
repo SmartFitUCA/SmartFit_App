@@ -16,6 +16,9 @@ class ActivityOfUser {
   String get fileUuid => _fileUuid;
   String get nameFile => _nameFile;
   String get category => _categorie;
+  double get time => _timeActivity;
+  double get denivelePos => _denivelePositif;
+  double get deniveleNeg => _deniveleNegatif;
   Map<String, int> get enteteCSV => _enteteCSV;
 
   // -- Getter/Setter -- Ancien //

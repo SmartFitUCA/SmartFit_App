@@ -5,9 +5,9 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
-import 'package:smartfit_app_mobile/modele/data_file.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:tuple/tuple.dart';
@@ -51,11 +51,11 @@ class ListActivityUtile {
         notZero = true;
       }
       Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
-          element["creation_date"].toString(),
           element["category"].toString(),
+          element["creation_date"].toString(),
           element["uuid"].toString(),
           element["filename"].toString(),
-          /*
+          /*  
           element["timeActivity"],
           element["denivelePositif"],
           element["deniveleNegatif"]*/
@@ -73,15 +73,18 @@ class ListActivityUtile {
   Future<Tuple2<bool, String>> _addFile(
       Uint8List bytes, String filename, String token) async {
     // -- Transormer le fit en CSV
-    DataFile dataFile = _managerFile.convertBytesFitFileIntoCSVList(bytes);
+    Tuple4<bool, List<List<String>>, ActivityInfo, String> resultData =
+        _managerFile.convertBytesFitFileIntoCSVListAndGetInfo(bytes);
 
-    String csvString = const ListToCsvConverter().convert(dataFile.csvData);
+    String csvString = const ListToCsvConverter().convert(resultData.item2);
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
     // --- Save Local
     // --- Api
+    print("Start");
+    print(resultData.item3.toJson());
 
     Tuple2<bool, String> result = await _strategy.uploadFileByte(
-        token, byteCSV, filename, dataFile.category, dataFile.startTime);
+        token, byteCSV, filename, resultData.item4, resultData.item3.startTime);
     if (result.item1 == false) {
       return Tuple2(false, result.item2);
     }

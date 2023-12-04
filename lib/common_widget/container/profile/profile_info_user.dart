@@ -16,30 +16,32 @@ class ProfileInfoUser extends StatelessWidget {
             subtitle: "Nombre d'activité",
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 15,
         ),
         Expanded(
           child: TitleSubtitleCell(
-            title: "h/j",
+            title: context.watch<User>().getTotalTimeAllActivity().toString(),
             subtitle: "Temps en activité",
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 15,
         ),
         Expanded(
           child: TitleSubtitleCell(
-            title: "+ m",
+            title:
+                "${context.watch<User>().getTotalDenivelePositif().toString()} + m",
             subtitle: "Total dénivelé positif",
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 15,
         ),
         Expanded(
           child: TitleSubtitleCell(
-            title: "- m",
+            title:
+                "${context.watch<User>().getTotalDeniveleNegatif().toString()} - m",
             subtitle: "Total dénivelé négatif",
           ),
         ),

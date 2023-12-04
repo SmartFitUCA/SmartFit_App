@@ -32,6 +32,8 @@ class RequestApi extends IDataStrategy {
     if ((response.statusCode == 404)) {
       return const Tuple2(false, "404 - NOT FOUND");
     }
+    print(response.statusCode);
+    print(response.body);
     return const Tuple2(false, "Fail");
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
 
@@ -23,5 +24,31 @@ class User extends ChangeNotifier {
   void insertActivity(int index, ActivityOfUser activity) {
     listActivity.insert(index, activity);
     notifyListeners();
+  }
+
+  // ------------ Fonction Calcul -------- //
+
+  double getTotalTimeAllActivity() {
+    double totalTime = 0.0;
+    for (ActivityOfUser activity in listActivity) {
+      totalTime += activity.time;
+    }
+    return totalTime;
+  }
+
+  double getTotalDenivelePositif() {
+    double totalDevPos = 0.0;
+    for (ActivityOfUser activity in listActivity) {
+      totalDevPos += activity.denivelePos;
+    }
+    return totalDevPos;
+  }
+
+  double getTotalDeniveleNegatif() {
+    double totalDevNeg = 0.0;
+    for (ActivityOfUser activity in listActivity) {
+      totalDevNeg += activity.denivelePos;
+    }
+    return totalDevNeg;
   }
 }
