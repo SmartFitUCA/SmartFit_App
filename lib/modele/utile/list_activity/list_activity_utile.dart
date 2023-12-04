@@ -54,7 +54,14 @@ class ListActivityUtile {
           element["creation_date"].toString(),
           element["category"].toString(),
           element["uuid"].toString(),
-          element["filename"].toString()));
+          element["filename"].toString(),
+          /*
+          element["timeActivity"],
+          element["denivelePositif"],
+          element["deniveleNegatif"]*/
+          0.0,
+          0.0,
+          0.0));
     }
     /*
     if (notZero) {

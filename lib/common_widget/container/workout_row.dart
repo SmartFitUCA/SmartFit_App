@@ -25,7 +25,7 @@ class WorkoutRow extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: isSelected
-                ? Color.fromARGB(255, 144, 252, 148)
+                ? const Color.fromARGB(255, 144, 252, 148)
                 : Colors.transparent,
             width: 2.0,
           ),
@@ -33,12 +33,12 @@ class WorkoutRow extends StatelessWidget {
         ),
         child: Material(
           color: isSelected
-              ? Color.fromARGB(255, 240, 255, 240)
+              ? const Color.fromARGB(255, 240, 255, 240)
               : Colors.transparent,
           child: InkWell(
             borderRadius:
                 BorderRadius.circular(10), // Utiliser le même borderRadius
-            splashColor: Color.fromARGB(255, 42, 94, 44)
+            splashColor: const Color.fromARGB(255, 42, 94, 44)
                 .withOpacity(0.3), // Couleur du fond au survol
             onTap: onClick,
             child: Padding(
@@ -60,14 +60,28 @@ class WorkoutRow extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          wObj["categorie"].toString(),
+                          "Type : ${wObj["categorie"].toString()}",
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 12,
                           ),
                         ),
                         Text(
-                          wObj["date"].toString(),
+                          "Date : ${wObj["date"].toString()}",
+                          style: TextStyle(
+                            color: TColor.black,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          "Temps : ${wObj["time"].toString()}",
+                          style: TextStyle(
+                            color: TColor.black,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          "Dénivelé positif : ${wObj["denivelePositif"].toString()}",
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 12,

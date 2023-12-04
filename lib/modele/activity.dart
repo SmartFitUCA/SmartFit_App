@@ -1,9 +1,12 @@
 class ActivityOfUser {
   // A afficher
-  late String _categorie;
-  late String _date;
-  late String _fileUuid;
-  late String _nameFile;
+  final String _categorie;
+  final String _date;
+  final String _fileUuid;
+  final String _nameFile;
+  final double _timeActivity;
+  final double _denivelePositif;
+  final double _deniveleNegatif;
   // ------------ //
   late String _imageName;
 
@@ -25,15 +28,10 @@ class ActivityOfUser {
     _contentActivity.removeAt(0);
   }
 
-  ActivityOfUser(
-      String date, String categorie, String fileUuid, String nameFile) {
-    _categorie = categorie;
-    _date = date;
-    _fileUuid = fileUuid;
-    _nameFile = nameFile;
-
+  ActivityOfUser(this._categorie, this._date, this._fileUuid, this._nameFile,
+      this._timeActivity, this._denivelePositif, this._deniveleNegatif) {
     // Mettre dans une fonction appart
-    if (categorie == "Walking") {
+    if (_categorie == "Walking") {
       _imageName = "assets/img/workout1.svg";
     } else {
       // Mettre des conditions pour d'autre type d'activité
@@ -44,6 +42,13 @@ class ActivityOfUser {
   // -------------------------- FIN Localisation  ---------------------- //
 
   Map<String, dynamic> toMap() {
-    return {'categorie': _categorie, 'image': _imageName, 'date': _date};
+    return {
+      'categorie': _categorie,
+      'image': _imageName,
+      'date': _date,
+      'time': _timeActivity,
+      "denivelePositif": _denivelePositif,
+      "deniveleNegatif": _deniveleNegatif,
+    };
   }
 }
