@@ -1,9 +1,6 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/common_widget/container/list/list_activity_widget.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
-import 'package:tuple/tuple.dart';
-import 'package:universal_html/html.dart' as html;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
@@ -23,27 +20,6 @@ class _WebListActivityState extends State<WebListActivity> {
   FilePickerResult? result;
   IDataStrategy strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
-
-  void addFileWeb(html.File file, String token) async {
-    final reader = html.FileReader();
-    reader.readAsArrayBuffer(file);
-
-    reader.onLoadEnd.listen((event) async {
-      if (reader.readyState == html.FileReader.DONE) {
-        Uint8List bytes = reader.result as Uint8List;
-        Tuple2<bool, String> resultAdd =
-            await _utile.addFile(bytes, file.name, token);
-        if (!resultAdd.item1) {
-          return;
-        }
-        Tuple2<bool, String> resultGet = await _utile.getFiles(token, context);
-        if (!resultGet.item1) {
-          //print("MessageError");
-          return;
-        }
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +55,21 @@ class _WebListActivityState extends State<WebListActivity> {
                                 fontWeight: FontWeight.w700))),
                     TextButton(
                       onPressed: () async {
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles();
+                        if (result != null && result.files.isNotEmpty) {
+                          _utile.preAddFile(
+                              result.files.first.bytes,
+                              Provider.of<User>(context, listen: false).token,
+                              result.files.first.name,
+                              context);
+                        } else {
+                          print("Picker");
+                          // msg d'erreur
+                          // User canceled the picker
+                        }
+
+                        /*
                         html.FileUploadInputElement uploadInput =
                             html.FileUploadInputElement();
                         uploadInput.click();
@@ -91,7 +82,7 @@ class _WebListActivityState extends State<WebListActivity> {
                                 Provider.of<User>(context, listen: false)
                                     .token); // Lecture du fichier sélectionné
                           }
-                        });
+                        });*/
                       },
                       child: Text(
                         "Ajouter",

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
@@ -90,10 +89,12 @@ class ListActivityUtile {
     return true;
   }
 
-  void addFileMobile(
-      String path, String token, String filename, BuildContext context) async {
-    Tuple2<bool, String> resultAdd =
-        await addFile(await File(path).readAsBytes(), filename, token);
+  void preAddFile(Uint8List? bytes, String token, String filename,
+      BuildContext context) async {
+    if (bytes == null) {
+      return;
+    }
+    Tuple2<bool, String> resultAdd = await addFile(bytes, filename, token);
     if (!resultAdd.item1) {
       //print("Message error");
       return;

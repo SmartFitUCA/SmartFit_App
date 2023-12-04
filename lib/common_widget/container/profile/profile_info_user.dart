@@ -10,8 +10,8 @@ class ProfileInfoUser extends StatelessWidget {
       children: [
         Expanded(
           child: TitleSubtitleCell(
-            title: "??? cm",
-            subtitle: "Taille",
+            title: "X",
+            subtitle: "Nombre d'activité",
           ),
         ),
         SizedBox(
@@ -19,8 +19,8 @@ class ProfileInfoUser extends StatelessWidget {
         ),
         Expanded(
           child: TitleSubtitleCell(
-            title: "?? kg",
-            subtitle: "Poids",
+            title: "h/j",
+            subtitle: "Temps en activité",
           ),
         ),
         SizedBox(
@@ -28,8 +28,17 @@ class ProfileInfoUser extends StatelessWidget {
         ),
         Expanded(
           child: TitleSubtitleCell(
-            title: "?? ans",
-            subtitle: "Age",
+            title: "+ m",
+            subtitle: "Total dénivelé positif",
+          ),
+        ),
+        SizedBox(
+          width: 15,
+        ),
+        Expanded(
+          child: TitleSubtitleCell(
+            title: "- m",
+            subtitle: "Total dénivelé négatif",
           ),
         ),
       ],

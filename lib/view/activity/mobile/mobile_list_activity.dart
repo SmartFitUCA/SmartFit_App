@@ -14,7 +14,6 @@ class MobileListActivity extends StatefulWidget {
 }
 
 class _MobileListActivity extends State<MobileListActivity> {
-  FilePickerResult? result;
   final ListActivityUtile _utile = ListActivityUtile();
 
   @override
@@ -54,12 +53,12 @@ class _MobileListActivity extends State<MobileListActivity> {
                       onPressed: () async {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles();
-                        if (result != null) {
+                        if (result != null && result.files.isNotEmpty) {
                           // ignore: use_build_context_synchronously
-                          _utile.addFileMobile(
-                              result.files.single.path!,
+                          _utile.preAddFile(
+                              result.files.first.bytes,
                               Provider.of<User>(context, listen: false).token,
-                              result.files.single.name,
+                              result.files.first.name,
                               context);
                         } else {
                           print("Picker");

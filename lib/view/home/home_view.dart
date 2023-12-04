@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/view/home/mobile/mobile_homeview.dart';
 import 'package:smartfit_app_mobile/view/home/no_activity_view.dart';
@@ -9,7 +8,7 @@ import 'package:smartfit_app_mobile/view/home/stats_activities_view.dart';
 import 'package:smartfit_app_mobile/view/home/web/web_homeview.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key});
+  const HomeView({super.key});
 
   @override
   State<HomeView> createState() => _HomeViewState();
