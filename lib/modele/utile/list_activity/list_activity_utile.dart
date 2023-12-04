@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:csv/csv.dart';
+import 'package:fit_tool/fit_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
+import 'package:smartfit_app_mobile/modele/data_file.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:tuple/tuple.dart';
@@ -61,20 +64,18 @@ class ListActivityUtile {
     return const Tuple2(true, "Yeah");
   }
 
-  Future<Tuple2<bool, String>> addFile(
+  Future<Tuple2<bool, String>> _addFile(
       Uint8List bytes, String filename, String token) async {
     // -- Transormer le fit en CSV
-    Tuple3<String, String, List<List<String>>> categorieStarttimeCsv =
-        _managerFile.convertBytesFitFileIntoCSVList(bytes);
+    DataFile dataFile = _managerFile.convertBytesFitFileIntoCSVList(bytes);
 
-    String csvString =
-        const ListToCsvConverter().convert(categorieStarttimeCsv.item3);
+    String csvString = const ListToCsvConverter().convert(dataFile.csvData);
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
     // --- Save Local
     // --- Api
 
-    Tuple2<bool, String> result = await _strategy.uploadFileByte(token, byteCSV,
-        filename, categorieStarttimeCsv.item1, categorieStarttimeCsv.item2);
+    Tuple2<bool, String> result = await _strategy.uploadFileByte(
+        token, byteCSV, filename, dataFile.category, dataFile.startTime);
     if (result.item1 == false) {
       return Tuple2(false, result.item2);
     }
@@ -89,12 +90,27 @@ class ListActivityUtile {
     return true;
   }
 
-  void preAddFile(Uint8List? bytes, String token, String filename,
+  void addFileWeb(Uint8List? bytes, String token, String filename,
       BuildContext context) async {
     if (bytes == null) {
       return;
     }
-    Tuple2<bool, String> resultAdd = await addFile(bytes, filename, token);
+    Tuple2<bool, String> resultAdd = await _addFile(bytes, filename, token);
+    if (!resultAdd.item1) {
+      //print("Message error");
+      return;
+    }
+    Tuple2<bool, String> resultGet = await getFiles(token, context);
+    if (!resultGet.item1) {
+      //print("Message error");
+      return;
+    }
+  }
+
+  Future<void> addFileMobile(
+      String path, String token, String filename, BuildContext context) async {
+    Tuple2<bool, String> resultAdd =
+        await _addFile(await File(path).readAsBytes(), filename, token);
     if (!resultAdd.item1) {
       //print("Message error");
       return;

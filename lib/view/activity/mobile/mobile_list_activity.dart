@@ -55,8 +55,8 @@ class _MobileListActivity extends State<MobileListActivity> {
                             await FilePicker.platform.pickFiles();
                         if (result != null && result.files.isNotEmpty) {
                           // ignore: use_build_context_synchronously
-                          _utile.preAddFile(
-                              result.files.first.bytes,
+                          _utile.addFileMobile(
+                              result.files.single.path!,
                               Provider.of<User>(context, listen: false).token,
                               result.files.first.name,
                               context);

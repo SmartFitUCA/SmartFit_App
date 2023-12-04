@@ -58,7 +58,7 @@ class _WebListActivityState extends State<WebListActivity> {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles();
                         if (result != null && result.files.isNotEmpty) {
-                          _utile.preAddFile(
+                          _utile.addFileWeb(
                               result.files.first.bytes,
                               Provider.of<User>(context, listen: false).token,
                               result.files.first.name,

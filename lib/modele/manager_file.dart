@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:tuple/tuple.dart';
+import 'package:smartfit_app_mobile/modele/data_file.dart';
 
 class ManagerFile {
   // -- Field
@@ -17,6 +17,11 @@ class ManagerFile {
   final String _fieldTotalStep = "total_strides";
   final String _fieldTotalCalorie = "total_calories";
   final String _fieldTemperature = "temperature";
+
+  // -- Not in CSV -- //
+  final String _session = "session";
+  final String _startTime = "start_time";
+  final String _sport = "sport";
 
   // -- Getter field
   String get fieldTimeStamp => _fieldTimestamp;
@@ -47,20 +52,29 @@ class ManagerFile {
     ];
   }
 
-  Tuple3<String, String, List<List<String>>> convertBytesFitFileIntoCSVList(
-      Uint8List bytes) {
+  DataFile convertBytesFitFileIntoCSVList(Uint8List bytes) {
     FitFile fitFile = FitFile.fromBytes(bytes);
 
     // ----------- Lire le fit et extarire les données qu'on choisi ----------- //
     List<Map<String, Map<String, String>>> dataResult =
         List.empty(growable: true);
+    // -- Start Time default -- //
     String startTime = "2000-01-01";
+    // -- Category Default -- //
     String category = "Generic";
+    // -- Denivelé positif et négatif -- //
+    double denivelePositif = 0.0;
+    double deniveleNegatif = 0.0;
+    double lastDenivele = 0.0;
+
+    // --------------------------------------- //
 
     for (Record element in fitFile.records) {
       List listeField = element.toRow();
       Map<String, Map<String, String>> ligneDataResult = {};
+      // -- Skip ligne whith no data -- //
       bool skip = true;
+      // -- Session -- //
       bool sesssionLigne = false;
 
       if (listeField[0] != "Data") {
@@ -69,19 +83,30 @@ class ManagerFile {
 
       for (int i = 0; i < listeField.length;) {
         // -- Check si c'est une ligne session --//
-        if (i == 0 && listeField[0] == "Data" && listeField[2] == "session") {
+        if (i == 0 && listeField[2] == _session) {
           sesssionLigne = true;
         }
         // -- Si ligne session && starttime -- //
-        if (sesssionLigne && listeField[i] == "start_time") {
+        if (sesssionLigne && listeField[i] == _startTime) {
           startTime =
               DateTime.fromMillisecondsSinceEpoch(listeField[i + 1] as int)
                   .toIso8601String();
         }
         // -- Si ligne session && sport -- //
-        if (sesssionLigne && listeField[i] == "sport") {
+        if (sesssionLigne && listeField[i] == _sport) {
           category = _getCategoryById(listeField[i + 1] as int);
         }
+
+        // Calcul denivelé positif et négatif
+        if (listeField[i] == _fieldAltitude) {
+          if (listeField[i + 1] > lastDenivele) {
+            denivelePositif += listeField[i + 1] - lastDenivele;
+          } else {
+            deniveleNegatif += (listeField[i + 1] - lastDenivele) * -1;
+          }
+          lastDenivele = listeField[i + 1];
+        }
+        //------//
 
         if (allowedFieldWalking.contains(listeField[i])) {
           Map<String, String> tmp = {};
@@ -124,38 +149,13 @@ class ManagerFile {
     }
     csvData.insert(0, enteteCSV);
     // ------- FIN --------------- //
-    // -- Extraire la catégorie + date début -- //
-
-    return Tuple3(category, startTime, csvData);
+    return DataFile(
+        csvData, category, startTime, denivelePositif, deniveleNegatif);
   }
 
   // -- Read the byte of file CSV -- //
   List<List<dynamic>> convertByteIntoCSV(Uint8List bytes) {
     return const CsvToListConverter().convert(utf8.decode(bytes));
-  }
-
-  // -- Retourne la catégorie et la date d'une activité -- //
-  Tuple2<String, String> getCategoryAndDate(List<List<String>> contentFile) {
-    String startTime = "2000-01-01";
-    String category = "Generic";
-
-    // On regarde que les 8 derniers ligne !!
-    for (int i = contentFile.length - 1; i != contentFile.length - 8; i--) {
-      if (contentFile[i][0] == "Data" && contentFile[i][0] == "session") {
-        for (int colonne = 6; colonne < contentFile[i].length; colonne++) {
-          if (contentFile[i][colonne] == "start_time") {
-            // Convertir la date timestamp !!!
-            startTime = DateTime.fromMillisecondsSinceEpoch(
-                    contentFile[i][colonne + 1] as int)
-                .toIso8601String();
-          }
-          if (contentFile[i][colonne] == "sport") {
-            category = _getCategoryById(contentFile[i][colonne + 1] as int);
-          }
-        }
-      }
-    }
-    return Tuple2(category, startTime);
   }
 
   String _getCategoryById(int id) {
