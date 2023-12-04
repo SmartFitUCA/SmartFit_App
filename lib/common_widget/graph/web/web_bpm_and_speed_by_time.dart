@@ -24,10 +24,9 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
   Widget build(BuildContext context) {
     final double maxY = widget.data.maxBPM + 2;
     final double minY = widget.data.minBPM - 2;
-    final double maxX =
+     final double maxX =
         widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
     const double minX = 0.0;
-
     return Container(
         padding: const EdgeInsets.only(left: 15),
         height: widget.media.width * 0.20,
@@ -104,37 +103,25 @@ class _WebGraphBpmAndSpeedByTime extends State<WebGraphBpmAndSpeedByTime> {
               ),
             ),
             lineBarsData: widget.func.lineBarsData1,
-            minY: 0,
+            minY: -10,
             maxY: 110,
             titlesData: FlTitlesData(
                 show: true,
                 leftTitles: AxisTitles(
-                  sideTitles: widget.func.rightTitles,
+                  sideTitles: widget.func.leftTitles,
                 ),
                 topTitles: const AxisTitles(),
-                bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                  reservedSize: 20,
-                  showTitles: true,
-                  getTitlesWidget: (value, meta) {
-                    return Text(
-                        "${double.parse((value / 10).toStringAsFixed(2))}s");
-                  },
-                )),
+                bottomTitles:AxisTitles(
+                  sideTitles: widget.func.bottomTitles,
+                ),
                 rightTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                  reservedSize: 70,
-                  showTitles: true,
-                  getTitlesWidget: (value, meta) {
-                    return Text(
-                        "${double.parse(value.toStringAsFixed(2))} BPM");
-                  },
-                ))),
+                  sideTitles: widget.func.rightTitles,
+                ),),
             gridData: FlGridData(
                 drawVerticalLine: true,
                 drawHorizontalLine: true,
                 horizontalInterval: (maxY - minY) / 5,
-                verticalInterval: (maxX - minX) / 4,
+                verticalInterval: (maxX - minX) / 5 ,
                 getDrawingHorizontalLine: (value) {
                   return FlLine(
                     color: TColor.gray.withOpacity(0.15),
