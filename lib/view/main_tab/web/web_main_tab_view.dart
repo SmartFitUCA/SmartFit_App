@@ -76,8 +76,8 @@ class _WebMainTabViewState extends State<WebMainTabView> {
                   ),
                 ),
                 sideBarButton(
-                  icon: "assets/img/Camera_tab.svg",
-                  selectIcon: "assets/img/Camera_tab_select.svg",
+                  icon: "assets/img/icon_map.svg",
+                  selectIcon: "assets/img/icon_map.svg",
                   index: 2,
                   onTap: () => updateTab(2, const MyMap()),
                 ),
@@ -94,12 +94,11 @@ class _WebMainTabViewState extends State<WebMainTabView> {
             child: Container(
               decoration: BoxDecoration(
                 color: TColor.white,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 2,
-                    offset:
-                        const Offset(-2, 0), // Ajout d'une ombre sur le côté
+                    offset: Offset(-2, 0), // Ajout d'une ombre sur le côté
                   ),
                 ],
               ),
