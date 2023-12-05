@@ -11,11 +11,11 @@ class ContainerStats extends StatelessWidget {
   final String designation;
   final IconData icon;
 
- @override
+  @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout.builder(
-      mobile: (_) =>  MobileContainerStats(this.value, this.designation, this.icon),
-      desktop: (_) =>  WebContainerStats(this.value, this.designation, this.icon),
+      mobile: (_) => MobileContainerStats(value, designation, icon),
+      desktop: (_) => WebContainerStats(value, designation, icon),
     );
   }
 }

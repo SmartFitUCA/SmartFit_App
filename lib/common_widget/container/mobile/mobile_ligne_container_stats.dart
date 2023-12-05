@@ -3,9 +3,16 @@ import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/container/container_stats.dart';
 
 class MobileLigneContainerStats extends StatelessWidget {
-  const MobileLigneContainerStats(this.value1, this.value2, this.value3,
-      this.designation1, this.designation2, this.designation3,
-      this.icon1, this.icon2, this.icon3,
+  const MobileLigneContainerStats(
+      this.value1,
+      this.value2,
+      this.value3,
+      this.designation1,
+      this.designation2,
+      this.designation3,
+      this.icon1,
+      this.icon2,
+      this.icon3,
       {Key? key})
       : super(key: key);
 
@@ -21,13 +28,11 @@ class MobileLigneContainerStats extends StatelessWidget {
   final IconData icon2;
   final IconData icon3;
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Divider(height: 30),
-        
+        const Divider(height: 30),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Row(
@@ -39,7 +44,7 @@ class MobileLigneContainerStats extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Icon(
                 Icons.pie_chart_rounded,
                 size: 15,
@@ -48,24 +53,21 @@ class MobileLigneContainerStats extends StatelessWidget {
             ],
           ),
         ),
-
-        SizedBox(height: 20),
-      SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child:Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ContainerStats(value1, designation1, icon1),
-        const SizedBox(width: 20),
-        ContainerStats(value2, designation2, icon2),
-        const SizedBox(width: 20),
-        ContainerStats(value3, designation3,  icon3),
-      ],)
-    ),
-    Divider(height: 30),
+        const SizedBox(height: 20),
+        SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ContainerStats(value1, designation1, icon1),
+                const SizedBox(width: 20),
+                ContainerStats(value2, designation2, icon2),
+                const SizedBox(width: 20),
+                ContainerStats(value3, designation3, icon3),
+              ],
+            )),
+        const Divider(height: 30),
       ],
     );
-    
-    
   }
 }

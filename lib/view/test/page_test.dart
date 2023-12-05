@@ -84,7 +84,7 @@ class _TestPage extends State<TestPage> {
 
   //late File x = File(file.path);
   Future<void> readFile() async {
-    ManagerFile _managerFile = ManagerFile();
+    ManagerFile managerFile = ManagerFile();
 
     PlatformFile t = result!.files.single;
     String? y = t.path;
@@ -97,7 +97,7 @@ class _TestPage extends State<TestPage> {
       //print(fitFile.toRows());
 
       //print("${await _managerFile.localPath}\\test.csv");
-      final outFile = File("${await _managerFile.localPath}\\test.csv");
+      final outFile = File("${await managerFile.localPath}\\test.csv");
       final csv = const ListToCsvConverter().convert(fitFile.toRows());
       await outFile.writeAsString(csv);
 

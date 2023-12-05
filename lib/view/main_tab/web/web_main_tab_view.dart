@@ -50,31 +50,31 @@ class _WebMainTabViewState extends State<WebMainTabView> {
                   onTap: () => updateTab(1, const Activity()),
                 ),
                 InkWell(
-                    onTap: () {
-                      updateTab(4, const ListActivity());
-                    },
-                    child: Container(
-                      width: 65,
-                      height: 65,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: TColor.primaryG,
+                  onTap: () {
+                    updateTab(4, const ListActivity());
+                  },
+                  child: Container(
+                    width: 65,
+                    height: 65,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: TColor.primaryG,
+                      ),
+                      borderRadius: BorderRadius.circular(35),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 2,
                         ),
-                        borderRadius: BorderRadius.circular(35),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.search,
-                        color: TColor.white,
-                        size: 35,
-                      ),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.search,
+                      color: TColor.white,
+                      size: 35,
                     ),
                   ),
+                ),
                 sideBarButton(
                   icon: "assets/img/Camera_tab.svg",
                   selectIcon: "assets/img/Camera_tab_select.svg",
@@ -98,15 +98,17 @@ class _WebMainTabViewState extends State<WebMainTabView> {
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 2,
-                    offset: const Offset(-2, 0), // Ajout d'une ombre sur le côté
+                    offset:
+                        const Offset(-2, 0), // Ajout d'une ombre sur le côté
                   ),
                 ],
               ),
               child: Scaffold(
                 backgroundColor: TColor.white,
                 body: currentTab,
-                floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-                floatingActionButton: SizedBox(
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerDocked,
+                floatingActionButton: const SizedBox(
                   width: 70,
                   height: 70,
                 ),

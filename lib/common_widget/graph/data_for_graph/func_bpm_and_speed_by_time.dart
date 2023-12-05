@@ -58,25 +58,23 @@ class FuncBpmAndSpeedByTime {
         text = '0 BPM';
         break;
       case 20:
-        text = (interval).toStringAsFixed(2)+" BPM";
+        text = "${(interval).toStringAsFixed(2)} BPM";
         break;
       case 40:
-        text = (interval*2).toStringAsFixed(2)+" BPM";
+        text = "${(interval * 2).toStringAsFixed(2)} BPM";
         break;
       case 60:
-        text = (interval*3).toStringAsFixed(2)+" BPM";
+        text = "${(interval * 3).toStringAsFixed(2)} BPM";
         break;
       case 80:
-        text = (interval*4).toStringAsFixed(2)+" BPM";
+        text = "${(interval * 4).toStringAsFixed(2)} BPM";
         break;
       case 100:
-        text = (interval*5).toString()+" BPM";
+        text = "${interval * 5} BPM";
         break;
       default:
         return Container();
     }
-
-   
 
     return Text(text,
         style: TextStyle(
@@ -85,33 +83,32 @@ class FuncBpmAndSpeedByTime {
         ),
         textAlign: TextAlign.center);
   }
+
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    double interval = data.time/ 5;
+    double interval = data.time / 5;
     String text;
     switch (value) {
       case 0:
         text = '0 s';
         break;
       case 20:
-        text = (interval).toStringAsFixed(2)+" s";
+        text = "${(interval).toStringAsFixed(2)} s";
         break;
       case 40:
-        text = (interval*2).toStringAsFixed(2)+" s";
+        text = "${(interval * 2).toStringAsFixed(2)} s";
         break;
       case 60:
-        text = (interval*3).toStringAsFixed(2)+" s";
+        text = "${(interval * 3).toStringAsFixed(2)} s";
         break;
       case 80:
-        text = (interval*4).toStringAsFixed(2)+" s";
+        text = "${(interval * 4).toStringAsFixed(2)} s";
         break;
       case 100:
-        text = (interval*5).toStringAsFixed(2)+" s";
+        text = "${(interval * 5).toStringAsFixed(2)} s";
         break;
       default:
         return Container();
     }
-
-   
 
     return Text(text,
         style: TextStyle(
@@ -130,25 +127,23 @@ class FuncBpmAndSpeedByTime {
         text = '0 m/s';
         break;
       case 20:
-        text = (interval / 5).toStringAsFixed(2)+" m/s";
+        text = "${(interval / 5).toStringAsFixed(2)} m/s";
         break;
       case 40:
-        text = (interval*2).toStringAsFixed(2)+" m/s";
+        text = "${(interval * 2).toStringAsFixed(2)} m/s";
         break;
       case 60:
-        text = (interval*3).toStringAsFixed(2)+" m/s";
+        text = "${(interval * 3).toStringAsFixed(2)} m/s";
         break;
       case 80:
-        text = (interval*4).toStringAsFixed(2)+" m/s";
+        text = "${(interval * 4).toStringAsFixed(2)} m/s";
         break;
       case 100:
-        text = (interval*5).toStringAsFixed(2)+" m/s";
+        text = "${(interval * 5).toStringAsFixed(2)} m/s";
         break;
       default:
         return Container();
     }
-
-   
 
     return Text(text,
         style: TextStyle(
@@ -157,6 +152,7 @@ class FuncBpmAndSpeedByTime {
         ),
         textAlign: TextAlign.center);
   }
+
   List<LineChartBarData> get lineBarsData1 => [
         lineChartBarData1_1,
         lineChartBarData1_2,

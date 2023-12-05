@@ -61,7 +61,6 @@ class _MobileListActivity extends State<MobileListActivity> {
                               result.files.first.name,
                               context);
                         } else {
-                          print("Picker");
                           // msg d'erreur
                           // User canceled the picker
                         }

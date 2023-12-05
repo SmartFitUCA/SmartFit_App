@@ -38,7 +38,8 @@ class WebContainerStatsActivities extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center, // Centrer horizontalement
+        crossAxisAlignment:
+            CrossAxisAlignment.center, // Centrer horizontalement
         mainAxisAlignment: MainAxisAlignment.center,
 
         children: [
@@ -48,7 +49,7 @@ class WebContainerStatsActivities extends StatelessWidget {
             iconBackground: TColor.secondaryColor1,
             sizeIcon: 40.0,
           ),
-          SizedBox(height: 40), // Espacement entre l'icône et le texte
+          const SizedBox(height: 40), // Espacement entre l'icône et le texte
           Text(
             designation,
             style: const TextStyle(fontSize: 15),
@@ -57,7 +58,7 @@ class WebContainerStatsActivities extends StatelessWidget {
           Text(
             value,
             style: const TextStyle(
-              fontSize: 20  ,
+              fontSize: 20,
               fontWeight: FontWeight.w800,
             ),
             textAlign: TextAlign.center,
