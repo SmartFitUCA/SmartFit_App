@@ -80,7 +80,7 @@ class ManagerSelectedActivity {
   }
 
 // -----------------  BPM ------------------ //
-
+  /*
   // Retourne le BPM Max (Fichier CSV)
   int getMaxBpm() {
     int max = 0;
@@ -98,8 +98,8 @@ class ManagerSelectedActivity {
     }
 
     return max;
-  }
-
+  }*/
+  /*
 // Retourne le BPM Min (Fichier CSV)
   int getMinBpm() {
     int min = 300;
@@ -134,7 +134,7 @@ class ManagerSelectedActivity {
       }
     }
     return somme ~/ nb;
-  }
+  }*/
 
   double getAvgAltitude() {
     double somme = 0;

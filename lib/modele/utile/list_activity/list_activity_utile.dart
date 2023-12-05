@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info_walking.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
@@ -50,18 +51,13 @@ class ListActivityUtile {
         Provider.of<User>(context, listen: false).listActivity.clear();
         notZero = true;
       }
+      // -- connaitre le type de categorie pour changer le type d'info -- //
+
       Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
+          ActivityInfoWalking.fromJson(element["info"]),
           element["category"].toString(),
-          element["creation_date"].toString(),
           element["uuid"].toString(),
-          element["filename"].toString(),
-          /*  
-          element["timeActivity"],
-          element["denivelePositif"],
-          element["deniveleNegatif"]*/
-          0.0,
-          0.0,
-          0.0));
+          element["filename"].toString()));
     }
     /*
     if (notZero) {
@@ -80,11 +76,16 @@ class ListActivityUtile {
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
     // --- Save Local
     // --- Api
-    print("Start");
-    print(resultData.item3.toJson());
+    //ManagerFile x = ManagerFile();
+    //await File("${await x.localPath}\\test.csv").writeAsString(csvString);
 
     Tuple2<bool, String> result = await _strategy.uploadFileByte(
-        token, byteCSV, filename, resultData.item4, resultData.item3.startTime);
+        token,
+        byteCSV,
+        filename,
+        resultData.item4,
+        resultData.item3.startTime,
+        resultData.item3);
     if (result.item1 == false) {
       return Tuple2(false, result.item2);
     }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info_walking.dart';
 import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
 
 class User extends ChangeNotifier {
@@ -31,7 +31,7 @@ class User extends ChangeNotifier {
   double getTotalTimeAllActivity() {
     double totalTime = 0.0;
     for (ActivityOfUser activity in listActivity) {
-      totalTime += activity.time;
+      totalTime += activity.activityInfo.timeOfActivity;
     }
     return totalTime;
   }
@@ -39,7 +39,12 @@ class User extends ChangeNotifier {
   double getTotalDenivelePositif() {
     double totalDevPos = 0.0;
     for (ActivityOfUser activity in listActivity) {
-      totalDevPos += activity.denivelePos;
+      try {
+        totalDevPos +=
+            (activity.activityInfo as ActivityInfoWalking).denivelePositif;
+      } catch (e) {
+        //print(e);
+      }
     }
     return totalDevPos;
   }
@@ -47,7 +52,12 @@ class User extends ChangeNotifier {
   double getTotalDeniveleNegatif() {
     double totalDevNeg = 0.0;
     for (ActivityOfUser activity in listActivity) {
-      totalDevNeg += activity.denivelePos;
+      try {
+        totalDevNeg +=
+            (activity.activityInfo as ActivityInfoWalking).deniveleNegatif;
+      } catch (e) {
+        //print(e);
+      }
     }
     return totalDevNeg;
   }

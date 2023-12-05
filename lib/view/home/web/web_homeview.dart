@@ -25,9 +25,27 @@ class _WebHomeView extends State<WebHomeView> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     // -- BPM -- //
-    int maxBpm = context.watch<User>().managerSelectedActivity.getMaxBpm();
-    int minBpm = context.watch<User>().managerSelectedActivity.getMinBpm();
-    int avgBpm = context.watch<User>().managerSelectedActivity.getAvgBpm();
+    int maxBpm = context
+        .watch<User>()
+        .managerSelectedActivity
+        .activitySelected
+        .first
+        .activityInfo
+        .bpmMax;
+    int minBpm = context
+        .watch<User>()
+        .managerSelectedActivity
+        .activitySelected
+        .first
+        .activityInfo
+        .bpmMin;
+    int avgBpm = context
+        .watch<User>()
+        .managerSelectedActivity
+        .activitySelected
+        .first
+        .activityInfo
+        .bpmAvg;
     // -- Altitude -- //
     double minAltitude =
         context.watch<User>().managerSelectedActivity.getMinAltitude();

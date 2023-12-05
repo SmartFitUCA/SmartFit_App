@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:tuple/tuple.dart';
 
 abstract class IDataStrategy {
@@ -19,8 +20,13 @@ abstract class IDataStrategy {
 
   // Upload file on BDD
   Future<Tuple2<bool, String>> uploadFile(String token, File file);
-  Future<Tuple2<bool, String>> uploadFileByte(String token,
-      Uint8List contentFile, String nameFile, String category, String date);
+  Future<Tuple2<bool, String>> uploadFileByte(
+      String token,
+      Uint8List contentFile,
+      String nameFile,
+      String category,
+      String date,
+      ActivityInfo activityInfo);
 
   // Get one file by id
   Future<Tuple2> getFile(String token, String fileUuid);

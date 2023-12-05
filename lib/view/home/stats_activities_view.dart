@@ -22,8 +22,27 @@ class _StatAtivities extends State<StatAtivities> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     data = HomeViewUtil().initData(context);
-    int maxBpm = context.watch<User>().managerSelectedActivity.getMaxBpm();
-    int avgBpm = context.watch<User>().managerSelectedActivity.getAvgBpm();
+    int maxBpm = context
+        .watch<User>()
+        .managerSelectedActivity
+        .activitySelected
+        .first
+        .activityInfo
+        .bpmMax;
+    int minBpm = context
+        .watch<User>()
+        .managerSelectedActivity
+        .activitySelected
+        .first
+        .activityInfo
+        .bpmMin;
+    int avgBpm = context
+        .watch<User>()
+        .managerSelectedActivity
+        .activitySelected
+        .first
+        .activityInfo
+        .bpmAvg;
     double getTotalDistance =
         context.watch<User>().managerSelectedActivity.getTotalDistance();
     int totalSteps =
@@ -53,8 +72,6 @@ class _StatAtivities extends State<StatAtivities> {
         context.watch<User>().managerSelectedActivity.getMinAltitude();
     double minTemperature =
         context.watch<User>().managerSelectedActivity.getMinTemperature();
-
-    int minBpm = context.watch<User>().managerSelectedActivity.getMinBpm();
 
     return Scaffold(
       backgroundColor: TColor.white,

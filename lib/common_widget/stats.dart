@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
@@ -15,7 +14,10 @@ class Stats extends StatelessWidget {
         .toString();
     String heartrate = Provider.of<User>(context, listen: false)
         .managerSelectedActivity
-        .getAvgBpm()
+        .activitySelected
+        .first
+        .activityInfo
+        .bpmAvg
         .toString();
     String time = Provider.of<User>(context, listen: false)
         .managerSelectedActivity

@@ -30,9 +30,12 @@ class _MobileHomeView extends State<MobileHomeView> {
 
     data = HomeViewUtil().initData(context);
     // -- BPM -- //
-    data.maxBPM = managerSelectedActivity.getMaxBpm();
-    data.minBPM = managerSelectedActivity.getMinBpm();
-    int avgBpm = managerSelectedActivity.getAvgBpm();
+    data.maxBPM =
+        managerSelectedActivity.activitySelected.first.activityInfo.bpmMax;
+    data.minBPM =
+        managerSelectedActivity.activitySelected.first.activityInfo.bpmMin;
+    int avgBpm =
+        managerSelectedActivity.activitySelected.first.activityInfo.bpmAvg;
 
     // -- Altitude -- //
     double minAltitude = managerSelectedActivity.getMinAltitude();

@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:http/http.dart' as http;
 import 'package:tuple/tuple.dart';
 
-class RequestApi extends IDataStrategy {
+class RequestApi implements IDataStrategy {
   // Faire attention au URL
   String urlApi =
       "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api";
@@ -32,8 +33,6 @@ class RequestApi extends IDataStrategy {
     if ((response.statusCode == 404)) {
       return const Tuple2(false, "404 - NOT FOUND");
     }
-    print(response.statusCode);
-    print(response.body);
     return const Tuple2(false, "Fail");
   }
 
@@ -193,7 +192,8 @@ class RequestApi extends IDataStrategy {
       Uint8List contentFile,
       String nameFile,
       String category,
-      String date) async {
+      String date,
+      ActivityInfo activityInfo) async {
     final uri = Uri.parse('$urlApi/user/files');
     Map<String, String> headers = {'Authorization': token};
 
@@ -207,6 +207,7 @@ class RequestApi extends IDataStrategy {
     request.headers.addAll(headers);
     request.fields["SmartFit_Category"] = category;
     request.fields["SmartFit_Date"] = date;
+    request.fields["info"] = activityInfo.toJson();
 
     final response = await request.send();
 

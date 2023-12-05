@@ -2,27 +2,16 @@ import 'dart:convert';
 
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 
-class ActivityInfoGeneric implements ActivityInfo {
+class ActivityInfoGeneric extends ActivityInfo {
+  ActivityInfoGeneric.fromJson(super.map) : super.fromJson();
+  ActivityInfoGeneric() : super.fromJson(null);
+
   // ------- Ajout --------- //
 
   // ------- Activity Info -------- //
   @override
-  late int bpmAvg;
-
-  @override
-  late int bpmMax;
-
-  @override
-  late int bpmMin;
-
-  @override
-  late String startTime;
-
-  @override
-  late double timeOfActivity;
-
-  @override
   ActivityInfo getData(List<List<String>> csv) {
+    super.getData(csv);
     return this;
   }
 
@@ -37,5 +26,10 @@ class ActivityInfoGeneric implements ActivityInfo {
       'timeOfActivity': timeOfActivity,
     };
     return jsonEncode(jsonMap);
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {};
   }
 }

@@ -1,12 +1,11 @@
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
+
 class ActivityOfUser {
+  final ActivityInfo _activityInfo;
   // A afficher
   final String _categorie;
-  final String _date;
   final String _fileUuid;
   final String _nameFile;
-  final double _timeActivity;
-  final double _denivelePositif;
-  final double _deniveleNegatif;
   // ------------ //
   late String _imageName;
 
@@ -16,9 +15,7 @@ class ActivityOfUser {
   String get fileUuid => _fileUuid;
   String get nameFile => _nameFile;
   String get category => _categorie;
-  double get time => _timeActivity;
-  double get denivelePos => _denivelePositif;
-  double get deniveleNeg => _deniveleNegatif;
+  ActivityInfo get activityInfo => _activityInfo;
   Map<String, int> get enteteCSV => _enteteCSV;
 
   // -- Getter/Setter -- Ancien //
@@ -31,8 +28,8 @@ class ActivityOfUser {
     _contentActivity.removeAt(0);
   }
 
-  ActivityOfUser(this._categorie, this._date, this._fileUuid, this._nameFile,
-      this._timeActivity, this._denivelePositif, this._deniveleNegatif) {
+  ActivityOfUser(
+      this._activityInfo, this._categorie, this._fileUuid, this._nameFile) {
     // Mettre dans une fonction appart
     if (_categorie == "Walking") {
       _imageName = "assets/img/workout1.svg";
@@ -45,13 +42,14 @@ class ActivityOfUser {
   // -------------------------- FIN Localisation  ---------------------- //
 
   Map<String, dynamic> toMap() {
-    return {
+    Map<String, dynamic> map = {
       'categorie': _categorie,
       'image': _imageName,
-      'date': _date,
-      'time': _timeActivity,
-      "denivelePositif": _denivelePositif,
-      "deniveleNegatif": _deniveleNegatif,
+      'date': _activityInfo.startTime,
+      'time': _activityInfo.timeOfActivity,
     };
+    map.addAll(_activityInfo.toMap());
+
+    return map;
   }
 }

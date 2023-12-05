@@ -18,10 +18,22 @@ class WebBpmByTime extends StatefulWidget {
 class _WebBpmByTime extends State<WebBpmByTime> {
   @override
   Widget build(BuildContext context) {
-    final double maxY =
-        context.watch<User>().managerSelectedActivity.getMaxBpm() + 2;
-    final double minY =
-        context.watch<User>().managerSelectedActivity.getMinBpm() - 2;
+    final double maxY = context
+            .watch<User>()
+            .managerSelectedActivity
+            .activitySelected
+            .first
+            .activityInfo
+            .bpmMax +
+        2;
+    final double minY = context
+            .watch<User>()
+            .managerSelectedActivity
+            .activitySelected
+            .first
+            .activityInfo
+            .bpmMin -
+        2;
     final double maxX =
         widget.data.bpmSecondes[widget.data.bpmSecondes.length - 1].x;
     const double minX = 0.0;

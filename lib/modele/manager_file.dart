@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
@@ -25,7 +26,7 @@ class ManagerFile {
   static const String _session = "session";
   static const String _startTime = "start_time";
   static const String _sport = "sport";
-  static const String _timeActivity = "total_elapsed_time";
+  //static const String _timeActivity = "total_elapsed_time";
 
   // -- Getter field
   String get fieldTimeStamp => _fieldTimestamp;

@@ -81,7 +81,7 @@ class WorkoutRow extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Dénivelé positif : ${wObj["denivelePositif"].toString()}",
+                          "Dénivelé positif : ${wObj["DenivelePositif"].toString()}",
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 12,
