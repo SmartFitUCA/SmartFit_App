@@ -57,9 +57,12 @@ class _WebHomeView extends State<WebHomeView> {
         context.watch<User>().managerSelectedActivity.getMaxSpeed();
     double avgSpeed =
         context.watch<User>().managerSelectedActivity.getAvgSpeed();
-
+    
     data = HomeViewUtil().initData(context);
-
+    data.maxBPM = maxBpm;
+    data.minBPM = minBpm;
+    data.maxSpeed = maxSpeed;
+    data.time = context.watch<User>().managerSelectedActivity.getTotalTime();
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
@@ -121,7 +124,7 @@ class _WebHomeView extends State<WebHomeView> {
                               fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
-                          height: media.width * 0.02,
+                          height: media.width * 0.03,
                         ),
                         Row(
                             crossAxisAlignment: CrossAxisAlignment.start,

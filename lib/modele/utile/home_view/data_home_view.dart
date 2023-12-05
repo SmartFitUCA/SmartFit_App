@@ -7,6 +7,8 @@ class DataHomeView {
   late List<FlSpot> altitudeSeconde;
   int minBPM = 0;
   int maxBPM = 0;
+  double maxSpeed = 0;
+  double time = 0;
 
   DataHomeView(this.bpmSecondes, this.bpmSecondes2, this.vitesseSecondes,
       this.altitudeSeconde);
