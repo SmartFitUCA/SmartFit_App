@@ -127,7 +127,7 @@ class GraphPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     Paint dotOutlinePaint = Paint()
-      ..color = ui.Color.fromARGB(255, 236, 236, 236).withAlpha(200)
+      ..color = const ui.Color.fromARGB(255, 236, 236, 236).withAlpha(200)
       ..strokeWidth = 8;
 
     Paint dotCenter = Paint()
