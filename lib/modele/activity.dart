@@ -41,15 +41,19 @@ class ActivityOfUser {
 
   // -------------------------- FIN Localisation  ---------------------- //
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMapGeneric() {
     Map<String, dynamic> map = {
       'categorie': _categorie,
       'image': _imageName,
       'date': _activityInfo.startTime,
       'time': _activityInfo.timeOfActivity,
     };
-    map.addAll(_activityInfo.toMap());
+    return map;
+  }
 
+  Map<String, dynamic> toMapWalking() {
+    Map<String, dynamic> map = toMapGeneric();
+    map.addAll(activityInfo.toMapWalking());
     return map;
   }
 }

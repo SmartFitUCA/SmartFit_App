@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
-import 'package:smartfit_app_mobile/modele/activity_info/activity_info_walking.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
@@ -54,7 +53,7 @@ class ListActivityUtile {
       // -- connaitre le type de categorie pour changer le type d'info -- //
 
       Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
-          ActivityInfoWalking.fromJson(element["info"]),
+          ActivityInfo.fromJson(element["info"]),
           element["category"].toString(),
           element["uuid"].toString(),
           element["filename"].toString()));
@@ -100,6 +99,7 @@ class ListActivityUtile {
     return true;
   }
 
+  // --- Ne marche pas sous window !! Jsp linux (mettre en format mobile) -- //
   void addFileWeb(Uint8List? bytes, String token, String filename,
       BuildContext context) async {
     if (bytes == null) {

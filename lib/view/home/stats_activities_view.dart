@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/container/container_stats_activities.dart';
 import 'package:smartfit_app_mobile/common_widget/other/entete_home_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/home_view_util.dart';
@@ -22,27 +23,20 @@ class _StatAtivities extends State<StatAtivities> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     data = HomeViewUtil().initData(context);
-    int maxBpm = context
-        .watch<User>()
-        .managerSelectedActivity
-        .activitySelected
-        .first
-        .activityInfo
-        .bpmMax;
-    int minBpm = context
-        .watch<User>()
-        .managerSelectedActivity
-        .activitySelected
-        .first
-        .activityInfo
-        .bpmMin;
-    int avgBpm = context
-        .watch<User>()
-        .managerSelectedActivity
-        .activitySelected
-        .first
-        .activityInfo
-        .bpmAvg;
+    ManagerSelectedActivity managerSelectedActivity =
+        context.watch<User>().managerSelectedActivity;
+
+    // -- BPM -- //
+    int maxBpm = managerSelectedActivity.getBpmMaxAllActivitieSelected();
+    int minBpm = managerSelectedActivity.getBpmMinAllActivitieSelected();
+    int avgBpm = (minBpm + maxBpm) ~/ 2;
+    // -- Altitude -- //
+    double maxAltitude =
+        managerSelectedActivity.getMaxAltitudeAllActivitySelected();
+    double minAltitude =
+        managerSelectedActivity.getMinAltitudeAllActivitySelected();
+    double avgAltitude = (minAltitude + maxAltitude) / 2;
+
     double getTotalDistance =
         context.watch<User>().managerSelectedActivity.getTotalDistance();
     int totalSteps =
@@ -53,14 +47,9 @@ class _StatAtivities extends State<StatAtivities> {
         context.watch<User>().managerSelectedActivity.getCalorie();
     double avgSpeed =
         context.watch<User>().managerSelectedActivity.getAvgSpeed();
-    double avgAltitude =
-        context.watch<User>().managerSelectedActivity.getAvgAltitude();
 
     double avgTemperature =
         context.watch<User>().managerSelectedActivity.getAvgTemperature();
-    double maxAltitude =
-        context.watch<User>().managerSelectedActivity.getMaxAltitude();
-
     double maxTemperature =
         context.watch<User>().managerSelectedActivity.getMaxTemperature();
 
@@ -68,8 +57,6 @@ class _StatAtivities extends State<StatAtivities> {
         context.watch<User>().managerSelectedActivity.getMaxSpeed();
     double minSpeed =
         context.watch<User>().managerSelectedActivity.getMinSpeed();
-    double minAltitude =
-        context.watch<User>().managerSelectedActivity.getMinAltitude();
     double minTemperature =
         context.watch<User>().managerSelectedActivity.getMinTemperature();
 

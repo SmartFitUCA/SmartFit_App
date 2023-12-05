@@ -6,6 +6,7 @@ import 'package:smartfit_app_mobile/common_widget/graph/bpm_and_speed_by_time.da
 import 'package:smartfit_app_mobile/common_widget/graph/bpm_by_time.dart';
 import 'package:smartfit_app_mobile/common_widget/other/entete_home_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/home_view_util.dart';
@@ -24,40 +25,29 @@ class _WebHomeView extends State<WebHomeView> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+    ManagerSelectedActivity managerSelectedActivity =
+        context.watch<User>().managerSelectedActivity;
+
     // -- BPM -- //
-    int maxBpm = context
-        .watch<User>()
-        .managerSelectedActivity
-        .activitySelected
-        .first
-        .activityInfo
-        .bpmMax;
-    int minBpm = context
-        .watch<User>()
-        .managerSelectedActivity
-        .activitySelected
-        .first
-        .activityInfo
-        .bpmMin;
-    int avgBpm = context
-        .watch<User>()
-        .managerSelectedActivity
-        .activitySelected
-        .first
-        .activityInfo
-        .bpmAvg;
+    int maxBpm =
+        managerSelectedActivity.activitySelected.first.activityInfo.bpmMax;
+    int minBpm =
+        managerSelectedActivity.activitySelected.first.activityInfo.bpmMin;
+    int avgBpm =
+        managerSelectedActivity.activitySelected.first.activityInfo.bpmAvg;
     // -- Altitude -- //
     double minAltitude =
-        context.watch<User>().managerSelectedActivity.getMinAltitude();
+        managerSelectedActivity.activitySelected.first.activityInfo.altitudeMin;
     double maxAltitude =
-        context.watch<User>().managerSelectedActivity.getMaxAltitude();
-    double avgAltitude = (maxAltitude + minAltitude) / 2;
+        managerSelectedActivity.activitySelected.first.activityInfo.altitudeMax;
+    double avgAltitude =
+        managerSelectedActivity.activitySelected.first.activityInfo.altitudeAvg;
     // -- Speed -- //
     double maxSpeed =
         context.watch<User>().managerSelectedActivity.getMaxSpeed();
     double avgSpeed =
         context.watch<User>().managerSelectedActivity.getAvgSpeed();
-    
+
     data = HomeViewUtil().initData(context);
     data.maxBPM = maxBpm;
     data.minBPM = minBpm;

@@ -99,6 +99,26 @@ class ManagerSelectedActivity {
 
     return max;
   }*/
+
+  int getBpmMaxAllActivitieSelected() {
+    int max = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.bpmMax > max) {
+        max = activityOfUser.activityInfo.bpmMax;
+      }
+    }
+    return max;
+  }
+
+  int getBpmMinAllActivitieSelected() {
+    int min = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.bpmMax < min) {
+        min = activityOfUser.activityInfo.bpmMin;
+      }
+    }
+    return min;
+  }
   /*
 // Retourne le BPM Min (Fichier CSV)
   int getMinBpm() {
@@ -118,6 +138,7 @@ class ManagerSelectedActivity {
     }
     return min;
   }
+  
 
   // Retourne le BPM avg (Fichier CSV)
   int getAvgBpm() {
@@ -135,7 +156,7 @@ class ManagerSelectedActivity {
     }
     return somme ~/ nb;
   }*/
-
+  /*
   double getAvgAltitude() {
     double somme = 0;
     int nb = 0;
@@ -154,7 +175,7 @@ class ManagerSelectedActivity {
     }
     double average = somme / nb;
     return double.parse(average.toStringAsFixed(2));
-  }
+  }*/
 
   double getAvgTemperature() {
     double somme = 0;
@@ -332,7 +353,7 @@ class ManagerSelectedActivity {
   // ---------------------------- FIN time -------------------- //
 
   // ---------------------------------------- Altitude -------------------- //
-
+  /*
   // --- Fichier CSV --- //
   double getMaxAltitude() {
     double max = 0;
@@ -354,8 +375,28 @@ class ManagerSelectedActivity {
       }
     }
     return max;
+  }*/
+
+  double getMaxAltitudeAllActivitySelected() {
+    double max = 0.0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.altitudeMax > max) {
+        max = activityOfUser.activityInfo.altitudeMax;
+      }
+    }
+    return max;
   }
 
+  double getMinAltitudeAllActivitySelected() {
+    double min = 0.0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.altitudeMax < min) {
+        min = activityOfUser.activityInfo.altitudeMin;
+      }
+    }
+    return min;
+  }
+  /*
   // --- Fichier CSV --- //
   double getMinAltitude() {
     double min = 5000;
@@ -377,7 +418,7 @@ class ManagerSelectedActivity {
       }
     }
     return min;
-  }
+  }*/
 
   // -------------------------- FIN altitude ---------------------- //
 

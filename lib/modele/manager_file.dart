@@ -4,8 +4,6 @@ import 'package:csv/csv.dart';
 import 'package:fit_tool/fit_tool.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
-import 'package:smartfit_app_mobile/modele/activity_info/activity_info_generic.dart';
-import 'package:smartfit_app_mobile/modele/activity_info/activity_info_walking.dart';
 import 'package:tuple/tuple.dart';
 
 class ManagerFile {
@@ -25,7 +23,7 @@ class ManagerFile {
   static const String _session = "session";
   static const String _startTime = "start_time";
   static const String _sport = "sport";
-  //static const String _timeActivity = "total_elapsed_time";
+  static const String _timeActivity = "total_elapsed_time";
 
   // -- Getter field
   String get fieldTimeStamp => _fieldTimestamp;
@@ -43,6 +41,10 @@ class ManagerFile {
   static const String _generic = "generic";
   static const String _velo = "cycling";
   static const String _marche = "walking";
+
+  // -- Getter categorie
+  String get marche => _marche;
+  String get generic => _generic;
 
   List<String> allowedFieldWalking = List.empty(growable: true);
   List<String> allowedFieldGeneric = List.empty(growable: true);
@@ -106,11 +108,11 @@ class ManagerFile {
     List<Record> fitFile = FitFile.fromBytes(bytes).records;
     String categorie;
     List<String> fieldAllowed = [];
-    ActivityInfo info;
+    ActivityInfo info = ActivityInfo();
     // -- Chercher ligne session -- //
     List<dynamic> ligneSession = _getLigneSession(fitFile);
     if (ligneSession.isEmpty) {
-      return Tuple4(false, List.empty(), ActivityInfoGeneric(), "");
+      return Tuple4(false, List.empty(), ActivityInfo(), "");
     }
     categorie =
         _getCategoryById(int.parse(_getXfromListe(_sport, ligneSession)));
@@ -119,11 +121,9 @@ class ManagerFile {
     switch (categorie) {
       case (_marche):
         fieldAllowed = allowedFieldWalking;
-        info = ActivityInfoWalking();
         break;
       case (_generic):
         fieldAllowed = allowedFieldGeneric;
-        info = ActivityInfoGeneric();
         break;
       default:
         // A REMETRE EN GENERIC
@@ -131,15 +131,20 @@ class ManagerFile {
         //info = ActivityInfoGeneric();
         //categorie = _generic;
         fieldAllowed = allowedFieldWalking;
-        info = ActivityInfoWalking();
         break;
     }
+
+    // -------- Transformation en CSV ----------- //
     List<List<String>> csvData = transformDataMapIntoCSV(
         getDataOfListeOfRecord(fitFile, fieldAllowed), fieldAllowed);
-    // Remplir info avec la ligne session
+
+    // ------ Remplir info avec la ligne session --------- //
     info.startTime = DateTime.fromMillisecondsSinceEpoch(
             int.parse(_getXfromListe(_startTime, ligneSession)))
         .toIso8601String();
+    info.timeOfActivity =
+        double.parse(_getXfromListe(_timeActivity, ligneSession));
+    // ----------------------------------------------------- //
 
     return Tuple4(true, csvData, info.getData(csvData), categorie);
   }

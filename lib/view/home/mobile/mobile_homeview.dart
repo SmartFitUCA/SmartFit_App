@@ -38,9 +38,12 @@ class _MobileHomeView extends State<MobileHomeView> {
         managerSelectedActivity.activitySelected.first.activityInfo.bpmAvg;
 
     // -- Altitude -- //
-    double minAltitude = managerSelectedActivity.getMinAltitude();
-    double maxAltitude = managerSelectedActivity.getMaxAltitude();
-    double avgAltitude = (maxAltitude + minAltitude) / 2;
+    double minAltitude =
+        managerSelectedActivity.activitySelected.first.activityInfo.altitudeMin;
+    double maxAltitude =
+        managerSelectedActivity.activitySelected.first.activityInfo.altitudeMax;
+    double avgAltitude =
+        managerSelectedActivity.activitySelected.first.activityInfo.altitudeAvg;
     // -- Speed -- //
     double maxSpeed = managerSelectedActivity.getMaxSpeed();
     double avgSpeed = managerSelectedActivity.getAvgSpeed();
