@@ -10,7 +10,7 @@ class Stats extends StatelessWidget {
   Widget build(BuildContext context) {
     String calories = Provider.of<User>(context, listen: false)
         .managerSelectedActivity
-        .getCalorie()
+        .getCalorieAllActivitySelected()
         .toString();
     String heartrate = Provider.of<User>(context, listen: false)
         .managerSelectedActivity
@@ -21,7 +21,7 @@ class Stats extends StatelessWidget {
         .toString();
     String time = Provider.of<User>(context, listen: false)
         .managerSelectedActivity
-        .getTotalTime()
+        .getTimeAllActivitySelected()
         .toString();
     return Column(
       children: [

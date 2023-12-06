@@ -93,7 +93,7 @@ class ManagerSelectedActivity {
   }
 
   int getBpmMinAllActivitieSelected() {
-    int min = 0;
+    int min = 999;
     for (ActivityOfUser activityOfUser in activitySelected) {
       if (activityOfUser.activityInfo.bpmMax < min) {
         min = activityOfUser.activityInfo.bpmMin;
@@ -123,7 +123,7 @@ class ManagerSelectedActivity {
   }
 
   double getMinAltitudeAllActivitySelected() {
-    double min = 0.0;
+    double min = 99999.0;
     for (ActivityOfUser activityOfUser in activitySelected) {
       if (activityOfUser.activityInfo.altitudeMax < min) {
         min = activityOfUser.activityInfo.altitudeMin;
@@ -141,231 +141,79 @@ class ManagerSelectedActivity {
   }
   // ------------------ Fin Altitude ------------------- //
 
-  // ----
-  double getAvgTemperature() {
-    double somme = 0;
-    int nb = 0;
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldTemperature}"]!)) {
-          somme += activitySelected[c].contentActivity[i][activitySelected[c]
-              .enteteCSV["Value_${_managerFile.fieldTemperature}"]!];
-          nb++;
-        }
-      }
+  // ------------------ Température -------------------- //
+  int getAvgTemperatureAllActivitySelected() {
+    int somme = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.temperatureAvg;
     }
-    double average = somme / nb;
-    return double.parse(average.toStringAsFixed(2));
+    return somme ~/ activitySelected.length;
   }
 
-  double getMaxTemperature() {
-    double max = 0;
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldTemperature}"]!)) {
-          double valueTmp = activitySelected[c]
-              .contentActivity[i][activitySelected[c]
-                  .enteteCSV["Value_${_managerFile.fieldTemperature}"]!]
-              .toDouble();
-          if (valueTmp > max) {
-            max = valueTmp;
-          }
-        }
+  int getMaxTemperatureAllActivitySelected() {
+    int max = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.temperatureMax > max) {
+        max = activityOfUser.activityInfo.temperatureMax;
       }
     }
-
     return max;
   }
 
-  double getMinTemperature() {
-    double min = 5000;
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldTemperature}"]!)) {
-          double valueTmp = activitySelected[c]
-              .contentActivity[i][activitySelected[c]
-                  .enteteCSV["Value_${_managerFile.fieldTemperature}"]!]
-              .toDouble();
-          if (valueTmp < min) {
-            min = valueTmp;
-          }
-        }
+  int getMinTemperatureAllActivitySelected() {
+    int min = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.temperatureMin > min) {
+        min = activityOfUser.activityInfo.temperatureMin;
       }
     }
     return min;
   }
-
-  // -------------------------- FIN BPM ---------------------- //
+  // -------------------------- FIN Température ---------------------- //
 
   // ---------------------- Distance ---------------------- //
 
-  double getTotalDistance() {
-    double max = 0;
-
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = activitySelected[c].contentActivity.length - 1;
-          i != 0;
-          i--) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldDistance}"]!)) {
-          double valueTmp = activitySelected[c]
-              .contentActivity[i][activitySelected[c]
-                  .enteteCSV["Value_${_managerFile.fieldDistance}"]!]
-              .toDouble();
-          if (valueTmp > max) {
-            max = valueTmp;
-          }
-        }
-      }
+  double getDistanceAllActivitySelected() {
+    double somme = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.distance;
     }
-
-    return max;
+    return somme;
   }
 
   // ---------------------- FIN Distance ---------------------- //
 
   // ---------------------- Calories ---------------------- //
-  int getCalorie() {
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = activitySelected[c].contentActivity.length - 1;
-          i != 0;
-          i--) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldTotalCalories}"]!)) {
-          return activitySelected[c].contentActivity[i][activitySelected[c]
-              .enteteCSV["Value_${_managerFile.fieldTotalCalories}"]!] as int;
-        }
-      }
+  int getCalorieAllActivitySelected() {
+    int somme = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.calories;
     }
-    return 0;
+    return somme;
   }
 
   // ---------------------- FIN Calories ---------------------- //
   // ---------------------- Step ------------------------------//
 
-  int getTotalSteps() {
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = activitySelected[c].contentActivity.length - 1;
-          i != 0;
-          i--) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldTotalStep}"]!)) {
-          return activitySelected[c]
-              .contentActivity[i][activitySelected[c]
-                  .enteteCSV["Value_${_managerFile.fieldTotalStep}"]!]
-              .toInt();
-        }
-      }
+  int getStepsAllActivitySelected() {
+    int somme = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.steps;
     }
-    return 0;
+    return somme;
   }
   // ----------------------- FIN Step ------------------------ //
 
   // ------------------------- Time ----------------------------- //
 
-  double getTotalTime() {
-    int timestampMax = 0;
-    int timestampMin = 0;
-
-    for (int i = 0; i < activitySelected[0].contentActivity.length; i++) {
-      if (_notNull(
-          0,
-          i,
-          activitySelected[0]
-              .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
-        timestampMin = activitySelected[0].contentActivity[i][
-            activitySelected[0]
-                .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
-        break;
-      }
+  double getTimeAllActivitySelected() {
+    double somme = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.timeOfActivity;
     }
-
-    for (int i = activitySelected[0].contentActivity.length - 1; i != 0; i--) {
-      if (_notNull(
-          0,
-          i,
-          activitySelected[0]
-              .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!)) {
-        timestampMax = activitySelected[0].contentActivity[i][
-            activitySelected[0]
-                .enteteCSV["Value_${_managerFile.fieldTimeStamp}"]!];
-        break;
-      }
-    }
-    return (timestampMax - timestampMin) / 1000;
+    return somme;
   }
   // ---------------------------- FIN time -------------------- //
-
-  // ---------------------------------------- Altitude -------------------- //
-  /*
-  // --- Fichier CSV --- //
-  double getMaxAltitude() {
-    double max = 0;
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
-          double valueTmp = activitySelected[c]
-              .contentActivity[i][activitySelected[c]
-                  .enteteCSV["Value_${_managerFile.fieldAltitude}"]!]
-              .toDouble();
-          if (valueTmp > max) {
-            max = valueTmp;
-          }
-        }
-      }
-    }
-    return max;
-  }*/
-  /*
-  // --- Fichier CSV --- //
-  double getMinAltitude() {
-    double min = 5000;
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
-          double valueTmp = activitySelected[c]
-              .contentActivity[i][activitySelected[c]
-                  .enteteCSV["Value_${_managerFile.fieldAltitude}"]!]
-              .toDouble();
-          if (valueTmp < min) {
-            min = valueTmp;
-          }
-        }
-      }
-    }
-    return min;
-  }*/
-
-  // -------------------------- FIN altitude ---------------------- //
 
   // -------------------------- Speed  ---------------------- //
 
@@ -408,73 +256,32 @@ class ManagerSelectedActivity {
     return result;
   }
 
-  // Retourne la Speed Max (Fichier CSV)
-  double getMaxSpeed() {
+  double getMaxSpeedAllActivitySelected() {
     double max = 0.00;
-
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
-          double valueTmp = activitySelected[c]
-              .contentActivity[i][activitySelected[c]
-                  .enteteCSV["Value_${_managerFile.fieldSpeed}"]!]
-              .toDouble();
-          if (valueTmp > max) {
-            max = valueTmp;
-          }
-        }
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.vitesseMax > max) {
+        max = activityOfUser.activityInfo.vitesseMax;
       }
     }
     return max;
   }
 
-  double getMinSpeed() {
-    double min = 5000;
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
-          double valueTmp = activitySelected[c]
-              .contentActivity[i][activitySelected[c]
-                  .enteteCSV["Value_${_managerFile.fieldSpeed}"]!]
-              .toDouble();
-          if (valueTmp < min) {
-            min = valueTmp;
-          }
-        }
+  double getMinSpeedAllActivitySelected() {
+    double min = 99999.9;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.vitesseMin < min) {
+        min = activityOfUser.activityInfo.vitesseMin;
       }
     }
     return min;
   }
 
-  // Retourne avg Max (Fichier CSV)
-  double getAvgSpeed() {
-    double somme = 0;
-    int nb = 0;
-
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldSpeed}"]!)) {
-          somme += activitySelected[c].contentActivity[i][activitySelected[c]
-              .enteteCSV["Value_${_managerFile.fieldSpeed}"]!];
-          nb++;
-        }
-      }
+  double getAvgSpeedAllActivitySelected() {
+    double somme = 0.0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.vitesseAvg;
     }
-
-    double average = somme / nb;
-    return double.parse(average.toStringAsFixed(2));
+    return somme / activitySelected.length;
   }
 
   // -------------------------- FIN Speed  ---------------------- //

@@ -43,16 +43,23 @@ class _WebHomeView extends State<WebHomeView> {
     double avgAltitude =
         managerSelectedActivity.activitySelected.first.activityInfo.altitudeAvg;
     // -- Speed -- //
-    double maxSpeed =
-        context.watch<User>().managerSelectedActivity.getMaxSpeed();
-    double avgSpeed =
-        context.watch<User>().managerSelectedActivity.getAvgSpeed();
+    double maxSpeed = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getMaxSpeedAllActivitySelected();
+    double avgSpeed = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getAvgSpeedAllActivitySelected();
 
     data = HomeViewUtil().initData(context);
     data.maxBPM = maxBpm;
     data.minBPM = minBpm;
     data.maxSpeed = maxSpeed;
-    data.time = context.watch<User>().managerSelectedActivity.getTotalTime();
+    data.time = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getTimeAllActivitySelected();
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
