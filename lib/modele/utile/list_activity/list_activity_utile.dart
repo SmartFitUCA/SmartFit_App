@@ -58,10 +58,6 @@ class ListActivityUtile {
           element["uuid"].toString(),
           element["filename"].toString()));
     }
-    /*
-    if (notZero) {
-      await getContentActivity(context);
-    }*/
     return const Tuple2(true, "Yeah");
   }
 
@@ -85,6 +81,8 @@ class ListActivityUtile {
         resultData.item4,
         resultData.item3.startTime,
         resultData.item3);
+    // resultData.item4 == category
+    // resultData.item3 == ActivityInfo
     if (result.item1 == false) {
       return Tuple2(false, result.item2);
     }

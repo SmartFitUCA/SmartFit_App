@@ -9,7 +9,7 @@ class Info extends StatelessWidget {
   Widget build(BuildContext context) {
     String distance = Provider.of<User>(context, listen: false)
         .managerSelectedActivity
-        .getTotalDistance()
+        .getDistanceAllActivitySelected()
         .toString();
 
     return Row(

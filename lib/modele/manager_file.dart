@@ -15,15 +15,16 @@ class ManagerFile {
   final String _fieldBPM = "heart_rate";
   final String _fieldSpeed = "speed";
   final String _fieldAltitude = "altitude";
-  final String _fieldTotalStep = "total_strides";
-  final String _fieldTotalCalorie = "total_calories";
   final String _fieldTemperature = "temperature";
 
-  // -- Not in CSV -- //
+  // -- Not in CSV (Ligne session) -- //
   static const String _session = "session";
   static const String _startTime = "start_time";
   static const String _sport = "sport";
   static const String _timeActivity = "total_elapsed_time";
+  static const String _totalDistance = "total_distance";
+  static const String _totalCalories = "total_calories";
+  static const String _totalStep = "total_strides";
 
   // -- Getter field
   String get fieldTimeStamp => _fieldTimestamp;
@@ -33,8 +34,6 @@ class ManagerFile {
   String get fielBPM => _fieldBPM;
   String get fieldSpeed => _fieldSpeed;
   String get fieldAltitude => _fieldAltitude;
-  String get fieldTotalStep => _fieldTotalStep;
-  String get fieldTotalCalories => _fieldTotalCalorie;
   String get fieldTemperature => _fieldTemperature;
 
   // -- Categorie -- //
@@ -59,8 +58,6 @@ class ManagerFile {
       _fieldBPM,
       _fieldSpeed,
       _fieldAltitude,
-      _fieldTotalStep,
-      _fieldTotalCalorie,
       _fieldTemperature
     ];
 
@@ -74,7 +71,6 @@ class ManagerFile {
       _fieldBPM,
       _fieldSpeed,
       _fieldAltitude,
-      _fieldTotalCalorie,
       _fieldTemperature
     ];
   }
@@ -117,7 +113,7 @@ class ManagerFile {
     categorie =
         _getCategoryById(int.parse(_getXfromListe(_sport, ligneSession)));
 
-    // -- Si la catégorie est pas prévu est est généric -- //
+    // -- Si la catégorie est pas prévu == généric -- //
     switch (categorie) {
       case (_marche):
         fieldAllowed = allowedFieldWalking;
@@ -140,13 +136,25 @@ class ManagerFile {
 
     // ------ Remplir info avec la ligne session --------- //
     info.startTime = DateTime.fromMillisecondsSinceEpoch(
-            int.parse(_getXfromListe(_startTime, ligneSession)))
-        .toIso8601String();
+        int.parse(_getXfromListe(_startTime, ligneSession)));
     info.timeOfActivity =
         double.parse(_getXfromListe(_timeActivity, ligneSession));
+    info.distance = double.parse(_getXfromListe(_totalDistance, ligneSession));
+    info.calories = int.parse(_getXfromListe(_totalCalories, ligneSession));
+    info.steps = int.parse(_getXfromListe(_totalStep, ligneSession));
     // ----------------------------------------------------- //
+    // -- Extraire les données en fonction de la catégorie -- //
+    switch (categorie) {
+      case (_marche):
+        info.getDataWalking(csvData);
+      case (_velo):
+        info.getDataCycling(csvData);
+      default:
+        info.getDataGeneric(csvData);
+    }
 
-    return Tuple4(true, csvData, info.getData(csvData), categorie);
+    //print("Fin :  ManagerFile -> convertBytesFitFileIntoCSVListAndGetInfo ");
+    return Tuple4(true, csvData, info, categorie);
   }
 
   List<dynamic> _getLigneSession(List<Record> listRecord) {
@@ -165,7 +173,7 @@ class ManagerFile {
         return liste[i + 1].toString();
       }
     }
-    return "null";
+    return "0";
   }
 
   List<Map<String, Map<String, String>>> getDataOfListeOfRecord(

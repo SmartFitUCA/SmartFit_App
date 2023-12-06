@@ -25,7 +25,7 @@ abstract class IDataStrategy {
       Uint8List contentFile,
       String nameFile,
       String category,
-      String date,
+      DateTime date,
       ActivityInfo activityInfo);
 
   // Get one file by id

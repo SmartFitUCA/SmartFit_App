@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
+import 'package:smartfit_app_mobile/common_widget/container/workout_row/workout_row_generic.dart';
+import 'package:smartfit_app_mobile/common_widget/container/workout_row/workout_row_walking.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
@@ -20,6 +21,48 @@ class _ListActivityWidget extends State<ListActivityWidget> {
 
   @override
   Widget build(BuildContext context) {
+    void onClick(ActivityOfUser activityObj) async {
+      if (!Provider.of<User>(context, listen: false)
+          .managerSelectedActivity
+          .fileNotSelected(activityObj.fileUuid)) {
+        Provider.of<User>(context, listen: false)
+            .managerSelectedActivity
+            .removeSelectedActivity(activityObj.fileUuid);
+        setState(() {});
+        return;
+      }
+
+      Tuple2<bool, String> result =
+          await _utile.getContentActivity(context, activityObj);
+      if (!result.item1) {
+        return;
+      }
+
+      Provider.of<User>(context, listen: false).removeActivity(activityObj);
+      Provider.of<User>(context, listen: false).insertActivity(0, activityObj);
+    }
+
+    void onDelete(ActivityOfUser activityObj) async {
+      if (await _utile.deleteFileOnBDD(
+          Provider.of<User>(context, listen: false).token,
+          activityObj.fileUuid)) {
+        if (!Provider.of<User>(context, listen: false)
+            .managerSelectedActivity
+            .fileNotSelected(activityObj.fileUuid)) {
+          Provider.of<User>(context, listen: false)
+              .managerSelectedActivity
+              .removeSelectedActivity(activityObj.fileUuid);
+        }
+        Provider.of<User>(context, listen: false).removeActivity(activityObj);
+      }
+    }
+
+    bool isSelected(ActivityOfUser activityObj) {
+      return !Provider.of<User>(context)
+          .managerSelectedActivity
+          .fileNotSelected(activityObj.fileUuid);
+    }
+
     return Material(
       color: Colors.transparent,
       child: ListView.builder(
@@ -34,57 +77,28 @@ class _ListActivityWidget extends State<ListActivityWidget> {
           // -- Si categorie == marche
           if (activityObj.category == managerFile.marche) {
             activityMap = activityObj.toMapWalking();
+            return InkWell(
+              onTap: () {},
+              child: WorkoutRowWalking(
+                wObj: activityMap,
+                onDelete: () => onDelete(activityObj),
+                onClick: () => onClick(activityObj),
+                isSelected: isSelected(activityObj),
+              ),
+            );
           } else {
             // -- Default -- //
             activityMap = activityObj.toMapGeneric();
+            return InkWell(
+              onTap: () {},
+              child: WorkoutRowGeneric(
+                wObj: activityMap,
+                onDelete: () => onDelete(activityObj),
+                onClick: () => onClick(activityObj),
+                isSelected: isSelected(activityObj),
+              ),
+            );
           }
-
-          return InkWell(
-            onTap: () {},
-            child: WorkoutRow(
-              wObj: activityMap,
-              onDelete: () async {
-                if (await _utile.deleteFileOnBDD(
-                    Provider.of<User>(context, listen: false).token,
-                    activityObj.fileUuid)) {
-                  if (!Provider.of<User>(context, listen: false)
-                      .managerSelectedActivity
-                      .fileNotSelected(activityObj.fileUuid)) {
-                    Provider.of<User>(context, listen: false)
-                        .managerSelectedActivity
-                        .removeSelectedActivity(activityObj.fileUuid);
-                  }
-                  Provider.of<User>(context, listen: false)
-                      .removeActivity(activityObj);
-                }
-              },
-              onClick: () async {
-                if (!Provider.of<User>(context, listen: false)
-                    .managerSelectedActivity
-                    .fileNotSelected(activityObj.fileUuid)) {
-                  Provider.of<User>(context, listen: false)
-                      .managerSelectedActivity
-                      .removeSelectedActivity(activityObj.fileUuid);
-                  setState(() {});
-                  return;
-                }
-
-                Tuple2<bool, String> result =
-                    await _utile.getContentActivity(context, activityObj);
-                if (!result.item1) {
-                  return;
-                }
-
-                Provider.of<User>(context, listen: false)
-                    .removeActivity(activityObj);
-                Provider.of<User>(context, listen: false)
-                    .insertActivity(0, activityObj);
-              },
-              isSelected: !Provider.of<User>(context)
-                  .managerSelectedActivity
-                  .fileNotSelected(activityObj.fileUuid),
-            ),
-          );
         },
       ),
     );

@@ -58,6 +58,7 @@ dependencies:
   responsive_builder: ^0.7.0
   flutter_map: ^5.0.0
   latlong2: ^0.9.0
+  units_converter: ^2.1.1
 
 dev_dependencies:
   flutter_test:

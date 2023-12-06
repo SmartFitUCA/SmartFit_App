@@ -192,7 +192,7 @@ class RequestApi implements IDataStrategy {
       Uint8List contentFile,
       String nameFile,
       String category,
-      String date,
+      DateTime date,
       ActivityInfo activityInfo) async {
     final uri = Uri.parse('$urlApi/user/files');
     Map<String, String> headers = {'Authorization': token};
@@ -206,7 +206,7 @@ class RequestApi implements IDataStrategy {
     request.files.add(httpImage);
     request.headers.addAll(headers);
     request.fields["SmartFit_Category"] = category;
-    request.fields["SmartFit_Date"] = date;
+    request.fields["SmartFit_Date"] = date.toString();
     request.fields["info"] = activityInfo.toJson();
 
     final response = await request.send();

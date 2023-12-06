@@ -3,7 +3,7 @@ import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 class ActivityOfUser {
   final ActivityInfo _activityInfo;
   // A afficher
-  final String _categorie;
+  final String _category;
   final String _fileUuid;
   final String _nameFile;
   // ------------ //
@@ -14,7 +14,7 @@ class ActivityOfUser {
 
   String get fileUuid => _fileUuid;
   String get nameFile => _nameFile;
-  String get category => _categorie;
+  String get category => _category;
   ActivityInfo get activityInfo => _activityInfo;
   Map<String, int> get enteteCSV => _enteteCSV;
 
@@ -29,9 +29,9 @@ class ActivityOfUser {
   }
 
   ActivityOfUser(
-      this._activityInfo, this._categorie, this._fileUuid, this._nameFile) {
+      this._activityInfo, this._category, this._fileUuid, this._nameFile) {
     // Mettre dans une fonction appart
-    if (_categorie == "Walking") {
+    if (_category == "Walking") {
       _imageName = "assets/img/workout1.svg";
     } else {
       // Mettre des conditions pour d'autre type d'activité
@@ -43,7 +43,7 @@ class ActivityOfUser {
 
   Map<String, dynamic> toMapGeneric() {
     Map<String, dynamic> map = {
-      'categorie': _categorie,
+      'categorie': _category,
       'image': _imageName,
       'date': _activityInfo.startTime,
       'time': _activityInfo.timeOfActivity,

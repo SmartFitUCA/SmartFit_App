@@ -29,36 +29,65 @@ class _StatAtivities extends State<StatAtivities> {
     // -- BPM -- //
     int maxBpm = managerSelectedActivity.getBpmMaxAllActivitieSelected();
     int minBpm = managerSelectedActivity.getBpmMinAllActivitieSelected();
-    int avgBpm = (minBpm + maxBpm) ~/ 2;
+    int avgBpm = managerSelectedActivity.getBpmAvgAllActivitieSelected();
     // -- Altitude -- //
     double maxAltitude =
         managerSelectedActivity.getMaxAltitudeAllActivitySelected();
     double minAltitude =
         managerSelectedActivity.getMinAltitudeAllActivitySelected();
-    double avgAltitude = (minAltitude + maxAltitude) / 2;
+    double avgAltitude =
+        managerSelectedActivity.getAvgAltitudeAllActivitySelected();
 
-    double getTotalDistance =
-        context.watch<User>().managerSelectedActivity.getTotalDistance();
-    int totalSteps =
-        context.watch<User>().managerSelectedActivity.getTotalSteps();
-    double totalTime =
-        context.watch<User>().managerSelectedActivity.getTotalTime();
-    int totalCalories =
-        context.watch<User>().managerSelectedActivity.getCalorie();
-    double avgSpeed =
-        context.watch<User>().managerSelectedActivity.getAvgSpeed();
+    // -- Température -- //
+    double avgTemperature = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getAvgTemperatureAllActivitySelected()
+        .toDouble();
+    double maxTemperature = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getMaxTemperatureAllActivitySelected()
+        .toDouble();
+    double minTemperature = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getMinTemperatureAllActivitySelected()
+        .toDouble();
+    // ----- Distance ---- //
+    double getTotalDistance = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getDistanceAllActivitySelected();
+    // ---- Calories --- //
+    int totalCalories = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getCalorieAllActivitySelected();
+    // --- Steps --- //
+    int totalSteps = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getStepsAllActivitySelected();
+    // -- Time -- //
+    double totalTime = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getTimeAllActivitySelected();
 
-    double avgTemperature =
-        context.watch<User>().managerSelectedActivity.getAvgTemperature();
-    double maxTemperature =
-        context.watch<User>().managerSelectedActivity.getMaxTemperature();
-
-    double maxSpeed =
-        context.watch<User>().managerSelectedActivity.getMaxSpeed();
-    double minSpeed =
-        context.watch<User>().managerSelectedActivity.getMinSpeed();
-    double minTemperature =
-        context.watch<User>().managerSelectedActivity.getMinTemperature();
+    // -- Speed -- //
+    double avgSpeed = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getAvgSpeedAllActivitySelected();
+    double maxSpeed = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getMaxAltitudeAllActivitySelected();
+    double minSpeed = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getMinAltitudeAllActivitySelected();
 
     return Scaffold(
       backgroundColor: TColor.white,
