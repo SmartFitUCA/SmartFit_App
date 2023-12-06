@@ -107,7 +107,10 @@ class ManagerSelectedActivity {
     for (ActivityOfUser activityOfUser in activitySelected) {
       somme += activityOfUser.activityInfo.bpmAvg;
     }
-    return somme ~/ activitySelected.length;
+    if (somme != 0) {
+      return somme ~/ activitySelected.length;
+    }
+    return somme;
   }
 
   // ------------------ Fin BPM ------------------- //

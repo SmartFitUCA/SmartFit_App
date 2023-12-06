@@ -70,17 +70,17 @@ class User extends ChangeNotifier {
     return _getVolume(listActivity);
   }
 
-  Map<String, dynamic> _getVolume(List<ActivityOfUser> listeActivity) {
+  Map<String, dynamic> _getVolume(List<ActivityOfUser> list) {
     Map<String, dynamic> map = {};
-    ManagerSelectedActivity managerSelectedActivity = ManagerSelectedActivity();
-    managerSelectedActivity.activitySelected = listActivity;
+    ManagerSelectedActivity selected = ManagerSelectedActivity();
+    selected.activitySelected = list;
 
-    map["nbActovity"] = managerSelectedActivity.activitySelected.length;
-    managerSelectedActivity.getTimeAllActivitySelected();
-    map["bpmAvg"] = managerSelectedActivity.getBpmAvgAllActivitieSelected();
+    map["nbActivity"] = selected.activitySelected.length;
+    map["bpmAvg"] = selected.getBpmAvgAllActivitieSelected();
     map["denivelePositif"] =
-        managerSelectedActivity.getTotalDenivelePositifAllActivitySelected();
-    map["speedAvg"] = managerSelectedActivity.getAvgSpeedAllActivitySelected();
+        selected.getTotalDenivelePositifAllActivitySelected();
+    map["speedAvg"] = selected.getAvgSpeedAllActivitySelected();
+    map["durationActiviy"] = selected.getTimeAllActivitySelected();
     return map;
   }
 }

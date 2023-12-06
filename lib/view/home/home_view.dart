@@ -5,9 +5,8 @@ import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/view/home/mobile/mobile_homeview.dart';
 import 'package:smartfit_app_mobile/view/home/no_activity_view.dart';
 import 'package:smartfit_app_mobile/view/home/stats_activities_view.dart';
-import 'package:smartfit_app_mobile/view/home/volumes_view.dart';
+import 'package:smartfit_app_mobile/view/volumes/volumes_view.dart';
 import 'package:smartfit_app_mobile/view/home/web/web_homeview.dart';
-import 'package:units_converter/units_converter.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -28,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
             desktop: (_) => const WebHomeView(),
           )
         : selectedActivitiesCount > 1
-            ? const Volumes()
+            ? const StatAtivities()
             : ScreenTypeLayout.builder(
                 mobile: (_) =>
                     const NoActivityView("Pas d'activité sélectionnée"),

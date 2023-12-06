@@ -6,6 +6,7 @@ import 'package:smartfit_app_mobile/view/home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/view/map/my_map.dart';
 import 'package:smartfit_app_mobile/view/profile/profile_view.dart';
+import 'package:smartfit_app_mobile/view/volumes/volumes_view.dart';
 
 class MobileMainTabView extends StatefulWidget {
   const MobileMainTabView({super.key});
@@ -88,15 +89,26 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
                     setState(() {});
                   }
                 }),
+            TabButton(
+                icon: "assets/img/Activity_tab.svg",
+                selectIcon: "assets/img/Activity_tab_select.svg",
+                isActive: selectTab == 2,
+                onTap: () {
+                  selectTab = 2;
+                  currentTab = const VolumesView();
+                  if (mounted) {
+                    setState(() {});
+                  }
+                }),
             const SizedBox(
               width: 40,
             ),
             TabButton(
                 icon: "assets/img/mapIcon.svg",
                 selectIcon: "assets/img/mapIcon_selected.svg",
-                isActive: selectTab == 2,
+                isActive: selectTab == 3,
                 onTap: () {
-                  selectTab = 2;
+                  selectTab = 3;
                   currentTab = const MyMap();
                   if (mounted) {
                     setState(() {});
@@ -105,9 +117,9 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
             TabButton(
                 icon: "assets/img/Profile_tab.svg",
                 selectIcon: "assets/img/Profile_tab_select.svg",
-                isActive: selectTab == 3,
+                isActive: selectTab == 4,
                 onTap: () {
-                  selectTab = 3;
+                  selectTab = 4;
                   currentTab = const ProfileView();
                   if (mounted) {
                     setState(() {});
