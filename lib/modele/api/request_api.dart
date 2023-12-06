@@ -36,21 +36,21 @@ class RequestApi extends IDataStrategy {
   }
 
   @override
-  Future<Tuple2<bool, String>> deleteFile(String token, String fileUuid) async {
+  Future<bool> deleteFile(String token, String fileUuid) async {
     final response = await http.delete(
         Uri.parse('$urlApi/user/files/$fileUuid'),
         headers: <String, String>{'Authorization': token});
 
     if (response.statusCode == 200) {
-      return const Tuple2(true, "Successful");
+      return true;
     }
     if (response.statusCode == 401) {
-      return const Tuple2(false, "401 - UNAUTHORIZED");
+      return false;
     }
     if (response.statusCode == 404) {
-      return const Tuple2(false, "404 - NOT FOUND");
+      return false;
     }
-    return const Tuple2(false, "Fail");
+    return false;
   }
 
   @override
@@ -227,7 +227,6 @@ class RequestApi extends IDataStrategy {
   Future<Tuple2> getInfoUser(String token) async {
     final response = await http.get(Uri.parse('$urlApi/user/info'),
         headers: <String, String>{'Authorization': token});
-
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(response.body);
       return Tuple2(true, json);
@@ -238,6 +237,6 @@ class RequestApi extends IDataStrategy {
     if (response.statusCode == 401) {
       return const Tuple2(false, "401 - UNAUTHORIZED");
     }
-    return const Tuple2(false, "Fail ");
+    return const Tuple2(false, "Fail");
   }
 }

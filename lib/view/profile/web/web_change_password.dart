@@ -114,7 +114,7 @@ class _WebChangePasswordViewState extends State<WebChangePasswordView> {
                             if (res.item1) {
                               if (controllerNewPasswd.text ==
                                   controllerNewPasswd2.text) {
-                                await api.modifyUserInfo(
+                                await api.updateUserInfo(
                                     'password',
                                     sha256
                                         .convert(utf8

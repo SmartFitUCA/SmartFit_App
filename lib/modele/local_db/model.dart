@@ -2,6 +2,7 @@ import 'package:objectbox/objectbox.dart';
 
 @Entity()
 class User {
+  @Id()
   int id = 0;
   String username;
   String email;
@@ -13,11 +14,14 @@ class User {
 @Entity()
 class Activity {
   int id;
-  @Index()
+
+  @Unique()
   String uuid;
   String filename;
   String category;
   DateTime date;
+  String info;
 
-  Activity(this.id, this.uuid, this.filename, this.category, this.date);
+  Activity(
+      this.id, this.uuid, this.filename, this.category, this.date, this.info);
 }

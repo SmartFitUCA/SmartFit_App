@@ -1,15 +1,13 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
 import 'package:smartfit_app_mobile/view/activity/list_activity.dart';
 import 'package:tuple/tuple.dart';
 import 'package:universal_html/html.dart' as html;
-
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 
 class WebListActivity extends StatefulWidget {
@@ -21,8 +19,8 @@ class WebListActivity extends StatefulWidget {
 
 class _WebListActivityState extends State<WebListActivity> {
   FilePickerResult? result;
-  IDataStrategy strategy = RequestApi();
   final ListActivityUtile _utile = ListActivityUtile();
+  final InfoMessage infoManager = InfoMessage();
 
   void addFileWeb(html.File file, String token) async {
     final reader = html.FileReader();
@@ -32,7 +30,7 @@ class _WebListActivityState extends State<WebListActivity> {
       if (reader.readyState == html.FileReader.DONE) {
         Uint8List bytes = reader.result as Uint8List;
         Tuple2<bool, String> resultAdd =
-            await _utile.addFile(bytes, file.name, token);
+            await _utile.addFile(bytes, file.name, token, infoManager);
         if (!resultAdd.item1) {
           return;
         }

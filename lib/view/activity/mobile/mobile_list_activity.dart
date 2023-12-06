@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/container/list/list_activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
+import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
 
 class MobileListActivity extends StatefulWidget {
@@ -16,6 +17,7 @@ class MobileListActivity extends StatefulWidget {
 class _MobileListActivity extends State<MobileListActivity> {
   FilePickerResult? result;
   final ListActivityUtile _utile = ListActivityUtile();
+  final InfoMessage infoManager = InfoMessage();
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +62,9 @@ class _MobileListActivity extends State<MobileListActivity> {
                               result.files.single.path!,
                               Provider.of<User>(context, listen: false).token,
                               result.files.single.name,
-                              context);
+                              context,
+                              infoManager);
                         } else {
-                          print("Picker");
                           // msg d'erreur
                           // User canceled the picker
                         }
@@ -77,6 +79,10 @@ class _MobileListActivity extends State<MobileListActivity> {
                     )
                   ],
                 ),
+                Visibility(
+                    visible: infoManager.isVisible,
+                    child: Text(infoManager.message,
+                        style: TextStyle(color: infoManager.messageColor))),
                 Provider.of<User>(context, listen: true).listActivity.isEmpty
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

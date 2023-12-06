@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class ActivityOfUser {
   // A afficher
   late String _categorie;
@@ -12,6 +14,8 @@ class ActivityOfUser {
 
   String get fileUuid => _fileUuid;
   String get nameFile => _nameFile;
+  String get categorie => _categorie;
+  String get date => _date;
   Map<String, int> get enteteCSV => _enteteCSV;
 
   // -- Getter/Setter -- Ancien //

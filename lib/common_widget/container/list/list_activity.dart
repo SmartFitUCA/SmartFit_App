@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
+import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
+import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
 import 'package:tuple/tuple.dart';
 
@@ -13,6 +15,8 @@ class ListActivity extends StatefulWidget {
 }
 
 class _ListActivity extends State<ListActivity> {
+  final ApiWrapper api = ApiWrapper();
+  final InfoMessage infoManager = InfoMessage();
   final ListActivityUtile _utile = ListActivityUtile();
 
   @override
@@ -34,9 +38,10 @@ class _ListActivity extends State<ListActivity> {
             child: WorkoutRow(
               wObj: activityMap,
               onDelete: () async {
-                if (await _utile.deleteFileOnBDD(
+                if (await api.deleteFile(
                     Provider.of<User>(context, listen: false).token,
-                    activityObj.fileUuid)) {
+                    activityObj.fileUuid,
+                    infoManager)) {
                   if (!Provider.of<User>(context, listen: false)
                       .managerSelectedActivity
                       .fileNotSelected(activityObj.fileUuid)) {

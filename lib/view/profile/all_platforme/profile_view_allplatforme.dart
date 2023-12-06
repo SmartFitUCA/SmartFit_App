@@ -6,14 +6,15 @@ import 'package:smartfit_app_mobile/common_widget/container/profile/profile_ente
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_info_user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_notification.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_other.dart';
+import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 
 class ProfileViewAllPlatforme extends StatefulWidget {
-  const ProfileViewAllPlatforme(this.positive, this.accountArr, this.otherArr,
-      {super.key});
   final bool positive;
   final List accountArr;
   final List otherArr;
+  const ProfileViewAllPlatforme(this.positive, this.accountArr, this.otherArr,
+      {super.key});
 
   @override
   State<ProfileViewAllPlatforme> createState() => _ProfileViewAllPlatforme();
