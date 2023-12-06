@@ -20,10 +20,22 @@ class MobileGraphAltitudeByTime extends StatefulWidget {
 class _MobileGraphAltitudeByTime extends State<MobileGraphAltitudeByTime> {
   @override
   Widget build(BuildContext context) {
-    final double maxY =
-        context.watch<User>().managerSelectedActivity.getMaxAltitude() + 2;
-    final double minY =
-        context.watch<User>().managerSelectedActivity.getMinAltitude() - 2;
+    final double maxY = context
+            .watch<User>()
+            .managerSelectedActivity
+            .activitySelected
+            .first
+            .activityInfo
+            .altitudeMax +
+        2;
+    final double minY = context
+            .watch<User>()
+            .managerSelectedActivity
+            .activitySelected
+            .first
+            .activityInfo
+            .altitudeMin -
+        2;
 
     final lineBarsData = [
       LineChartBarData(
@@ -57,7 +69,15 @@ class _MobileGraphAltitudeByTime extends State<MobileGraphAltitudeByTime> {
             titlesData: FlTitlesData(
               leftTitles: const AxisTitles(),
               topTitles: const AxisTitles(),
-              bottomTitles: const AxisTitles(),
+              bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                reservedSize: 20,
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  return Text(
+                      "${double.parse((value / 10).toStringAsFixed(2))}s");
+                },
+              )),
               rightTitles: AxisTitles(
                   sideTitles: SideTitles(
                 reservedSize: 60,

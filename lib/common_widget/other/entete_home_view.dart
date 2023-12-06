@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/view/home/notification_view.dart';
 
 class EnteteHomeView extends StatelessWidget {
@@ -18,7 +20,7 @@ class EnteteHomeView extends StatelessWidget {
               style: TextStyle(color: TColor.gray, fontSize: 12),
             ),
             Text(
-              "Benjelloun Othmane",
+              context.watch<User>().username,
               style: TextStyle(
                   color: TColor.black,
                   fontSize: 20,

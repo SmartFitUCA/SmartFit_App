@@ -24,4 +24,32 @@ class User extends ChangeNotifier {
     listActivity.insert(index, activity);
     notifyListeners();
   }
+
+  // ------------ Fonction Calcul -------- //
+  // --- Time --- //
+  double getTotalTimeAllActivity() {
+    double totalTime = 0.0;
+    for (ActivityOfUser activity in listActivity) {
+      totalTime += activity.activityInfo.timeOfActivity;
+    }
+    return totalTime;
+  }
+
+  // ------------ Walking -------------- //
+  // ---- Denivelé ---- //
+  double getTotalDenivelePositif() {
+    double totalDevPos = 0.0;
+    for (ActivityOfUser activity in listActivity) {
+      totalDevPos += activity.activityInfo.denivelePositif;
+    }
+    return totalDevPos;
+  }
+
+  double getTotalDeniveleNegatif() {
+    double totalDevNeg = 0.0;
+    for (ActivityOfUser activity in listActivity) {
+      totalDevNeg += activity.activityInfo.deniveleNegatif;
+    }
+    return totalDevNeg;
+  }
 }

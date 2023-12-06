@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:smartfit_app_mobile/objectbox.g.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -106,8 +107,9 @@ class ObjectBox {
     List<ActivityOfUser> userActivityList = List.empty(growable: true);
 
     for (Activity act in activityDBList) {
-      userActivityList.add(ActivityOfUser(
-          act.date.toString(), act.category, act.uuid, act.filename));
+      ActivityInfo actInfo = ActivityInfo.fromJson(jsonDecode(act.info));
+      userActivityList
+          .add(ActivityOfUser(actInfo, act.category, act.uuid, act.filename));
     }
 
     return userActivityList;

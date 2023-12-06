@@ -10,6 +10,9 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
+import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
+import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
@@ -34,9 +37,11 @@ class ListActivityUtile {
     // TODO: Not sure this line as an utility
     // localDB.saveActivityFile(activityOfUser.contentActivity);
 
-    Provider.of<User>(context, listen: false)
+    if (!Provider.of<User>(context, listen: false)
         .managerSelectedActivity
-        .addSelectedActivity(activityOfUser);
+        .addSelectedActivity(activityOfUser)) {
+      return const Tuple2(false, "Pas de même categorie");
+    }
     return const Tuple2(true, "Yeah");
   }
 
@@ -54,8 +59,10 @@ class ListActivityUtile {
         Provider.of<User>(context, listen: false).listActivity.clear();
         notZero = true;
       }
+      // -- connaitre le type de categorie pour changer le type d'info -- //
+
       Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
-          element["creation_date"].toString(),
+          ActivityInfo.fromJson(element["info"]),
           element["category"].toString(),
           element["uuid"].toString(),
           element["filename"].toString()));
@@ -66,22 +73,19 @@ class ListActivityUtile {
           element["uuid"],
           element["filename"],
           element["category"],
-          DateTime.parse(element["creation_date"]),
           element["info"]
-              .toString())); // Do not remove toString(), it do not work w/o it, idk why
+              .toString())); // TODO: Do not remove toString(), it do not work w/o it, idk why
     }
-    /*
-    if (notZero) {
-      await getContentActivity(context);
-    }*/
     return const Tuple2(true, "Yeah");
   }
 
-  Future<Tuple2<bool, String>> addFile(Uint8List bytes, String filename,
+  Future<Tuple2<bool, String>> _addFile(Uint8List bytes, String filename,
       String token, InfoMessage infoManager) async {
     // -- Transormer le fit en CSV
-    List<List<String>> csv = _managerFile.convertBytesFitFileIntoCSVList(bytes);
-    String csvString = const ListToCsvConverter().convert(csv);
+    Tuple4<bool, List<List<String>>, ActivityInfo, String> resultData =
+        _managerFile.convertBytesFitFileIntoCSVListAndGetInfo(bytes);
+
+    String csvString = const ListToCsvConverter().convert(resultData.item2);
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
 
     // Save on local storage if plateform not browser
@@ -90,20 +94,42 @@ class ListActivityUtile {
       actSaver.saveActivity(byteCSV, filename);
     }
 
-    String categoryActivity = filename.split("_").first.toLowerCase();
-    String dateActivity = filename.split("_")[1].split("T").first;
-
     Tuple2<bool, String> result = await api.uploadFileByte(
-        token, byteCSV, filename, categoryActivity, dateActivity, infoManager);
+        token,
+        byteCSV,
+        filename,
+        resultData.item4,
+        resultData.item3.startTime,
+        resultData.item3,
+        infoManager);
     if (result.item1 == false) {
       return Tuple2(false, result.item2);
     }
     return const Tuple2(true, "Yeah");
   }
 
+  // --- Ne marche pas sous window !! Jsp linux (mettre en format mobile) -- //
+  void addFileWeb(Uint8List? bytes, String token, String filename,
+      BuildContext context, InfoMessage infoManager) async {
+    if (bytes == null) {
+      return;
+    }
+    Tuple2<bool, String> resultAdd =
+        await _addFile(bytes, filename, token, infoManager);
+    if (!resultAdd.item1) {
+      //print("Message error");
+      return;
+    }
+    Tuple2<bool, String> resultGet = await getFiles(token, context);
+    if (!resultGet.item1) {
+      //print("Message error");
+      return;
+    }
+  }
+
   void addFileMobile(String path, String token, String filename,
       BuildContext context, InfoMessage infoManager) async {
-    Tuple2<bool, String> resultAdd = await addFile(
+    Tuple2<bool, String> resultAdd = await _addFile(
         await File(path).readAsBytes(), filename, token, infoManager);
     if (!resultAdd.item1) {
       //print("Message error");

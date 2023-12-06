@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/local_db/model.dart';
 import 'package:tuple/tuple.dart';
@@ -30,7 +31,6 @@ class RequestLocal implements IDataStrategy {
         "uuid": act.uuid,
         "filename": act.filename,
         "category": act.category,
-        "creation_date": act.date,
         "info": act.info
       };
       jsonList.add(json);
@@ -72,7 +72,8 @@ class RequestLocal implements IDataStrategy {
       Uint8List contentFile,
       String nameFile,
       String category,
-      String date) async {
+      DateTime date,
+      ActivityInfo activityInfo) async {
     return const Tuple2(false, "not implemented");
   }
 

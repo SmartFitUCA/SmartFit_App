@@ -17,6 +17,19 @@ class FuncBpmAndSpeedByTime {
         reservedSize: 40,
       );
 
+  SideTitles get leftTitles => SideTitles(
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 20,
+        reservedSize: 40,
+      );
+  SideTitles get bottomTitles => SideTitles(
+        getTitlesWidget: bottomTitleWidgets,
+        showTitles: true,
+        interval: 20,
+        reservedSize: 20,
+      );
+
   late final lineBarsData = [
     LineChartBarData(
       spots: data.bpmSecondes,
@@ -38,25 +51,95 @@ class FuncBpmAndSpeedByTime {
   late final tooltipsOnBar = lineBarsData[0];
 
   Widget rightTitleWidgets(double value, TitleMeta meta) {
+    double interval = data.maxBPM / 5;
     String text;
     switch (value.toInt()) {
       case 0:
-        text = '0%';
+        text = '0 BPM';
         break;
       case 20:
-        text = '20%';
+        text = "${(interval).toStringAsFixed(2)} BPM";
         break;
       case 40:
-        text = '40%';
+        text = "${(interval * 2).toStringAsFixed(2)} BPM";
         break;
       case 60:
-        text = '60%';
+        text = "${(interval * 3).toStringAsFixed(2)} BPM";
         break;
       case 80:
-        text = '80%';
+        text = "${(interval * 4).toStringAsFixed(2)} BPM";
         break;
       case 100:
-        text = '100%';
+        text = "${interval * 5} BPM";
+        break;
+      default:
+        return Container();
+    }
+
+    return Text(text,
+        style: TextStyle(
+          color: TColor.gray,
+          fontSize: 12,
+        ),
+        textAlign: TextAlign.center);
+  }
+
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    double interval = data.time / 5;
+    String text;
+    switch (value) {
+      case 0:
+        text = '0 s';
+        break;
+      case 20:
+        text = "${(interval).toStringAsFixed(2)} s";
+        break;
+      case 40:
+        text = "${(interval * 2).toStringAsFixed(2)} s";
+        break;
+      case 60:
+        text = "${(interval * 3).toStringAsFixed(2)} s";
+        break;
+      case 80:
+        text = "${(interval * 4).toStringAsFixed(2)} s";
+        break;
+      case 100:
+        text = "${(interval * 5).toStringAsFixed(2)} s";
+        break;
+      default:
+        return Container();
+    }
+
+    return Text(text,
+        style: TextStyle(
+          color: TColor.gray,
+          fontSize: 12,
+        ),
+        textAlign: TextAlign.center);
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    double interval = data.maxSpeed / 5;
+
+    String text;
+    switch (value.toInt()) {
+      case 0:
+        text = '0 m/s';
+        break;
+      case 20:
+        text = "${(interval / 5).toStringAsFixed(2)} m/s";
+        break;
+      case 40:
+        text = "${(interval * 2).toStringAsFixed(2)} m/s";
+        break;
+      case 60:
+        text = "${(interval * 3).toStringAsFixed(2)} m/s";
+        break;
+      case 80:
+        text = "${(interval * 4).toStringAsFixed(2)} m/s";
+        break;
+      case 100:
+        text = "${(interval * 5).toStringAsFixed(2)} m/s";
         break;
       default:
         return Container();

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/local_db/request_local.dart';
@@ -157,13 +158,14 @@ class ApiWrapper {
       Uint8List contentFile,
       String filename,
       String category,
-      String date,
+      DateTime date,
+      ActivityInfo activityInfo,
       InfoMessage infoManager) async {
     await init();
     if (handleOffline(infoManager)) return const Tuple2(false, "offline");
 
-    Tuple2<bool, String> res =
-        await api.uploadFileByte(token, contentFile, filename, category, date);
+    Tuple2<bool, String> res = await api.uploadFileByte(
+        token, contentFile, filename, category, date, activityInfo);
     stdout.write("uploadFileByte: ${res.item1}");
     return res;
   }

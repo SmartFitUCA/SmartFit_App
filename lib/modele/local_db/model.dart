@@ -19,9 +19,7 @@ class Activity {
   String uuid;
   String filename;
   String category;
-  DateTime date;
   String info;
 
-  Activity(
-      this.id, this.uuid, this.filename, this.category, this.date, this.info);
+  Activity(this.id, this.uuid, this.filename, this.category, this.info);
 }

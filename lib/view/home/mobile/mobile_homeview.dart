@@ -30,17 +30,23 @@ class _MobileHomeView extends State<MobileHomeView> {
 
     data = HomeViewUtil().initData(context);
     // -- BPM -- //
-    data.maxBPM = managerSelectedActivity.getMaxBpm();
-    data.minBPM = managerSelectedActivity.getMinBpm();
-    int avgBpm = managerSelectedActivity.getAvgBpm();
+    data.maxBPM =
+        managerSelectedActivity.activitySelected.first.activityInfo.bpmMax;
+    data.minBPM =
+        managerSelectedActivity.activitySelected.first.activityInfo.bpmMin;
+    int avgBpm =
+        managerSelectedActivity.activitySelected.first.activityInfo.bpmAvg;
 
     // -- Altitude -- //
-    double minAltitude = managerSelectedActivity.getMinAltitude();
-    double maxAltitude = managerSelectedActivity.getMaxAltitude();
-    double avgAltitude = (maxAltitude + minAltitude) / 2;
+    double minAltitude =
+        managerSelectedActivity.activitySelected.first.activityInfo.altitudeMin;
+    double maxAltitude =
+        managerSelectedActivity.activitySelected.first.activityInfo.altitudeMax;
+    double avgAltitude =
+        managerSelectedActivity.activitySelected.first.activityInfo.altitudeAvg;
     // -- Speed -- //
-    double maxSpeed = managerSelectedActivity.getMaxSpeed();
-    double avgSpeed = managerSelectedActivity.getAvgSpeed();
+    double maxSpeed = managerSelectedActivity.getMaxSpeedAllActivitySelected();
+    double avgSpeed = managerSelectedActivity.getAvgSpeedAllActivitySelected();
 
     return Scaffold(
       backgroundColor: TColor.white,

@@ -2,7 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/common_widget/container/list/list_activity.dart';
+import 'package:smartfit_app_mobile/common_widget/container/list/list_activity_widget.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
 import 'package:smartfit_app_mobile/modele/utile/list_activity/list_activity_utile.dart';
@@ -15,7 +15,6 @@ class MobileListActivity extends StatefulWidget {
 }
 
 class _MobileListActivity extends State<MobileListActivity> {
-  FilePickerResult? result;
   final ListActivityUtile _utile = ListActivityUtile();
   final InfoMessage infoManager = InfoMessage();
 
@@ -56,12 +55,12 @@ class _MobileListActivity extends State<MobileListActivity> {
                       onPressed: () async {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles();
-                        if (result != null) {
+                        if (result != null && result.files.isNotEmpty) {
                           // ignore: use_build_context_synchronously
                           _utile.addFileMobile(
                               result.files.single.path!,
                               Provider.of<User>(context, listen: false).token,
-                              result.files.single.name,
+                              result.files.first.name,
                               context,
                               infoManager);
                         } else {
@@ -98,7 +97,7 @@ class _MobileListActivity extends State<MobileListActivity> {
                               ),
                             )
                           ])
-                    : const ListActivity(),
+                    : const ListActivityWidget(),
                 SizedBox(
                   height: media.width * 0.1,
                 ),

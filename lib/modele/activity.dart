@@ -1,11 +1,11 @@
-import 'package:flutter/foundation.dart';
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 
 class ActivityOfUser {
+  final ActivityInfo _activityInfo;
   // A afficher
-  late String _categorie;
-  late String _date;
-  late String _fileUuid;
-  late String _nameFile;
+  final String _categorie;
+  final String _fileUuid;
+  final String _nameFile;
   // ------------ //
   late String _imageName;
 
@@ -14,8 +14,8 @@ class ActivityOfUser {
 
   String get fileUuid => _fileUuid;
   String get nameFile => _nameFile;
-  String get categorie => _categorie;
-  String get date => _date;
+  String get category => _categorie;
+  ActivityInfo get activityInfo => _activityInfo;
   Map<String, int> get enteteCSV => _enteteCSV;
 
   // -- Getter/Setter -- Ancien //
@@ -29,14 +29,9 @@ class ActivityOfUser {
   }
 
   ActivityOfUser(
-      String date, String categorie, String fileUuid, String nameFile) {
-    _categorie = categorie;
-    _date = date;
-    _fileUuid = fileUuid;
-    _nameFile = nameFile;
-
+      this._activityInfo, this._categorie, this._fileUuid, this._nameFile) {
     // Mettre dans une fonction appart
-    if (categorie == "Walking") {
+    if (_categorie == "Walking") {
       _imageName = "assets/img/workout1.svg";
     } else {
       // Mettre des conditions pour d'autre type d'activité
@@ -46,7 +41,19 @@ class ActivityOfUser {
 
   // -------------------------- FIN Localisation  ---------------------- //
 
-  Map<String, dynamic> toMap() {
-    return {'categorie': _categorie, 'image': _imageName, 'date': _date};
+  Map<String, dynamic> toMapGeneric() {
+    Map<String, dynamic> map = {
+      'categorie': _categorie,
+      'image': _imageName,
+      'date': _activityInfo.startTime,
+      'time': _activityInfo.timeOfActivity,
+    };
+    return map;
+  }
+
+  Map<String, dynamic> toMapWalking() {
+    Map<String, dynamic> map = toMapGeneric();
+    map.addAll(activityInfo.toMapWalking());
+    return map;
   }
 }
