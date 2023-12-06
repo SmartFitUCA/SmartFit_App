@@ -79,27 +79,9 @@ class ManagerSelectedActivity {
     return result;
   }
 
+//-------------------------------------------------------------------------------------------//
+
 // -----------------  BPM ------------------ //
-  /*
-  // Retourne le BPM Max (Fichier CSV)
-  int getMaxBpm() {
-    int max = 0;
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(c, i,
-            activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
-          int valueTmp = activitySelected[c].contentActivity[i]
-              [activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!];
-          if (valueTmp > max) {
-            max = valueTmp;
-          }
-        }
-      }
-    }
-
-    return max;
-  }*/
-
   int getBpmMaxAllActivitieSelected() {
     int max = 0;
     for (ActivityOfUser activityOfUser in activitySelected) {
@@ -119,64 +101,47 @@ class ManagerSelectedActivity {
     }
     return min;
   }
-  /*
-// Retourne le BPM Min (Fichier CSV)
-  int getMinBpm() {
-    int min = 300;
 
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(c, i,
-            activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
-          int valueTmp = activitySelected[c].contentActivity[i]
-              [activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!];
-          if (valueTmp < min) {
-            min = valueTmp;
-          }
-        }
+  int getBpmAvgAllActivitieSelected() {
+    int somme = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.bpmAvg;
+    }
+    return somme ~/ activitySelected.length;
+  }
+
+  // ------------------ Fin BPM ------------------- //
+  // ------------------ Altitude ------------------ //
+  double getMaxAltitudeAllActivitySelected() {
+    double max = 0.0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.altitudeMax > max) {
+        max = activityOfUser.activityInfo.altitudeMax;
+      }
+    }
+    return max;
+  }
+
+  double getMinAltitudeAllActivitySelected() {
+    double min = 0.0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      if (activityOfUser.activityInfo.altitudeMax < min) {
+        min = activityOfUser.activityInfo.altitudeMin;
       }
     }
     return min;
   }
-  
 
-  // Retourne le BPM avg (Fichier CSV)
-  int getAvgBpm() {
-    int somme = 0;
-    int nb = 0;
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(c, i,
-            activitySelected[c].enteteCSV["Value_${_managerFile.fielBPM}"]!)) {
-          somme += activitySelected[c].contentActivity[i][activitySelected[c]
-              .enteteCSV["Value_${_managerFile.fielBPM}"]!] as int;
-          nb++;
-        }
-      }
-    }
-    return somme ~/ nb;
-  }*/
-  /*
-  double getAvgAltitude() {
+  double getAvgAltitudeAllActivitySelected() {
     double somme = 0;
-    int nb = 0;
-    for (int c = 0; c < activitySelected.length; c++) {
-      for (int i = 0; i < activitySelected[c].contentActivity.length; i++) {
-        if (_notNull(
-            c,
-            i,
-            activitySelected[c]
-                .enteteCSV["Value_${_managerFile.fieldAltitude}"]!)) {
-          somme += activitySelected[c].contentActivity[i][activitySelected[c]
-              .enteteCSV["Value_${_managerFile.fieldAltitude}"]!];
-          nb++;
-        }
-      }
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.altitudeAvg;
     }
-    double average = somme / nb;
-    return double.parse(average.toStringAsFixed(2));
-  }*/
+    return somme / activitySelected.length;
+  }
+  // ------------------ Fin Altitude ------------------- //
 
+  // ----
   double getAvgTemperature() {
     double somme = 0;
     int nb = 0;
@@ -376,26 +341,6 @@ class ManagerSelectedActivity {
     }
     return max;
   }*/
-
-  double getMaxAltitudeAllActivitySelected() {
-    double max = 0.0;
-    for (ActivityOfUser activityOfUser in activitySelected) {
-      if (activityOfUser.activityInfo.altitudeMax > max) {
-        max = activityOfUser.activityInfo.altitudeMax;
-      }
-    }
-    return max;
-  }
-
-  double getMinAltitudeAllActivitySelected() {
-    double min = 0.0;
-    for (ActivityOfUser activityOfUser in activitySelected) {
-      if (activityOfUser.activityInfo.altitudeMax < min) {
-        min = activityOfUser.activityInfo.altitudeMin;
-      }
-    }
-    return min;
-  }
   /*
   // --- Fichier CSV --- //
   double getMinAltitude() {

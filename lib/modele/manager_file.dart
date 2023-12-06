@@ -140,8 +140,8 @@ class ManagerFile {
 
     // ------ Remplir info avec la ligne session --------- //
     info.startTime = DateTime.fromMillisecondsSinceEpoch(
-            int.parse(_getXfromListe(_startTime, ligneSession)))
-        .toIso8601String();
+        int.parse(_getXfromListe(_startTime, ligneSession)));
+
     info.timeOfActivity =
         double.parse(_getXfromListe(_timeActivity, ligneSession));
     // ----------------------------------------------------- //

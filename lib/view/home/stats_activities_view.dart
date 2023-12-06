@@ -29,14 +29,16 @@ class _StatAtivities extends State<StatAtivities> {
     // -- BPM -- //
     int maxBpm = managerSelectedActivity.getBpmMaxAllActivitieSelected();
     int minBpm = managerSelectedActivity.getBpmMinAllActivitieSelected();
-    int avgBpm = (minBpm + maxBpm) ~/ 2;
+    int avgBpm = managerSelectedActivity.getBpmAvgAllActivitieSelected();
     // -- Altitude -- //
     double maxAltitude =
         managerSelectedActivity.getMaxAltitudeAllActivitySelected();
     double minAltitude =
         managerSelectedActivity.getMinAltitudeAllActivitySelected();
-    double avgAltitude = (minAltitude + maxAltitude) / 2;
+    double avgAltitude =
+        managerSelectedActivity.getAvgAltitudeAllActivitySelected();
 
+    // ------
     double getTotalDistance =
         context.watch<User>().managerSelectedActivity.getTotalDistance();
     int totalSteps =

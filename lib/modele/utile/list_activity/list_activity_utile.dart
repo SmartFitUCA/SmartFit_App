@@ -58,10 +58,6 @@ class ListActivityUtile {
           element["uuid"].toString(),
           element["filename"].toString()));
     }
-    /*
-    if (notZero) {
-      await getContentActivity(context);
-    }*/
     return const Tuple2(true, "Yeah");
   }
 

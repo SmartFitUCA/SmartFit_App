@@ -7,7 +7,7 @@ class ActivityInfo {
   ActivityInfo();
 
   // -- Time -- // Ne pas calculer (Ligne session)
-  String startTime = "2000-01-01";
+  DateTime startTime = DateTime.now();
   double timeOfActivity = 0.0;
 
   // ----------- BPM ------------ //
@@ -118,7 +118,7 @@ class ActivityInfo {
       return;
     }
     // -- Ligne session -- //
-    startTime = map["startTime"];
+    startTime = DateTime.parse(map["startTime"]);
     timeOfActivity = map["timeOfActivity"].toDouble();
     // -- BPM -- //
     bpmAvg = map["bpmAvg"];
@@ -148,7 +148,7 @@ class ActivityInfo {
       'altitudeMin': altitudeMin,
       'altitudeAvg': altitudeAvg,
       // Ligne session
-      'startTime': startTime,
+      'startTime': startTime.toString(),
       'timeOfActivity': timeOfActivity,
     };
     return jsonEncode(jsonMap);
