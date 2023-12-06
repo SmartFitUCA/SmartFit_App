@@ -139,8 +139,27 @@ class ManagerSelectedActivity {
     }
     return somme / activitySelected.length;
   }
-  // ------------------ Fin Altitude ------------------- //
 
+  // ------------------ Fin Altitude ------------------- //
+  // ------------------ Denivelé ----------------------- //
+
+  double getTotalDenivelePositifAllActivitySelected() {
+    double somme = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.denivelePositif;
+    }
+    return somme;
+  }
+
+  double getTotalDeniveleNegatifAllActivitySelected() {
+    double somme = 0;
+    for (ActivityOfUser activityOfUser in activitySelected) {
+      somme += activityOfUser.activityInfo.denivelePositif;
+    }
+    return somme;
+  }
+
+  // ------------------ Fin Denivelé ------------------- //
   // ------------------ Température -------------------- //
   int getAvgTemperatureAllActivitySelected() {
     int somme = 0;

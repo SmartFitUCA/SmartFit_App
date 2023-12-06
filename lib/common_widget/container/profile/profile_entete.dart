@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 
 class ProfileEntete extends StatelessWidget {
   const ProfileEntete(this.username, {super.key});
@@ -45,7 +44,6 @@ class ProfileEntete extends StatelessWidget {
             ],
           ),
         ),
-        
       ],
     );
   }

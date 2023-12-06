@@ -52,4 +52,32 @@ class User extends ChangeNotifier {
     }
     return totalDevNeg;
   }
+
+  // ------------ Volume -------------- //
+  // -------- Last 7 days ----- //
+  Map<String, dynamic> getVolumeWhithDuration(Duration timeSoustract) {
+    List<ActivityOfUser> liste = [];
+    for (ActivityOfUser activityOfUser in listActivity) {
+      // Si l'activité à commencer après la dateActuelle moins 7 jours
+      if (activityOfUser.activityInfo.startTime
+          .isAfter(DateTime.now().subtract(timeSoustract))) {
+        liste.add(activityOfUser);
+      }
+    }
+    return _getVolume(liste);
+  }
+
+  Map<String, dynamic> _getVolume(List<ActivityOfUser> listeActivity) {
+    Map<String, dynamic> map = {};
+    ManagerSelectedActivity managerSelectedActivity = ManagerSelectedActivity();
+    managerSelectedActivity.activitySelected = listActivity;
+
+    map["nbActovity"] = managerSelectedActivity.activitySelected.length;
+    managerSelectedActivity.getTimeAllActivitySelected();
+    map["bpmAvg"] = managerSelectedActivity.getBpmAvgAllActivitieSelected();
+    map["denivelePositif"] =
+        managerSelectedActivity.getTotalDenivelePositifAllActivitySelected();
+    map["speedAvg"] = managerSelectedActivity.getAvgSpeedAllActivitySelected();
+    return map;
+  }
 }
