@@ -23,7 +23,7 @@ class _MyMapOSM extends State<MyMapOSM> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Carte Open Street Map "),
-        backgroundColor: TColor.primaryColor1,
+        backgroundColor: TColor.secondaryColor1,
       ),
       body: FlutterMap(
         options: MapOptions(center: listPolynines.first),

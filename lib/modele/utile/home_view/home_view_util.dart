@@ -22,7 +22,7 @@ class HomeViewUtil {
     List<FlSpot> bpmSecondes2 = List.from(bpmSecondes);
 
     return DataHomeView(normaliserPremierElement(bpmSecondes), normaliserPremierElement(normaliserDeuxiemeElement(bpmSecondes2)),
-         normaliserPremierElement(normaliserDeuxiemeElement(vitesseSecondes)), altitudeSeconde);
+         normaliserPremierElement(normaliserDeuxiemeElement(vitesseSecondes)), normaliserPremierElement(altitudeSeconde));
   }
 
   List<FlSpot> normaliserDeuxiemeElement(List<FlSpot> liste) {

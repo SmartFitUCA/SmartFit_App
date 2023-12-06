@@ -25,7 +25,7 @@ class _MobileMyMaps extends State<MobileMyMaps> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Carte Google Map "),
-          backgroundColor: TColor.primaryColor1,
+          backgroundColor: TColor.secondaryColor1,
         ),
         body: _getMap());
   }

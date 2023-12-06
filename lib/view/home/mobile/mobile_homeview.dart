@@ -47,7 +47,8 @@ class _MobileHomeView extends State<MobileHomeView> {
     // -- Speed -- //
     double maxSpeed = managerSelectedActivity.getMaxSpeed();
     double avgSpeed = managerSelectedActivity.getAvgSpeed();
-
+    data.maxSpeed = maxSpeed;
+    data.time = context.watch<User>().managerSelectedActivity.getTotalTime();
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(

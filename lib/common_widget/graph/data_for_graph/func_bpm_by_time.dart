@@ -67,19 +67,19 @@ class FuncBpmByTime {
         text = '0 s';
         break;
       case 20:
-        text = "${(interval).toStringAsFixed(2)} s";
+        text = "${(interval).toStringAsFixed(0)} s";
         break;
       case 40:
-        text = "${(interval * 2).toStringAsFixed(2)} s";
+        text = "${(interval * 2).toStringAsFixed(0)} s";
         break;
       case 60:
-        text = "${(interval * 3).toStringAsFixed(2)} s";
+        text = "${(interval * 3).toStringAsFixed(0)} s";
         break;
       case 80:
-        text = "${(interval * 4).toStringAsFixed(2)} s";
+        text = "${(interval * 4).toStringAsFixed(0)} s";
         break;
       case 100:
-        text = "${(interval * 5).toStringAsFixed(2)} s";
+        text = "${(interval * 5).toStringAsFixed(0)} s";
         break;
       default:
         return Container();
