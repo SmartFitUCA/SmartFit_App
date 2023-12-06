@@ -31,7 +31,7 @@ class ProfileInfoUser extends StatelessWidget {
         Expanded(
           child: TitleSubtitleCell(
             title:
-                "${context.watch<User>().getTotalDenivelePositif().toString()} + m",
+                "${context.watch<User>().getTotalDenivelePositifAllActivity().toString()} + m",
             subtitle: "Total dénivelé positif",
           ),
         ),
@@ -41,7 +41,7 @@ class ProfileInfoUser extends StatelessWidget {
         Expanded(
           child: TitleSubtitleCell(
             title:
-                "${context.watch<User>().getTotalDeniveleNegatif().toString()} - m",
+                "${context.watch<User>().getTotalDeniveleNegatifAllActivity().toString()} - m",
             subtitle: "Total dénivelé négatif",
           ),
         ),

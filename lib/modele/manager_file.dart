@@ -137,7 +137,6 @@ class ManagerFile {
     // ------ Remplir info avec la ligne session --------- //
     info.startTime = DateTime.fromMillisecondsSinceEpoch(
         int.parse(_getXfromListe(_startTime, ligneSession)));
-
     info.timeOfActivity =
         double.parse(_getXfromListe(_timeActivity, ligneSession));
     info.distance = double.parse(_getXfromListe(_totalDistance, ligneSession));
@@ -145,7 +144,17 @@ class ManagerFile {
     info.steps = int.parse(_getXfromListe(_totalStep, ligneSession));
     // ----------------------------------------------------- //
 
-    return Tuple4(true, csvData, info.getData(csvData), categorie);
+    // -- Extraire les données en fonction de la catégorie -- //
+    switch (categorie) {
+      case (_marche):
+        info.getDataWalking(csvData);
+      case (_velo):
+        info.getDataCycling(csvData);
+      default:
+        info.getDataGeneric(csvData);
+    }
+
+    return Tuple4(true, csvData, info, categorie);
   }
 
   List<dynamic> _getLigneSession(List<Record> listRecord) {
@@ -164,7 +173,7 @@ class ManagerFile {
         return liste[i + 1].toString();
       }
     }
-    return "null";
+    return "0";
   }
 
   List<Map<String, Map<String, String>>> getDataOfListeOfRecord(
