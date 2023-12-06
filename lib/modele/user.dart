@@ -54,7 +54,6 @@ class User extends ChangeNotifier {
   }
 
   // ------------ Volume -------------- //
-  // -------- Last 7 days ----- //
   Map<String, dynamic> getVolumeWhithDuration(Duration timeSoustract) {
     List<ActivityOfUser> liste = [];
     for (ActivityOfUser activityOfUser in listActivity) {
@@ -65,6 +64,10 @@ class User extends ChangeNotifier {
       }
     }
     return _getVolume(liste);
+  }
+
+  Map<String, dynamic> getVolumeAllTime() {
+    return _getVolume(listActivity);
   }
 
   Map<String, dynamic> _getVolume(List<ActivityOfUser> listeActivity) {

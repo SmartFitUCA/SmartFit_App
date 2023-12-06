@@ -3,10 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/container/container_stats_activities.dart';
 import 'package:smartfit_app_mobile/common_widget/other/entete_home_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
-import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
-import 'package:smartfit_app_mobile/modele/utile/home_view/home_view_util.dart';
 
 class Volumes extends StatefulWidget {
   const Volumes({super.key});
@@ -22,20 +20,15 @@ class _Volumes extends State<Volumes> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    data = HomeViewUtil().initData(context);
-    ManagerSelectedActivity managerSelectedActivity =
-        context.watch<User>().managerSelectedActivity;
+    User user = context.watch<User>();
 
-    // -- BPM -- //
-    int avgBpm = managerSelectedActivity.getBpmAvgAllActivitieSelected();
-
-    // -- Speed -- //
-    String avgSpeed = context
-        .watch<User>()
-        .managerSelectedActivity
-        .getAvgSpeedAllActivitySelected().toStringAsFixed(2);
-
-
+    Map<String, dynamic> volume7Days =
+        user.getVolumeWhithDuration(const Duration(days: 7));
+    Map<String, dynamic> volume1Months =
+        user.getVolumeWhithDuration(const Duration(days: 30));
+    Map<String, dynamic> volume1Year =
+        user.getVolumeWhithDuration(const Duration(days: 366));
+    Map<String, dynamic> volumeAllTime = user.getVolumeAllTime();
 
     return Scaffold(
       backgroundColor: TColor.white,
@@ -63,36 +56,36 @@ class _Volumes extends State<Volumes> {
                 SizedBox(
                   height: media.width * 0.03,
                 ),
-                 SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ContainerStatsActivities(
-                            "??", "Nombre Activitée(s)", Icons.numbers),
-                        SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? s", "Temps Total", Icons.timer),
-                        SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? BPM", "Bpm Moyens", Icons.favorite),
-                            SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? m/s", "Vitesse Moyenne", Icons.bolt),
-                            SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? + m", "Dénivelé Positif", Icons.hiking),
-                      ],
-                    ),),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ContainerStatsActivities(
+                          "??", "Nombre Activitée(s)", Icons.numbers),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? s", "Temps Total", Icons.timer),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? BPM", "Bpm Moyens", Icons.favorite),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? m/s", "Vitesse Moyenne", Icons.bolt),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? + m", "Dénivelé Positif", Icons.hiking),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: media.width * 0.03,
                 ),
@@ -103,36 +96,36 @@ class _Volumes extends State<Volumes> {
                       fontSize: 16,
                       fontWeight: FontWeight.w700),
                 ),
-                 SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ContainerStatsActivities(
-                            "??", "Nombre Activitée(s)", Icons.numbers),
-                        SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? s", "Temps Total", Icons.timer),
-                        SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? BPM", "Bpm Moyens", Icons.favorite),
-                            SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? m/s", "Vitesse Moyenne", Icons.bolt),
-                            SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? + m", "Dénivelé Positif", Icons.hiking),
-                      ],
-                    ),),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ContainerStatsActivities(
+                          "??", "Nombre Activitée(s)", Icons.numbers),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? s", "Temps Total", Icons.timer),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? BPM", "Bpm Moyens", Icons.favorite),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? m/s", "Vitesse Moyenne", Icons.bolt),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? + m", "Dénivelé Positif", Icons.hiking),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: media.width * 0.03,
                 ),
@@ -143,36 +136,36 @@ class _Volumes extends State<Volumes> {
                       fontSize: 16,
                       fontWeight: FontWeight.w700),
                 ),
-                 SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ContainerStatsActivities(
-                            "??", "Nombre Activitée(s)", Icons.numbers),
-                        SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? s", "Temps Total", Icons.timer),
-                        SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? BPM", "Bpm Moyens", Icons.favorite),
-                            SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? m/s", "Vitesse Moyenne", Icons.bolt),
-                            SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? + m", "Dénivelé Positif", Icons.hiking),
-                      ],
-                    ),),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ContainerStatsActivities(
+                          "??", "Nombre Activitée(s)", Icons.numbers),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? s", "Temps Total", Icons.timer),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? BPM", "Bpm Moyens", Icons.favorite),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? m/s", "Vitesse Moyenne", Icons.bolt),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? + m", "Dénivelé Positif", Icons.hiking),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: media.width * 0.03,
                 ),
@@ -183,36 +176,36 @@ class _Volumes extends State<Volumes> {
                       fontSize: 16,
                       fontWeight: FontWeight.w700),
                 ),
-                 SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ContainerStatsActivities(
-                            "??", "Nombre Activitée(s)", Icons.numbers),
-                        SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? s", "Temps Total", Icons.timer),
-                        SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? BPM", "Bpm Moyens", Icons.favorite),
-                            SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? m/s", "Vitesse Moyenne", Icons.bolt),
-                            SizedBox(
-                          width: media.width * 0.03,
-                        ),
-                        ContainerStatsActivities(
-                            "?? + m", "Dénivelé Positif", Icons.hiking),
-                      ],
-                    ),),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ContainerStatsActivities(
+                          "??", "Nombre Activitée(s)", Icons.numbers),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? s", "Temps Total", Icons.timer),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? BPM", "Bpm Moyens", Icons.favorite),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? m/s", "Vitesse Moyenne", Icons.bolt),
+                      SizedBox(
+                        width: media.width * 0.03,
+                      ),
+                      ContainerStatsActivities(
+                          "?? + m", "Dénivelé Positif", Icons.hiking),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: media.width * 0.03,
                 ),
