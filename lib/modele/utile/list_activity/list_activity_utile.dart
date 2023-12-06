@@ -81,6 +81,8 @@ class ListActivityUtile {
         resultData.item4,
         resultData.item3.startTime,
         resultData.item3);
+    // resultData.item4 == category
+    // resultData.item3 == ActivityInfo
     if (result.item1 == false) {
       return Tuple2(false, result.item2);
     }

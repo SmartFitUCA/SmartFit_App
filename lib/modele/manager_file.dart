@@ -113,7 +113,7 @@ class ManagerFile {
     categorie =
         _getCategoryById(int.parse(_getXfromListe(_sport, ligneSession)));
 
-    // -- Si la catégorie est pas prévu est est généric -- //
+    // -- Si la catégorie est pas prévu == généric -- //
     switch (categorie) {
       case (_marche):
         fieldAllowed = allowedFieldWalking;
@@ -143,7 +143,6 @@ class ManagerFile {
     info.calories = int.parse(_getXfromListe(_totalCalories, ligneSession));
     info.steps = int.parse(_getXfromListe(_totalStep, ligneSession));
     // ----------------------------------------------------- //
-
     // -- Extraire les données en fonction de la catégorie -- //
     switch (categorie) {
       case (_marche):
@@ -154,6 +153,7 @@ class ManagerFile {
         info.getDataGeneric(csvData);
     }
 
+    //print("Fin :  ManagerFile -> convertBytesFitFileIntoCSVListAndGetInfo ");
     return Tuple4(true, csvData, info, categorie);
   }
 

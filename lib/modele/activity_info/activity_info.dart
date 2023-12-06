@@ -319,7 +319,9 @@ class ActivityInfo {
       // -- Altitude -- //
       "AltitudeMax": altitudeMax,
       "AltitudeMin": altitudeMin,
-      "AltitudeAvg": altitudeAvg
+      "AltitudeAvg": altitudeAvg,
+      // -- Vitesse -- //
+      "VitesseAvg": vitesseAvg
     };
   }
 
@@ -330,30 +332,106 @@ class ActivityInfo {
       return;
     }
     // -- Ligne session -- //
-    startTime = DateTime.parse(map["startTime"]);
-    timeOfActivity = map["timeOfActivity"].toDouble();
-    distance = map["distance"].toDouble();
-    calories = map["calories"].toInt();
-    steps = map["steps"].toInt();
+    try {
+      startTime = DateTime.parse(map["startTime"]);
+    } catch (e) {
+      print("Impossible de recup -> startTime");
+    }
+    try {
+      timeOfActivity = map["timeOfActivity"];
+    } catch (e) {
+      print("Impossible de recup -> timeOfActivity");
+    }
+    try {
+      distance = map["distance"].toDouble();
+    } catch (e) {
+      print("Impossible de recup -> distance");
+    }
+    try {
+      calories = map["calories"];
+    } catch (e) {
+      print("Impossible de recup -> calories");
+    }
+    try {
+      steps = map["steps"];
+    } catch (e) {
+      print("Impossible de recup -> steps");
+    }
     // -- BPM -- //
-    bpmAvg = map["bpmAvg"];
-    bpmMax = map["bpmMax"];
-    bpmMin = map["bpmMin"];
+    try {
+      bpmAvg = map["bpmAvg"];
+    } catch (e) {
+      print("Impossible de recup -> ");
+    }
+    try {
+      bpmMax = map["bpmMax"];
+    } catch (e) {
+      print("Impossible de recup -> ");
+    }
+    try {
+      bpmMin = map["bpmMin"];
+    } catch (e) {
+      print("Impossible de recup -> ");
+    }
     // -- Denivelé -- //
-    deniveleNegatif = map["deniveleNegatif"].toDouble();
-    denivelePositif = map["denivelePositif"].toDouble();
+    try {
+      deniveleNegatif = map["deniveleNegatif"];
+    } catch (e) {
+      print("Impossible de recup -> deniveleNegatif");
+    }
+    try {
+      denivelePositif = map["denivelePositif"];
+    } catch (e) {
+      print("Impossible de recup -> denivelePositif");
+    }
     // -- Altitude -- //
-    altitudeMax = map["altitudeMax"].toDouble();
-    altitudeMin = map["altitudeMin"].toDouble();
-    altitudeAvg = map["altitudeAvg"].toDouble();
+    try {
+      altitudeMax = map["altitudeMax"];
+    } catch (e) {
+      print("Impossible de recup -> altitudeMax");
+    }
+    try {
+      altitudeMin = map["altitudeMin"];
+    } catch (e) {
+      print("Impossible de recup -> altitudeMin");
+    }
+    try {
+      altitudeAvg = map["altitudeAvg"];
+    } catch (e) {
+      print("Impossible de recup -> altitudeAvg");
+    }
     // -- Température -- //
-    temperatureMax = map["temperatureMax"].toInt();
-    temperatureMin = map["temperatureMin"].toInt();
-    temperatureAvg = map["temperatureAvg"].toInt();
+    try {
+      temperatureMax = map["temperatureMax"];
+    } catch (e) {
+      print("Impossible de recup -> temperatureMax");
+    }
+    try {
+      temperatureMin = map["temperatureMin"];
+    } catch (e) {
+      print("Impossible de recup -> temperatureMin");
+    }
+    try {
+      temperatureAvg = map["temperatureAvg"];
+    } catch (e) {
+      print("Impossible de recup -> temperatureAvg");
+    }
     // -- Vitesse -- //
-    vitesseMax = map["vitesseMax"].toDouble();
-    vitesseMin = map["vitesseMin"].toDouble();
-    vitesseAvg = map["vitesseAvg"].toDouble();
+    try {
+      vitesseMax = map["vitesseMax"].toDouble();
+    } catch (e) {
+      print("Impossible de recup -> vitesseMax");
+    }
+    try {
+      vitesseMin = map["vitesseMin"].toDouble();
+    } catch (e) {
+      print("Impossible de recup -> vitesseMin");
+    }
+    try {
+      vitesseAvg = map["vitesseAvg"].toDouble();
+    } catch (e) {
+      print("Impossible de recup -> vitesseAvg");
+    }
   }
 
   // -- Ecriture -- //
@@ -379,7 +457,7 @@ class ActivityInfo {
       'vitesseMin': vitesseMin,
       'vitesseAvg': vitesseAvg,
       // Ligne session
-      'startTime': startTime.toString(),
+      'startTime': startTime.toIso8601String(),
       'timeOfActivity': timeOfActivity,
       'distance': distance,
       'calories': calories,

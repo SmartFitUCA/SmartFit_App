@@ -1,14 +1,15 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:smartfit_app_mobile/modele/convertisseur.dart';
 
-class WorkoutRow extends StatelessWidget {
+class WorkoutRowWalking extends StatelessWidget {
   final Map wObj;
   final bool isSelected;
   final VoidCallback onDelete;
   final VoidCallback onClick;
 
-  const WorkoutRow({
+  const WorkoutRowWalking({
     Key? key,
     required this.wObj,
     required this.onDelete,
@@ -74,14 +75,14 @@ class WorkoutRow extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Temps : ${wObj["time"].toString()}",
+                          "Temps : ${Convertisseur.secondeIntoMinute(wObj["time"]).toStringAsFixed(2)} m",
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 12,
                           ),
                         ),
                         Text(
-                          "Dénivelé positif : ${wObj["DenivelePositif"].toString()}",
+                          "Vitesse moyenne : ${Convertisseur.msIntoKmh(wObj["VitesseAvg"]).toStringAsFixed(2)} km/h",
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 12,
