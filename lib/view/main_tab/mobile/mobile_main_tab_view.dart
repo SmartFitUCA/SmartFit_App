@@ -92,8 +92,8 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
               width: 40,
             ),
             TabButton(
-                icon: "assets/img/Camera_tab.svg",
-                selectIcon: "assets/img/Camera_tab_select.svg",
+                icon: "assets/img/mapIcon.svg",
+                selectIcon: "assets/img/mapIcon_selected.svg",
                 isActive: selectTab == 2,
                 onTap: () {
                   selectTab = 2;

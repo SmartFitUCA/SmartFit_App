@@ -76,8 +76,8 @@ class _WebMainTabViewState extends State<WebMainTabView> {
                   ),
                 ),
                 sideBarButton(
-                  icon: "assets/img/icon_map.svg",
-                  selectIcon: "assets/img/icon_map.svg",
+                  icon: "assets/img/mapIcon.svg",
+                  selectIcon: "assets/img/mapIcon_selected.svg",
                   index: 2,
                   onTap: () => updateTab(2, const MyMap()),
                 ),
