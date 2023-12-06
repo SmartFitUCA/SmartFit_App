@@ -45,17 +45,7 @@ class ProfileEntete extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          width: 70,
-          height: 25,
-          child: RoundButton(
-            title: "Editer",
-            type: RoundButtonType.bgGradient,
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            onPressed: () {},
-          ),
-        )
+        
       ],
     );
   }
