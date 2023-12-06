@@ -21,7 +21,7 @@ class _BpmByTime extends State<BpmByTime> {
     final FuncBpmByTime funcBpm = FuncBpmByTime(widget.data);
 
     return ScreenTypeLayout.builder(
-      mobile: (_) => MobileBpmByTime(widget.media, widget.data),
+      mobile: (_) => MobileBpmByTime(widget.media, widget.data, funcBpm),
       desktop: (_) => WebBpmByTime(widget.media, widget.data, funcBpm),
     );
   }
