@@ -50,7 +50,6 @@ class ListActivityUtile {
         Provider.of<User>(context, listen: false).listActivity.clear();
         notZero = true;
       }
-      // -- connaitre le type de categorie pour changer le type d'info -- //
 
       Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
           ActivityInfo.fromJson(element["info"]),
@@ -71,8 +70,10 @@ class ListActivityUtile {
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
     // --- Save Local
     // --- Api
-    //ManagerFile x = ManagerFile();
-    //await File("${await x.localPath}\\test.csv").writeAsString(csvString);
+    /*
+    ManagerFile x = ManagerFile();
+    await File("${await x.localPath}\\test.csv").writeAsString(csvString);
+    print("${await x.localPath}\\test.csv");*/
 
     Tuple2<bool, String> result = await _strategy.uploadFileByte(
         token,
