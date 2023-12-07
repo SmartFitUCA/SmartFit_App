@@ -20,7 +20,7 @@ class MobileContainerStatsActivities extends StatelessWidget {
 
     return Container(
       height: media.width * 0.33,
-      width: media.width * 0.30,
+      width: media.width * 0.28,
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(

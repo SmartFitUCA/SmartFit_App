@@ -139,7 +139,7 @@ class _StatAtivities extends State<StatAtivities> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ContainerStatsActivities(
-                        "$avgSpeed m/s", "Moyenne vitesse", Icons.bolt),
+                        "${avgSpeed.toStringAsFixed(2)} m/s", "Moyenne vitesse", Icons.bolt),
                     SizedBox(
                       width: media.width * 0.03,
                     ),
@@ -179,7 +179,7 @@ class _StatAtivities extends State<StatAtivities> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ContainerStatsActivities(
-                        "$avgAltitude m", "Moyenne Altitude", Icons.landscape),
+                        "${avgAltitude.toStringAsFixed(2)} m", "Moyenne Altitude", Icons.landscape),
                     SizedBox(
                       width: media.width * 0.03,
                     ),

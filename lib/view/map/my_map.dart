@@ -28,9 +28,9 @@ class _MyMapState extends State<MyMap> {
     if (listSelected.length > 1) {
       return ScreenTypeLayout.builder(
         mobile: (_) => const NoActivityView(
-            "Qu'une seule activité doit être sélectionner"),
+            "Une seule activité doit être sélectionnée"),
         desktop: (_) => const NoActivityView(
-            "Qu'une seule activité doit être sélectionner"),
+            "Une seule activité doit être sélectionnée"),
       );
     }
     return ScreenTypeLayout.builder(
