@@ -63,11 +63,10 @@ class _WebHomeView extends State<WebHomeView> {
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   height: media.width * 0.03,
@@ -76,9 +75,9 @@ class _WebHomeView extends State<WebHomeView> {
                 SizedBox(
                   height: media.width * 0.03,
                 ),
-                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Status d'activité",
@@ -90,7 +89,8 @@ class _WebHomeView extends State<WebHomeView> {
                         SizedBox(
                           height: media.width * 0.02,
                         ),
-                        Row(children: [
+                        Row(mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           BpmByTime(media, data),
                           SizedBox(
                             width: media.width * 0.01,
@@ -111,7 +111,7 @@ class _WebHomeView extends State<WebHomeView> {
                     height: media.width * 0.05,
                   ),
                   Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Rythme cardique et vitesse",
@@ -124,7 +124,7 @@ class _WebHomeView extends State<WebHomeView> {
                           height: media.width * 0.03,
                         ),
                         Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               GraphBpmAndSpeedByTime(media, data),
                               SizedBox(
@@ -156,7 +156,7 @@ class _WebHomeView extends State<WebHomeView> {
                       fontSize: 16,
                       fontWeight: FontWeight.w700),
                 ),
-                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   GraphAltitudeByTime(media, data),
                   LigneContainerStats(
                       "${minAltitude.toInt()} m",
@@ -172,8 +172,8 @@ class _WebHomeView extends State<WebHomeView> {
               ],
             ),
           ),
-        ),
       ),
+      
     );
   }
 }
