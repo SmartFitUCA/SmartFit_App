@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/common_widget/container/container_stats_activities.dart';
+import 'package:smartfit_app_mobile/modele/convertisseur.dart';
 
 class VolumesList extends StatelessWidget {
   final Map<String, dynamic> volume;
@@ -24,7 +25,9 @@ class VolumesList extends StatelessWidget {
             width: media.width * 0.03,
           ),
           ContainerStatsActivities(
-              volume["durationActiviy"].toString(), "Temps Total", Icons.timer),
+              "${Convertisseur.secondeIntoMinute(volume["durationActiviy"]).toStringAsFixed(2)} m",
+              "Temps Total",
+              Icons.timer),
           SizedBox(
             width: media.width * 0.03,
           ),
@@ -34,12 +37,16 @@ class VolumesList extends StatelessWidget {
             width: media.width * 0.03,
           ),
           ContainerStatsActivities(
-              volume["speedAvg"].toString(), "Vitesse Moyenne", Icons.bolt),
+              " ${Convertisseur.msIntoKmh(volume["speedAvg"]).toStringAsFixed(2)} km/h",
+              "Vitesse Moyenne",
+              Icons.bolt),
           SizedBox(
             width: media.width * 0.03,
           ),
-          ContainerStatsActivities(volume["denivelePositif"].toString(),
-              "Dénivelé Positif", Icons.hiking),
+          ContainerStatsActivities(
+              "${volume["denivelePositif"].toStringAsFixed(2)} m",
+              "Dénivelé Positif",
+              Icons.hiking),
         ],
       ),
     );

@@ -5,7 +5,6 @@ import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/view/home/mobile/mobile_homeview.dart';
 import 'package:smartfit_app_mobile/view/home/no_activity_view.dart';
 import 'package:smartfit_app_mobile/view/home/stats_activities_view.dart';
-import 'package:smartfit_app_mobile/view/volumes/volumes_view.dart';
 import 'package:smartfit_app_mobile/view/home/web/web_homeview.dart';
 
 class HomeView extends StatefulWidget {
