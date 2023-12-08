@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
-import 'package:smartfit_app_mobile/modele/convertisseur.dart';
 import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
 
 class User extends ChangeNotifier {
