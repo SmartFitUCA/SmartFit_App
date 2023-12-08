@@ -20,7 +20,7 @@ class WebContainerStatsActivities extends StatelessWidget {
 
     return Container(
       height: media.width * 0.2,
-      width: media.width * 0.3,
+      width: media.width * 0.28,
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(

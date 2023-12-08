@@ -58,7 +58,7 @@ class ObjectBox {
   }
 
   void addUser(String username, String email, String token) {
-    userBox.put(User(1, username, email, token));
+    userBox.put(User(0, username, email, token));
   }
 
   // ===== Activity =====

@@ -186,6 +186,7 @@ class ManagerFile {
       Map<String, Map<String, String>> ligneDataResult = {};
       // -- Skip ligne whith no data -- //
       bool skip = true;
+      int nbData = 0;
 
       // -- Si ce n'est pas de la data on pass -- //
       if (listeField[0] != "Data") {
@@ -198,7 +199,10 @@ class ManagerFile {
           tmp["Unite"] = listeField[i + 2].toString();
           ligneDataResult[listeField[i]] = tmp;
           i += 2;
-          skip = false;
+          nbData += 1;
+          if (nbData >= 2) {
+            skip = false;
+          }
         }
 
         // -- Pour boucler -- //

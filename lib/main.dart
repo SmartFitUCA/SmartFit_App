@@ -15,6 +15,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   localDB = await ObjectBox.create();
   await localDB.init();
+  localDB.configBox.put(db.Config(0, true));
 
   runApp(ChangeNotifierProvider(
       create: (context) => User(), child: const MyApp()));

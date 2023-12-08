@@ -66,7 +66,6 @@ class ListActivityUtile {
         Provider.of<User>(context, listen: false).listActivity.clear();
         notZero = true;
       }
-      // -- connaitre le type de categorie pour changer le type d'info -- //
 
       Provider.of<User>(context, listen: false).addActivity(ActivityOfUser(
           ActivityInfo.fromJson(element["info"]),

@@ -47,8 +47,13 @@ class _MobileHomeView extends State<MobileHomeView> {
     // -- Speed -- //
     double maxSpeed = managerSelectedActivity.getMaxSpeedAllActivitySelected();
     double avgSpeed = managerSelectedActivity.getAvgSpeedAllActivitySelected();
+    double minSpeed = managerSelectedActivity.getMinSpeedAllActivitySelected();
+
     data.maxSpeed = maxSpeed;
-    data.time = context.watch<User>().managerSelectedActivity.getTimeAllActivitySelected();
+    data.time = context
+        .watch<User>()
+        .managerSelectedActivity
+        .getTimeAllActivitySelected();
     return Scaffold(
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
@@ -107,14 +112,14 @@ class _MobileHomeView extends State<MobileHomeView> {
                 ),
                 LigneContainerStats(
                     "${double.parse(maxSpeed.toStringAsFixed(2))} m/s",
+                    "${double.parse(minSpeed.toStringAsFixed(2))} m/s",
                     "${double.parse(avgSpeed.toStringAsFixed(2))} m/s",
-                    "${avgBpm.toString()} BPM",
-                    "Max Speed",
-                    "Moyenne Speed",
-                    "Moyenne BPM",
+                    "Max vitesse",
+                    "Min vitesse",
+                    "Moyenne vitesse",
                     Icons.trending_down,
                     Icons.trending_up,
-                    Icons.favorite_outline),
+                    Icons.trending_up),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -135,9 +140,9 @@ class _MobileHomeView extends State<MobileHomeView> {
                     "${minAltitude.toInt()} M",
                     "${maxAltitude.toInt()} M",
                     "${avgAltitude.toInt()} M",
-                    "Minimum",
-                    "Maximum",
-                    "Moyenne",
+                    "Altitude minimum",
+                    "Altitude maximum",
+                    "Altitude moyenne",
                     Icons.trending_down,
                     Icons.trending_up,
                     Icons.favorite_outline),
