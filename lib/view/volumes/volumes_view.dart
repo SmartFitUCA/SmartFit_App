@@ -21,6 +21,7 @@ class _VolumesViews extends State<VolumesView> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     User user = context.watch<User>();
+    DateTime date = DateTime.now();
 
     Map<String, dynamic> volume7Days =
         user.getVolumeWhithDuration(const Duration(days: 7));
@@ -47,7 +48,7 @@ class _VolumesViews extends State<VolumesView> {
                   height: media.width * 0.05,
                 ),
                 Text(
-                  "Derniere semaine",
+                  "Derniere semaine : ${date.day}/${date.month}/${date.year} - ${date.subtract(const Duration(days: 7)).day}/${date.subtract(const Duration(days: 7)).month}/${date.subtract(const Duration(days: 7)).year}",
                   style: TextStyle(
                       color: TColor.black,
                       fontSize: 16,
@@ -61,7 +62,7 @@ class _VolumesViews extends State<VolumesView> {
                   height: media.width * 0.03,
                 ),
                 Text(
-                  "Dernier Mois",
+                  "Dernier Mois : ${date.day}/${date.month}/${date.year} - ${date.subtract(const Duration(days: 30)).day}/${date.subtract(const Duration(days: 30)).month}/${date.subtract(const Duration(days: 30)).year}",
                   style: TextStyle(
                       color: TColor.black,
                       fontSize: 16,
@@ -72,7 +73,7 @@ class _VolumesViews extends State<VolumesView> {
                   height: media.width * 0.03,
                 ),
                 Text(
-                  "Dernière année",
+                  "Dernière année : ${date.day}/${date.month}/${date.year} - ${date.subtract(const Duration(days: 366)).day}/${date.subtract(const Duration(days: 366)).month}/${date.subtract(const Duration(days: 366)).year}",
                   style: TextStyle(
                       color: TColor.black,
                       fontSize: 16,
