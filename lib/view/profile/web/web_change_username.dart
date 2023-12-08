@@ -1,3 +1,4 @@
+import 'package:smartfit_app_mobile/main.dart';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:provider/provider.dart';
@@ -110,7 +111,7 @@ class _WebChangeUsernameViewState extends State<WebChangeUsernameView> {
                       RoundButton(
                           title: "Confirmer",
                           onPressed: () async {
-                            bool res = await api.modifyUserInfo(
+                            bool res = await api.updateUserInfo(
                                 'username',
                                 controllerTextUsername.text,
                                 Provider.of<User>(context, listen: false).token,
@@ -118,6 +119,7 @@ class _WebChangeUsernameViewState extends State<WebChangeUsernameView> {
                             if (res) {
                               Provider.of<User>(context, listen: false)
                                   .username = controllerTextUsername.text;
+                              localDB.setUserName(controllerTextUsername.text);
                             }
                             setState(() {});
                           }),

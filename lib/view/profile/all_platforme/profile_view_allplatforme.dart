@@ -1,3 +1,4 @@
+import 'package:smartfit_app_mobile/common_widget/container/profile/profile_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
@@ -8,11 +9,12 @@ import 'package:smartfit_app_mobile/common_widget/container/profile/profile_othe
 import 'package:smartfit_app_mobile/modele/user.dart';
 
 class ProfileViewAllPlatforme extends StatefulWidget {
-  const ProfileViewAllPlatforme(this.positive, this.accountArr, this.otherArr,
-      {super.key});
-  final bool positive;
+  final bool offlineSave;
   final List accountArr;
   final List otherArr;
+  const ProfileViewAllPlatforme(
+      this.offlineSave, this.accountArr, this.otherArr,
+      {super.key});
 
   @override
   State<ProfileViewAllPlatforme> createState() => _ProfileViewAllPlatforme();
@@ -51,6 +53,13 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
                 height: 25,
               ),
               ProfileCompte(widget.accountArr),
+              const SizedBox(
+                height: 25,
+              ),
+              // TODO: Download/Delete (local) all users files on toggle ?
+              // TODO: Display size of download in Mo
+              const ProfileSwitch(
+                  "Offline mode", "Save your files locally", "local_save.png"),
               const SizedBox(
                 height: 25,
               ),
