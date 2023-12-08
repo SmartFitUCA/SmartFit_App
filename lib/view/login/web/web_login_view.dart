@@ -172,6 +172,7 @@ class _WebLoginView extends State<WebLoginView> {
                         util.fillUser(context, infoUser.item2, result.item2);
                         localDB.userBox.put(User(0, infoUser.item2["username"],
                             infoUser.item2["email"], result.item2));
+                        localDB.configBox.put(Config(0, false));
                         Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -29,7 +29,7 @@ class _MobileListActivity extends State<MobileListActivity> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
                 Row(
@@ -43,9 +43,13 @@ class _MobileListActivity extends State<MobileListActivity> {
                           fontWeight: FontWeight.w700),
                     ),
                     TextButton(
-                        onPressed: () => _utile.getFiles(
-                            Provider.of<User>(context, listen: false).token,
-                            context),
+                        onPressed: () async {
+                          await _utile.getFiles(
+                              Provider.of<User>(context, listen: false).token,
+                              context,
+                              infoManager);
+                          setState(() {});
+                        },
                         child: Text("Get activity",
                             style: TextStyle(
                                 color: TColor.gray,
@@ -56,17 +60,18 @@ class _MobileListActivity extends State<MobileListActivity> {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles();
                         if (result != null && result.files.isNotEmpty) {
-                          // ignore: use_build_context_synchronously
-                          _utile.addFileMobile(
+                          await _utile.addFileMobile(
                               result.files.single.path!,
                               Provider.of<User>(context, listen: false).token,
                               result.files.first.name,
                               context,
                               infoManager);
+                          setState(() {});
                         } else {
                           // msg d'erreur
                           // User canceled the picker
                         }
+                        setState(() {});
                       },
                       child: Text(
                         "Ajouter",

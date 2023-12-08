@@ -113,7 +113,7 @@ class ManagerFile {
     categorie =
         _getCategoryById(int.parse(_getXfromListe(_sport, ligneSession)));
 
-    // -- Si la catégorie est pas prévu est est généric -- //
+    // -- Si la catégorie est pas prévu == généric -- //
     switch (categorie) {
       case (_marche):
         fieldAllowed = allowedFieldWalking;
@@ -137,15 +137,24 @@ class ManagerFile {
     // ------ Remplir info avec la ligne session --------- //
     info.startTime = DateTime.fromMillisecondsSinceEpoch(
         int.parse(_getXfromListe(_startTime, ligneSession)));
-
     info.timeOfActivity =
         double.parse(_getXfromListe(_timeActivity, ligneSession));
     info.distance = double.parse(_getXfromListe(_totalDistance, ligneSession));
     info.calories = int.parse(_getXfromListe(_totalCalories, ligneSession));
     info.steps = int.parse(_getXfromListe(_totalStep, ligneSession));
     // ----------------------------------------------------- //
+    // -- Extraire les données en fonction de la catégorie -- //
+    switch (categorie) {
+      case (_marche):
+        info.getDataWalking(csvData);
+      case (_velo):
+        info.getDataCycling(csvData);
+      default:
+        info.getDataGeneric(csvData);
+    }
 
-    return Tuple4(true, csvData, info.getData(csvData), categorie);
+    //print("Fin :  ManagerFile -> convertBytesFitFileIntoCSVListAndGetInfo ");
+    return Tuple4(true, csvData, info, categorie);
   }
 
   List<dynamic> _getLigneSession(List<Record> listRecord) {
@@ -164,7 +173,7 @@ class ManagerFile {
         return liste[i + 1].toString();
       }
     }
-    return "null";
+    return "0";
   }
 
   List<Map<String, Map<String, String>>> getDataOfListeOfRecord(

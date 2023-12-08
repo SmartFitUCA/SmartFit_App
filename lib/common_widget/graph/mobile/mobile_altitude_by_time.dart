@@ -2,14 +2,16 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/common_widget/graph/data_for_graph/func_bpm_by_time.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
 
 class MobileGraphAltitudeByTime extends StatefulWidget {
   final Size media;
   final DataHomeView data;
+  final FuncBpmByTime func;
 
-  const MobileGraphAltitudeByTime(this.media, this.data, {Key? key})
+  const MobileGraphAltitudeByTime(this.media, this.data, this.func, {Key? key})
       : super(key: key);
 
   @override
@@ -70,20 +72,19 @@ class _MobileGraphAltitudeByTime extends State<MobileGraphAltitudeByTime> {
               leftTitles: const AxisTitles(),
               topTitles: const AxisTitles(),
               bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                reservedSize: 20,
-                showTitles: true,
-                getTitlesWidget: (value, meta) {
-                  return Text(
-                      "${double.parse((value / 10).toStringAsFixed(2))}s");
-                },
-              )),
+                sideTitles: widget.func.bottomTitles,
+              ),
               rightTitles: AxisTitles(
                   sideTitles: SideTitles(
                 reservedSize: 60,
                 showTitles: true,
                 getTitlesWidget: (value, meta) {
-                  return Text("${double.parse(value.toStringAsFixed(2))} m");
+                   return Text("${double.parse(value.toStringAsFixed(2))} m",
+                      style: TextStyle(
+                        color: TColor.gray,
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.center);
                 },
               )),
             ))));

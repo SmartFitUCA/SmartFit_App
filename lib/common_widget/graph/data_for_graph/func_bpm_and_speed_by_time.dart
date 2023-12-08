@@ -14,14 +14,14 @@ class FuncBpmAndSpeedByTime {
         getTitlesWidget: rightTitleWidgets,
         showTitles: true,
         interval: 20,
-        reservedSize: 40,
+        reservedSize: 42,
       );
 
   SideTitles get leftTitles => SideTitles(
         getTitlesWidget: leftTitleWidgets,
         showTitles: true,
         interval: 20,
-        reservedSize: 40,
+        reservedSize: 42,
       );
   SideTitles get bottomTitles => SideTitles(
         getTitlesWidget: bottomTitleWidgets,
@@ -79,7 +79,7 @@ class FuncBpmAndSpeedByTime {
     return Text(text,
         style: TextStyle(
           color: TColor.gray,
-          fontSize: 12,
+          fontSize: 8,
         ),
         textAlign: TextAlign.center);
   }
@@ -113,7 +113,7 @@ class FuncBpmAndSpeedByTime {
     return Text(text,
         style: TextStyle(
           color: TColor.gray,
-          fontSize: 12,
+          fontSize: 8,
         ),
         textAlign: TextAlign.center);
   }
@@ -148,7 +148,7 @@ class FuncBpmAndSpeedByTime {
     return Text(text,
         style: TextStyle(
           color: TColor.gray,
-          fontSize: 12,
+          fontSize: 8,
         ),
         textAlign: TextAlign.center);
   }

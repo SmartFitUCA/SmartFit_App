@@ -1,7 +1,11 @@
+import 'package:smartfit_app_mobile/modele/activity_saver.dart';
+import 'package:smartfit_app_mobile/modele/helper.dart';
+import 'package:smartfit_app_mobile/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfit_app_mobile/common_widget/container/workout_row.dart';
 import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
+import 'package:smartfit_app_mobile/common_widget/container/workout_row/workout_row_generic.dart';
+import 'package:smartfit_app_mobile/common_widget/container/workout_row/workout_row_walking.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
@@ -24,73 +28,112 @@ class _ListActivityWidget extends State<ListActivityWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> onClick(ActivityOfUser activityObj) async {
+      if (!Provider.of<User>(context, listen: false)
+          .managerSelectedActivity
+          .fileNotSelected(activityObj.fileUuid)) {
+        Provider.of<User>(context, listen: false)
+            .managerSelectedActivity
+            .removeSelectedActivity(activityObj.fileUuid);
+        setState(() {});
+        return;
+      }
+
+      Tuple2<bool, String> result =
+          await _utile.getContentActivity(context, activityObj, infoManager);
+      if (!result.item1) {
+        return;
+      }
+
+      // TODO: Hein?
+      Provider.of<User>(context, listen: false).removeActivity(activityObj);
+      Provider.of<User>(context, listen: false).insertActivity(0, activityObj);
+    }
+
+    // TODO: Understand :(
+    Future<void> onDelete(ActivityOfUser activityObj) async {
+      if (await api.deleteFile(Provider.of<User>(context, listen: false).token,
+          activityObj.fileUuid, infoManager)) {
+        if (!Provider.of<User>(context, listen: false)
+            .managerSelectedActivity
+            .fileNotSelected(activityObj.fileUuid)) {
+          Provider.of<User>(context, listen: false)
+              .managerSelectedActivity
+              .removeSelectedActivity(activityObj.fileUuid);
+        }
+        if (!Helper.isPlatformWeb()) {
+          ActivitySaver actSaver = await ActivitySaver.create();
+          actSaver.deleteActivity(activityObj.fileUuid);
+          localDB.removeActivity(activityObj.fileUuid);
+        }
+        Provider.of<User>(context, listen: false).removeActivity(activityObj);
+      }
+    }
+
+    bool isSelected(ActivityOfUser activityObj) {
+      return !Provider.of<User>(context)
+          .managerSelectedActivity
+          .fileNotSelected(activityObj.fileUuid);
+    }
+
     return Material(
       color: Colors.transparent,
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: Provider.of<User>(context, listen: true).listActivity.length,
-        itemBuilder: (context, index) {
-          ActivityOfUser activityObj =
-              Provider.of<User>(context, listen: true).listActivity[index];
-          Map<String, dynamic> activityMap;
-          // -- Si categorie == marche
-          if (activityObj.category == managerFile.marche) {
-            activityMap = activityObj.toMapWalking();
-          } else {
-            // -- Default -- //
-            activityMap = activityObj.toMapGeneric();
-          }
-
-          return InkWell(
-            onTap: () {},
-            child: WorkoutRow(
-              wObj: activityMap,
-              onDelete: () async {
-                if (await api.deleteFile(
-                    Provider.of<User>(context, listen: false).token,
-                    activityObj.fileUuid,
-                    infoManager)) {
-                  if (!Provider.of<User>(context, listen: false)
-                      .managerSelectedActivity
-                      .fileNotSelected(activityObj.fileUuid)) {
-                    Provider.of<User>(context, listen: false)
-                        .managerSelectedActivity
-                        .removeSelectedActivity(activityObj.fileUuid);
-                  }
-                  Provider.of<User>(context, listen: false)
-                      .removeActivity(activityObj);
-                }
-              },
-              onClick: () async {
-                if (!Provider.of<User>(context, listen: false)
-                    .managerSelectedActivity
-                    .fileNotSelected(activityObj.fileUuid)) {
-                  Provider.of<User>(context, listen: false)
-                      .managerSelectedActivity
-                      .removeSelectedActivity(activityObj.fileUuid);
-                  setState(() {});
-                  return;
-                }
-
-                Tuple2<bool, String> result =
-                    await _utile.getContentActivity(context, activityObj);
-                if (!result.item1) {
-                  return;
-                }
-
-                Provider.of<User>(context, listen: false)
-                    .removeActivity(activityObj);
-                Provider.of<User>(context, listen: false)
-                    .insertActivity(0, activityObj);
-              },
-              isSelected: !Provider.of<User>(context)
-                  .managerSelectedActivity
-                  .fileNotSelected(activityObj.fileUuid),
-            ),
-          );
-        },
+      child: Column(
+        children: [
+          Visibility(
+              visible: infoManager.isVisible,
+              child: Text(infoManager.message,
+                  style: TextStyle(color: infoManager.messageColor))),
+          ListView.builder(
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount:
+                Provider.of<User>(context, listen: true).listActivity.length,
+            itemBuilder: (context, index) {
+              ActivityOfUser activityObj =
+                  Provider.of<User>(context, listen: true).listActivity[index];
+              Map<String, dynamic> activityMap;
+              // -- Si categorie == marche
+              if (activityObj.category == managerFile.marche) {
+                activityMap = activityObj.toMapWalking();
+                return InkWell(
+                  onTap: () {},
+                  child: WorkoutRowWalking(
+                    wObj: activityMap,
+                    onDelete: () async {
+                      await onDelete(activityObj);
+                      setState(() {});
+                    },
+                    onClick: () async {
+                      await onClick(activityObj);
+                      setState(() {});
+                    },
+                    isSelected: isSelected(activityObj),
+                  ),
+                );
+              } else {
+                // -- Default -- //
+                activityMap = activityObj.toMapGeneric();
+                return InkWell(
+                  onTap: () {},
+                  child: WorkoutRowGeneric(
+                    wObj: activityMap,
+                    onDelete: () async {
+                      await onDelete(activityObj);
+                      setState(() {});
+                    },
+                    onClick: () async {
+                      await onClick(activityObj);
+                      setState(() {});
+                    },
+                    isSelected: isSelected(activityObj),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }

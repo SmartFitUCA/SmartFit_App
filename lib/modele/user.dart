@@ -37,7 +37,7 @@ class User extends ChangeNotifier {
 
   // ------------ Walking -------------- //
   // ---- Denivelé ---- //
-  double getTotalDenivelePositif() {
+  double getTotalDenivelePositifAllActivity() {
     double totalDevPos = 0.0;
     for (ActivityOfUser activity in listActivity) {
       totalDevPos += activity.activityInfo.denivelePositif;
@@ -45,7 +45,7 @@ class User extends ChangeNotifier {
     return totalDevPos;
   }
 
-  double getTotalDeniveleNegatif() {
+  double getTotalDeniveleNegatifAllActivity() {
     double totalDevNeg = 0.0;
     for (ActivityOfUser activity in listActivity) {
       totalDevNeg += activity.activityInfo.deniveleNegatif;

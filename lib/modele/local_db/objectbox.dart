@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:csv/csv.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:smartfit_app_mobile/objectbox.g.dart';
@@ -14,7 +12,7 @@ class ObjectBox {
   late final Store store;
   late final Box userBox;
   late final Box activityBox;
-  late final String activitiesSavePath = "activities";
+  late final Box configBox;
   late final Directory applicationDocumentDir;
 
   ObjectBox._create(this.store);
@@ -29,6 +27,7 @@ class ObjectBox {
     applicationDocumentDir = await getApplicationDocumentsDirectory();
     userBox = store.box<User>();
     activityBox = store.box<Activity>();
+    configBox = store.box<Config>();
   }
 
   // ===== USER =====
@@ -73,8 +72,19 @@ class ObjectBox {
     }
   }
 
-  void removeActivity(int uuid) {
-    activityBox.remove(uuid);
+  // TODO: try catch
+  void removeActivity(String uuid) {
+    final Query query = activityBox.query(Activity_.uuid.equals(uuid)).build();
+    final Activity act = query.findFirst();
+
+    activityBox.remove(act.id);
+  }
+
+  String getActivityFilenameByUuid(String uuid) {
+    final Query query = activityBox.query(Activity_.uuid.equals(uuid)).build();
+    final Activity act = query.findFirst();
+
+    return act.filename;
   }
 
   List<Activity> getAllActivities() {
@@ -87,21 +97,6 @@ class ObjectBox {
   }
 
   // ===== FIT Files =====
-  Future<void> saveActivityFile(List<List<dynamic>> activityFile) async {
-    String csv = const ListToCsvConverter().convert(activityFile);
-    Uint8List csvAsBytes = Uint8List.fromList(utf8.encode(csv));
-    final file =
-        await File(p.join(applicationDocumentDir.path, activitiesSavePath))
-            .create();
-    file.writeAsBytesSync(csvAsBytes);
-  }
-
-  File getActivityFile(String filename) {
-    final file =
-        File(p.join(applicationDocumentDir.path, activitiesSavePath, filename));
-    return file;
-  }
-
   List<ActivityOfUser> loadActivities() {
     List<dynamic> activityDBList = activityBox.getAll();
     List<ActivityOfUser> userActivityList = List.empty(growable: true);
@@ -113,5 +108,19 @@ class ObjectBox {
     }
 
     return userActivityList;
+  }
+
+  // ===== Config =====
+  void setSaveLocally(bool saveLocally) {
+    Config config = configBox.get(1);
+    config.saveLocally = saveLocally;
+    configBox.put(config);
+    stdout.write("(Config) setSaveLocally: $saveLocally\n");
+  }
+
+  bool getSaveLocally() {
+    Config config = configBox.get(1);
+    stdout.write("(Config) getSaveLocally: ${config.saveLocally}\n");
+    return config.saveLocally;
   }
 }

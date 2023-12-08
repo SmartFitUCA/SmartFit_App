@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
 
       stdout.write("===== USER =====\n");
       stdout.write("Username: ${user.username}\n");
-      stdout.write("Username: ${user.email}\n");
-      stdout.write("Username: ${user.token}\n");
+      stdout.write("Email: ${user.email}\n");
+      stdout.write("Token: ${user.token}\n");
 
       viewToDisplay = const MainTabView();
     }

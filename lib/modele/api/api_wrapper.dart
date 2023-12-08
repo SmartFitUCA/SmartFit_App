@@ -9,6 +9,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:tuple/tuple.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:smartfit_app_mobile/main.dart';
 import 'dart:io';
 
 class ApiWrapper {
@@ -34,9 +35,12 @@ class ApiWrapper {
     if (await isOnline()) {
       stdout.write("(API) ");
       api = RequestApi();
-    } else {
+    } else if (localDB.getSaveLocally()) {
       stdout.write("(LOCAL) ");
       api = RequestLocal();
+    } else {
+      stdout.write("(API OFFLINE) ");
+      api = RequestApi();
     }
   }
 
@@ -57,17 +61,26 @@ class ApiWrapper {
     return res;
   }
 
-  Future<Tuple2> getFile(String token, String fileUuid) async {
+  Future<Tuple2> getFile(
+      String token, String fileUuid, InfoMessage infoManager) async {
     await init();
     Tuple2 res = await api.getFile(token, fileUuid);
+
+    if (!res.item1) {
+      infoManager.displayMessage(noConnectionMessage, true);
+    }
 
     stdout.write("getFile: ${res.item1}\n");
     return res;
   }
 
-  Future<Tuple2> getFiles(String token) async {
+  Future<Tuple2> getFiles(String token, InfoMessage infoManager) async {
     await init();
     Tuple2 res = await api.getFiles(token);
+
+    if (!res.item1) {
+      infoManager.displayMessage(noConnectionMessage, true);
+    }
 
     stdout.write("getFiles: ${res.item1}\n");
     return res;
@@ -110,7 +123,7 @@ class ApiWrapper {
     String hash = sha256.convert(utf8.encode(password)).toString();
     Tuple2<bool, String> res = await api.connexion(email, hash);
 
-    stdout.write("login: ${res.item1}");
+    stdout.write("login: ${res.item1}\n");
     if (res.item1) {
       return Tuple2(true, res.item2);
     } else {
@@ -128,7 +141,7 @@ class ApiWrapper {
 
     Tuple2<bool, String> res = await api.deleteUser(token);
 
-    stdout.write("deleteUser: ${res.item1}");
+    stdout.write("deleteUser: ${res.item1}\n");
     return res;
   }
 
@@ -139,7 +152,7 @@ class ApiWrapper {
 
     Tuple2<bool, String> res = await api.postUser(email, hash, username);
 
-    stdout.write("createUser: ${res.item1}");
+    stdout.write("createUser: ${res.item1}\n");
     return res;
   }
 
@@ -149,7 +162,7 @@ class ApiWrapper {
     if (handleOffline(infoManager)) return const Tuple2(false, "offline");
 
     Tuple2<bool, String> res = await api.uploadFile(token, file);
-    stdout.write("uploadFile: ${res.item1}");
+    stdout.write("uploadFile: ${res.item1}\n");
     return res;
   }
 
@@ -166,7 +179,9 @@ class ApiWrapper {
 
     Tuple2<bool, String> res = await api.uploadFileByte(
         token, contentFile, filename, category, date, activityInfo);
-    stdout.write("uploadFileByte: ${res.item1}");
+    if (!res.item1) infoManager.displayMessage(noConnectionMessage, true);
+
+    stdout.write("uploadFileByte: ${res.item1}\n");
     return res;
   }
 
@@ -176,8 +191,9 @@ class ApiWrapper {
     if (handleOffline(infoManager)) return false;
 
     bool res = await api.deleteFile(token, fileUuid);
+    if (!res) infoManager.displayMessage(noConnectionMessage, true);
 
-    stdout.write("deleteFile: ${res}");
+    stdout.write("deleteFile: $res\n");
     return res;
   }
 }

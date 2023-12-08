@@ -1,19 +1,19 @@
+import 'package:smartfit_app_mobile/common_widget/container/profile/profile_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_compte.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_entete.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_info_user.dart';
-import 'package:smartfit_app_mobile/common_widget/container/profile/profile_notification.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_other.dart';
-import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 
 class ProfileViewAllPlatforme extends StatefulWidget {
-  final bool positive;
+  final bool offlineSave;
   final List accountArr;
   final List otherArr;
-  const ProfileViewAllPlatforme(this.positive, this.accountArr, this.otherArr,
+  const ProfileViewAllPlatforme(
+      this.offlineSave, this.accountArr, this.otherArr,
       {super.key});
 
   @override
@@ -36,26 +36,6 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
           style: TextStyle(
               color: TColor.black, fontSize: 16, fontWeight: FontWeight.w700),
         ),
-        actions: [
-          InkWell(
-            onTap: () {},
-            child: Container(
-              margin: const EdgeInsets.all(8),
-              height: 20,
-              width: 20,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: TColor.lightGray,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Image.asset(
-                "assets/img/more_btn.png",
-                width: 15,
-                height: 15,
-                fit: BoxFit.contain,
-              ),
-            ),
-          )
-        ],
       ),
       backgroundColor: TColor.white,
       body: SingleChildScrollView(
@@ -76,7 +56,10 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
               const SizedBox(
                 height: 25,
               ),
-              ProfileNotification(widget.positive),
+              // TODO: Download/Delete (local) all users files on toggle ?
+              // TODO: Display size of download in Mo
+              const ProfileSwitch(
+                  "Offline mode", "Save your files locally", "local_save.png"),
               const SizedBox(
                 height: 25,
               ),

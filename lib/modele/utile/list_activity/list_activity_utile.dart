@@ -11,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
-import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/modele/api/request_api.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
@@ -22,11 +20,12 @@ class ListActivityUtile {
   final ApiWrapper api = ApiWrapper();
   final ManagerFile _managerFile = ManagerFile();
 
-  Future<Tuple2<bool, String>> getContentActivity(
-      BuildContext context, ActivityOfUser activityOfUser) async {
+  Future<Tuple2<bool, String>> getContentActivity(BuildContext context,
+      ActivityOfUser activityOfUser, InfoMessage infoManager) async {
     Tuple2 result = await api.getFile(
         Provider.of<User>(context, listen: false).token,
-        activityOfUser.fileUuid);
+        activityOfUser.fileUuid,
+        infoManager);
     if (result.item1 == false) {
       return Tuple2(result.item1, result.item2);
     }
@@ -37,6 +36,14 @@ class ListActivityUtile {
     // TODO: Not sure this line as an utility
     // localDB.saveActivityFile(activityOfUser.contentActivity);
 
+    // TODO: Check if file exists, right now it overwrites each time
+    // TODO: Make ActivitySaver member of the class
+    if (!Helper.isPlatformWeb() && localDB.getSaveLocally()) {
+      ActivitySaver actSaver = await ActivitySaver.create();
+      actSaver.saveActivity(result.item2,
+          localDB.getActivityFilenameByUuid(activityOfUser.fileUuid));
+    }
+
     if (!Provider.of<User>(context, listen: false)
         .managerSelectedActivity
         .addSelectedActivity(activityOfUser)) {
@@ -46,10 +53,10 @@ class ListActivityUtile {
   }
 
   Future<Tuple2<bool, String>> getFiles(
-      String token, BuildContext context) async {
+      String token, BuildContext context, InfoMessage infoManager) async {
     bool notZero = false;
-    Tuple2 result =
-        await api.getFiles(Provider.of<User>(context, listen: false).token);
+    Tuple2 result = await api.getFiles(
+        Provider.of<User>(context, listen: false).token, infoManager);
     if (result.item1 == false) {
       return Tuple2(result.item1, result.item2);
     }
@@ -68,18 +75,13 @@ class ListActivityUtile {
           element["filename"].toString()));
 
       // Save to local db
-      localDB.addActivity(db.Activity(
-          0,
-          element["uuid"],
-          element["filename"],
-          element["category"],
-          element["info"]
-              .toString())); // TODO: Do not remove toString(), it do not work w/o it, idk why
+      localDB.addActivity(db.Activity(0, element["uuid"], element["filename"],
+          element["category"], jsonEncode(element["info"])));
     }
     return const Tuple2(true, "Yeah");
   }
 
-  Future<Tuple2<bool, String>> _addFile(Uint8List bytes, String filename,
+  Future<Tuple2<bool, String>> addFile(Uint8List bytes, String filename,
       String token, InfoMessage infoManager) async {
     // -- Transormer le fit en CSV
     Tuple4<bool, List<List<String>>, ActivityInfo, String> resultData =
@@ -88,55 +90,58 @@ class ListActivityUtile {
     String csvString = const ListToCsvConverter().convert(resultData.item2);
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
 
-    // Save on local storage if plateform not browser
-    if (!Helper.isPlatformWeb()) {
-      ActivitySaver actSaver = await ActivitySaver.create();
-      actSaver.saveActivity(byteCSV, filename);
-    }
-
     Tuple2<bool, String> result = await api.uploadFileByte(
         token,
         byteCSV,
         filename,
-        resultData.item4,
-        resultData.item3.startTime,
+        resultData.item4, // category
+        resultData.item3.startTime, // activityInfo
         resultData.item3,
         infoManager);
     if (result.item1 == false) {
       return Tuple2(false, result.item2);
     }
+
+    // Save on local storage if plateform not browser
+    if (!Helper.isPlatformWeb() && localDB.getSaveLocally()) {
+      ActivitySaver actSaver = await ActivitySaver.create();
+      actSaver.saveActivity(byteCSV, filename);
+    }
+
     return const Tuple2(true, "Yeah");
   }
 
-  // --- Ne marche pas sous window !! Jsp linux (mettre en format mobile) -- //
-  void addFileWeb(Uint8List? bytes, String token, String filename,
+  // --- Ne marche pas sous windows !! Jsp linux (mettre en format mobile) -- //
+  Future<void> addFileWeb(Uint8List? bytes, String token, String filename,
       BuildContext context, InfoMessage infoManager) async {
     if (bytes == null) {
       return;
     }
     Tuple2<bool, String> resultAdd =
-        await _addFile(bytes, filename, token, infoManager);
+        await addFile(bytes, filename, token, infoManager);
     if (!resultAdd.item1) {
       //print("Message error");
       return;
     }
-    Tuple2<bool, String> resultGet = await getFiles(token, context);
+    Tuple2<bool, String> resultGet =
+        await getFiles(token, context, infoManager);
     if (!resultGet.item1) {
       //print("Message error");
       return;
     }
   }
 
-  void addFileMobile(String path, String token, String filename,
+  Future<void> addFileMobile(String path, String token, String filename,
       BuildContext context, InfoMessage infoManager) async {
-    Tuple2<bool, String> resultAdd = await _addFile(
+    Tuple2<bool, String> resultAdd = await addFile(
         await File(path).readAsBytes(), filename, token, infoManager);
     if (!resultAdd.item1) {
       //print("Message error");
       return;
     }
     // TODO: What is that ?
-    Tuple2<bool, String> resultGet = await getFiles(token, context);
+    Tuple2<bool, String> resultGet =
+        await getFiles(token, context, infoManager);
     if (!resultGet.item1) {
       //print("Message error");
       return;

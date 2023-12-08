@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
+import 'package:smartfit_app_mobile/modele/activity_saver.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/local_db/model.dart';
 import 'package:tuple/tuple.dart';
@@ -18,7 +19,10 @@ class RequestLocal implements IDataStrategy {
   // need to save file on request_api.upload() beforehand.
   @override
   Future<Tuple2> getFile(String token, String fileUuid) async {
-    return const Tuple2(true, "to implement");
+    ActivitySaver actSaver = await ActivitySaver.create();
+    Uint8List fileBytes = actSaver.getActivity(fileUuid);
+
+    return Tuple2(true, fileBytes);
   }
 
   @override

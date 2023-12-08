@@ -111,27 +111,16 @@ class _MobileGraphBpmAndSpeedByTime
             titlesData: FlTitlesData(
                 show: true,
                 leftTitles: AxisTitles(
-                  sideTitles: widget.func.rightTitles,
+                  sideTitles: widget.func.leftTitles,
                 ),
                 topTitles: const AxisTitles(),
                 bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                  reservedSize: 20,
-                  showTitles: true,
-                  getTitlesWidget: (value, meta) {
-                    return Text(
-                        "${double.parse((value / 10).toStringAsFixed(2))}s");
-                  },
-                )),
+                  sideTitles: widget.func.bottomTitles,
+                ),
                 rightTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                  reservedSize: 70,
-                  showTitles: true,
-                  getTitlesWidget: (value, meta) {
-                    return Text(
-                        "${double.parse(value.toStringAsFixed(2))} BPM");
-                  },
-                ))),
+                  sideTitles: widget.func.rightTitles,
+                  
+                ),),
             gridData: FlGridData(
                 drawVerticalLine: true,
                 drawHorizontalLine: true,

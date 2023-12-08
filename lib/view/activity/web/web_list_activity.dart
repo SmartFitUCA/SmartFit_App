@@ -29,7 +29,7 @@ class _WebListActivityState extends State<WebListActivity> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
                 Row(
@@ -43,9 +43,13 @@ class _WebListActivityState extends State<WebListActivity> {
                           fontWeight: FontWeight.w700),
                     ),
                     TextButton(
-                        onPressed: () => _utile.getFiles(
-                            Provider.of<User>(context, listen: false).token,
-                            context),
+                        onPressed: () async {
+                          await _utile.getFiles(
+                              Provider.of<User>(context, listen: false).token,
+                              context,
+                              infoManager);
+                          setState(() {});
+                        },
                         child: Text("Get activity",
                             style: TextStyle(
                                 color: TColor.gray,
@@ -56,7 +60,7 @@ class _WebListActivityState extends State<WebListActivity> {
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles();
                         if (result != null && result.files.isNotEmpty) {
-                          _utile.addFileWeb(
+                          await _utile.addFileWeb(
                               result.files.first.bytes,
                               Provider.of<User>(context, listen: false).token,
                               result.files.first.name,
@@ -78,6 +82,10 @@ class _WebListActivityState extends State<WebListActivity> {
                     )
                   ],
                 ),
+                Visibility(
+                    visible: infoManager.isVisible,
+                    child: Text(infoManager.message,
+                        style: TextStyle(color: infoManager.messageColor))),
                 Provider.of<User>(context, listen: true).listActivity.isEmpty
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

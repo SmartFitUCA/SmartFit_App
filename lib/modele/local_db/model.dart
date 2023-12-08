@@ -14,7 +14,6 @@ class User {
 @Entity()
 class Activity {
   int id;
-
   @Unique()
   String uuid;
   String filename;
@@ -22,4 +21,13 @@ class Activity {
   String info;
 
   Activity(this.id, this.uuid, this.filename, this.category, this.info);
+}
+
+@Entity()
+class Config {
+  @Id()
+  int id = 0;
+  bool saveLocally;
+
+  Config(this.id, this.saveLocally);
 }

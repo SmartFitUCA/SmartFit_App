@@ -9,7 +9,7 @@ class Steps extends StatelessWidget {
   Widget build(BuildContext context) {
     String steps = Provider.of<User>(context, listen: false)
         .managerSelectedActivity
-        .getTimeAllActivitySelected()
+        .getStepsAllActivitySelected()
         .toString();
 
     return Padding(
