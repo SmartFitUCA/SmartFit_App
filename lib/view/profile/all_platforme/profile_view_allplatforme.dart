@@ -4,7 +4,6 @@ import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_compte.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_entete.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_info_user.dart';
-import 'package:smartfit_app_mobile/common_widget/container/profile/profile_notification.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_other.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 
@@ -55,7 +54,6 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
               const SizedBox(
                 height: 25,
               ),
-             
               ProfileOther(widget.otherArr)
             ],
           ),

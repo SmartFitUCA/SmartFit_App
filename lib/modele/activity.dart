@@ -18,7 +18,7 @@ class ActivityOfUser {
   ActivityInfo get activityInfo => _activityInfo;
   Map<String, int> get enteteCSV => _enteteCSV;
 
-  // -- Getter/Setter -- Ancien //
+  // -- Getter/Setter -- //
   List<List<dynamic>> get contentActivity => _contentActivity;
   set contentActivity(List<List<dynamic>> content) {
     _contentActivity = content;
@@ -39,7 +39,7 @@ class ActivityOfUser {
     }
   }
 
-  // -------------------------- FIN Localisation  ---------------------- //
+  // -------------------------- ToMap  ---------------------- //
 
   Map<String, dynamic> toMapGeneric() {
     Map<String, dynamic> map = {

@@ -42,43 +42,32 @@ class _ChoseMap extends State<ChoseMap> {
                   height: media.height * 0.1,
                 ),
                 RoundButton(
-                    title: "Use map with google map",
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MobileMyMaps()));
-                    },
-                    ),
+                  title: "Use map with google map",
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MobileMyMaps()));
+                  },
+                ),
                 SizedBox(
                   height: media.height * 0.03,
                 ),
                 RoundButton(
-                    title : "Use map with Open Street Map",
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const MyMapOSM()));
-                    },
-                   ),
+                  title: "Use map with Open Street Map",
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyMapOSM()));
+                  },
+                ),
                 Spacer(),
               ],
             ),
           ),
         ),
       ),
-    );
-    return Scaffold(
-      backgroundColor: TColor.white,
-      body: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          
-          const Text(
-              "Mettre une image la en mode une personne avec des jumelles")
-        ],
-      )),
     );
   }
 }
