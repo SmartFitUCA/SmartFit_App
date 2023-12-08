@@ -12,7 +12,7 @@ steps:
   - name: build-apk
     image: ghcr.io/cirruslabs/flutter:3.13.9
     commands:
-      - flutter pub run build_runner build
+      - dart run build_runner build
       - flutter build apk
       - sfm_apk=sfm_$(date +"%Y_%m_%d_%H_%M_%S").apk
       - cp ./build/app/outputs/flutter-apk/app-release.apk $sfm_apk
