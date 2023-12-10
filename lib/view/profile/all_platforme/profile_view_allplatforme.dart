@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,8 @@ class ProfileViewAllPlatforme extends StatefulWidget {
 }
 
 class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
+  bool isNative = !kIsWeb;
+
   @override
   Widget build(BuildContext context) {
     String username = context.watch<User>().username;
@@ -58,8 +61,11 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
               ),
               // TODO: Download/Delete (local) all users files on toggle ?
               // TODO: Display size of download in Mo
-              const ProfileSwitch(
-                  "Offline mode", "Save your files locally", "local_save.png"),
+              Visibility(
+                visible: isNative,
+                child: const ProfileSwitch("Offline mode",
+                    "Save your files locally", "local_save.png"),
+              ),
               const SizedBox(
                 height: 25,
               ),

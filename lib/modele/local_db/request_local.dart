@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:smartfit_app_mobile/modele/activity_saver.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
-import 'package:smartfit_app_mobile/modele/local_db/model.dart';
 import 'package:tuple/tuple.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:smartfit_app_mobile/main.dart';
@@ -11,7 +12,7 @@ import 'package:smartfit_app_mobile/main.dart';
 class RequestLocal implements IDataStrategy {
   @override
   Future<Tuple2> getInfoUser(String token) async {
-    final User user = localDB.userBox.get(1);
+    final User user = localDB.getUser();
     Map<String, String> json = {"email": user.email, "username": user.username};
     return Tuple2(true, jsonEncode(json));
   }
@@ -27,15 +28,15 @@ class RequestLocal implements IDataStrategy {
 
   @override
   Future<Tuple2> getFiles(String token) async {
-    final List<dynamic> activities = localDB.activityBox.getAll();
+    final List<ActivityOfUser> activities = localDB.getAllActivities();
     List<Map<String, dynamic>> jsonList = List.empty(growable: true);
 
-    for (Activity act in activities) {
+    for (ActivityOfUser act in activities) {
       Map<String, dynamic> json = {
-        "uuid": act.uuid,
-        "filename": act.filename,
+        "uuid": act.fileUuid,
+        "filename": act.nameFile,
         "category": act.category,
-        "info": act.info
+        "info": act.activityInfo
       };
       jsonList.add(json);
     }

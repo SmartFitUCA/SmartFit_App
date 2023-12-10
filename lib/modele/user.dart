@@ -9,6 +9,10 @@ class User extends ChangeNotifier {
   List<ActivityOfUser> listActivity = List.empty(growable: true);
   ManagerSelectedActivity managerSelectedActivity = ManagerSelectedActivity();
 
+  User();
+
+  User.create(String username, String email, String token);
+
   void addActivity(ActivityOfUser activity) {
     listActivity.add(activity);
     notifyListeners();

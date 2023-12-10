@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
@@ -170,8 +171,9 @@ class _WebLoginView extends State<WebLoginView> {
                             "Impossible de récupéré les données de l'utilisateur - {$infoUser.item2}");
                       } else {
                         util.fillUser(context, infoUser.item2, result.item2);
-                        localDB.addUser(infoUser.item2["username"],
-                            infoUser.item2["email"], result.item2);
+                        if (!kIsWeb)
+                          localDB.addUser(infoUser.item2["username"],
+                              infoUser.item2["email"], result.item2);
                         Navigator.push(
                             context,
                             MaterialPageRoute(

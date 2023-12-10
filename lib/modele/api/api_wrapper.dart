@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
 import 'package:smartfit_app_mobile/modele/api/request_api.dart';
@@ -18,6 +19,7 @@ class ApiWrapper {
       "It seems like you are lost far away in the universe, no connection found :)";
 
   // HELPERS
+  // TODO: Change check online for flutterWeb
   Future<bool> isOnline() async {
     try {
       final result = await InternetAddress.lookup('example.com')
@@ -27,15 +29,23 @@ class ApiWrapper {
       }
     } on SocketException catch (_) {
       return false;
+    } on UnsupportedError catch (_) {
+      return true;
     }
     return true;
   }
 
   Future<void> init() async {
+    // TODO: Fait à la pisse en despi (je voulais juste dormir)
+    if (kIsWeb) {
+      api = RequestApi();
+      return;
+    }
+
     if (await isOnline()) {
       stdout.write("(API) ");
       api = RequestApi();
-    } else if (localDB.getSaveLocally()) {
+    } else if (!kIsWeb && localDB.getSaveLocally()) {
       stdout.write("(LOCAL) ");
       api = RequestLocal();
     } else {

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:smartfit_app_mobile/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -117,7 +118,8 @@ class _WebChangeEmailViewState extends State<WebChangeEmailView> {
                             if (res) {
                               Provider.of<User>(context, listen: false).email =
                                   controllerTextEmail.text;
-                              localDB.setUserMail(controllerTextEmail.text);
+                              if (!kIsWeb)
+                                localDB.setUserMail(controllerTextEmail.text);
                             }
                             setState(() {});
                           }),

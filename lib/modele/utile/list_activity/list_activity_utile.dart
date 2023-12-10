@@ -1,8 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:smartfit_app_mobile/main.dart';
 import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
 import 'package:smartfit_app_mobile/modele/activity_saver.dart';
 import 'package:smartfit_app_mobile/modele/helper.dart';
-import 'package:smartfit_app_mobile/modele/local_db/model.dart' as db;
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -74,8 +74,9 @@ class ListActivityUtile {
           element["filename"].toString()));
 
       // Save to local db
-      localDB.addActivity(db.Activity(0, element["uuid"], element["filename"],
-          element["category"], jsonEncode(element["info"])));
+      if (!kIsWeb)
+        localDB.addActivity(element["uuid"], element["filename"],
+            element["category"], jsonEncode(element["info"]));
     }
     return const Tuple2(true, "Yeah");
   }
