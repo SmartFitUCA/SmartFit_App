@@ -6,6 +6,7 @@ import 'package:smartfit_app_mobile/view/activity/activity.dart';
 import 'package:smartfit_app_mobile/view/home/home_view.dart';
 import 'package:smartfit_app_mobile/view/map/my_map.dart';
 import 'package:smartfit_app_mobile/view/profile/profile_view.dart';
+import 'package:smartfit_app_mobile/view/volumes/volumes_view.dart';
 
 class WebMainTabView extends StatefulWidget {
   const WebMainTabView({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class WebMainTabView extends StatefulWidget {
 }
 
 class _WebMainTabViewState extends State<WebMainTabView> {
-  int selectTab = 4; // Définissez l'onglet initial ici
+  int selectTab = 10; // Définissez l'onglet initial ici
   late Widget currentTab;
 
   @override
@@ -49,9 +50,15 @@ class _WebMainTabViewState extends State<WebMainTabView> {
                   index: 1,
                   onTap: () => updateTab(1, const Activity()),
                 ),
+                sideBarButton(
+                  icon: "assets/img/volumes.svg",
+                  selectIcon: "assets/img/volumes_selected.svg",
+                  index: 2,
+                  onTap: () => updateTab(2, const VolumesView()),
+                ),
                 InkWell(
                   onTap: () {
-                    updateTab(4, const ListActivity());
+                    updateTab(10, const ListActivity());
                   },
                   child: Container(
                     width: 65,
@@ -76,16 +83,22 @@ class _WebMainTabViewState extends State<WebMainTabView> {
                   ),
                 ),
                 sideBarButton(
+                  icon: "assets/img/prediction.svg",
+                  selectIcon: "assets/img/prediction_selected.svg",
+                  index: 3,
+                  onTap: () => updateTab(3, const MyMap()),
+                ),
+                sideBarButton(
                   icon: "assets/img/mapIcon.svg",
                   selectIcon: "assets/img/mapIcon_selected.svg",
-                  index: 2,
-                  onTap: () => updateTab(2, const MyMap()),
+                  index: 4,
+                  onTap: () => updateTab(4, const MyMap()),
                 ),
                 sideBarButton(
                   icon: "assets/img/Profile_tab.svg",
                   selectIcon: "assets/img/Profile_tab_select.svg",
-                  index: 3,
-                  onTap: () => updateTab(3, const ProfileView()),
+                  index: 5,
+                  onTap: () => updateTab(5, const ProfileView()),
                 ),
               ],
             ),

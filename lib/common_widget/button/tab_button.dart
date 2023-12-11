@@ -20,19 +20,19 @@ class TabButton extends StatelessWidget {
       onTap: onTap,
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         SvgPicture.asset(isActive ? selectIcon : icon,
-            width: 28, height: 28, fit: BoxFit.fitWidth),
+            width: 15, height: 25, fit: BoxFit.fitWidth),
          SizedBox(
-          height: isActive ?  12: 8,
+          height: isActive ?  10: 6,
         ),
         if(isActive)
         Container(
-          width: 4,
-          height: 4,
+          width: 3,
+          height: 3,
           decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: TColor.secondaryG,
               ),
-              borderRadius: BorderRadius.circular(2)),
+              borderRadius: BorderRadius.circular(1.5)),
         )
       ]),
     );

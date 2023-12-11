@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-df = pd.read_csv("data\\data_emple.csv")
+df = pd.read_csv("data//data_emple.csv")
 distance = df.iloc[0:len(df),1].values.reshape(-1, 1)
 time = df.iloc[0:len(df),2].values.reshape(-1, 1)
  
