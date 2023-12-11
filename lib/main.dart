@@ -34,23 +34,21 @@ class MyApp extends StatelessWidget {
     Widget viewToDisplay = const SignUpView();
 
     // Skip sign-up + fill provider if user already connected
-    if (!kIsWeb) {
-      if (localDB.hasUser()) {
-        final User user = localDB.getUser();
-        final userActivities = localDB.getAllActivities();
+    if (!kIsWeb && localDB.hasUser()) {
+      final User user = localDB.getUser();
+      final userActivities = localDB.getAllActivities();
 
-        context.watch<User>().username = user.username;
-        context.watch<User>().email = user.email;
-        context.watch<User>().token = user.token;
-        context.watch<User>().listActivity = userActivities;
+      context.watch<User>().username = user.username;
+      context.watch<User>().email = user.email;
+      context.watch<User>().token = user.token;
+      context.watch<User>().listActivity = userActivities;
 
-        stdout.write("===== USER =====\n");
-        stdout.write("Username: ${user.username}\n");
-        stdout.write("Email: ${user.email}\n");
-        stdout.write("Token: ${user.token}\n");
+      stdout.write("===== USER =====\n");
+      stdout.write("Username: ${user.username}\n");
+      stdout.write("Email: ${user.email}\n");
+      stdout.write("Token: ${user.token}\n");
 
-        viewToDisplay = const MainTabView();
-      }
+      viewToDisplay = const MainTabView();
     }
 
     return MaterialApp(
