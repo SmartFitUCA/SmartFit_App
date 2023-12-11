@@ -10,7 +10,7 @@ trigger:
 
 steps:
   - name: build-apk
-    image: ghcr.io/cirruslabs/flutter:3.13.9
+    image: ghcr.io/cirruslabs/flutter:3.16.3
     commands:
       - flutter clean
       - flutter pub cache repair
@@ -23,7 +23,7 @@ steps:
       - cat upload.json | cut -d '"' -f 12
 
   - name: build-web
-    image: ghcr.io/cirruslabs/flutter:3.13.9
+    image: ghcr.io/cirruslabs/flutter:3.16.3
     environment:
       FIREBASE_TOKEN:
         from_secret: firebase_token
