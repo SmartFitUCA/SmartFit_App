@@ -44,7 +44,6 @@ class ObjectBox implements DbImpl {
   @override
   User getUser() {
     db.User userRes = userBox.get(1);
-
     return User.create(userRes.username, userRes.email, userRes.token);
   }
 
@@ -82,8 +81,7 @@ class ObjectBox implements DbImpl {
   // ===== Activity =====
   @override
   void addActivity(String uuid, String filename, String category, String info) {
-    db.Activity act =
-        db.Activity(0, uuid, filename, category, jsonEncode(info));
+    db.Activity act = db.Activity(0, uuid, filename, category, info);
 
     try {
       activityBox.put(act);
@@ -124,6 +122,7 @@ class ObjectBox implements DbImpl {
 
     for (db.Activity act in activityDBList) {
       ActivityInfo actInfo = ActivityInfo.fromJson(jsonDecode(act.info));
+
       userActivityList
           .add(ActivityOfUser(actInfo, act.category, act.uuid, act.filename));
     }

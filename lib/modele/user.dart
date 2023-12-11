@@ -11,7 +11,7 @@ class User extends ChangeNotifier {
 
   User();
 
-  User.create(String username, String email, String token);
+  User.create(this.username, this.email, this.token);
 
   void addActivity(ActivityOfUser activity) {
     listActivity.add(activity);

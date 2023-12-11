@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
 import 'package:smartfit_app_mobile/modele/api/i_data_strategy.dart';
@@ -9,9 +7,10 @@ import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:tuple/tuple.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:smartfit_app_mobile/main.dart';
-import 'dart:io';
+import 'package:http/http.dart' as http;
 
 class ApiWrapper {
   late IDataStrategy api;
@@ -22,15 +21,15 @@ class ApiWrapper {
   // TODO: Change check online for flutterWeb
   Future<bool> isOnline() async {
     try {
-      final result = await InternetAddress.lookup('example.com')
-          .timeout(const Duration(seconds: 2));
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      final http.Response res = await http
+          .head(Uri.https("example.com"))
+          .timeout(const Duration(seconds: 5));
+
+      if (res.statusCode == 200) {
         return true;
       }
-    } on SocketException catch (_) {
+    } catch (_) {
       return false;
-    } on UnsupportedError catch (_) {
-      return true;
     }
     return true;
   }
@@ -43,13 +42,10 @@ class ApiWrapper {
     }
 
     if (await isOnline()) {
-      stdout.write("(API) ");
       api = RequestApi();
     } else if (!kIsWeb && localDB.getSaveLocally()) {
-      stdout.write("(LOCAL) ");
       api = RequestLocal();
     } else {
-      stdout.write("(API OFFLINE) ");
       api = RequestApi();
     }
   }
@@ -67,7 +63,6 @@ class ApiWrapper {
     await init();
     Tuple2 res = await api.getInfoUser(token);
 
-    stdout.write("getUserInfo: ${res.item1}\n");
     return res;
   }
 
@@ -80,7 +75,6 @@ class ApiWrapper {
       infoManager.displayMessage(noConnectionMessage, true);
     }
 
-    stdout.write("getFile: ${res.item1}\n");
     return res;
   }
 
@@ -92,7 +86,6 @@ class ApiWrapper {
       infoManager.displayMessage(noConnectionMessage, true);
     }
 
-    stdout.write("getFiles: ${res.item1}\n");
     return res;
   }
 
@@ -108,7 +101,6 @@ class ApiWrapper {
       Tuple2<bool, String> res =
           await api.modifAttribut(token, infoToModify, value);
 
-      stdout.write("updateUserInfo: ${res.item1}\n");
       if (res.item1) {
         infoManager.displayMessage(
             "${infoToModify.capitalize()} modified succesfully !", false);
@@ -133,7 +125,6 @@ class ApiWrapper {
     String hash = sha256.convert(utf8.encode(password)).toString();
     Tuple2<bool, String> res = await api.connexion(email, hash);
 
-    stdout.write("login: ${res.item1}\n");
     if (res.item1) {
       return Tuple2(true, res.item2);
     } else {
@@ -151,7 +142,6 @@ class ApiWrapper {
 
     Tuple2<bool, String> res = await api.deleteUser(token);
 
-    stdout.write("deleteUser: ${res.item1}\n");
     return res;
   }
 
@@ -162,7 +152,6 @@ class ApiWrapper {
 
     Tuple2<bool, String> res = await api.postUser(email, hash, username);
 
-    stdout.write("createUser: ${res.item1}\n");
     return res;
   }
 
@@ -172,7 +161,6 @@ class ApiWrapper {
     if (handleOffline(infoManager)) return const Tuple2(false, "offline");
 
     Tuple2<bool, String> res = await api.uploadFile(token, file);
-    stdout.write("uploadFile: ${res.item1}\n");
     return res;
   }
 
@@ -191,7 +179,7 @@ class ApiWrapper {
         token, contentFile, filename, category, date, activityInfo);
     if (!res.item1) infoManager.displayMessage(noConnectionMessage, true);
 
-    stdout.write("uploadFileByte: ${res.item1}\n");
+    //stdout.write("uploadFileByte: ${res.item1}\n");
     return res;
   }
 
@@ -203,7 +191,6 @@ class ApiWrapper {
     bool res = await api.deleteFile(token, fileUuid);
     if (!res) infoManager.displayMessage(noConnectionMessage, true);
 
-    stdout.write("deleteFile: $res\n");
     return res;
   }
 }

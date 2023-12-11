@@ -74,9 +74,10 @@ class ListActivityUtile {
           element["filename"].toString()));
 
       // Save to local db
-      if (!kIsWeb)
+      if (!kIsWeb) {
         localDB.addActivity(element["uuid"], element["filename"],
             element["category"], jsonEncode(element["info"]));
+      }
     }
     return const Tuple2(true, "Yeah");
   }

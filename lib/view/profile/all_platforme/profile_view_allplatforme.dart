@@ -62,13 +62,16 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
               // TODO: Download/Delete (local) all users files on toggle ?
               // TODO: Display size of download in Mo
               Visibility(
-                visible: isNative,
-                child: const ProfileSwitch("Offline mode",
-                    "Save your files locally", "local_save.png"),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
+                  visible: isNative,
+                  child: const Column(
+                    children: [
+                      ProfileSwitch("Offline mode", "Save your files locally",
+                          "local_save.png"),
+                      SizedBox(
+                        height: 25,
+                      )
+                    ],
+                  )),
               ProfileOther(widget.otherArr)
             ],
           ),
