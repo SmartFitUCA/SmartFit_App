@@ -13,6 +13,7 @@ steps:
     image: ghcr.io/cirruslabs/flutter:3.13.9
     commands:
       - flutter clean
+      - dart run build_runner clean
       - dart run build_runner build
       - flutter build apk
       - sfm_apk=sfm_$(date +"%Y_%m_%d_%H_%M_%S").apk
