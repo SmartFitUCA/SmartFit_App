@@ -43,4 +43,4 @@ steps:
       - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
       - export SONAR_SCANNER_OPTS="-server"
       - sonar-scanner -D sonar.projectKey=SmartFit_Mobile -D sonar.sources=./lib -D sonar.host.url=https://codefirst.iut.uca.fr/sonar -D sonar.login=$${SONAR_TOKEN}
-    depends_on: [ build-apk, build-web ]
+    depends_on: [ build-web ]
