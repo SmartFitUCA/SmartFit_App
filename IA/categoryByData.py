@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
 # Load data from CSV
-df = pd.read_csv("data\\data_emple.csv")
+df = pd.read_csv("data//data_emple.csv")
 
 category = df.iloc[0:len(df),0].values
 

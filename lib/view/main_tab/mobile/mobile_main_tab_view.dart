@@ -30,7 +30,7 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
         height: 70,
         child: InkWell(
           onTap: () {
-            selectTab = 4;
+            selectTab = 10;
             currentTab = const ListActivity();
             if (mounted) {
               setState(() {});
@@ -90,8 +90,8 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
                   }
                 }),
             TabButton(
-                icon: "assets/img/Activity_tab.svg",
-                selectIcon: "assets/img/Activity_tab_select.svg",
+                icon: "assets/img/volumes.svg",
+                selectIcon: "assets/img/volumes_selected.svg",
                 isActive: selectTab == 2,
                 onTap: () {
                   selectTab = 2;
@@ -104,8 +104,8 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
               width: 40,
             ),
             TabButton(
-                icon: "assets/img/mapIcon.svg",
-                selectIcon: "assets/img/mapIcon_selected.svg",
+                icon: "assets/img/prediction.svg",
+                selectIcon: "assets/img/prediction_selected.svg",
                 isActive: selectTab == 3,
                 onTap: () {
                   selectTab = 3;
@@ -115,11 +115,22 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
                   }
                 }),
             TabButton(
-                icon: "assets/img/Profile_tab.svg",
-                selectIcon: "assets/img/Profile_tab_select.svg",
+                icon: "assets/img/mapIcon.svg",
+                selectIcon: "assets/img/mapIcon_selected.svg",
                 isActive: selectTab == 4,
                 onTap: () {
                   selectTab = 4;
+                  currentTab = const MyMap();
+                  if (mounted) {
+                    setState(() {});
+                  }
+                }),
+            TabButton(
+                icon: "assets/img/Profile_tab.svg",
+                selectIcon: "assets/img/Profile_tab_select.svg",
+                isActive: selectTab == 5,
+                onTap: () {
+                  selectTab = 5;
                   currentTab = const ProfileView();
                   if (mounted) {
                     setState(() {});
