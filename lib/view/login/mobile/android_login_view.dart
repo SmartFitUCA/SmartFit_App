@@ -1,10 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smartfit_app_mobile/modele/utile/login_user.dart';
-import 'package:smartfit_app_mobile/view/main_tab/main_tab_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/text_field/round_text_field.dart';
+import 'package:smartfit_app_mobile/main.dart';
+import 'package:smartfit_app_mobile/modele/utile/login_user.dart';
+import 'package:smartfit_app_mobile/view/main_tab/main_tab_view.dart';
 import 'package:tuple/tuple.dart';
 
 class MobileLoginView extends StatefulWidget {
@@ -164,7 +166,9 @@ class _MobileLoginView extends State<MobileLoginView> {
                             "Impossible de récupéré les données de l'utilisateur - {$infoUser.item2}");
                       } else {
                         util.fillUser(context, infoUser.item2, result.item2);
-
+                        if (!kIsWeb)
+                          localDB.addUser(infoUser.item2["username"],
+                              infoUser.item2["email"], result.item2);
                         Navigator.push(
                             context,
                             MaterialPageRoute(

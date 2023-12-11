@@ -228,59 +228,6 @@ class _MobileSignUpView extends State<MobileSignUpView> {
               SizedBox(
                 height: media.width * 0.04,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: TColor.white,
-                        border: Border.all(
-                          width: 1,
-                          color: TColor.gray.withOpacity(0.4),
-                        ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Image.asset(
-                        "assets/img/google.png",
-                        width: 20,
-                        height: 20,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: media.width * 0.04,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: TColor.white,
-                        border: Border.all(
-                          width: 1,
-                          color: TColor.gray.withOpacity(0.4),
-                        ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Image.asset(
-                        "assets/img/suunto.png",
-                        width: 35,
-                        height: 35,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: media.width * 0.04,
-              ),
               TextButton(
                 onPressed: () {
                   Navigator.push(

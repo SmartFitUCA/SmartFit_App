@@ -14,6 +14,10 @@
 # Firebase
 .firebase/
 
+# ObjectBox
+objectbox-model.json
+objectbox.g.dart
+
 # IntelliJ related
 *.iml
 *.ipr

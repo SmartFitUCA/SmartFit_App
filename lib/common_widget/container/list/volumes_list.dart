@@ -10,6 +10,7 @@ class VolumesList extends StatelessWidget {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
 
+    // TODO: True message with variables and context aware
     if (volume["nbActivity"] == 0) {
       return const Text("Aucune activité ces x jours/mois/années");
     }
