@@ -4,6 +4,7 @@ import 'package:smartfit_app_mobile/common_widget/button/tab_button.dart';
 import 'package:smartfit_app_mobile/view/activity/list_activity.dart';
 import 'package:smartfit_app_mobile/view/activity/activity.dart';
 import 'package:smartfit_app_mobile/view/home/home_view.dart';
+import 'package:smartfit_app_mobile/view/home/prediction_view.dart';
 import 'package:smartfit_app_mobile/view/map/my_map.dart';
 import 'package:smartfit_app_mobile/view/profile/profile_view.dart';
 import 'package:smartfit_app_mobile/view/volumes/volumes_view.dart';
@@ -86,7 +87,7 @@ class _WebMainTabViewState extends State<WebMainTabView> {
                   icon: "assets/img/prediction.svg",
                   selectIcon: "assets/img/prediction_selected.svg",
                   index: 3,
-                  onTap: () => updateTab(3, const MyMap()),
+                  onTap: () => updateTab(3, const Prediction()),
                 ),
                 sideBarButton(
                   icon: "assets/img/mapIcon.svg",
