@@ -3,6 +3,8 @@ from sklearn.linear_model import LinearRegression
 import pandas as pd 
 import numpy as np
 import requests
+from datetime import datetime, time
+import time as sleep_time
 
 # --------------- Fonction -----------------  #
 def generateJsonModel(model:LinearRegression):
@@ -52,9 +54,9 @@ def sendJsonToApi(url,json):
 
 # ---------------- Main ------------------- #
 
-urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/xxx"
+#urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/xxx"
 
-jsonBack = { "Users" : []}
+#jsonBack = { "Users" : []}
 
 dataUser = {
     "Users": [
@@ -73,7 +75,7 @@ dataUser = {
         }
     ]
 }
-
+'''
 # -- Call Api
 #dataUser = getUserWithData(url=urlGetAllData)
 
@@ -93,6 +95,46 @@ for user in dataUser["Users"]:
 print(jsonBack)
 # -- Send Data to Api 
 #sendJsonToApi(urlGetAllData,jsonBack)
+'''
+
+
+
+
+
+
+urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/xxx"
+while(True):
+    print("Boucle")
+    jsonBack = { "Users" : []}
+    heure_actuelle = datetime.now().time()
+    if ( heure_actuelle == time(8, 0)):
+        # --- Call Api 
+        #dataUser = getUserWithData(url=urlGetAllData)
+        for user in dataUser["Users"]:
+            jsonTmp = {}
+
+            jsonTmp["Identifiant"] = user["Identifiant"]
+            jsonTmp["Info"] = []
+
+            for category in user["Info"]:
+                #Mettre la condition longueur ici
+                model = generateModele(category)
+                jsonTmp["Info"].append({"Category": category["Category"],"Model" : generateJsonModel(model)})
+
+            # Add User
+            jsonBack["Users"].append(jsonTmp)
+        # -- Send Api 
+        #sendJsonToApi(urlGetAllData,jsonBack)
+    else : 
+        print("Sleep")
+        if (heure_actuelle < time(7,0) and heure_actuelle > time(8,0) ):
+            sleep_time.sleep(3600) # Pause 1 heure 
+        elif ( heure_actuelle < time(7,55) ):
+            sleep_time.sleep(300)  # Pause de 5 minutes
+        else : 
+            sleep_time.sleep(30)  # Pause de 30 secondes
+
+
 
 
     
