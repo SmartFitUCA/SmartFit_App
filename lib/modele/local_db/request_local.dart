@@ -41,7 +41,7 @@ class RequestLocal implements IDataStrategy {
       jsonList.add(json);
     }
 
-    return Tuple2(true, jsonEncode(activities));
+    return Tuple2(true, jsonList);
   }
 
   @override
