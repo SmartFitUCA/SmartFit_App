@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:smartfit_app_mobile/main.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -118,7 +119,9 @@ class _MobileChangeUsernameViewState extends State<MobileChangeUsernameView> {
                             if (res) {
                               Provider.of<User>(context, listen: false)
                                   .username = controllerTextUsername.text;
-                              localDB.setUserName(controllerTextUsername.text);
+                              if (!kIsWeb)
+                                localDB
+                                    .setUserName(controllerTextUsername.text);
                             }
                             setState(() {});
                           }),
