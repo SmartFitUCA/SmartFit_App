@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:objectbox/objectbox.dart';
+import 'package:smartfit_app_mobile/objectbox.g.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
