@@ -4,6 +4,7 @@ import 'package:smartfit_app_mobile/common_widget/button/tab_button.dart';
 import 'package:smartfit_app_mobile/view/activity/activity.dart';
 import 'package:smartfit_app_mobile/view/home/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:smartfit_app_mobile/view/home/prediction_view.dart';
 import 'package:smartfit_app_mobile/view/map/my_map.dart';
 import 'package:smartfit_app_mobile/view/profile/profile_view.dart';
 import 'package:smartfit_app_mobile/view/volumes/volumes_view.dart';
@@ -30,7 +31,7 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
         height: 70,
         child: InkWell(
           onTap: () {
-            selectTab = 4;
+            selectTab = 10;
             currentTab = const ListActivity();
             if (mounted) {
               setState(() {});
@@ -90,8 +91,8 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
                   }
                 }),
             TabButton(
-                icon: "assets/img/Activity_tab.svg",
-                selectIcon: "assets/img/Activity_tab_select.svg",
+                icon: "assets/img/volumes.svg",
+                selectIcon: "assets/img/volumes_selected.svg",
                 isActive: selectTab == 2,
                 onTap: () {
                   selectTab = 2;
@@ -104,11 +105,22 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
               width: 40,
             ),
             TabButton(
-                icon: "assets/img/mapIcon.svg",
-                selectIcon: "assets/img/mapIcon_selected.svg",
+                icon: "assets/img/prediction.svg",
+                selectIcon: "assets/img/prediction_selected.svg",
                 isActive: selectTab == 3,
                 onTap: () {
                   selectTab = 3;
+                  currentTab = const Prediction();
+                  if (mounted) {
+                    setState(() {});
+                  }
+                }),
+            TabButton(
+                icon: "assets/img/mapIcon.svg",
+                selectIcon: "assets/img/mapIcon_selected.svg",
+                isActive: selectTab == 4,
+                onTap: () {
+                  selectTab = 4;
                   currentTab = const MyMap();
                   if (mounted) {
                     setState(() {});
@@ -117,9 +129,9 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
             TabButton(
                 icon: "assets/img/Profile_tab.svg",
                 selectIcon: "assets/img/Profile_tab_select.svg",
-                isActive: selectTab == 4,
+                isActive: selectTab == 5,
                 onTap: () {
-                  selectTab = 4;
+                  selectTab = 5;
                   currentTab = const ProfileView();
                   if (mounted) {
                     setState(() {});

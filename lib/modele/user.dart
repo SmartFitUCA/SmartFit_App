@@ -12,6 +12,10 @@ class User extends ChangeNotifier {
   List<ActivityOfUser> listActivity = List.empty(growable: true);
   ManagerSelectedActivity managerSelectedActivity = ManagerSelectedActivity();
 
+  User();
+
+  User.create(this.username, this.email, this.token);
+
   void addActivity(ActivityOfUser activity) {
     listActivity.add(activity);
     notifyListeners();

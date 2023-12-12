@@ -56,6 +56,10 @@ dependencies:
   tuple: ^2.0.2
   crypto: ^3.0.3
   responsive_builder: ^0.7.0
+  universal_html: ^2.2.4
+  objectbox: ^2.3.1
+  objectbox_flutter_libs: any
+  path: ^1.8.3
   flutter_map: ^5.0.0
   latlong2: ^0.9.0
   units_converter: ^2.1.1
@@ -70,6 +74,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  build_runner: ^2.4.7
+  objectbox_generator: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

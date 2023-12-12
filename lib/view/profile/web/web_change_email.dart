@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:smartfit_app_mobile/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
@@ -108,7 +110,7 @@ class _WebChangeEmailViewState extends State<WebChangeEmailView> {
                       RoundButton(
                           title: "Confirmer",
                           onPressed: () async {
-                            bool res = await apiWrapper.modifyUserInfo(
+                            bool res = await apiWrapper.updateUserInfo(
                                 'email',
                                 controllerTextEmail.text,
                                 Provider.of<User>(context, listen: false).token,
@@ -116,6 +118,8 @@ class _WebChangeEmailViewState extends State<WebChangeEmailView> {
                             if (res) {
                               Provider.of<User>(context, listen: false).email =
                                   controllerTextEmail.text;
+                              if (!kIsWeb)
+                                localDB.setUserMail(controllerTextEmail.text);
                             }
                             setState(() {});
                           }),
