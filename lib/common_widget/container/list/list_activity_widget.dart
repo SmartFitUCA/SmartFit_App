@@ -1,6 +1,6 @@
+import 'package:smartfit_app_mobile/main.dart';
 import 'package:smartfit_app_mobile/modele/activity_saver.dart';
 import 'package:smartfit_app_mobile/modele/helper.dart';
-import 'package:smartfit_app_mobile/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
@@ -61,7 +61,7 @@ class _ListActivityWidget extends State<ListActivityWidget> {
               .managerSelectedActivity
               .removeSelectedActivity(activityObj.fileUuid);
         }
-        if (!Helper.isPlatformWeb()) {
+        if (!Helper.isPlatformWeb() && localDB.getSaveLocally()) {
           ActivitySaver actSaver = await ActivitySaver.create();
           actSaver.deleteActivity(activityObj.fileUuid);
           localDB.removeActivity(activityObj.fileUuid);
