@@ -4,6 +4,7 @@ import 'package:smartfit_app_mobile/common_widget/button/tab_button.dart';
 import 'package:smartfit_app_mobile/view/activity/activity.dart';
 import 'package:smartfit_app_mobile/view/home/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:smartfit_app_mobile/view/home/prediction_view.dart';
 import 'package:smartfit_app_mobile/view/map/my_map.dart';
 import 'package:smartfit_app_mobile/view/profile/profile_view.dart';
 import 'package:smartfit_app_mobile/view/volumes/volumes_view.dart';
@@ -109,7 +110,7 @@ class _MobileMainTabViewState extends State<MobileMainTabView> {
                 isActive: selectTab == 3,
                 onTap: () {
                   selectTab = 3;
-                  currentTab = const MyMap();
+                  currentTab = const Prediction();
                   if (mounted) {
                     setState(() {});
                   }

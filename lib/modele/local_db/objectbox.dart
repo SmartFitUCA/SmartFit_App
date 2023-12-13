@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:smartfit_app_mobile/objectbox.g.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
-import 'package:smartfit_app_mobile/objectbox.g.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:smartfit_app_mobile/modele/local_db/model.dart' as db;
