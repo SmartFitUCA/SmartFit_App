@@ -45,7 +45,6 @@ class _PredictionState extends State<Prediction> {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     List<String> listCategory = [_managerFile.marche, _managerFile.velo];
 
     void prediction() async {
@@ -54,7 +53,7 @@ class _PredictionState extends State<Prediction> {
       /*
       if (selectedCategory != _managerFile.marche ||
           selectedCategory != _managerFile.velo) return;*/
-          
+
       Tuple2<bool, ActivityInfo> resultat =
           await Provider.of<User>(context, listen: false)
               .predictActivity(DateTime.now(), selectedCategory, tmp);
@@ -164,7 +163,7 @@ class _PredictionState extends State<Prediction> {
               shrinkWrap: true,
               itemCount: lastWorkoutArr.length,
               itemBuilder: (context, index) {
-                var wObj = lastWorkoutArr[index] as Map<String, dynamic> ?? {};
+                var wObj = lastWorkoutArr[index];
                 return InkWell(
                   child: WorkoutRow(wObj: wObj),
                 );
