@@ -20,10 +20,6 @@ class HomeViewUtil {
         .getXWithTime(managerFile.fieldAltitude);
 
     List<FlSpot> bpmSecondes2 = List.from(bpmSecondes);
-
-    print('DEBUG');
-    print(bpmSecondes.length);
-
     return DataHomeView(
         normaliserPremierElement(bpmSecondes),
         normaliserPremierElement(normaliserDeuxiemeElement(bpmSecondes2)),
