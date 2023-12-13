@@ -285,7 +285,11 @@ class RequestApi implements IDataStrategy {
   @override
   Future<Tuple2> getModeleAI(String token, String category) async {
     try {
-      final response = await http.post(Uri.parse('$urlApi/user/IA/$category'));
+      final response = await http.post(Uri.parse('$urlApi/user/ai/$category'),
+          headers: <String, String>{'Authorization': token});
+
+      print(response.statusCode);
+      print(response.body);
 
       if (response.statusCode == 200) {
         Map<String, dynamic> json = jsonDecode(response.body);

@@ -5,7 +5,6 @@ import 'package:smartfit_app_mobile/modele/activity_saver.dart';
 import 'package:smartfit_app_mobile/modele/helper.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -90,6 +89,9 @@ class ListActivityUtile {
 
     String csvString = const ListToCsvConverter().convert(resultData.item2);
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
+
+    File x = await File("${await _managerFile.localPath}\\what")
+        .writeAsString(csvString);
 
     Tuple2<bool, String> result = await api.uploadFileByte(
         token,

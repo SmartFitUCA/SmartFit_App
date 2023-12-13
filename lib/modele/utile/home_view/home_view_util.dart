@@ -21,8 +21,14 @@ class HomeViewUtil {
 
     List<FlSpot> bpmSecondes2 = List.from(bpmSecondes);
 
-    return DataHomeView(normaliserPremierElement(bpmSecondes), normaliserPremierElement(normaliserDeuxiemeElement(bpmSecondes2)),
-         normaliserPremierElement(normaliserDeuxiemeElement(vitesseSecondes)), normaliserPremierElement(altitudeSeconde));
+    print('DEBUG');
+    print(bpmSecondes.length);
+
+    return DataHomeView(
+        normaliserPremierElement(bpmSecondes),
+        normaliserPremierElement(normaliserDeuxiemeElement(bpmSecondes2)),
+        normaliserPremierElement(normaliserDeuxiemeElement(vitesseSecondes)),
+        normaliserPremierElement(altitudeSeconde));
   }
 
   List<FlSpot> normaliserDeuxiemeElement(List<FlSpot> liste) {
@@ -41,21 +47,21 @@ class HomeViewUtil {
     }
     return liste;
   }
-  List<FlSpot> normaliserPremierElement(List<FlSpot> liste) {
-  // Trouver le plus grand élément dans le premier élément de chaque FlSpot
-  double maxElement = 0.0;
-  for (var spot in liste) {
-    if (spot.x > maxElement) {
-      maxElement = spot.x;
-    }
-  }
-  // Calculer le facteur de normalisation
-  double normalisationFactor = maxElement != 0.0 ? 100 / maxElement : 1.0;
-  // Mettre à jour tous les premiers éléments de la liste
-  for (int i = 0; i < liste.length; i++) {
-    liste[i] = FlSpot(liste[i].x * normalisationFactor, liste[i].y);
-  }
-  return liste;
-}
 
+  List<FlSpot> normaliserPremierElement(List<FlSpot> liste) {
+    // Trouver le plus grand élément dans le premier élément de chaque FlSpot
+    double maxElement = 0.0;
+    for (var spot in liste) {
+      if (spot.x > maxElement) {
+        maxElement = spot.x;
+      }
+    }
+    // Calculer le facteur de normalisation
+    double normalisationFactor = maxElement != 0.0 ? 100 / maxElement : 1.0;
+    // Mettre à jour tous les premiers éléments de la liste
+    for (int i = 0; i < liste.length; i++) {
+      liste[i] = FlSpot(liste[i].x * normalisationFactor, liste[i].y);
+    }
+    return liste;
+  }
 }
