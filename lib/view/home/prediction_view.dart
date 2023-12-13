@@ -51,20 +51,19 @@ class _PredictionState extends State<Prediction> {
     void prediction() async {
       InfoMessage tmp = InfoMessage();
       setState(() {
-        print("lol");
-        lastWorkoutArr[0]["Value"] = "null";
+        lastWorkoutArr[0]["value"] = "null";
       });
       Tuple2<bool, ActivityInfo> resultat =
           await Provider.of<User>(context, listen: false)
               .predictActivity(DateTime.now(), selectedCategory, tmp);
       if (!resultat.item1) return;
       setState(() {
-        lastWorkoutArr[0]["Value"] =
+        lastWorkoutArr[0]["value"] =
             resultat.item2.timeOfActivity.toStringAsFixed(2);
-        lastWorkoutArr[1]["Value"] = resultat.item2.bpmAvg.toStringAsFixed(2);
-        lastWorkoutArr[2]["Value"] =
+        lastWorkoutArr[1]["value"] = resultat.item2.bpmAvg.toStringAsFixed(2);
+        lastWorkoutArr[2]["value"] =
             resultat.item2.vitesseAvg.toStringAsFixed(2);
-        lastWorkoutArr[3]["Value"] = resultat.item2.distance.toStringAsFixed(2);
+        lastWorkoutArr[3]["value"] = resultat.item2.distance.toStringAsFixed(2);
       });
     }
 
@@ -155,6 +154,7 @@ class _PredictionState extends State<Prediction> {
                 title: "Valider",
                 onPressed: () async {
                   prediction();
+                  setState(() {});
                 }),
             const SizedBox(height: 20),
             ListView.builder(
