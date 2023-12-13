@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row/workout_row.dart';
+import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
+import 'package:smartfit_app_mobile/modele/manager_file.dart';
+import 'package:smartfit_app_mobile/modele/user.dart';
+import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
+import 'package:tuple/tuple.dart';
 
 class Prediction extends StatefulWidget {
   const Prediction({Key? key}) : super(key: key);
@@ -16,36 +22,59 @@ class _PredictionState extends State<Prediction> {
     {
       "name": "Temps",
       "image": "assets/img/time-icon2.svg",
-      "value": "200 s",
+      "value": "..",
     },
     {
       "name": "Rythme cardiaque",
       "image": "assets/img/bpm2-icon.svg",
-      "value": "120 BPM",
+      "value": "..",
     },
     {
       "name": "Vitesse",
       "image": "assets/img/vitesse2-icon.svg",
-      "value": "3 m/s",
+      "value": "..",
     },
     {
       "name": "Distance",
       "image": "assets/img/distance2-icon.svg",
-      "value": "300 m",
+      "value": "..",
     }
   ];
+  final ManagerFile _managerFile = ManagerFile();
+  String selectedCategory = "Choisir type d'activité";
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+    List<String> listCategory = [_managerFile.marche, _managerFile.velo];
+
+    void prediction() async {
+      InfoMessage tmp = InfoMessage();
+      setState(() {
+        print("lol");
+        lastWorkoutArr[0]["Value"] = "null";
+      });
+      Tuple2<bool, ActivityInfo> resultat =
+          await Provider.of<User>(context, listen: false)
+              .predictActivity(DateTime.now(), selectedCategory, tmp);
+      if (!resultat.item1) return;
+      setState(() {
+        lastWorkoutArr[0]["Value"] =
+            resultat.item2.timeOfActivity.toStringAsFixed(2);
+        lastWorkoutArr[1]["Value"] = resultat.item2.bpmAvg.toStringAsFixed(2);
+        lastWorkoutArr[2]["Value"] =
+            resultat.item2.vitesseAvg.toStringAsFixed(2);
+        lastWorkoutArr[3]["Value"] = resultat.item2.distance.toStringAsFixed(2);
+      });
+    }
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Text(
               "Prédiction",
               style: TextStyle(
@@ -54,21 +83,20 @@ class _PredictionState extends State<Prediction> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-
-              ],
+            const SizedBox(height: 20),
+            const Row(
+              children: [],
             ),
             Container(
               decoration: BoxDecoration(
                 color: TColor.lightGray,
                 boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(255, 234, 234, 234).withOpacity(0.9),
+                    color: const Color.fromARGB(255, 234, 234, 234)
+                        .withOpacity(0.9),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   ),
                 ],
                 borderRadius: BorderRadius.circular(15),
@@ -90,7 +118,7 @@ class _PredictionState extends State<Prediction> {
                   Expanded(
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton(
-                        items: ["Walking", "Cycling"]
+                        items: listCategory
                             .map((name) => DropdownMenuItem(
                                   value: name,
                                   child: Text(
@@ -102,10 +130,14 @@ class _PredictionState extends State<Prediction> {
                                   ),
                                 ))
                             .toList(),
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          setState(() {
+                            selectedCategory = value!;
+                          });
+                        },
                         isExpanded: true,
                         hint: Text(
-                          "Choisir type d'activité",
+                          selectedCategory,
                           style: TextStyle(
                             color: TColor.gray,
                             fontSize: 12,
@@ -115,25 +147,23 @@ class _PredictionState extends State<Prediction> {
                     ),
                   ),
                   // Bouton "Valider" prenant 30% de la largeur du parent
-                 
                 ],
               ),
             ),
-            SizedBox(height: 20),
-             RoundButton(
+            const SizedBox(height: 20),
+            RoundButton(
                 title: "Valider",
                 onPressed: () async {
-                  setState(() {});
+                  prediction();
                 }),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ListView.builder(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: lastWorkoutArr.length,
               itemBuilder: (context, index) {
-                var wObj =
-                    lastWorkoutArr[index] as Map<String, dynamic> ?? {};
+                var wObj = lastWorkoutArr[index] as Map<String, dynamic> ?? {};
                 return InkWell(
                   child: WorkoutRow(wObj: wObj),
                 );

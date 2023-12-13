@@ -281,4 +281,20 @@ class RequestApi implements IDataStrategy {
     }
     return const Tuple2(false, "Fail");
   }
+
+  @override
+  Future<Tuple2> getModeleAI(String token, String category) async {
+    try {
+      final response = await http.post(Uri.parse('$urlApi/user/IA/$category'));
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> json = jsonDecode(response.body);
+        return Tuple2(true, json);
+      } else {
+        return const Tuple2(false, "Fail");
+      }
+    } on SocketException catch (_) {
+      return const Tuple2(false, "No connection");
+    }
+  }
 }

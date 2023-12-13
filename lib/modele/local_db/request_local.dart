@@ -86,4 +86,9 @@ class RequestLocal implements IDataStrategy {
   Future<bool> deleteFile(String token, String fileUuid) async {
     throw Exception("Not Implemented");
   }
+
+  @override
+  Future<Tuple2> getModeleAI(String token, String category) async {
+    return const Tuple2(false, "Not implemented");
+  }
 }

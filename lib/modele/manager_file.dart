@@ -43,6 +43,7 @@ class ManagerFile {
 
   // -- Getter categorie
   String get marche => _marche;
+  String get velo => _velo;
   String get generic => _generic;
 
   List<String> allowedFieldWalking = List.empty(growable: true);

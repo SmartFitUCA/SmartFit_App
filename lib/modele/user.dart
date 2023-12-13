@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:smartfit_app_mobile/modele/activity.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
+import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
 import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
+import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
+import 'package:tuple/tuple.dart';
 
 class User extends ChangeNotifier {
   String username = "VOID";
@@ -91,11 +94,17 @@ class User extends ChangeNotifier {
     return map;
   }
 
-  ActivityInfo predictActivity(DateTime date) {
+  Future<Tuple2<bool, ActivityInfo>> predictActivity(
+      DateTime date, String category, InfoMessage infoManager) async {
+    ApiWrapper wrapper = ApiWrapper();
+    Tuple2 result = await wrapper.getModeleAI(token, category, infoManager);
+
+    if (!result.item1) return Tuple2(false, ActivityInfo());
+
     // Appel pour avoir le model
-    String jsonString =
-        '{"coef": [270.63861280635473, 74.69699263779908, 1.9946527172333637, 0.03215810401413792, 0.3256805192289063], "intercept": [-335635.9890148213, -91874.0527070619, -2065.450392327813, -38.79838022998388, -291.590235396687]}';
-    Map<String, dynamic> jsonMap = json.decode(jsonString);
+    //String jsonString =
+    //    '{"coef": [270.63861280635473, 74.69699263779908, 1.9946527172333637, 0.03215810401413792, 0.3256805192289063], "intercept": [-335635.9890148213, -91874.0527070619, -2065.450392327813, -38.79838022998388, -291.590235396687]}';
+    Map<String, dynamic> jsonMap = json.decode(result.item2);
     // Transformer la date
     int dateMilli = date.millisecondsSinceEpoch;
 
@@ -111,6 +120,6 @@ class User extends ChangeNotifier {
     activityInfo.bpmAvg =
         jsonMap["coef"][4] * dateMilli + jsonMap["intercept"][4];
 
-    return activityInfo;
+    return Tuple2(true, activityInfo);
   }
 }

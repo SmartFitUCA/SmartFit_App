@@ -42,4 +42,7 @@ abstract class IDataStrategy {
   // Update email, password, username
   Future<Tuple2<bool, String>> modifAttribut(
       String token, String nameAttribut, String newValue);
+
+  //
+  Future<Tuple2> getModeleAI(String token, String category);
 }

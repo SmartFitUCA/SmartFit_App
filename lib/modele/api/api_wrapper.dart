@@ -193,6 +193,16 @@ class ApiWrapper {
 
     return res;
   }
+
+  Future<Tuple2> getModeleAI(
+      String token, String category, InfoMessage infoManager) async {
+    await init();
+    if (handleOffline(infoManager)) return const Tuple2(false, "offline");
+
+    Tuple2 res = await api.getModeleAI(token, category);
+    if (!res.item1) infoManager.displayMessage(noConnectionMessage, true);
+    return res;
+  }
 }
 
 extension StringExtension on String {
