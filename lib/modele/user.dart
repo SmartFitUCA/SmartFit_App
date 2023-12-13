@@ -101,24 +101,21 @@ class User extends ChangeNotifier {
 
     if (!result.item1) return Tuple2(false, ActivityInfo());
 
-    // Appel pour avoir le model
-    //String jsonString =
-    //    '{"coef": [270.63861280635473, 74.69699263779908, 1.9946527172333637, 0.03215810401413792, 0.3256805192289063], "intercept": [-335635.9890148213, -91874.0527070619, -2065.450392327813, -38.79838022998388, -291.590235396687]}';
     Map<String, dynamic> jsonMap = json.decode(result.item2);
     // Transformer la date
     int dateMilli = date.millisecondsSinceEpoch;
 
     ActivityInfo activityInfo = ActivityInfo();
-    activityInfo.distance =
-        jsonMap["coef"][0] * dateMilli + jsonMap["intercept"][0];
-    activityInfo.timeOfActivity =
-        jsonMap["coef"][1] * dateMilli + jsonMap["intercept"][1];
-    activityInfo.denivelePositif =
-        jsonMap["coef"][2] * dateMilli + jsonMap["intercept"][2];
-    activityInfo.vitesseAvg =
-        jsonMap["coef"][3] * dateMilli + jsonMap["intercept"][3];
-    activityInfo.bpmAvg =
-        jsonMap["coef"][4] * dateMilli + jsonMap["intercept"][4];
+    activityInfo.distance = jsonMap["model"]["coef"][0] * dateMilli +
+        jsonMap["model"]["intercept"][0];
+    activityInfo.timeOfActivity = jsonMap["model"]["coef"][1] * dateMilli +
+        jsonMap["model"]["intercept"][1];
+    activityInfo.denivelePositif = jsonMap["model"]["coef"][2] * dateMilli +
+        jsonMap["model"]["intercept"][2];
+    activityInfo.vitesseAvg = jsonMap["model"]["coef"][3] * dateMilli +
+        jsonMap["model"]["intercept"][3];
+    activityInfo.bpmAvg = jsonMap["model"]["coef"][4] * dateMilli +
+        jsonMap["model"]["intercept"][4];
 
     return Tuple2(true, activityInfo);
   }

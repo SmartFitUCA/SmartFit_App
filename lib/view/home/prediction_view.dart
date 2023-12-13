@@ -54,8 +54,7 @@ class _PredictionState extends State<Prediction> {
       /*
       if (selectedCategory != _managerFile.marche ||
           selectedCategory != _managerFile.velo) return;*/
-
-      print("Start");
+          
       Tuple2<bool, ActivityInfo> resultat =
           await Provider.of<User>(context, listen: false)
               .predictActivity(DateTime.now(), selectedCategory, tmp);
