@@ -35,7 +35,14 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
     InfoMessage infoManager = InfoMessage();
 
     void logOff() {
-      // TODO
+      // Appel ici pour logOff
+      /*
+      if (!result.item1) {
+        // Affiché erreur
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginView()));
+      }*/
     }
 
     void deleteUser() async {
