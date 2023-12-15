@@ -124,7 +124,7 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8))),
                     onPressed: deleteUser,
-                    child: const Text('Suprimé son compte',
+                    child: const Text('Supprimer son compte',
                         style: TextStyle(color: Colors.black)),
                   ),
                 ],
