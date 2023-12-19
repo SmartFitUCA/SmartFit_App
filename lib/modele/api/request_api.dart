@@ -267,7 +267,7 @@ class RequestApi implements IDataStrategy {
       final response = await http.get(Uri.parse('$urlApi/user/info'),
           headers: <String, String>{'Authorization': token});
       if (response.statusCode == 200) {
-        Map<String, Map<String, List<double>>> json = jsonDecode(response.body);
+        Map<String,dynamic> json = jsonDecode(response.body);
 
         return Tuple2(true, json);
       }
