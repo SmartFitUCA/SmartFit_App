@@ -5,6 +5,7 @@ import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row/workout_row.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
+import 'package:smartfit_app_mobile/modele/convertisseur.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/info_message.dart';

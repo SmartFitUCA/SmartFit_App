@@ -267,7 +267,8 @@ class RequestApi implements IDataStrategy {
       final response = await http.get(Uri.parse('$urlApi/user/info'),
           headers: <String, String>{'Authorization': token});
       if (response.statusCode == 200) {
-        Map<String, dynamic> json = jsonDecode(response.body);
+        Map<String, Map<String, List<double>>> json = jsonDecode(response.body);
+
         return Tuple2(true, json);
       }
       if (response.statusCode == 400) {
@@ -285,11 +286,8 @@ class RequestApi implements IDataStrategy {
   @override
   Future<Tuple2> getModeleAI(String token, String category) async {
     try {
-      final response = await http.post(Uri.parse('$urlApi/user/ai/$category'),
+      final response = await http.get(Uri.parse('$urlApi/user/ai/$category'),
           headers: <String, String>{'Authorization': token});
-
-      print(response.statusCode);
-      print(response.body);
 
       if (response.statusCode == 200) {
         Map<String, dynamic> json = jsonDecode(response.body);

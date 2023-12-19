@@ -100,22 +100,20 @@ class User extends ChangeNotifier {
     Tuple2 result = await wrapper.getModeleAI(token, category, infoManager);
 
     if (!result.item1) return Tuple2(false, ActivityInfo());
-
-    Map<String, dynamic> jsonMap = json.decode(result.item2);
+    String model = result.item2["model"];
+    Map<String, dynamic> jsonMap = json.decode(model);
     // Transformer la date
     int dateMilli = date.millisecondsSinceEpoch;
 
     ActivityInfo activityInfo = ActivityInfo();
-    activityInfo.distance = jsonMap["model"]["coef"][0] * dateMilli +
-        jsonMap["model"]["intercept"][0];
-    activityInfo.timeOfActivity = jsonMap["model"]["coef"][1] * dateMilli +
-        jsonMap["model"]["intercept"][1];
-    activityInfo.denivelePositif = jsonMap["model"]["coef"][2] * dateMilli +
-        jsonMap["model"]["intercept"][2];
-    activityInfo.vitesseAvg = jsonMap["model"]["coef"][3] * dateMilli +
-        jsonMap["model"]["intercept"][3];
-    activityInfo.bpmAvg = jsonMap["model"]["coef"][4] * dateMilli +
-        jsonMap["model"]["intercept"][4];
+    activityInfo.bpmAvg =
+        (jsonMap["coef"][0] * dateMilli + jsonMap["intercept"][0]).toInt();
+    activityInfo.timeOfActivity =
+        jsonMap["coef"][1] * dateMilli + jsonMap["intercept"][1];
+    activityInfo.vitesseAvg =
+        jsonMap["coef"][2] * dateMilli + jsonMap["intercept"][2];
+    activityInfo.distance =
+        jsonMap["coef"][3] * dateMilli + jsonMap["intercept"][3];
 
     return Tuple2(true, activityInfo);
   }
