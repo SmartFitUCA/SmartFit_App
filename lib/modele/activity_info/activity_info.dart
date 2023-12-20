@@ -264,8 +264,10 @@ class ActivityInfo {
 
 // -- Fonction pour lire le csv et remplir la classe -- //
   ActivityInfo getDataGeneric(List<List<String>> csv) {
+    print(csv);
     // - Entete - //
     Map<String, int> enteteCSV = getEntete(csv.first);
+    print(enteteCSV);
     // ------------- Var tmp ---------- //
     // -- BPM -- //
     int bpmSomme = 0;
@@ -284,6 +286,7 @@ class ActivityInfo {
 
     // --- Boucle -- //
     for (int i = 1; i < csv.length; i++) {
+      print("Ligne $i");
       //
       // ---------------------- BPM ---------------------- //
       if (!isNull(enteteCSV["Value_${managerFile.fielBPM}"]!, csv[i])) {
