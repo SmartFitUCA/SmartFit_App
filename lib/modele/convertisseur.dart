@@ -2,7 +2,11 @@ class Convertisseur {
   // Mettre que des trucs static
 
   static double secondeIntoMinute(double seconde) {
-    return seconde / 60;
+    return (seconde / 60);
+  }
+
+  static double milisecondeIntoMinute(double miliseconde) {
+    return (miliseconde / 60000);
   }
 
   static double msIntoKmh(double metreSeconde) {

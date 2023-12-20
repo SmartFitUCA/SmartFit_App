@@ -7,7 +7,11 @@ import 'package:smartfit_app_mobile/common_widget/container/profile/profile_comp
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_entete.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_info_user.dart';
 import 'package:smartfit_app_mobile/common_widget/container/profile/profile_other.dart';
+import 'package:smartfit_app_mobile/modele/api/api_wrapper.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
+import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
+import 'package:smartfit_app_mobile/view/login/signup_view.dart';
+import 'package:tuple/tuple.dart';
 
 class ProfileViewAllPlatforme extends StatefulWidget {
   final bool offlineSave;
@@ -26,7 +30,32 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
 
   @override
   Widget build(BuildContext context) {
+    ApiWrapper wrapper = ApiWrapper();
     String username = context.watch<User>().username;
+    InfoMessage infoManager = InfoMessage();
+
+    void logOff() {
+      // Appel ici pour logOff
+      /*
+      if (!result.item1) {
+        // Affiché erreur
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginView()));
+      }*/
+    }
+
+    void deleteUser() async {
+      // Ne marche pas !!
+      Tuple2 result = await wrapper.deleteUser(
+          Provider.of<User>(context, listen: false).token, infoManager);
+      if (!result.item1) {
+        // Affiché erreur
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const SignUpView()));
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -59,8 +88,6 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
               const SizedBox(
                 height: 25,
               ),
-              // TODO: Download/Delete (local) all users files on toggle ?
-              // TODO: Display size of download in Mo
               Visibility(
                   visible: isNative,
                   child: const Column(
@@ -72,7 +99,39 @@ class _ProfileViewAllPlatforme extends State<ProfileViewAllPlatforme> {
                       )
                     ],
                   )),
-              ProfileOther(widget.otherArr)
+              ProfileOther(widget.otherArr),
+              const SizedBox(
+                height: 25,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: TColor.primaryColor1,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                    onPressed: logOff,
+                    child: const Text('Déconnexion',
+                        style: TextStyle(color: Colors.black)),
+                  ),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: TColor.primaryColor1,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                    onPressed: deleteUser,
+                    child: const Text('Supprimer son compte',
+                        style: TextStyle(color: Colors.black)),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 25,
+              )
             ],
           ),
         ),

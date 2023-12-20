@@ -5,6 +5,7 @@ import 'package:smartfit_app_mobile/common/colo_extension.dart';
 import 'package:smartfit_app_mobile/common_widget/button/round_button.dart';
 import 'package:smartfit_app_mobile/common_widget/container/workout_row/workout_row.dart';
 import 'package:smartfit_app_mobile/modele/activity_info/activity_info.dart';
+import 'package:smartfit_app_mobile/modele/convertisseur.dart';
 import 'package:smartfit_app_mobile/modele/manager_file.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/info_message.dart';
@@ -45,14 +46,15 @@ class _PredictionState extends State<Prediction> {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     List<String> listCategory = [_managerFile.marche, _managerFile.velo];
 
     void prediction() async {
       InfoMessage tmp = InfoMessage();
-      setState(() {
-        lastWorkoutArr[0]["value"] = "null";
-      });
+
+      /*
+      if (selectedCategory != _managerFile.marche ||
+          selectedCategory != _managerFile.velo) return;*/
+
       Tuple2<bool, ActivityInfo> resultat =
           await Provider.of<User>(context, listen: false)
               .predictActivity(DateTime.now(), selectedCategory, tmp);
@@ -154,7 +156,6 @@ class _PredictionState extends State<Prediction> {
                 title: "Valider",
                 onPressed: () async {
                   prediction();
-                  setState(() {});
                 }),
             const SizedBox(height: 20),
             ListView.builder(
@@ -163,7 +164,7 @@ class _PredictionState extends State<Prediction> {
               shrinkWrap: true,
               itemCount: lastWorkoutArr.length,
               itemBuilder: (context, index) {
-                var wObj = lastWorkoutArr[index] as Map<String, dynamic> ?? {};
+                var wObj = lastWorkoutArr[index];
                 return InkWell(
                   child: WorkoutRow(wObj: wObj),
                 );
