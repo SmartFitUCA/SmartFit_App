@@ -90,8 +90,9 @@ class ListActivityUtile {
     String csvString = const ListToCsvConverter().convert(resultData.item2);
     Uint8List byteCSV = Uint8List.fromList(utf8.encode(csvString));
 
+    /* -- Ne pas décomenter sinon web ne marche plus (Utilisé pour déboguer)
     File x = await File("${await _managerFile.localPath}\\what")
-        .writeAsString(csvString);
+        .writeAsString(csvString);*/
 
     Tuple2<bool, String> result = await api.uploadFileByte(
         token,
