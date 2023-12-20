@@ -62,7 +62,16 @@ class ManagerFile {
       _fieldTemperature
     ];
 
-    allowedFieldGeneric = [_fieldTimestamp, _fieldBPM];
+    allowedFieldGeneric = [
+      _fieldTimestamp,
+      _fieldPositionLatitue,
+      _fieldPositionLongitude,
+      _fieldDistance,
+      _fieldBPM,
+      _fieldSpeed,
+      _fieldAltitude,
+      _fieldTemperature
+    ];
 
     allowedFieldCycling = [
       _fieldTimestamp,
@@ -150,6 +159,8 @@ class ManagerFile {
         info.getDataWalking(csvData);
       case (_velo):
         info.getDataCycling(csvData);
+      case (_generic):
+        info.getDataGeneric(csvData);
       default:
         info.getDataGeneric(csvData);
     }

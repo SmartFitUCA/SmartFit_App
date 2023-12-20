@@ -270,7 +270,18 @@ class ActivityInfo {
     // -- BPM -- //
     int bpmSomme = 0;
     int bpmNb = 0;
-    bool bpmNotZero = false;
+    // -- Denivelé -- //
+    double lastDenivele = 0.0;
+    // -- Altitude -- //
+    double altitudeSomme = 0;
+    int alititudeNb = 0;
+    // -- Température -- //
+    int temperatureSomme = 0;
+    int temperatureNb = 0;
+    // -- Vitesse -- //
+    double vitesseSomme = 0.0;
+    int vitesseNb = 0;
+
     // --- Boucle -- //
     for (int i = 1; i < csv.length; i++) {
       //
@@ -288,11 +299,77 @@ class ActivityInfo {
           bpmMin = value;
         }
       }
+
+      /// ------------------ Denivele et Altitude --------------- //
+      if (!isNull(enteteCSV["Value_${managerFile.fieldAltitude}"]!, csv[i])) {
+        double value = double.parse(
+            csv[i][enteteCSV["Value_${managerFile.fieldAltitude}"]!]);
+        // -- Denivelé -- //
+        if (value > lastDenivele) {
+          denivelePositif += value - lastDenivele;
+        } else {
+          deniveleNegatif += (value - lastDenivele) * -1;
+        }
+        lastDenivele = value;
+        // -- Altitude -- //
+        if (value > altitudeMax) {
+          altitudeMax = value;
+        }
+        if (value < altitudeMin) {
+          altitudeMin = value;
+        }
+        altitudeSomme += value;
+        alititudeNb += 1;
+        altitudeNotZero = true;
+      }
+
+      // ------------------------ Température ----------------------- //
+      if (!isNull(
+          enteteCSV["Value_${managerFile.fieldTemperature}"]!, csv[i])) {
+        int value = int.parse(
+            csv[i][enteteCSV["Value_${managerFile.fieldTemperature}"]!]);
+        temperatureSomme += value;
+        temperatureNb += 1;
+        temperatureNotZero = true;
+        if (value > temperatureMax) {
+          temperatureMax = value;
+        }
+        if (value < temperatureMin) {
+          temperatureMin = value;
+        }
+      }
+
+      // ------------------------ Vitesse -----------------------------//
+      if (!isNull(enteteCSV["Value_${managerFile.fieldSpeed}"]!, csv[i])) {
+        double value =
+            double.parse(csv[i][enteteCSV["Value_${managerFile.fieldSpeed}"]!]);
+        vitesseSomme += value;
+        vitesseNb += 1;
+        vitesseNotZero = true;
+        if (value > vitesseMax) {
+          vitesseMax = value;
+        }
+        if (value < vitesseMin) {
+          vitesseMin = value;
+        }
+      }
     }
 
     // -- BPM -- //
     if (bpmNotZero) {
       bpmAvg = bpmSomme ~/ bpmNb;
+    }
+    // -- Atitude -- //
+    if (altitudeNotZero) {
+      altitudeAvg = altitudeSomme / alititudeNb;
+    }
+    // -- Température -- //
+    if (temperatureNotZero) {
+      temperatureAvg = temperatureSomme ~/ temperatureNb;
+    }
+    // -- Vitesse -- //
+    if (vitesseNotZero) {
+      vitesseAvg = vitesseSomme / vitesseNb;
     }
     return this;
   }
