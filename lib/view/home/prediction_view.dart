@@ -61,11 +61,13 @@ class _PredictionState extends State<Prediction> {
       if (!resultat.item1) return;
       setState(() {
         lastWorkoutArr[0]["value"] =
-            resultat.item2.timeOfActivity.toStringAsFixed(2);
-        lastWorkoutArr[1]["value"] = resultat.item2.bpmAvg.toStringAsFixed(2);
+            "${resultat.item2.timeOfActivity.toStringAsFixed(2)} s";
+        lastWorkoutArr[1]["value"] =
+            "${resultat.item2.bpmAvg.toStringAsFixed(2)} bpm";
         lastWorkoutArr[2]["value"] =
-            resultat.item2.vitesseAvg.toStringAsFixed(2);
-        lastWorkoutArr[3]["value"] = resultat.item2.distance.toStringAsFixed(2);
+            "${resultat.item2.vitesseAvg.toStringAsFixed(2)} m/s ";
+        lastWorkoutArr[3]["value"] =
+            "${resultat.item2.distance.toStringAsFixed(2)} m";
       });
     }
 
