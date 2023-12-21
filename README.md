@@ -1,5 +1,5 @@
 # SmartFit Web and Mobile!
-TODO: Description
+TODO: Description + badge
 
 ## Getting Started
 
