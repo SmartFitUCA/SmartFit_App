@@ -12,4 +12,8 @@ class Convertisseur {
   static double msIntoKmh(double metreSeconde) {
     return metreSeconde * 3.6;
   }
+
+  static double millisecondeIntoSeconde(double milliseconde) {
+    return (milliseconde / 1000);
+  }
 }

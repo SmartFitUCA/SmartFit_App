@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartfit_app_mobile/modele/convertisseur.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
 
@@ -19,10 +20,11 @@ class Stats extends StatelessWidget {
         .activityInfo
         .bpmAvg
         .toString();
-    String time = Provider.of<User>(context, listen: false)
-        .managerSelectedActivity
-        .getTimeAllActivitySelected()
-        .toString();
+    String time = Convertisseur.secondeIntoMinute(
+            Provider.of<User>(context, listen: false)
+                .managerSelectedActivity
+                .getTimeAllActivitySelected())
+        .toStringAsFixed(0);
     return Column(
       children: [
         Padding(
@@ -57,7 +59,7 @@ class Stats extends StatelessWidget {
                 iconBackground: const Color(0xff6131AD),
                 time: '+5s',
                 label: 'Time',
-                value: '$time s',
+                value: '$time min',
               ),
               const SizedBox(width: 15),
               InfoStat(

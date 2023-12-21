@@ -26,7 +26,7 @@ class VolumesList extends StatelessWidget {
             width: media.width * 0.03,
           ),
           ContainerStatsActivities(
-              "${Convertisseur.secondeIntoMinute(volume["durationActiviy"]).toStringAsFixed(2)} m",
+              "${Convertisseur.secondeIntoMinute(volume["durationActiviy"]).toStringAsFixed(0)} min",
               "Temps Total",
               Icons.timer),
           SizedBox(

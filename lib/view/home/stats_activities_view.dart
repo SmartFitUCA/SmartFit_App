@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smartfit_app_mobile/common_widget/container/container_stats_activities.dart';
 import 'package:smartfit_app_mobile/common_widget/other/entete_home_view.dart';
 import 'package:smartfit_app_mobile/common/colo_extension.dart';
+import 'package:smartfit_app_mobile/modele/convertisseur.dart';
 import 'package:smartfit_app_mobile/modele/manager_selected_activity.dart';
 import 'package:smartfit_app_mobile/modele/user.dart';
 import 'package:smartfit_app_mobile/modele/utile/home_view/data_home_view.dart';
@@ -83,11 +84,11 @@ class _StatAtivities extends State<StatAtivities> {
     double maxSpeed = context
         .watch<User>()
         .managerSelectedActivity
-        .getMaxAltitudeAllActivitySelected();
+        .getMaxSpeedAllActivitySelected();
     double minSpeed = context
         .watch<User>()
         .managerSelectedActivity
-        .getMinAltitudeAllActivitySelected();
+        .getMinSpeedAllActivitySelected();
 
     return Scaffold(
       backgroundColor: TColor.white,
@@ -139,17 +140,23 @@ class _StatAtivities extends State<StatAtivities> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ContainerStatsActivities(
-                        "${avgSpeed.toStringAsFixed(2)} m/s", "Moyenne vitesse", Icons.bolt),
+                        "${Convertisseur.msIntoKmh(avgSpeed).toStringAsFixed(0)} km/h",
+                        "Moyenne vitesse",
+                        Icons.bolt),
                     SizedBox(
                       width: media.width * 0.03,
                     ),
                     ContainerStatsActivities(
-                        "$maxSpeed m/s", "Maximum vitesse", Icons.trending_up),
+                        "${Convertisseur.msIntoKmh(maxSpeed).toStringAsFixed(0)} km/h",
+                        "Maximum vitesse",
+                        Icons.trending_up),
                     SizedBox(
                       width: media.width * 0.03,
                     ),
                     ContainerStatsActivities(
-                        "$minSpeed m/s", "Minimum vitesse", Icons.trending_down)
+                        "${Convertisseur.msIntoKmh(minSpeed).toStringAsFixed(0)} km/h",
+                        "Minimum vitesse",
+                        Icons.trending_down)
                   ],
                 ),
                 SizedBox(
@@ -179,7 +186,9 @@ class _StatAtivities extends State<StatAtivities> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ContainerStatsActivities(
-                        "${avgAltitude.toStringAsFixed(2)} m", "Moyenne Altitude", Icons.landscape),
+                        "${avgAltitude.toStringAsFixed(2)} m",
+                        "Moyenne Altitude",
+                        Icons.landscape),
                     SizedBox(
                       width: media.width * 0.03,
                     ),
@@ -214,7 +223,9 @@ class _StatAtivities extends State<StatAtivities> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ContainerStatsActivities(
-                        "$totalTime s", "Temps Total", Icons.timer),
+                        "${Convertisseur.secondeIntoMinute(totalTime)} min",
+                        "Temps Total",
+                        Icons.timer),
                     SizedBox(
                       width: media.width * 0.03,
                     ),

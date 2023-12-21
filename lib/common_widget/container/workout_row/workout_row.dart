@@ -27,31 +27,32 @@ class WorkoutRow extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-
-           const SizedBox(width: 15,),
+            const SizedBox(
+              width: 15,
+            ),
             Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                  Text(
+                Text(
                   wObj["name"].toString(),
                   style: TextStyle(
                       color: TColor.black,
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
                 ),
-
                 Text(
-                  "${ wObj["value"].toString()}",
+                  wObj["value"].toString(),
                   style: TextStyle(
-                      color: TColor.gray,
-                      fontSize: 12,),
+                    color: TColor.gray,
+                    fontSize: 12,
+                  ),
                 ),
-
-               const SizedBox(height: 4,),               
+                const SizedBox(
+                  height: 4,
+                ),
               ],
             )),
-
           ],
         ));
   }

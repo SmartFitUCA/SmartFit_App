@@ -75,7 +75,7 @@ class WorkoutRowWalking extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Temps : ${Convertisseur.secondeIntoMinute(wObj["time"]).toStringAsFixed(2)} m",
+                          "Temps : ${Convertisseur.secondeIntoMinute(wObj["time"]).toStringAsFixed(0)} minute",
                           style: TextStyle(
                             color: TColor.black,
                             fontSize: 12,
